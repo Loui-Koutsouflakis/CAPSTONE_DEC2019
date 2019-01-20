@@ -48,3 +48,13 @@ Pull requests
 	Step 1: go to github.com and select the Capstone project.
 	Step 2: go to you branch of the project
 	Step 3: Select NEW PULL REQUEST
+	Step 4: Fill out the required information with as much information as you can
+	Step 5: Click on CREATE PULL REQUEST
+		*Git Hub will now tell you about all the conflicts that you may have and if it has no conflicts
+		then click MERGE PULL REQUEST and CONFIRM REQUEST.
+
+	it is important to note that before you select the final MERGE  PULL REQUEST that the change is
+	posted up for everyone to look at and comment on, this is a very important step as we can all now 
+	clone your branch and test out the potential changes.
+
+thanks for reading this everyone and see you in class
