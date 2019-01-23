@@ -1,5 +1,7 @@
 File uploaded
 
+Please ADD YOUR NAME TO THE BOTTOM OF THE README FILE SO WE KNOW THAT YOU COMPLETED THIS TUTORIAL
+
 Hey guys!
 	Kyle here!
 		So first off, GitHub seems a little unintuative but trust me it's extremely simple to use, so
@@ -58,3 +60,8 @@ Pull requests
 	clone your branch and test out the potential changes.
 
 thanks for reading this everyone and see you in class
+
+SIGNED:
+
+Kyle J. Ennis
+Loui Koutsouflakis
