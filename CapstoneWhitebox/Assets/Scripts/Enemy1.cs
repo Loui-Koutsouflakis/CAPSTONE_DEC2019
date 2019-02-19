@@ -6,7 +6,7 @@ using UnityEngine;
 // Enemy teleports around the player within a fixed distance in a set intervals
 // Follows and attacks the player before the next blink
 
-public class RandomPos : MonoBehaviour
+public class Enemy1 : MonoBehaviour
 {
     // Variable to store the duration before blink
     private float BlinkTimer = 15f;
