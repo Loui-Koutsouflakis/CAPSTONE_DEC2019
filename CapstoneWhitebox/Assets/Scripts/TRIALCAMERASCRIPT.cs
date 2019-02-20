@@ -48,7 +48,6 @@ public class TRIALCAMERASCRIPT : MonoBehaviour {
     }
     private void Update()
     {
-        
             pitchMinMax = new Vector2(map.position.x, 180);
             pitchMinMax = new Vector2(0, 180);
             CamMovement();
@@ -103,6 +102,7 @@ public class TRIALCAMERASCRIPT : MonoBehaviour {
         }
         if (currentRotation.x > 90)
         {
+
             pitch -= Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw, 180), ref smoothingVelocity, rotationsmoothTime);
         }

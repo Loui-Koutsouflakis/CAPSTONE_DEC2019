@@ -40,15 +40,18 @@ public class MovementTestScript : MonoBehaviour {
     private readonly float groundCheckRate = 0.1f;
        
     //public - to test balance etc.
-    public float walkAccel = 10;
-    public float walkMax = 12;
-    public float airMax = 12;
+
+    public float walkAccel = 15;
+    public float walkMax = 8;
+    public float airMax = 8;
     public float rotateSpeed = 30;
     public float jumpForce = 21.8f;
-    private float forwardVelocity =5;
+    private float forwardVelocity = 5;
     public bool grounded;
     public bool onWall;
-        
+    public float jumpMultiplier = 2f;
+    public float fallMultiplier = 2.5f;
+
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -86,7 +89,17 @@ public class MovementTestScript : MonoBehaviour {
         {
             jumpHoldy = false;
         }
-        
+      
+        //another way of doing variable jump height
+        //if (rb.velocity.y < 0)
+        //{
+        //    rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        //}
+        //else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        //{
+        //    rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
+        //}
+
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
@@ -97,14 +110,11 @@ public class MovementTestScript : MonoBehaviour {
             Decel();
         }
 
-        if (grounded)
-        {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, walkMax);
-        }
-        else if (!grounded)
-        {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, airMax);
-        }
+
+        //to keep max jump height when moving and stop "slow fall"
+        Vector3 Vel = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, walkMax);
+        Vel.y = rb.velocity.y;
+        rb.velocity = Vel;
     }
 
     //jump physics using gravity 
@@ -115,7 +125,8 @@ public class MovementTestScript : MonoBehaviour {
             gravityArc += Time.deltaTime * gravitySlope;
             rb.AddForce(Physics.gravity * rb.mass * gravityArc);
         }
-        else if (!jumpHoldy)
+
+        if (!jumpHoldy)
         {
             gravityArc = initJumpGravity;
 
@@ -167,9 +178,10 @@ public class MovementTestScript : MonoBehaviour {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
         }
 
-        if (rb.velocity.magnitude == 0)
+        if (rb.velocity == Vector3.zero)
         {
-            forwardVelocity = 0;
+            forwardVelocity = 5;
+
         }
     }
 
@@ -177,7 +189,10 @@ public class MovementTestScript : MonoBehaviour {
     {
         if (grounded)
         {
-            rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            //rb.velocity = Vector3.up * jumpForce;
+            //rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
+
             jumpHoldy = true;
         }
 
@@ -194,11 +209,11 @@ public class MovementTestScript : MonoBehaviour {
         if (onWall)
         {
             //jumps off of wall
-            rb.AddForce((-transform.forward + 2*transform.up) * jumpForce, ForceMode.Impulse);
+            rb.AddForce((-transform.forward * jumpForce) + (transform.up * jumpForce/2), ForceMode.Impulse);
             jumpHoldy = true;
             //sets player looking away from wall
             //transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-            transform.forward = -transform.forward * Time.deltaTime;
+            transform.forward = -transform.forward;
         }
         if (transform.parent != null)
         {
@@ -215,7 +230,6 @@ public class MovementTestScript : MonoBehaviour {
         {
             GroundMe();
         }
-
         else
         {
             grounded = false;
