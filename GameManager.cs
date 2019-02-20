@@ -96,14 +96,14 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    void end()
+    void End()
     {
         TRIAL_MOVEMENT.instance.enabled = false;
         endUI.SetActive(true);
         Time.timeScale = 0;
     }
 
-    void winning()
+    void Winning()
     {
         winUI.SetActive(true);
         Time.timeScale = 0;
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour {
     {
         StartUI.SetActive(false);
     }
-    public void backToMain()
+    public void BackToMain()
     {
         StartUI.SetActive(true);
     }
