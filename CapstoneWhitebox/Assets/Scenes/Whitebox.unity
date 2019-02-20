@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4368836, g: 0.48453766, b: 0.5647949, a: 1}
+  m_IndirectSpecularColor: {r: 0.43688414, g: 0.48453832, b: 0.564796, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 104050951}
   - component: {fileID: 104050955}
   - component: {fileID: 104050950}
+  - component: {fileID: 104050956}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -405,6 +406,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &104050956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 104050949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980966e5da1feff468d5aa2516602c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DashSpeed: 30
+  JmpForce: 100000
+  Target: {fileID: 2010060362}
+  PlayerFace: {fileID: 1581093559}
 --- !u!1 &121572370
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,10 +464,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ea4e7d321b4f640a7835fbb515b9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 3, z: -2}
   timing: 1.6
   maxDistanceDelta: 0.09
   goingTo: 0
+  displacement: {x: 0, y: 3, z: -2}
 --- !u!65 &121572373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -870,10 +886,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ea4e7d321b4f640a7835fbb515b9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: 4, y: -4, z: 0}
   timing: 1.6
   maxDistanceDelta: 0.09
   goingTo: 0
+  displacement: {x: 4, y: -4, z: 0}
 --- !u!65 &268973421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2410,10 +2426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ea4e7d321b4f640a7835fbb515b9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: 2.5, y: 0, z: 0}
   timing: 1.6
   maxDistanceDelta: 0.09
   goingTo: 0
+  displacement: {x: 2.5, y: 0, z: 0}
 --- !u!65 &899964915
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2851,10 +2867,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ea4e7d321b4f640a7835fbb515b9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 0, z: 3}
   timing: 1.6
   maxDistanceDelta: 0.09
   goingTo: 0
+  displacement: {x: 0, y: 0, z: 3}
 --- !u!65 &1003132911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3547,10 +3563,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ea4e7d321b4f640a7835fbb515b9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: -3, y: 0, z: 0}
   timing: 1.6
   maxDistanceDelta: 0.09
   goingTo: 0
+  displacement: {x: -3, y: 0, z: 0}
 --- !u!65 &1355679148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3787,6 +3803,7 @@ GameObject:
   - component: {fileID: 1581093562}
   - component: {fileID: 1581093561}
   - component: {fileID: 1581093560}
+  - component: {fileID: 1581093564}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -3801,7 +3818,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1581093558}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.37999997, z: 0.35}
+  m_LocalPosition: {x: 0, y: 0.37999997, z: 0.38}
   m_LocalScale: {x: 0.6, y: 0.60000026, z: 0.6000003}
   m_Children: []
   m_Father: {fileID: 1812713366}
@@ -3873,6 +3890,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1581093558}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1581093564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1581093558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980966e5da1feff468d5aa2516602c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DashSpeed: 30
+  JmpForce: 100000
+  Target: {fileID: 2010060362}
+  PlayerFace: {fileID: 0}
 --- !u!1 &1623661709
 GameObject:
   m_ObjectHideFlags: 0
