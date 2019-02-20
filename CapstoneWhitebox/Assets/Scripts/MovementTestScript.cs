@@ -40,6 +40,7 @@ public class MovementTestScript : MonoBehaviour {
     private readonly float groundCheckRate = 0.1f;
        
     //public - to test balance etc.
+
     public float walkAccel = 15;
     public float walkMax = 8;
     public float airMax = 8;
@@ -88,7 +89,7 @@ public class MovementTestScript : MonoBehaviour {
         {
             jumpHoldy = false;
         }
-
+      
         //another way of doing variable jump height
         //if (rb.velocity.y < 0)
         //{
@@ -109,6 +110,7 @@ public class MovementTestScript : MonoBehaviour {
             Decel();
         }
 
+
         //to keep max jump height when moving and stop "slow fall"
         Vector3 Vel = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, walkMax);
         Vel.y = rb.velocity.y;
@@ -123,6 +125,7 @@ public class MovementTestScript : MonoBehaviour {
             gravityArc += Time.deltaTime * gravitySlope;
             rb.AddForce(Physics.gravity * rb.mass * gravityArc);
         }
+
         if (!jumpHoldy)
         {
             gravityArc = initJumpGravity;
@@ -160,7 +163,6 @@ public class MovementTestScript : MonoBehaviour {
         forwardVelocity += walkAccel * Time.fixedDeltaTime;
                 
         rb.AddForce(transform.forward * forwardVelocity, ForceMode.Force);
-        
     }
 
     //to decelerate if no input is held
@@ -179,6 +181,7 @@ public class MovementTestScript : MonoBehaviour {
         if (rb.velocity == Vector3.zero)
         {
             forwardVelocity = 5;
+
         }
     }
 
@@ -189,6 +192,7 @@ public class MovementTestScript : MonoBehaviour {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             //rb.velocity = Vector3.up * jumpForce;
             //rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
+
             jumpHoldy = true;
         }
 
