@@ -38,7 +38,9 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
+
   m_IndirectSpecularColor: {r: 0.43688357, g: 0.48453784, b: 0.56479514, a: 1}
+
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -810,13 +812,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 170076733}
-  m_LocalRotation: {x: 0.65257, y: -0.1908214, z: 0.17485557, w: 0.7121553}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.46064526, y: -0, z: -0, w: 0.8875844}
+  m_LocalPosition: {x: 28.3, y: 21.8, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 85, y: -30, z: 0}
+
 --- !u!1 &183015677
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +996,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205642828}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &224160276
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.06395
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -12.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &239652872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,12 +2575,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraIdlePosition: {fileID: 1649857621}
   lockCursor: 1
-  invY: 1
+  invY: 0
   invX: 0
   orbit: 1
   Player: {fileID: 104050954}
+
   sensitivity: 2
   rotationsmoothTime: 0.351
+
   distFromPlayer: 10
   pitchMinMax: {x: 0, y: 90}
   currentRotation: {x: 0, y: 0, z: 0}
@@ -4364,7 +4412,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4025740198899324, guid: 3874c964d001ce248b911c923ffba6a8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -11.91
+      value: -13.1
       objectReference: {fileID: 0}
     - target: {fileID: 4025740198899324, guid: 3874c964d001ce248b911c923ffba6a8, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4372,7 +4420,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4025740198899324, guid: 3874c964d001ce248b911c923ffba6a8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 5.53
+      value: 11.6
       objectReference: {fileID: 0}
     - target: {fileID: 4025740198899324, guid: 3874c964d001ce248b911c923ffba6a8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -8849,10 +8897,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  speedMod: 1.3
   jumpForce: 0
   jumpDelay: 0
+  maxHP: 3
+  currentHP: 0
   isGrounded: 0
   hasJumped: 0
+  entity: {fileID: 0}
+  spawnPoints: []
 --- !u!65 &2049185798
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8914,7 +8967,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2049185796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: -8.12}
+  m_LocalPosition: {x: 17.78, y: 1.25, z: 4.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 24173813}
