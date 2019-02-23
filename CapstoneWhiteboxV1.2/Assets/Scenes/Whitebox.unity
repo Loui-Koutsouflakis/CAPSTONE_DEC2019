@@ -38,9 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-
-  m_IndirectSpecularColor: {r: 0.43688357, g: 0.48453784, b: 0.56479514, a: 1}
-
+  m_IndirectSpecularColor: {r: 0.44484314, g: 0.4943999, b: 0.573578, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -467,7 +465,7 @@ MonoBehaviour:
   walkMax: 8
   airMax: 8
   rotateSpeed: 30
-  jumpForce: 21.8
+  jumpForce: 15
   grounded: 0
   onWall: 0
   jumpMultiplier: 2
@@ -817,10 +815,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 85, y: -30, z: 0}
-
 --- !u!1 &183015677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,7 +1029,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4294921479591356, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d8d85969aea60e4da2978049af714b3, type: 2}
@@ -2579,10 +2575,8 @@ MonoBehaviour:
   invX: 0
   orbit: 1
   Player: {fileID: 104050954}
-
   sensitivity: 2
   rotationsmoothTime: 0.351
-
   distFromPlayer: 10
   pitchMinMax: {x: 0, y: 90}
   currentRotation: {x: 0, y: 0, z: 0}
