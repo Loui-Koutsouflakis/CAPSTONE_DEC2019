@@ -46,7 +46,7 @@ public class MovementTestScript : MonoBehaviour {
     public float airMax = 8;
     public float rotateSpeed = 30;
     public float jumpForce = 21.8f;
-    private float forwardVelocity = 5;
+    private float forwardVelocity = 10;
     public bool grounded;
     public bool onWall;
     public float jumpMultiplier = 2f;
@@ -110,11 +110,14 @@ public class MovementTestScript : MonoBehaviour {
             Decel();
         }
 
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, walkMax);
 
-        //to keep max jump height when moving and stop "slow fall"
-        Vector3 Vel = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, walkMax);
-        Vel.y = rb.velocity.y;
-        rb.velocity = Vel;
+
+
+        //to keep max jump height when moving and stop "slow fall" if it is happening (occasionally have problems with it)
+        //Vector3 Vel = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, walkMax);
+        //Vel.y = rb.velocity.y;
+        //rb.velocity = Vel;
     }
 
     //jump physics using gravity 
@@ -158,11 +161,13 @@ public class MovementTestScript : MonoBehaviour {
 
         //rotates the direction the character is facing to the correct direction based on camera
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront*vertical + cammyRight*horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+
+        //slight acceleration (if we want to try it)
+        //forwardVelocity += walkAccel * Time.fixedDeltaTime;
+
+        //adds force to the player
+        rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
         
-        //slight acceleration
-        forwardVelocity += walkAccel * Time.fixedDeltaTime;
-                
-        rb.AddForce(transform.forward * forwardVelocity, ForceMode.Force);
     }
 
     //to decelerate if no input is held
@@ -178,11 +183,11 @@ public class MovementTestScript : MonoBehaviour {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
         }
 
-        if (rb.velocity == Vector3.zero)
-        {
-            forwardVelocity = 5;
+        //if (rb.velocity == Vector3.zero)
+        //{
+        //    forwardVelocity = 5;
 
-        }
+        //}
     }
 
     public void Jump()
