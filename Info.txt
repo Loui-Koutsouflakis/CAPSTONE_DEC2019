@@ -1,5 +1,17 @@
-Enemy has been created as a prefab
+Jumping Enemy has been updated - now splits into smaller/faster enemies -- pls show wojtek :)
 
-Requires rigidbody, requirement included in script
+WALL ENEMY
 
-No external dependencies
+Wall enemy saved as prefab
+Climbable pillar also prefab
+
+When Pillar and enemy are placed, populate waypoints in "wall enemy" script (incl. on prefab)
+with waypoints (WP1, WP2 etc) from pillar, in order (WP1 in slot 0). Waypoints have been made as visible cubes for ease only.
+
+Also fill in player in player gameObject slot (these wont save properly with the prefab idk).
+
+Have also included Shoot and Projectile scripts that can be place on any object.
+Objects with Shoot script must have spawn point for instantiation.
+Projectiles must have rigidbody (requirement incl. in script).
+
+Currently Shoot script instatiates indefinitely -- this needs fixed (will do later).
