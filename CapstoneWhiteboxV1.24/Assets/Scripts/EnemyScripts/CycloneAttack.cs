@@ -7,19 +7,24 @@ public class CycloneAttack : MonoBehaviour
 {
     public GameObject c_AttackMode; //For this case use CycloneEnemyAttackMode.
     public GameObject c_WayPoints; //The "Emply gameobject" that holds all the waypoints for this enemy.
+    public List<GameObject> c_Rings;
     public float c_SpeedUpTimer;
     public float c_SpeedIncrease;
     public int c_AttackDamage;
+
 
     private NavMeshAgent c_NavMesh;
     private float c_TimerStartingValue;
     private float c_NavMeshStartSpeed;
     private float c_NaveMeshStartAcc;
     private bool c_Timer;
+    private bool c_AllowedAttack;
     
 
     void Start()
     {
+        c_AllowedAttack = true;
+
         if (gameObject.GetComponent<NavMeshAgent>() != null)
         {
             c_NavMesh = gameObject.GetComponent<NavMeshAgent>();
@@ -35,7 +40,18 @@ public class CycloneAttack : MonoBehaviour
     {
         SpeedUpTimer();
         SlowBackDown();
+        AllowAttack();
     }
+
+    void AllowAttack()
+    {
+        if (c_Rings[0].activeSelf == false && c_Rings[1].activeSelf == false && c_Rings[2].activeSelf == false && c_Rings[3].activeSelf == false)
+        {
+            c_AllowedAttack = false;
+        }
+    }    
+
+
 
     void SpeedUpTimer()
     {
@@ -66,7 +82,7 @@ public class CycloneAttack : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" && c_AllowedAttack == true)
         {
             collision.gameObject.GetComponent<HitBox>().TakeDamage(c_AttackDamage);
         }
@@ -74,7 +90,7 @@ public class CycloneAttack : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Player") 
+        if (collider.gameObject.tag == "Player" && c_AllowedAttack == true) 
         {
             c_AttackMode.SetActive(true);
             c_WayPoints.SetActive(false);
@@ -85,16 +101,15 @@ public class CycloneAttack : MonoBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" && c_AllowedAttack == true)
         {
             c_NavMesh.SetDestination(collider.transform.position);
         }
-
     }
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" || c_AllowedAttack == true)
         {
             c_AttackMode.SetActive(false);
             c_WayPoints.SetActive(true);
