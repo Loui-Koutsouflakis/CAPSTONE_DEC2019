@@ -1,5 +1,6 @@
 ﻿//Created February 19, 2019 by Alek Tepylo - based Loui's base movement script refined for more polished movement 
 //Edited February 19, 2019, by Dylan LeClair - wall jump functionality
+//Edited March 4, 2019, by Dylan LeClair - flutter jump functionality
 
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ public class MovementTestScript : MonoBehaviour {
     public bool onWall;
     public float jumpMultiplier = 2f;
     public float fallMultiplier = 2.5f;
+    public bool canFlutter;
+    public float flutterForce;
 
     // Use this for initialization
     void Start () {
@@ -62,6 +65,8 @@ public class MovementTestScript : MonoBehaviour {
 
         StartCoroutine(CheckGround());
         StartCoroutine(CheckWall());
+
+        canFlutter = true;
     }
 	
 	// Update is called once per frame
@@ -200,6 +205,12 @@ public class MovementTestScript : MonoBehaviour {
 
             jumpHoldy = true;
         }
+        else if(canFlutter && !grounded && !onWall)
+        {
+            rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
+            jumpHoldy = true;
+            canFlutter = false;
+        }
 
         if (transform.parent != null)
         {
@@ -265,6 +276,7 @@ public class MovementTestScript : MonoBehaviour {
     public void GroundMe()
     {
         grounded = true;
+        canFlutter = true;
     }
 
     public void WallMe()
