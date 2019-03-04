@@ -1,4 +1,6 @@
 ﻿// Created by SChiraz 19/02/2019
+// Modified by SChiraz 25/02/2019 -> Dash + DashAttack
+
 
 using System.Collections;
 using System.Collections.Generic;
@@ -6,51 +8,57 @@ using UnityEngine;
 
 public class Attacks : MonoBehaviour {
 
-    public float DashSpeed = 30.0f;
+    public float DashSpeed = 100.0f;
     public float JmpForce = 100000.0f;
     public Transform Target;
-    public Transform PlayerFace;
     float Angle = 45.0f;
 
     float ChargeCap = 0.0f;
 
     bool IsGrounded = false;
 
-    bool IsCharging = false;
-
     // Use this for initialization
     void Start () {
-
-        //if(!PlayerFace)
-        //{
-        //    PlayerFace = null;
-        //}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown("1")) // Light Attack
+        float Distance = Vector3.Distance(Target.position, transform.position);
+
+        //if ((Vector3.Angle(Target.forward, transform.position - Target.position) < Angle) /*&& (Distance <= 2)*/) -> Need to adjust the angle radius + distance for range
         {
-            if (InRange()) { Debug.Log("You inflicted 20 Damage !"); }
+            if (Input.GetKeyDown("1")) // Light Attack
+            {
+                Debug.Log("You inflicted 20 Damage !");
+            }
+            else if (Input.GetKeyDown("2")) // Strong Attack
+            {
+                Debug.Log("Charging !");
+                Charge();
+            }
         }
 
-        if (Input.GetKeyDown("2")) // Strong Attack
+        if (Input.GetKeyDown("q")) // Dash, Made but still requires work as it's inconsistent of the direction the body is moving. Would be easier if the entire model roated with the Cam and not just a part of it (i.e. the pivot point)
         {
-            IsCharging = true;
-        }
-        if (Input.GetKeyUp("2")) // Strong Attack
-        {
-            //if (InRange()) { Debug.Log("You Inflicted "+ ChargeCap * 20 + " Damage!"); }
-            //else { Debug.Log("You Missed !"); }
-            //ChargeCap = 0.0f;
-            IsCharging = false;
-        }
+            float horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown("3")) // Dash (on forward) - will adjust once the Character controller is finalized
-        {
-            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
+            if (horizontal != 0) { gameObject.GetComponent<Rigidbody>().AddForce(transform.position * DashSpeed * horizontal, ForceMode.Impulse); }
+            if (vertical != 0) { gameObject.GetComponent<Rigidbody>().AddForce(transform.position * DashSpeed * vertical, ForceMode.Impulse); }
+            if (vertical != 0 && horizontal != 0) { gameObject.GetComponent<Rigidbody>().AddForce(transform.position * DashSpeed * vertical * horizontal, ForceMode.Impulse); }
 
+            float DashDur = 0.0f;
+
+            while(DashDur < 10) // Have a function that actively checks which animation is playing so that the window if the dash attack will only be available during the Dash Animation
+            {
+                Debug.Log(DashDur); // Need Dash Animation to Complete
+                if (Input.GetKeyDown("1"))
+                {
+                    Debug.Log("Attack from Dash !");
+                }
+                DashDur += Time.deltaTime;
+            }
         }
 
         if (!IsGrounded)
@@ -60,11 +68,6 @@ public class Attacks : MonoBehaviour {
                 gameObject.GetComponent<Rigidbody>().AddForce(transform.up * -JmpForce, ForceMode.Impulse);
                 Debug.Log("Ground Pound !");
             }
-        }
-
-        if(IsCharging)
-        {
-            Charge();
         }
     }
 
@@ -87,18 +90,12 @@ public class Attacks : MonoBehaviour {
     void Charge()
     {
         ChargeCap += Time.deltaTime;
-        if (ChargeCap >= 3.0)
-        {
-            if (InRange()) { Debug.Log("You Inflicted 60 Damage !"); }
-            else { Debug.Log("You Missed !"); }
-            ChargeCap = 0.0f;
-            IsCharging = false;
-        }
-    }
+        //if (ChargeCap >= 3.0)
+        //{
+        //    Debug.Log("You did 60 Damage !");
+        //    return;
+        //}
 
-    bool InRange()
-    {
-        float Distance = Vector3.Distance(Target.position, transform.position);
-        return ((Vector3.Angle(PlayerFace.forward, Target.position - transform.position) < Angle) && (Distance <= 2));
+        Debug.Log(ChargeCap);
     }
 }
