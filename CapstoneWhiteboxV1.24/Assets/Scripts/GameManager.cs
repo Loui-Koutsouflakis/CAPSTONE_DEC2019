@@ -1,32 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
     //public enum GameState { play, pause, end, winState };
     //public GameState currentState = GameState.play;
-    //public static GameManager Instance;
+    public static GameManager Instance;
     //public GameObject pauseUI;
     //public GameObject player;
     //public GameObject endUI;
     //public GameObject StartUI;
     //public GameObject winUI;
-   
 
-    //public static GameManager GetInstance()
-    //{
-    //    return Instance;
-    //}
 
-    //// Use this for initialization
-    //void Start() {
-    //    if (Instance)
-    //    {
-    //        Destroy(Instance);
-    //    }
-    //    Instance = this;
-    //}
+    public static GameManager GetInstance()
+    {
+        return Instance;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        if (Instance)
+        {
+            Destroy(Instance);
+        }
+        Instance = this;
+    }
 
     //// Update is called once per frame
     //void Update()
@@ -81,13 +83,11 @@ public class GameManager : MonoBehaviour {
     //    }
     //}
 
-    //public void Play()
-    //{
-    //    endUI.SetActive(false);
-    //    TRIAL_MOVEMENT.instance.enabled = true;
-    //    pauseUI.SetActive(false);
-    //    Time.timeScale = 1;
-    //}
+    public void Play()
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene("Whitebox");
+    }
 
     //void Pause()
     //{
@@ -116,8 +116,9 @@ public class GameManager : MonoBehaviour {
     //{
     //    StartUI.SetActive(true);
     //}
-    //public void Quit()
-    //{
-    //    Application.Quit();
-    //}
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("You Quit");
+    }
 }
