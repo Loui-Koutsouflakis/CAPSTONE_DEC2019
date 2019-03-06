@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AIFollow : MonoBehaviour
 {
-    public Transform target = player;
-    public Transform target2 = queen;
+    public Transform player;
+    public Transform queen;
     public Transform myTransform;
     public bool TargetLock = true;
 

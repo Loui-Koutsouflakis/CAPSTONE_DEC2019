@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Created By Loui Koutsouflakis
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +17,8 @@ public class Move : MonoBehaviour
     public Transform camPivot;
     public Transform refPivot;
     public Transform camFollow;
-    public Transform Body; // SChiraz 25/02/2019
+    public GameObject face;
+    //public Transform Body; // SChiraz 25/02/2019
     #endregion Public Variables
 
     #region Object Variables
@@ -32,7 +35,7 @@ public class Move : MonoBehaviour
     private readonly Vector3 flyForce = new Vector3(0f, 4f, 0f);
     private readonly Vector3 lessOneY = new Vector3(0f, 0.7f, 0f);
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
-    private readonly Vector3 dive = new Vector3(0, 2.5f, 21f);
+    private readonly Vector3 dive = new Vector3(0, 2.75f, 26f);
     #endregion Vector Variables
 
     #region Primitive Variables
@@ -41,7 +44,7 @@ public class Move : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private float walkAccel = 66f;
-    private float gravityArc = 0.9f;
+    private float gravityArc = 1.6f;
     private bool deadJoy;
     private bool jumpHoldy;
     private bool canDive;
@@ -52,18 +55,18 @@ public class Move : MonoBehaviour
     private readonly float deadZone = 0.028f;
     private readonly float groundGravity = 4.6f;
     private readonly float dropGravity = 5.3f;
-    private readonly float gravitySlope = 1.7f;
+    private readonly float gravitySlope = 2.3f;
     private readonly float initJumpGravity = 0.9f;
     private readonly float camLerpFactor = 0.042f;
     private readonly float camPitchMax = 60f;
     private readonly float camPitchMin = -12f;
     private readonly float decelFactor = 0.14f;
-    private readonly float velocityDivider = 3.6f;
-    private readonly float airControlAccel = 29.2f;
+    private readonly float velocityDivider = 2.1f;
+    private readonly float airControlAccel = 14.2f;
     private readonly float groundControlAccel = 66f;
-    private readonly float diveMultiplierXZ = 55f;
+    private readonly float diveMultiplierXZ = 2255f;
     private readonly float diveMultiplierXZ2 = 920f;
-    private readonly float diveMultiplierY = 1020f;
+    private readonly float diveMultiplierY = 1720f;
     private readonly float diveMultiplierY2 = 1750f;
     #endregion Primitive Types
 
@@ -73,6 +76,7 @@ public class Move : MonoBehaviour
         jumpHoldy = false;
         cammy = Camera.main;
         rb = GetComponent<Rigidbody>();
+        face.SetActive(false);
 
         StartCoroutine(CheckGround());
     }
@@ -81,7 +85,7 @@ public class Move : MonoBehaviour
     {
         ControlInput();
         GravityControl();
-        CamUpdate();
+        //CamUpdate();
     }
 
     #region Methods
@@ -172,7 +176,7 @@ public class Move : MonoBehaviour
         cammy.transform.position = Vector3.Slerp(cammy.transform.position, camFollow.transform.position, camLerpFactor);
         cammy.transform.rotation = Quaternion.Slerp(cammy.transform.rotation, camPivot.transform.rotation, camLerpFactor);
         camPivot.transform.eulerAngles = new Vector3(Mathf.Clamp(pitch, 0f, camPitchMax), yaw, 0f);
-        Body.transform.eulerAngles = new Vector3(Mathf.Clamp(pitch, 0f, camPitchMax), yaw, 0f); // SChiraz 25/02/2019
+        //Body.transform.eulerAngles = new Vector3(Mathf.Clamp(pitch, 0f, camPitchMax), yaw, 0f); // SChiraz 25/02/2019
     }
 
     public void Run()
@@ -222,15 +226,16 @@ public class Move : MonoBehaviour
     {
         //if (!deadJoy)
         //{
-            if (jumpHoldy)
-            {
+            //if (jumpHoldy)
+            //{
                 rb.AddForce(movementDir * diveMultiplierXZ + Vector3.up * diveMultiplierY, ForceMode.Acceleration);
-            }
+                gravityArc += 4.8f;
+            //}
 
-            if(!jumpHoldy)
-            {
-                rb.AddForce(movementDir * diveMultiplierXZ2 + Vector3.up * diveMultiplierY2, ForceMode.Acceleration);
-            }
+            //if(!jumpHoldy)
+            //{
+            //    rb.AddForce(movementDir * diveMultiplierXZ2 + Vector3.up * diveMultiplierY2, ForceMode.Acceleration);
+            //}
         //}
 
         //if(deadJoy)

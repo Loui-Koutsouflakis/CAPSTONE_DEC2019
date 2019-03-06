@@ -37,7 +37,7 @@ public class MovementTestScript : MonoBehaviour {
     private readonly float initJumpGravity = 0.9f;
     private readonly float gravitySlope = 1.7f;
     private readonly float decelFactor = 0.14f;
-    private readonly float velocityDivider = 3.6f;
+    private readonly float velocityDivider = 1.2f;
     private readonly float groundCheckRate = 0.1f;
        
     //public - to test balance etc.
@@ -46,7 +46,7 @@ public class MovementTestScript : MonoBehaviour {
     public float walkMax = 8;
     public float airMax = 8;
     public float rotateSpeed = 30;
-    public float jumpForce = 21.8f;
+    public float jumpForce;
     private float forwardVelocity = 10;
     public bool grounded;
     public bool onWall;
@@ -199,14 +199,16 @@ public class MovementTestScript : MonoBehaviour {
     {
         if (grounded)
         {
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("Normal Jump");
+            //rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             //rb.velocity = Vector3.up * jumpForce;
-            //rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
+            rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
 
             jumpHoldy = true;
         }
         else if(canFlutter && !grounded && !onWall)
         {
+            Debug.Log("Flutter Jump");
             rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
             jumpHoldy = true;
             canFlutter = false;

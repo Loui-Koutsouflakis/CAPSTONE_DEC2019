@@ -1,7 +1,6 @@
 ﻿// Created by SChiraz 19/02/2019
 // Modified by SChiraz 25/02/2019 -> Dash + DashAttack
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +18,7 @@ public class Attacks : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
 	}
 	
 	// Update is called once per frame

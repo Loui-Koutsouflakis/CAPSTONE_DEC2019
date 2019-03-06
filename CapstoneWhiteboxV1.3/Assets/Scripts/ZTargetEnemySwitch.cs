@@ -1,5 +1,10 @@
-﻿
-    public bool ZTarget;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ZTargetEnemySwitch : MonoBehaviour { 
+
+public bool ZTarget;
     public bool lockCursor;//turns off the mouse cursor if not needed
     public bool cameraFree;
     public float mousesensitivity = 10;//pretty self explanitory
