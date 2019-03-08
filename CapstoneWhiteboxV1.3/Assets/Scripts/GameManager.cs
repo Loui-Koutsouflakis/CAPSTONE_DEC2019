@@ -14,6 +14,14 @@ public class GameManager : MonoBehaviour {
     //public GameObject StartUI;
     //public GameObject winUI;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Debug.Log("You Clicked");
+        }
+    }
+
 
     public static GameManager GetInstance()
     {
@@ -85,6 +93,7 @@ public class GameManager : MonoBehaviour {
 
     public void Play()
     {
+        Debug.Log("stuff");
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("Whitebox");
     }
@@ -120,5 +129,11 @@ public class GameManager : MonoBehaviour {
     {
         Application.Quit();
         Debug.Log("You Quit");
+    }
+
+    public void Test()
+    {
+        
+            Debug.Log("You Clicked");
     }
 }

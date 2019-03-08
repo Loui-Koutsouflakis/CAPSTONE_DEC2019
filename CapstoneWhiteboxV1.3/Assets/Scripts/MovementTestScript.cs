@@ -34,6 +34,7 @@ public class MovementTestScript : MonoBehaviour {
     private readonly float groundGravity = 4.6f; //gravity when player is in ground
     private readonly float dropGravity = 5.3f; //gravity when player is droping
     private readonly float wallGravity = 0.1f; //gravity when player is sliding down a wall
+    private readonly float wallClimbGravity = -.98f;
     private readonly float initJumpGravity = 0.9f;
     private readonly float gravitySlope = 1.7f;
     private readonly float decelFactor = 0.14f;
@@ -43,6 +44,7 @@ public class MovementTestScript : MonoBehaviour {
     //public - to test balance etc.
 
     public float walkAccel = 15;
+    public float climbAccel = 12;
     public float walkMax = 8;
     public float airMax = 8;
     public float rotateSpeed = 30;
@@ -142,13 +144,18 @@ public class MovementTestScript : MonoBehaviour {
             {
                 rb.AddForce(Physics.gravity * rb.mass * groundGravity);
             }
-            else if(onWall)
+            else if (onWall && !grounded)
             {
-                rb.AddForce(Physics.gravity * rb.mass * wallGravity);
+                //if we want wall slide
+                //rb.AddForce(Physics.gravity * rb.mass * wallGravity);
+
+                //if we want wall climb
+                rb.AddForce(Physics.gravity * rb.mass * wallClimbGravity);
             }
             else if (!grounded && !onWall)
             {
                 rb.AddForce(Physics.gravity * rb.mass * dropGravity);
+
             }
         }
     }
@@ -156,23 +163,30 @@ public class MovementTestScript : MonoBehaviour {
     //xz axis movement
     public void MoveTest()
     {
-        //movement based on direction camera is facing
-        Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
-        Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
-        cammyRight.y = 0;
-        cammyFront.y = 0;
-        cammyRight.Normalize();
-        cammyFront.Normalize();
+        if (onWall && !grounded) //wall climbing
+        {
+            rb.AddForce((transform.up * vertical + transform.right * horizontal) * climbAccel, ForceMode.Force);
+        }
+        else
+        {
+            //movement based on direction camera is facing
+            Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
+            Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
+            cammyRight.y = 0;
+            cammyFront.y = 0;
+            cammyRight.Normalize();
+            cammyFront.Normalize();
 
-        //rotates the direction the character is facing to the correct direction based on camera
-        transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront*vertical + cammyRight*horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            //rotates the direction the character is facing to the correct direction based on camera
+            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
-        //slight acceleration (if we want to try it)
-        //forwardVelocity += walkAccel * Time.fixedDeltaTime;
+            //slight acceleration (if we want to try it)
+            //forwardVelocity += walkAccel * Time.fixedDeltaTime;
 
-        //adds force to the player
-        rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
-        
+            //adds force to the player
+            rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
+        }
+
     }
 
     //to decelerate if no input is held
@@ -284,6 +298,11 @@ public class MovementTestScript : MonoBehaviour {
     public void WallMe()
     {
         onWall = true;
+        //for wall climbing to prevent player from floating up
+        if (!grounded)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -317,6 +336,7 @@ public class MovementTestScript : MonoBehaviour {
                 if (faceHit.collider.gameObject.tag == "Ground")
                 {
                     WallMe();
+                    transform.LookAt(collision.gameObject.transform);
                     //transform.forward = -(collision.gameObject.transform.position - transform.position).normalized;
                 }
 
@@ -324,6 +344,8 @@ public class MovementTestScript : MonoBehaviour {
                 {
                     transform.parent = faceHit.collider.gameObject.transform;
                     WallMe();
+                    transform.LookAt(collision.gameObject.transform);
+
                     //transform.forward = -(collision.gameObject.transform.position - transform.position).normalized;
                 }
 
