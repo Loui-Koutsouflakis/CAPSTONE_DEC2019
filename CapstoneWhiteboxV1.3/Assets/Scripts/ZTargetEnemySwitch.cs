@@ -72,8 +72,8 @@ public bool ZTarget;
     {
         if (cameraFree == true)
         {
-            yaw += Input.GetAxis("Mouse X") * mousesensitivity;
-            pitch -= Input.GetAxis("Mouse Y") * mousesensitivity;
+            yaw += Input.GetAxis("MouseX") * mousesensitivity;
+            pitch -= Input.GetAxis("MouseY") * mousesensitivity;
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref rotationsmoothVelocity, rotationsmoothTime);
@@ -87,8 +87,8 @@ public bool ZTarget;
         }
         else if (cameraFree == false)
         {
-            yaw += Input.GetAxis("Mouse X") * mousesensitivity;
-            pitch -= Input.GetAxis("Mouse Y") * mousesensitivity;
+            yaw += Input.GetAxis("MouseX") * mousesensitivity;
+            pitch -= Input.GetAxis("MouseY") * mousesensitivity;
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref rotationsmoothVelocity, rotationsmoothTime);
             transform.eulerAngles = currentRotation;
@@ -104,7 +104,7 @@ public bool ZTarget;
 
     public GameObject GetTarget()//this cycles through the enemies in the area, can be converted to be used with swingpoints
     {
-        targets = GameObject.FindGameObjectsWithTag("Enemies");
+        targets = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject target in targets)
         {
             Vector3 dist = target.transform.position - Player.position;
