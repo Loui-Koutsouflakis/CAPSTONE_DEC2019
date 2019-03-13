@@ -32,7 +32,7 @@ public class MovementTestScript : MonoBehaviour {
     private bool jumpHoldy;
     private readonly float deadZone = 0.028f;
     private readonly float groundGravity = 4.6f; //gravity when player is in ground
-    private readonly float dropGravity = 5.3f; //gravity when player is droping
+    private readonly float dropGravity = 6.5f; //gravity when player is droping
     private readonly float wallGravity = 0.1f; //gravity when player is sliding down a wall
     private readonly float wallClimbGravity = -.98f;
     private readonly float initJumpGravity = 0.9f;
@@ -56,6 +56,12 @@ public class MovementTestScript : MonoBehaviour {
     public float fallMultiplier = 2.5f;
     public bool canFlutter;
     public float flutterForce;
+
+    //testing new jump
+    float timer;
+    public float initJumpForce;
+    private float runVelocity;    
+    private readonly float jumpSlope = 0.95f;
 
     // Use this for initialization
     void Start () {
@@ -96,7 +102,7 @@ public class MovementTestScript : MonoBehaviour {
         {
             jumpHoldy = false;
         }
-      
+
         //another way of doing variable jump height
         //if (rb.velocity.y < 0)
         //{
@@ -132,13 +138,28 @@ public class MovementTestScript : MonoBehaviour {
     {
         if (jumpHoldy)
         {
+            
+            if (jumpForce > 150)
+            {
+                jumpForce *= jumpSlope;
+                rb.AddForce(transform.forward * runVelocity + transform.up * jumpForce , ForceMode.Force);
+                //rb.AddForce(new Vector3 (rb.velocity.magnitude, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Acceleration);
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                rb.AddForce(transform.forward * runVelocity, ForceMode.Force);
+            }
             gravityArc += Time.deltaTime * gravitySlope;
             rb.AddForce(Physics.gravity * rb.mass * gravityArc);
+
         }
 
         if (!jumpHoldy)
         {
             gravityArc = initJumpGravity;
+            jumpForce = initJumpForce;
+
 
             if (grounded)
             {
@@ -154,8 +175,14 @@ public class MovementTestScript : MonoBehaviour {
             }
             else if (!grounded && !onWall)
             {
-                rb.AddForce(Physics.gravity * rb.mass * dropGravity);
-
+                if (rb.velocity.y > 0)
+                {
+                    rb.AddForce(Physics.gravity * rb.mass * groundGravity);
+                }
+                else
+                {
+                    rb.AddForce(Physics.gravity * rb.mass * dropGravity);
+                }
             }
         }
     }
@@ -215,9 +242,12 @@ public class MovementTestScript : MonoBehaviour {
         {
             Debug.Log("Normal Jump");
             //rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            //rb.velocity = Vector3.up * jumpForce;
-            rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
-
+            
+            //rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
+            
+            jumpForce = initJumpForce;
+            runVelocity = rb.velocity.magnitude;
+            timer = 0;
             jumpHoldy = true;
         }
         else if(canFlutter && !grounded && !onWall)
