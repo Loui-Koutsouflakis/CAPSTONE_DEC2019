@@ -109,7 +109,7 @@ public class CycloneAttack : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.tag == "Player" || c_AllowedAttack == true)
+        if (collider.gameObject.tag == "Player" /*|| c_AllowedAttack == true*/)
         {
             c_AttackMode.SetActive(false);
             c_WayPoints.SetActive(true);

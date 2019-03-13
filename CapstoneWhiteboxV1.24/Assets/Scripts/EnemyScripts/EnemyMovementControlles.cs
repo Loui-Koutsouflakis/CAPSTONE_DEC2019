@@ -7,11 +7,18 @@ public class EnemyMovementControlles : MonoBehaviour
 {
     public List<GameObject> e_WayPoints; //Choose how many waypoints you want and enter them here.
 
-    private NavMeshAgent e_NavMesh; 
+    private NavMeshAgent e_NavMesh;
     private GameObject e_CurrentTarget;
 
     void Start()
     {
+        //foreach (Transform child in transform)
+        //{
+        //    if(child.tag == "MoleWayPoint")
+        //    {
+        //        e_WayPoints.Add(child.gameObject);
+        //    }
+        //}
         e_NavMesh = GetComponent<NavMeshAgent>();
         e_NavMesh.SetDestination(e_WayPoints[0].transform.position);
         e_CurrentTarget = e_WayPoints[0];
