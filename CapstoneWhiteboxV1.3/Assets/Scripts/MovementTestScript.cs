@@ -32,11 +32,11 @@ public class MovementTestScript : MonoBehaviour {
     private bool jumpHoldy;
     private readonly float deadZone = 0.028f;
     private readonly float groundGravity = 4.6f; //gravity when player is in ground
-    private readonly float dropGravity = 5.3f; //gravity when player is droping
+    private readonly float dropGravity = 6.5f; //gravity when player is droping
     private readonly float wallGravity = 0.1f; //gravity when player is sliding down a wall
     private readonly float wallClimbGravity = -.98f;
     private readonly float initJumpGravity = 0.9f;
-    private readonly float gravitySlope = 1.7f;
+    private readonly float gravitySlope = 5.6f; //1.7
     private readonly float decelFactor = 0.14f;
     private readonly float velocityDivider = 1.2f;
     private readonly float groundCheckRate = 0.1f;
@@ -55,7 +55,10 @@ public class MovementTestScript : MonoBehaviour {
     public float jumpMultiplier = 2f;
     public float fallMultiplier = 2.5f;
     public bool canFlutter;
-    public float flutterForce;
+    public float flutterForce = 5;
+
+    public float initJumpForce = 100;   
+    private readonly float jumpSlope = 0.96f;
 
     // Use this for initialization
     void Start () {
@@ -96,7 +99,7 @@ public class MovementTestScript : MonoBehaviour {
         {
             jumpHoldy = false;
         }
-      
+
         //another way of doing variable jump height
         //if (rb.velocity.y < 0)
         //{
@@ -117,9 +120,25 @@ public class MovementTestScript : MonoBehaviour {
             Decel();
         }
 
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, walkMax);
+        Debug.Log(rb.velocity);
 
-
+        //rb.velocity = Vector3.ClampMagnitude(rb.velocity, walkMax);
+        if (rb.velocity.x > walkMax)
+        {
+            rb.velocity = new Vector3(walkMax, rb.velocity.y, rb.velocity.z);
+        }
+        else if (rb.velocity.x < -walkMax)
+        {
+            rb.velocity = new Vector3(-walkMax, rb.velocity.y, rb.velocity.z);
+        }
+        if (rb.velocity.z > walkMax)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, walkMax);
+        }
+        else if (rb.velocity.z < -walkMax)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -walkMax);
+        }
 
         //to keep max jump height when moving and stop "slow fall" if it is happening (occasionally have problems with it)
         //Vector3 Vel = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, walkMax);
@@ -132,6 +151,13 @@ public class MovementTestScript : MonoBehaviour {
     {
         if (jumpHoldy)
         {
+
+            if (jumpForce > 50)
+            {
+                jumpForce *= jumpSlope;
+                //rb.AddForce(new Vector3(rb.velocity.x, jumpForce + rb.velocity.magnitude / velocityDivider, rb.velocity.z), ForceMode.Acceleration);
+                rb.AddForce(transform.up * (jumpForce + rb.velocity.magnitude / velocityDivider));
+            }
             gravityArc += Time.deltaTime * gravitySlope;
             rb.AddForce(Physics.gravity * rb.mass * gravityArc);
         }
@@ -139,6 +165,8 @@ public class MovementTestScript : MonoBehaviour {
         if (!jumpHoldy)
         {
             gravityArc = initJumpGravity;
+            jumpForce = initJumpForce;
+
 
             if (grounded)
             {
@@ -154,8 +182,14 @@ public class MovementTestScript : MonoBehaviour {
             }
             else if (!grounded && !onWall)
             {
-                rb.AddForce(Physics.gravity * rb.mass * dropGravity);
-
+                if (rb.velocity.y > 0)
+                {
+                    rb.AddForce(Physics.gravity * rb.mass * groundGravity);
+                }
+                else
+                {
+                    rb.AddForce(Physics.gravity * rb.mass * dropGravity);
+                }
             }
         }
     }
@@ -214,10 +248,8 @@ public class MovementTestScript : MonoBehaviour {
         if (grounded)
         {
             Debug.Log("Normal Jump");
-            //rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            //rb.velocity = Vector3.up * jumpForce;
-            rb.AddForce(new Vector3(0, jumpForce + rb.velocity.magnitude / velocityDivider), ForceMode.Impulse);
-
+            //rb.AddForce(new Vector3(rb.velocity.x, jumpForce + rb.velocity.magnitude / velocityDivider, rb.velocity.z), ForceMode.Impulse);
+            jumpForce = initJumpForce;
             jumpHoldy = true;
         }
         else if(canFlutter && !grounded && !onWall)
@@ -241,7 +273,7 @@ public class MovementTestScript : MonoBehaviour {
         if (onWall)
         {
             //jumps off of wall
-            rb.AddForce((-transform.forward * jumpForce) + (transform.up * jumpForce/2), ForceMode.Impulse);
+            rb.AddForce((-transform.forward * 10) + (transform.up * 5), ForceMode.Impulse);
             jumpHoldy = true;
             //sets player looking away from wall
             //transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
@@ -352,6 +384,5 @@ public class MovementTestScript : MonoBehaviour {
             }
         }
     }
-     
-
+    
 }
