@@ -45,9 +45,16 @@ public class CycloneAttack : MonoBehaviour
 
     void AllowAttack()
     {
-        if (c_Rings[0].activeSelf == false && c_Rings[1].activeSelf == false && c_Rings[2].activeSelf == false && c_Rings[3].activeSelf == false)
+        if (c_Rings[0].activeSelf == false 
+            && c_Rings[1].activeSelf == false 
+            && c_Rings[2].activeSelf == false 
+            && c_Rings[3].activeSelf == false)
         {
             c_AllowedAttack = false;
+            c_AttackMode.SetActive(false);
+            c_WayPoints.SetActive(true);
+            c_Timer = false;
+            c_SpeedUpTimer = c_TimerStartingValue;
         }
     }    
 
@@ -109,7 +116,7 @@ public class CycloneAttack : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.tag == "Player" || c_AllowedAttack == true)
+        if (collider.gameObject.tag == "Player")
         {
             c_AttackMode.SetActive(false);
             c_WayPoints.SetActive(true);

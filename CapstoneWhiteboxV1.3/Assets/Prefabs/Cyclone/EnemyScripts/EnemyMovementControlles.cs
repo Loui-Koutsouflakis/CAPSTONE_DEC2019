@@ -14,7 +14,7 @@ public class EnemyMovementControlles : MonoBehaviour
     {
         e_NavMesh = GetComponent<NavMeshAgent>();
         e_NavMesh.SetDestination(e_WayPoints[0].transform.position);
-        e_CurrentTarget = e_WayPoints[0];
+        //e_CurrentTarget = e_WayPoints[0];
     }
 
     //Called from NextWayPoint to set the next waypoint enemy is to go to.
