@@ -14,15 +14,11 @@ public class WallEnemy : MonoBehaviour {
 
     Vector3 newPos;
 
-    // Testing other mechanics, ignore x & z for now
-    //float x;
-    //float z;
-
     int range = 4;
     int dest = 0;
+    int lookSpeed = 3;
 
     public GameObject player;
-    //public GameObject spawn;
 
     private NavMeshAgent agent;
     public Transform[] wayPoints;    
@@ -37,17 +33,13 @@ public class WallEnemy : MonoBehaviour {
 	
 	void Update ()
     {
-        // Random wandering -- doesn't perform well on small area
-        // Will do more with this later
-
-        //newPos = Random.insideUnitSphere * 20;
-        //agent.destination = newPos;
-
-        // Waypoints to make enemy crawl around pillar
+        // Reset enemy path after each path has finished
         if (!agent.pathPending && agent.remainingDistance < 0.2f)
         {
             NextPoint();
         }
+
+        // Detect if player is within range
 
         if (Vector3.Distance(transform.position, player.transform.position) < range)
         {
@@ -64,12 +56,23 @@ public class WallEnemy : MonoBehaviour {
     {
         if (agent.isStopped == true)
         {
+            var rotation = Quaternion.LookRotation(player.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, lookSpeed * Time.deltaTime);
+
             Dispense();
         }
     }
 
     public void NextPoint()
     {
+        // Use this for randomized wandering around a Navmesh Surface
+
+        //newPos = Random.insideUnitSphere * 20;
+        //agent.destination = newPos;
+
+
+        // Use this for waypoint travel
+
         if (wayPoints.Length == 0)
         {
             return;
@@ -82,7 +85,7 @@ public class WallEnemy : MonoBehaviour {
 
     public void Dispense()
     {
-        GetComponent<Shoot>().ShootProjectile();
+        GetComponent<ProjectileShoot>().ShootProjectile();
     }
 
     public void KillEnemy()
@@ -91,7 +94,7 @@ public class WallEnemy : MonoBehaviour {
 
         if (currentHP <= 0)
         {
-            Destroy(gameObject, 1.0f);
+            gameObject.SetActive(false);
         }
     }
 }

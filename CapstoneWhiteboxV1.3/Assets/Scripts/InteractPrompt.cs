@@ -6,9 +6,9 @@ public class InteractPrompt : MonoBehaviour
 {
     //TODO: Currently seems to load text backwards and low. Next Update will fix.
 
-    public GameObject promptPrefab;
+    public GameObject prompt;
     public GameObject followingObject;
-    GameObject instancedPrompt;
+    
 
     public float rayDistance = 5;
 
@@ -44,7 +44,7 @@ public class InteractPrompt : MonoBehaviour
             Debug.Log("Did Hit");
             if(instance == false)
             {
-                CreatePrompt();
+                prompt.SetActive(true);
                 instance = true;
             }
         }
@@ -52,15 +52,12 @@ public class InteractPrompt : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 2, Color.white);
             Debug.Log("Did not Hit");
+            prompt.SetActive(false);
             instance = false;
-            Destroy(instancedPrompt);
         }
 
 
     }
-    //Create an Object on 
-    void CreatePrompt()
-    {
-        instancedPrompt = Instantiate(promptPrefab, gameObject.transform.position, gameObject.transform.rotation);
-    }
+   
+    
 }

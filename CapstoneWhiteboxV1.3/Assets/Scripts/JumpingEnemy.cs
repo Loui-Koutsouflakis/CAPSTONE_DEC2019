@@ -29,6 +29,8 @@ public class JumpingEnemy : MonoBehaviour {
 
     public List<Transform> spawnPoints = new List<Transform>();
 
+    public LayerMask pLayer;
+
     private Rigidbody rB;
 
     void Start ()
@@ -55,6 +57,11 @@ public class JumpingEnemy : MonoBehaviour {
         }
 
         rotation = UnityEngine.Random.Range(1, 361);
+
+        if (currentHP <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Jump()
@@ -86,26 +93,28 @@ public class JumpingEnemy : MonoBehaviour {
 
         if (collision.gameObject.tag == "Player")
         {
-            currentHP--;
+            RaycastHit hit;
 
-            //Change size and speed of new spawned enemies
-            entity.transform.localScale /= 1.2f; 
-            speed *= speedMod;
+            // Would prefer this to be box or sphere cast but I can't get either working?
 
-            //Split enemy into smaller enemies
-            for (int x = 0; x < 5; x++)
+            if (Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity, pLayer))
             {
-                //Check if spawned, and minimum size to spawn new enemies
-                if (!split && entity.transform.localScale.x > 0.8f)
-                {                   
-                    Instantiate(entity, spawnPoints[x].transform.position, Quaternion.Euler(0, rotation, 0));
-                    split = true;
+                currentHP--;
+
+                //Change size and speed of new spawned enemies
+                entity.transform.localScale /= 1.2f;
+                speed *= speedMod;
+
+                //Split enemy into smaller enemies
+                for (int x = 0; x < 4; x++)
+                {
+                    //Check if spawned, and minimum size to spawn new enemies
+                    if (!split && entity.transform.localScale.y > 0.9f)
+                    {
+                        Instantiate(entity, spawnPoints[x].transform.position, Quaternion.Euler(0, rotation, 0));
+                        split = true;
+                    }
                 }
-            }
-
-            if (currentHP <= 0)
-            {
-                Destroy(gameObject, 0.5f);
             }
         }
     }
