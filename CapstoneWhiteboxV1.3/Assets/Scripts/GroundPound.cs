@@ -2,36 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundPound : MonoBehaviour {
+public class GroundPound : MonoBehaviour
+{
+    // Loui create a tag with your desired name for the enemies you wish to pound.
+    // Simply change the name on line 26 and add the enemies to the tag and all "should" work.
 
-    public float JmpForce; // 100000.0f
-    public float nbForce; // Knock back force.
+    // Note: must add desired enemies to GroundedEnemy tag in order for the GroundPound to work!
 
-    public GameObject playerObj; // player object.
-    public GameObject enemy1; // (Enemy must have a RigidBody!!) will turn this into a list next time so as to add more enemies easier.
+    public float DropForce; // Force of the downward force.
+    public float KnockBackForce; // Knock back force.
+    public float GroundPoundRadius; // ground pound radius of attack.
 
+    public GameObject Player; // player object.
+    public GameObject[] Enemies; // (Enemy must have a RigidBody!!)
+    
     bool IsGrounded = false; // bool for ground.
 
-    public float gpRadius; // ground pound radius of attack.
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    void Start()
     {
+        if (Enemies == null)
+        {
+            Enemies = GameObject.FindGameObjectsWithTag("GroundedEnemy");
+        }
+    }
+
+
+    void Update()
+    {
+
         if (!IsGrounded)
         {
-            if (Input.GetKeyDown("4")) // Ground Pound
+            if (Input.GetButtonDown("Dive")) // Ground Pound
             {
-                gameObject.GetComponent<Rigidbody>().AddForce(transform.up * -JmpForce, ForceMode.Impulse);
+                gameObject.GetComponent<Rigidbody>().AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
                 Debug.Log("Ground Pound !");
 
-                if ((playerObj.transform.position).magnitude < gpRadius) // if enemy is in radius of gp, it will get knocked back.
+                foreach(GameObject Enemy in Enemies)
                 {
-                    enemy1.GetComponent<Rigidbody>().AddForce(Vector3.up * nbForce); // makes enemy bounce up when ground pounded.
+                    if ((Vector3.Distance(Enemy.transform.position, Player.transform.position) < GroundPoundRadius)) // Radius check
+                    {
+                        Debug.Log("Hit!");
+
+                        Enemy.GetComponent<Rigidbody>().AddForce(Vector3.up * KnockBackForce); // Bounces enemies.
+                    }
+
                 }
             }
         }
@@ -52,5 +67,5 @@ public class GroundPound : MonoBehaviour {
         {
             IsGrounded = false;
         }
-    }
+    } 
 }
