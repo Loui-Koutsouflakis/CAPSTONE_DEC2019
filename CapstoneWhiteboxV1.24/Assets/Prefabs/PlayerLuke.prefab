@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 114564924124065114}
   - component: {fileID: 208827713944288864}
   - component: {fileID: 114136089670799420}
+  - component: {fileID: 114686680371312904}
   m_Layer: 0
   m_Name: PlayerLuke
   m_TagString: Player
@@ -77,6 +78,23 @@ GameObject:
   m_Layer: 0
   m_Name: BirdTargets
   m_TagString: BirdTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1502012423233630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4697849258228366}
+  - component: {fileID: 135694974830670922}
+  - component: {fileID: 114410037784465118}
+  m_Layer: 0
+  m_Name: BirdRangeTriggerCollider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,7 +228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1607710346665510}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9, y: 0, z: 3.09}
+  m_LocalPosition: {x: -2.25, y: 0, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4193116113689608}
@@ -230,6 +248,19 @@ Transform:
   m_Father: {fileID: 4169016779188846}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4697849258228366
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502012423233630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4865918677789562}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4770982098770322
 Transform:
   m_ObjectHideFlags: 1
@@ -237,7 +268,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1734140251307320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.12, y: 0, z: -1.9}
+  m_LocalPosition: {x: -1.56, y: 0, z: -1.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4989876595408196}
@@ -251,13 +282,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280027532701666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 2.18, y: 3.3, z: -3.8}
   m_LocalScale: {x: 1, y: 0.75, z: 1}
   m_Children:
   - {fileID: 4901805330040936}
   - {fileID: 4031088975111806}
   - {fileID: 4169016779188846}
   - {fileID: 4770982098770322}
+  - {fileID: 4697849258228366}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -446,6 +478,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkPointCount: 0
+--- !u!114 &114410037784465118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502012423233630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9f2706a71e948938186cf606dede46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thing: {fileID: 0}
+  canCollect: 0
+  perch: {fileID: 0}
 --- !u!114 &114564924124065114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,6 +524,25 @@ MonoBehaviour:
   camPivot: {fileID: 4901805330040936}
   refPivot: {fileID: 0}
   camFollow: {fileID: 4911826195724086}
+--- !u!114 &114686680371312904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280027532701666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c7e8965f8de4d759734d98a778329b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amITethered: 0
+  hitPoint: {x: 0, y: 0, z: 0}
+  tetherLength: 0
+  tethering: 0
+  swingPoint: {fileID: 0}
+  forwardSpeed: 100
+  sidewaysSpeed: 8
+  jumpSpeed: 10
 --- !u!114 &114769789315378624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -520,6 +585,18 @@ MonoBehaviour:
   circleSpeed: 300
   birdTarget: {fileID: 4169016779188846}
   relativeAxis: {x: 0, y: 1, z: 0}
+--- !u!135 &135694974830670922
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502012423233630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 17
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136576578612892510
 CapsuleCollider:
   m_ObjectHideFlags: 1
