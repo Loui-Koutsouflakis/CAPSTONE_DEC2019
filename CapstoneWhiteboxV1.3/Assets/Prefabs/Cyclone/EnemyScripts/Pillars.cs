@@ -9,11 +9,6 @@ public class Pillars : MonoBehaviour
     public Vector3 PillarShrinkSize;
     public int PillarRingMatch;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if(PillarGraphic.transform.localScale.y <= 0)
