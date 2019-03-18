@@ -8,22 +8,20 @@ public class ShootSpikes : MonoBehaviour
 {
     public GameObject SpikeSpawn;
     public GameObject ShootSpike;
-    public float AttackTimer;
-    public float AttackTimer2;
-    public float ShootSpikesTurnSpeed;
 
-    [Range(0.0f, 100.0f)]
-    public int numberWavesSpawn;
-
+    #region Private variables
     private GameObject player;
+    private List<GameObject> waves;
     private int spikesShot;
+    private int numberWavesSpawn = 60;
     private bool MoleAttackAllow;
     private float AttackTimerStart;
     private float AttackTimerStart2;
+    private float AttackTimer = 1;
+    private float AttackTimer2 = 5;
+    private float ShootSpikesTurnSpeed = 10;
+    #endregion
 
-    private List<GameObject> waves;
-
-    // Use this for initialization
     void Start ()
     {
         spikesShot = 0;
@@ -36,14 +34,14 @@ public class ShootSpikes : MonoBehaviour
         {
             for (int i = 0; i < numberWavesSpawn; i++)
             {
+                //spawn 60 waveObjects
                 waves.Add((GameObject)Instantiate(ShootSpike, SpikeSpawn.transform.position, transform.rotation));
             }
         }
     }
 	
-    //spawn 60 waveObjects
 
-	// Update is called once per frame
+
 	void Update ()
     {
         Attack();
@@ -66,7 +64,6 @@ public class ShootSpikes : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Meep");
         if(collision.gameObject.tag == "Player" 
             && Physics.Raycast(transform.position,transform.TransformDirection(Vector3.up), 10))
         {
