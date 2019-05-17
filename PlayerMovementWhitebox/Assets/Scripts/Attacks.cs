@@ -1,60 +1,54 @@
-﻿// Created by SChiraz 19/02/2019
-// Modified by SChiraz 25/02/2019 -> Dash + DashAttack
-// Modified by SChiraz 18/03/2019 -> Preparing to implement attacks 
+﻿// Sebastian Borkowski
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attacks : MonoBehaviour {
+public class Attacks : MonoBehaviour
+{
+    // Place script in the player, Create two box colliders for the hands of the player.
+    // Add Colliders to the corisponding BoxCollider.
 
-    //public Animator PAnim;
-    public float DashSpeed = 10.0f;
-    //public CapsuleCollider RHand;
-    //public CapsuleCollider LHand;
+    // When we have animations I will make the code work with the Melee Animation.
+
+    //public Animator PlayerAnimator;
+    public float DashSpeed; // Speed of the dash.
+    public BoxCollider RightHand; // Collider on the right hand.
+    public BoxCollider LeftHand; // Collider on the left hand.
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-	}
+        RightHand.enabled = false; 
+        LeftHand.enabled = false;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown("q"))
+        if (Input.GetKeyDown("q")) // Key for the Dash.
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * DashSpeed, ForceMode.Impulse); // Adds force forwards.
         }
 
-        //if(PAnim.GetCurrentAnimatorStateInfo(0).IsTag("Dash"))
-        //{
-        //    if (Input.GetKeyDown("e"))
-        //    {
-        //        Debug.Log("Dash Hit");
-        //    }
-        //}
+        if (Input.GetKeyDown("e")) // Key for the Melee.
+        {
+            StartAttack(); // Enables the colliders.
+            Debug.Log("Pressed");
+        }
+    }
 
-        //RaycastHit hit;
-        //if (Physics.Raycast(transform.position, transform.forward, out hit, 2)) // Add an Angle Radius ? - Checks if in Range
-        //{
-        //    if (hit.collider.gameObject.tag == "Enemy")
-        //    {
-        //        if (Input.GetKeyDown("e"))
-        //        {
-        //            Debug.Log("Hit");
-        //        }
-        //    }
-        //}
+    void StartAttack() // Will be used when the Melee animation plays.
+    {
+        RightHand.enabled = true;
+        LeftHand.enabled = true;
+    }
 
-        //if (PAnim.GetCurrentAnimatorStateInfo(0).IsTag("Swipe"))
-        //{
-        //    RHand.enabled = true;
-        //    LHand.enabled = true;
-        //}
-        //else
-        //{
-        //    RHand.enabled = false;
-        //    LHand.enabled = false;
-        //}
+    void EndAttack() // Will be used when the Melee animation ends.
+    {
+        RightHand.enabled = false;
+        LeftHand.enabled = false;
     }
 }
