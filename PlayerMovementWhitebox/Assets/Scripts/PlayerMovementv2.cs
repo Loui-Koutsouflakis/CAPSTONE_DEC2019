@@ -47,6 +47,12 @@ public class PlayerMovementv2 : MonoBehaviour
     public float fallMultiplier = 2.5f;
     public bool canFlutter;
     public float flutterForce = 5;
+
+    //for grapple
+    bool toggle;
+
+    private GrappleComponent grapple;
+    private PlayerMovementv2 normalMove;
     
     // Start is called before the first frame update
     void Start()
@@ -59,12 +65,27 @@ public class PlayerMovementv2 : MonoBehaviour
         StartCoroutine(CheckGround());
         
         canFlutter = true;
-     }
+
+        normalMove = GetComponent<PlayerMovementv2>();
+        normalMove.enabled = true;
+
+        grapple = GetComponent<GrappleComponent>();
+        grapple.enabled = false;
+
+    }
+
+    
 
     // Update is called once per frame
     void FixedUpdate()
     {
         ControlInput();
+
+        if(Input.GetKey(KeyCode.T))//t for testing
+        {
+            grapple.enabled = true;
+            normalMove.enabled = false;
+        }
     }
 
     public void ControlInput()

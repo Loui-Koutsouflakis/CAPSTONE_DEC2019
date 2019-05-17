@@ -12,13 +12,23 @@ public class GrappleComponent : MonoBehaviour
     public float forwardSpeed = 100;
     public float sidewaysSpeed = 8;
     public float jumpSpeed = 10;
-    public float launchSpeed; 
+    public float launchSpeed;
+
+
+    private GrappleComponent grapple;
+    private PlayerMovementv2 normalMove;
 
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        tether = false; 
+        tether = false;
+
+        normalMove = GetComponent<PlayerMovementv2>();
+        
+
+        grapple = GetComponent<GrappleComponent>();
+        
     }
 
     // Update is called once per frame
@@ -26,6 +36,8 @@ public class GrappleComponent : MonoBehaviour
     {
         jump();
         moving();
+
+
 
         if(Input.GetKeyDown(KeyCode.F))
         {
@@ -65,6 +77,12 @@ public class GrappleComponent : MonoBehaviour
             body.AddForce(body.velocity.normalized * launchSpeed, ForceMode.Impulse);
             tether = false;
         }
+
+        if (Input.GetKey(KeyCode.Y))
+        {
+            normalMove.enabled = true;
+            grapple.enabled = false;
+        }
     }
 
 
@@ -88,4 +106,5 @@ public class GrappleComponent : MonoBehaviour
 
     }
 
+    
 }
