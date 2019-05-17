@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43688414, g: 0.48453832, b: 0.564796, a: 1}
+  m_IndirectSpecularColor: {r: 0.43688357, g: 0.48453784, b: 0.56479514, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2258,6 +2258,24 @@ MonoBehaviour:
   maxDistanceDelta: 0.13
   goingTo: 0
   displacement: {x: 0, y: 0, z: 8}
+--- !u!1 &631811425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1428053636702228, guid: c918fff02a38f4725ae801da4dbb49db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1002778325}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &631811426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631811425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47317bfa2880d6248927cfbb52f7263f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &636200140
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +3510,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391739586989522, guid: c918fff02a38f4725ae801da4dbb49db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114450848089257702, guid: c918fff02a38f4725ae801da4dbb49db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 195076793552057930, guid: c918fff02a38f4725ae801da4dbb49db,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6685,11 +6713,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 2988447964467959139, guid: bba0d19a29f71417b81d0b6b577d4de4,
-        type: 3}
-      propertyPath: cammy
-      value: 
-      objectReference: {fileID: 534669904}
     - target: {fileID: 4673214364686700, guid: bba0d19a29f71417b81d0b6b577d4de4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.4997745
@@ -6734,6 +6757,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2988447964467959139, guid: bba0d19a29f71417b81d0b6b577d4de4,
+        type: 3}
+      propertyPath: cammy
+      value: 
+      objectReference: {fileID: 534669904}
     - target: {fileID: 1494516678102108, guid: bba0d19a29f71417b81d0b6b577d4de4, type: 3}
       propertyPath: m_Layer
       value: 10
