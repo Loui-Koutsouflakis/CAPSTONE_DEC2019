@@ -1,19 +1,21 @@
-﻿using System.Collections;
+﻿// Sebastian Borkowski
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundPound : MonoBehaviour
 {
-    // Loui create a tag with your desired name for the enemies you wish to pound.
-    // Simply change the name on line 26 and add the enemies to the tag and all "should" work.
+   
+    // Simply change the name on line 29 and add the enemies to the tag and all "should" work.
 
     // Note: must add desired enemies to GroundedEnemy tag in order for the GroundPound to work!
 
     public float DropForce; // Force of the downward force.
-    public float KnockBackForce; // Knock back force.
     public float GroundPoundRadius; // ground pound radius of attack.
+    public float ForwardForce; // Force of the forward movment in the air.
 
-    public bool isPounding;
+    public bool isPouncing;
 
     public GameObject Player; // player object.
     public GameObject[] Enemies; // (Enemy must have a RigidBody!!)
@@ -38,18 +40,9 @@ public class GroundPound : MonoBehaviour
             if (Input.GetButtonDown("Dive")) // Ground Pound
             {
                 gameObject.GetComponent<Rigidbody>().AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
-                Debug.Log("Ground Pound !");
-                isPounding = true;
-
-                //foreach(GameObject Enemy in Enemies)
-                //{
-                //    if ((Vector3.Distance(Enemy.transform.position, Player.transform.position) < GroundPoundRadius)) // Radius check
-                //    {
-                //        Debug.Log("Hit!");
-
-                //        Enemy.GetComponent<Rigidbody>().AddForce(Vector3.up * KnockBackForce); // Bounces enemies.
-                //    }
-                //}
+                gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * ForwardForce, ForceMode.Impulse); // Force Forward
+                Debug.Log("Pounce !");
+                isPouncing = true;
             }
         }
 
@@ -59,7 +52,7 @@ public class GroundPound : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            if (isPounding)
+            if (isPouncing)
             {
                 foreach (GameObject Enemy in Enemies)
                 {
@@ -67,13 +60,13 @@ public class GroundPound : MonoBehaviour
                     {
                         Debug.Log("Hit!");
 
-                        Enemy.GetComponent<Rigidbody>().AddForce(Vector3.up * KnockBackForce); // Bounces enemies.
+                        // Insert Damage script here.
                     }
                 }
             }
 
             IsGrounded = true;
-            isPounding = false;
+            isPouncing = false;
             
         }
     }
