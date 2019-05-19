@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     void Awake()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");// Insert Player Class
-        levelObjectPools = GameObject.FindObjectOfType<LevelObjectPools>();
+        levelObjectPools = gameObject.GetComponent<LevelObjectPools>();
     }
 
     // Start is called before the first frame update
@@ -52,6 +52,7 @@ public class LevelManager : MonoBehaviour
     }
     void RepositionPlayer(Vector3 newPosition)
     {
+
         playerRef.GetComponent<HitBox>().TakeDamage(1);
         playerRef.transform.position = newPosition;
 
@@ -64,6 +65,14 @@ public class LevelManager : MonoBehaviour
             objToTurnOff.SetActive(false);
         }
         return objToTurnOff;
+    }
+    public GameObject ActivateObject(GameObject objToTurnOn)
+    {
+        if(objToTurnOn.activeSelf == false)
+        {
+            objToTurnOn.SetActive(true);
+        }
+        return objToTurnOn;
     }
 
 }
