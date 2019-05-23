@@ -223,10 +223,20 @@ public class PlayerMovementv2 : MonoBehaviour
 
         StartCoroutine(CheckGround());
     }
+
     public void GroundMe()
     {
         grounded = true;
         canFlutter = true;
+
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        {
+            if (footHit.collider.gameObject.tag == "MovingPlatform")
+            {
+                transform.parent = footHit.transform.parent;
+            }
+
+        }
     }
 
     /*
