@@ -51,8 +51,7 @@ public class PlayerMovementv2 : MonoBehaviour
     //for grapple
     bool toggle;
 
-    private GrappleComponent grapple;
-    private PlayerMovementv2 normalMove;
+   
     
     // Start is called before the first frame update
     void Start()
@@ -66,12 +65,6 @@ public class PlayerMovementv2 : MonoBehaviour
         
         canFlutter = true;
 
-        normalMove = GetComponent<PlayerMovementv2>();
-        normalMove.enabled = true;
-
-        grapple = GetComponent<GrappleComponent>();
-        grapple.enabled = false;
-
     }
 
     
@@ -81,11 +74,6 @@ public class PlayerMovementv2 : MonoBehaviour
     {
         ControlInput();
 
-        if(Input.GetKey(KeyCode.T))//t for testing
-        {
-            grapple.enabled = true;
-            normalMove.enabled = false;
-        }
     }
 
     public void ControlInput()

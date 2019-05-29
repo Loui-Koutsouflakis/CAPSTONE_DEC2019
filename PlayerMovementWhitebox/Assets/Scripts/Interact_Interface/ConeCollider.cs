@@ -19,14 +19,14 @@ public class ConeCollider : MonoBehaviour {
 
     void Awake()
     {
-        //リソースロード
+
         GameObject cone = Resources.Load("Prefab/ConeCollider") as GameObject;
 
-        //回転を初期位置に
+
         var initRot = this.transform.rotation;
         this.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
-        //メッシュ情報作成
+
         var coneMesh = cone.GetComponent<MeshFilter>().sharedMesh;
         var vertices = coneMesh.vertices;
         var triangles = coneMesh.triangles;        
@@ -35,7 +35,7 @@ public class ConeCollider : MonoBehaviour {
         var harf = m_distance * Mathf.Tan(m_angle * Mathf.PI / 180f);
         var verticleCount = 0;
 
-        //コーン円状部分のみ頂点座標移動
+
         for (int i = 0; i < vertices.Length; i++) {
             var verticeWorldPos = vertices[i] + this.transform.position;
             if (verticleCount != 2 || i >= 36) {
@@ -51,7 +51,7 @@ public class ConeCollider : MonoBehaviour {
             }
         }
 
-        //新規メッシュ作成
+
         m_mesh = new Mesh();
         m_mesh.Clear();
         m_mesh.vertices = vertices;
@@ -66,7 +66,7 @@ public class ConeCollider : MonoBehaviour {
         meshCollider.hideFlags = HideFlags.HideInInspector;
         this.transform.rotation = initRot;
 
-        //ローカルスケール調整
+
         if(m_isFixScale) {
             var scale = Vector3.one;
             var parent = this.transform.parent;
@@ -97,7 +97,7 @@ public class ConeCollider : MonoBehaviour {
 
     GameObject DebugObject(Vector3 pos, float scale = 1.0f, string name = "Sphere")
     {
-        //デバッグ
+
         var obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         obj.transform.position = pos;
         obj.transform.localScale = new Vector3(scale, scale, scale);

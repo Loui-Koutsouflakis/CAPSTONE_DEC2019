@@ -44,7 +44,7 @@ public class InteractComponent : MonoBehaviour {
         {
             if (interactScript != null)
             {
-                Debug.Log("Script Working");
+                Debug.Log("Object " + this.gameObject.name + " can be interacted with");
                 interactScript.InteractWithMe();
             }
         }
@@ -58,7 +58,7 @@ public class InteractComponent : MonoBehaviour {
 
             if (interactScript != null)
             {
-                Debug.Log("Script Working");
+                Debug.Log("Object " + this.gameObject.name + " can no longer be interacted with");
                 interactScript.DontInteractWithMe();
             }
         }
