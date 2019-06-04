@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class Collectable : MonoBehaviour, Interact {
 
-    public Bird bird;
+    //public Bird bird;
     public Material blue;
     private Color color;
 
@@ -23,7 +23,7 @@ public class Collectable : MonoBehaviour, Interact {
         color = Color.gray;
         blue.color = color;
 
-        bird = GameObject.FindWithTag("Bird").GetComponent<Bird>();
+        //bird = GameObject.FindWithTag("Bird").GetComponent<Bird>();
 		
 	}
 
@@ -34,15 +34,15 @@ public class Collectable : MonoBehaviour, Interact {
     void Interact.InteractWithMe()
     {
         Debug.Log("You can see the collectable");
-        bird.destination = transform.position;
+        //bird.destination = transform.position;
         blue.color = Color.red; 
     }
 
     public void DontInteractWithMe()
     {
         Debug.Log("You can't see the collectable");
-        bird.destination = Vector3.zero;
-        bird.canPickTarget = true; 
+        //bird.destination = Vector3.zero;
+        //bird.canPickTarget = true; 
         blue.color = color; 
         
     }

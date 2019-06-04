@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class BirdPlatform : MonoBehaviour, Interact
 {
 
-    public Bird bird;
+    //public Bird bird;
     public Transform startPosition;
     public Transform finalLocation;
 
@@ -19,7 +19,7 @@ public class BirdPlatform : MonoBehaviour, Interact
     // Start is called before the first frame update
     void Start()
     {
-        bird = GameObject.FindWithTag("Bird").GetComponent<Bird>();
+        //bird = GameObject.FindWithTag("Bird").GetComponent<Bird>();
         startPosition.transform.position = transform.position; // set the default location
         canMove = false;
         move = false;
@@ -53,14 +53,14 @@ public class BirdPlatform : MonoBehaviour, Interact
     void Interact.InteractWithMe()
     {
         Debug.Log("You can see the platform");
-        bird.destination = transform.position;
+        //bird.destination = transform.position;
         canMove = true;
     }
 
     public void DontInteractWithMe()
     {
         Debug.Log("You can't see the platform");
-        bird.destination = Vector3.zero;
+       // bird.destination = Vector3.zero;
         canMove = false;     
     }
 
