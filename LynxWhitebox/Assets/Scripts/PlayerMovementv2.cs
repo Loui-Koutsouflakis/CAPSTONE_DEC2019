@@ -51,7 +51,8 @@ public class PlayerMovementv2 : MonoBehaviour
     //for grapple
     bool toggle;
 
-   
+    private GrappleComponent grapple;
+    private PlayerMovementv2 normalMove;
     
     // Start is called before the first frame update
     void Start()
@@ -65,6 +66,12 @@ public class PlayerMovementv2 : MonoBehaviour
         
         canFlutter = true;
 
+        normalMove = GetComponent<PlayerMovementv2>();
+        normalMove.enabled = true;
+
+        grapple = GetComponent<GrappleComponent>();
+        grapple.enabled = false;
+
     }
 
     
@@ -74,6 +81,11 @@ public class PlayerMovementv2 : MonoBehaviour
     {
         ControlInput();
 
+        if(Input.GetKey(KeyCode.T))//t for testing
+        {
+            grapple.enabled = true;
+            normalMove.enabled = false;
+        }
     }
 
     public void ControlInput()
@@ -211,20 +223,10 @@ public class PlayerMovementv2 : MonoBehaviour
 
         StartCoroutine(CheckGround());
     }
-
     public void GroundMe()
     {
         grounded = true;
         canFlutter = true;
-
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
-        {
-            if (footHit.collider.gameObject.tag == "MovingPlatform")
-            {
-                transform.parent = footHit.transform.parent;
-            }
-
-        }
     }
 
     /*

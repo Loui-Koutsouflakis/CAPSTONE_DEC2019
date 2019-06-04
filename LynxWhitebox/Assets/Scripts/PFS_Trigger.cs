@@ -14,8 +14,9 @@ public class PFS_Trigger : MonoBehaviour
         set { _triggerType = value; }
     }
 
-    BoxCollider thisBoxCollider;// Progression and Boundry Collider
+    BoxCollider thisBoxCollider;// Progression and Boundry and KillBox Collider
     SphereCollider thisSpherecollider;// Cinematics Collider
+    Bounce_Back bounce_Back;//KillBox Additive Script
 
     [SerializeField, Range(0, 100), Header("Box Collider Dimensions")]
     float height = 1.0f;
@@ -38,6 +39,7 @@ public class PFS_Trigger : MonoBehaviour
     {
         colliderSize = new Vector3(width, height, depth);
         SetTriggerCollider();
+
     }
 
     private void Update()
@@ -65,6 +67,7 @@ public class PFS_Trigger : MonoBehaviour
             case PlayerTriggerTypes.KillBox:
                 if (c.gameObject.tag == "Player")
                 {
+                    c.gameObject.GetComponent<Bounce_Back>().Rebound(c.gameObject);
                     Debug.Log("Player Hit Rock Bottom");
                 }
                 // Bounce back function to be added later
@@ -118,6 +121,7 @@ public class PFS_Trigger : MonoBehaviour
                 break;
             case PlayerTriggerTypes.KillBox:
                 thisBoxCollider = gameObject.AddComponent<BoxCollider>();
+                //bounce_Back = gameObject.AddComponent<Bounce_Back>();
                 thisBoxCollider.size = colliderSize;
                 thisBoxCollider.isTrigger = false;
                 break;

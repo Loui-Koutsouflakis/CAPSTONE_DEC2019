@@ -1,6 +1,6 @@
 ﻿// Source: https://roystan.net/articles/toon-shader.html
 
-Shader "Roystan/Toon"
+Shader "Capstone/Toon"
 {
 	Properties
 	{
