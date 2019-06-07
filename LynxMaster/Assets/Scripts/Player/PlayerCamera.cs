@@ -7,7 +7,7 @@ public class PlayerCamera : MonoBehaviour
     public Transform cameraIdlePosition;
 
     [Header("Turn on/off the mouse cursor")]
-    public bool lockCursor = true;
+    //public bool lockCursor = false;
 
     [Header("Invert Camera Y (set to off for mouse control)")]
     public bool invY;
@@ -42,11 +42,11 @@ public class PlayerCamera : MonoBehaviour
 
         temp = transform.position;
 
-        if (lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        //if (lockCursor)
+        //{
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //    Cursor.visible = false;
+        //}
     }
     private void Update()
     {

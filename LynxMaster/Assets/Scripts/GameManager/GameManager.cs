@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int PlayerHealth;
     
-    public List<Image> Hearts = new List<Image>();
+    //public List<Image> Hearts = new List<Image>();
 
     public AudioSource Music;
 
@@ -48,17 +48,17 @@ public class GameManager : MonoBehaviour
     {
         ChangeQuality();
 
-        LoseHealth();
+        //LoseHealth();
 
-        HealthBar();
+        //HealthBar();
 
-        MuteSound();
+        //MuteSound();
 
         //Sets the sound volume to the slider within the pause menu
-        if(!isMuted)
-        {
-            Music.volume = Volume.value;
-        }
+        //if(!isMuted)
+        //{
+        //    Music.volume = Volume.value;
+        //}
 
         //Quits the game
         if(Input.GetKeyDown(KeyCode.Q))
@@ -168,36 +168,36 @@ public class GameManager : MonoBehaviour
     }
 
     //Controlls the number of hearts on screen based on player health
-    public void HealthBar()
-    {
+    //public void HealthBar()
+    //{
 
-        if (PlayerHealth == 2)
-        {
-            Hearts[2].enabled = false;
-        }
+    //    if (PlayerHealth == 2)
+    //    {
+    //        Hearts[2].enabled = false;
+    //    }
 
-        else if (PlayerHealth == 1)
-        {
-            Hearts[1].enabled = false;
-        }
+    //    else if (PlayerHealth == 1)
+    //    {
+    //        Hearts[1].enabled = false;
+    //    }
 
-        else if (PlayerHealth <= 0)
-        {
-            Hearts[0].enabled = false;
-            Death();
-            PlayerHealth = 3;
-            IsDead = true;
-        }
-        //Restarts the game when the player dies
-        else if (PlayerHealth == 3 && IsDead)
-        {
-            for (int i = 0; i < Hearts.Count ; i++)
-            {
-                Hearts[i].enabled = true;
-            }
-            IsDead = false;
-        }
-    }
+    //    else if (PlayerHealth <= 0)
+    //    {
+    //        Hearts[0].enabled = false;
+    //        Death();
+    //        PlayerHealth = 3;
+    //        IsDead = true;
+    //    }
+    //    //Restarts the game when the player dies
+    //    else if (PlayerHealth == 3 && IsDead)
+    //    {
+    //        for (int i = 0; i < Hearts.Count ; i++)
+    //        {
+    //            Hearts[i].enabled = true;
+    //        }
+    //        IsDead = false;
+    //    }
+    //}
 
     //Placeholder for death 
     public void Death()
