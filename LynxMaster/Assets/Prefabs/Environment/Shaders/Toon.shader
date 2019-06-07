@@ -1,6 +1,7 @@
 ﻿// Source: https://roystan.net/articles/toon-shader.html
 
-Shader "Roystan/Toon"
+
+Shader "Capstone2019/Toon"
 {
 	Properties
 	{
