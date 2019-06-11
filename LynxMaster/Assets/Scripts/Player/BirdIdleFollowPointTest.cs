@@ -8,22 +8,29 @@ using UnityEngine;
 
 public class BirdIdleFollowPointTest : MonoBehaviour
 {
+    private float waitTimer = 1.5f;
     private Vector3 pointPosition;
+    private GameObject followPoint;
+
+    private void Awake()
+    {
+        followPoint = GameObject.FindGameObjectWithTag("FollowPoint");
+    }
 
     private void Start()
     {
-        pointPosition = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(1.25f, 1.75f), Random.Range(-0.15f, -0.35f));
-        transform.position = pointPosition;
+        pointPosition = new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(1f, 1.5f), Random.Range(-1.2f, -2f));
+        followPoint.transform.localPosition = pointPosition;
 
         StartCoroutine(ChooseNewPosition());
     }
 
     private IEnumerator ChooseNewPosition()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(waitTimer);
 
-        pointPosition = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(1.25f, 1.75f), Random.Range(-0.15f, -0.35f));
-        transform.position = pointPosition;
+        pointPosition = new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(1f, 1.5f), Random.Range(-1.2f, -2f));
+        followPoint.transform.localPosition = pointPosition;
 
         StartCoroutine(ChooseNewPosition());
     }

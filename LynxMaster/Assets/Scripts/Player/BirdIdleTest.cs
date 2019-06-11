@@ -16,8 +16,8 @@ public class BirdIdleTest : MonoBehaviour
 
 
     //states
-    public enum birdState { follow, fetch, comeBack };
-    public birdState currentState = birdState.follow;
+    public enum BirdState { follow, fetch, comeBack };
+    public BirdState currentState = BirdState.follow;
 
     //for fetch
     public Transform target;
@@ -30,18 +30,15 @@ public class BirdIdleTest : MonoBehaviour
 
     private void Update()
     {
-        //LookDirection();
-        //Follow();
-
         switch (currentState)
         {
-            case birdState.follow:
+            case BirdState.follow:
                 FollowState();
                 break;
-            case birdState.fetch:
+            case BirdState.fetch:
                 FetchState();
                 break;
-            case birdState.comeBack:
+            case BirdState.comeBack:
                 ComeBackState();
                 break;
         }
@@ -69,11 +66,11 @@ public class BirdIdleTest : MonoBehaviour
 
     public void SetFollowState()
     {
-        currentState = birdState.follow;
+        currentState = BirdState.follow;
     }
     public void SetFetchState()
     {
-        currentState = birdState.fetch;
+        currentState = BirdState.fetch;
     }
 
     public void FollowState()
