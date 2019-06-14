@@ -51,6 +51,11 @@ public class PlayerMovementv2 : MonoBehaviour
     //for grapple
     bool toggle;
 
+    //for animation
+    public Animator anim;
+    private float moveSpeed;
+    private float rotate;
+    private float animRotate;
    
     
     // Start is called before the first frame update
@@ -73,7 +78,8 @@ public class PlayerMovementv2 : MonoBehaviour
     void FixedUpdate()
     {
         ControlInput();
-
+        setSpeed();//for animations
+        setRotate();//for animations
     }
 
     public void ControlInput()
@@ -123,9 +129,20 @@ public class PlayerMovementv2 : MonoBehaviour
         cammyRight.Normalize();
         cammyFront.Normalize();
 
+        //caches the start rotation
+        Vector3 currentRotation = transform.forward;
+        
         //rotates the direction the character is facing to the correct direction based on camera
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-                    
+
+        //calculate the rotation for animator
+        rotate = Vector3.SignedAngle(currentRotation, transform.forward, transform.up);
+
+        //if(rotate != 0)
+        //{
+        //    Debug.Log(rotate);
+        //}
+
         //adds force to the player
         rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
 
@@ -171,6 +188,11 @@ public class PlayerMovementv2 : MonoBehaviour
         else if (canFlutter && !grounded && !onWall)
         {
             //Debug.Log("Flutter Jump");
+            //zero out velocity at start of flutter jump to prevent to much height
+            Vector3 tempVelocity = rb.velocity;
+            tempVelocity.y = 0;
+            rb.velocity = tempVelocity;
+
             rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
             canFlutter = false;
         }
@@ -226,6 +248,20 @@ public class PlayerMovementv2 : MonoBehaviour
 
         }
     }
+
+    //for animator
+    public void setSpeed()
+    {
+        moveSpeed = rb.velocity.magnitude / walkMax;
+        anim.SetFloat("Speed", moveSpeed);
+    }
+
+    public void setRotate()
+    {
+        animRotate = rotate / rotateSpeed;
+        anim.SetFloat("Rotate", animRotate);
+    }
+
 
     /*
     public void WallJump()
