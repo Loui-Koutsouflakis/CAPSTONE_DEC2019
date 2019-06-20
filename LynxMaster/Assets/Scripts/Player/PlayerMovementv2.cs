@@ -133,11 +133,12 @@ public class PlayerMovementv2 : MonoBehaviour
         Vector3 currentRotation = transform.forward;
         
         //rotates the direction the character is facing to the correct direction based on camera
+        //need to have two functions one for short rotations and one for sharp turns with different rotate speed (high speed for sharp turns, low speed for slow turns)
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
         //calculate the rotation for animator
         rotate = Vector3.SignedAngle(currentRotation, transform.forward, transform.up);
-
+        
         //if(rotate != 0)
         //{
         //    Debug.Log(rotate);
@@ -184,6 +185,7 @@ public class PlayerMovementv2 : MonoBehaviour
         {
             //Debug.Log("Normal Jump");
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            anim.SetTrigger("Jump");
         }
         else if (canFlutter && !grounded && !onWall)
         {
@@ -195,6 +197,7 @@ public class PlayerMovementv2 : MonoBehaviour
 
             rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
             canFlutter = false;
+            anim.SetTrigger("Jump");
         }
 
         if (transform.parent != null)
@@ -203,6 +206,7 @@ public class PlayerMovementv2 : MonoBehaviour
         }
 
         grounded = false;
+        anim.SetBool("Grounded", false);
     }
 
     public void Decel()
@@ -227,6 +231,7 @@ public class PlayerMovementv2 : MonoBehaviour
         else
         {
             grounded = false;
+            anim.SetBool("Grounded", false);
         }
 
         yield return new WaitForSecondsRealtime(groundCheckRate);
@@ -236,7 +241,7 @@ public class PlayerMovementv2 : MonoBehaviour
 
     public void GroundMe()
     {
-        grounded = true;
+        grounded = true;       
         canFlutter = true;
 
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
@@ -262,6 +267,15 @@ public class PlayerMovementv2 : MonoBehaviour
         anim.SetFloat("Rotate", animRotate);
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            GroundMe();
+            anim.SetBool("Grounded", true);
+        }
+    }
 
     /*
     public void WallJump()
