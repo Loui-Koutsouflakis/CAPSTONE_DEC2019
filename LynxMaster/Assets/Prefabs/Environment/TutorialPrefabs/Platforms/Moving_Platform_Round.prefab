@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 1237384347618721051}
   m_Layer: 0
   m_Name: Moving_Platform_Round
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,8 @@ MonoBehaviour:
   zDistance: 6.12
   repeatable: 1
   slerpDirection: 3
-  spinDirection: 1
+  axisSpinDirection: 1
+  rotateAroundDirection: 1
   denominatorOfMovement: 149
   speedAroundDesiredPosition: 1
   speedAroundOwnAxis: 1

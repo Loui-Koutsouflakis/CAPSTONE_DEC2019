@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5917380802854480570}
   m_Layer: 0
   m_Name: MultiPurposePlatform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,9 +151,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   liveEdit: 0
+  movDelay: 0
   xDistance: 4.8
   yDistance: 5
   zDistance: 5.4
   repeatable: 1
+  slerpDirection: 1
+  axisSpinDirection: 1
+  rotateAroundDirection: 1
+  denominatorOfMovement: 1000
   speedAroundDesiredPosition: 1
   speedAroundOwnAxis: 1

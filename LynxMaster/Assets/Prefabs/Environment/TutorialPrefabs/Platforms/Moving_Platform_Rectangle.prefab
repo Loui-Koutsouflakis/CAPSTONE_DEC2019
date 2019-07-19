@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7655532186011778760}
   m_Layer: 0
   m_Name: Moving_Platform_Rectangle
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,8 @@ MonoBehaviour:
   zDistance: 0
   repeatable: 0
   slerpDirection: 1
-  spinDirection: 1
+  axisSpinDirection: 1
+  rotateAroundDirection: 1
   denominatorOfMovement: 1000
   speedAroundDesiredPosition: 1
   speedAroundOwnAxis: 1
