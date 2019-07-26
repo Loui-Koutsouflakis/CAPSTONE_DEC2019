@@ -62,13 +62,17 @@ public class PlayerMovementv2 : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //cammy = Camera.main;
+
+        if (!cammy)
+        {
+            cammy = Camera.main;
+        }
 
         grounded = true;
         
         StartCoroutine(CheckGround());
         
-        canFlutter = true;
+        canFlutter = false;
 
     }
 
@@ -112,7 +116,6 @@ public class PlayerMovementv2 : MonoBehaviour
         {
             Decel();
         }
-
         
 
         ApplyVelocityCutoff();        
@@ -186,6 +189,7 @@ public class PlayerMovementv2 : MonoBehaviour
             //Debug.Log("Normal Jump");
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
+            grounded = false;
         }
         else if (canFlutter && !grounded && !onWall)
         {
@@ -205,7 +209,6 @@ public class PlayerMovementv2 : MonoBehaviour
             transform.parent = null;
         }
 
-        grounded = false;
         anim.SetBool("Grounded", false);
     }
 
@@ -241,9 +244,8 @@ public class PlayerMovementv2 : MonoBehaviour
 
     public void GroundMe()
     {
-        grounded = true;       
-        canFlutter = true;
-
+        grounded = true;   
+        
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
             if (footHit.collider.gameObject.tag == "MovingPlatform")
@@ -253,6 +255,33 @@ public class PlayerMovementv2 : MonoBehaviour
 
         }
     }
+
+    //to fix bug where would double jump directly off ground
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "MovingPlatform")
+        {
+            if (!grounded)
+            {
+                StartCoroutine("DoubleJumpActivate");
+            }
+        }
+    }
+
+    IEnumerator DoubleJumpActivate()
+    {
+        yield return new WaitForSeconds(0.1f);
+        canFlutter = true;
+    }
+
+
+    //function to call when bouncing off an object (i.e. mushrooms)
+    //public void AddBounceForce(Vector3 direction, float force)
+    //{        
+    //    rb.velocity = Vector3.zero;
+    //    rb.AddForce(transform.up * force, ForceMode.Impulse);
+    //}
+    
 
     //for animator
     public void setSpeed()
@@ -270,7 +299,7 @@ public class PlayerMovementv2 : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Ground")
+        if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "MovingPlatform")
         {
             GroundMe();
             anim.SetBool("Grounded", true);
