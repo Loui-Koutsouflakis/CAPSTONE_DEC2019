@@ -45,7 +45,7 @@ public class Bounce_Up : MonoBehaviour
     {        
         if (c.gameObject.tag == "Player")
         {
-            Debug.Log("bouce");
+            Debug.Log("bounce");
             c.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             c.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * bounce, ForceMode.Impulse);
         }

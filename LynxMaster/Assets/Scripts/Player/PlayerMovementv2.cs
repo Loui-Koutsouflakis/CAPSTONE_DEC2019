@@ -15,6 +15,7 @@ public class PlayerMovementv2 : MonoBehaviour
     //raycasts
     private RaycastHit footHit;
     private RaycastHit faceHit;
+    int layerMask = 1 << 2;
 
     //vectors
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
@@ -31,9 +32,9 @@ public class PlayerMovementv2 : MonoBehaviour
 
     //public - to test balance etc.
     //for movement
-    public float walkAccel = 30;
+    float walkAccel = 45;
     public float climbAccel = 12;
-    public float walkMax = 12;
+    public float walkMax = 10;
     public float airMax = 8;
     public float rotateSpeed = 30;
     private float frictionCoeff = 0.2f;
@@ -42,11 +43,11 @@ public class PlayerMovementv2 : MonoBehaviour
     public bool onWall;
 
     //for jumps
-    public float jumpForce= 10;
+    public float jumpForce = 10;
     public float jumpMultiplier = 1.5f;
     public float fallMultiplier = 2.5f;
     public bool canFlutter;
-    public float flutterForce = 5;
+    public float flutterForce = 7;
 
     //for grapple
     bool toggle;
@@ -56,28 +57,40 @@ public class PlayerMovementv2 : MonoBehaviour
     private float moveSpeed;
     private float rotate;
     private float animRotate;
-   
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
         if (!cammy)
         {
             cammy = Camera.main;
         }
-
         grounded = true;
-        
         StartCoroutine(CheckGround());
-        
         canFlutter = false;
-
     }
 
-    
 
+    private void Update()
+    {
+ 
+        layerMask = ~layerMask;
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z), transform.forward, out faceHit, .5f, layerMask) && !grounded)
+        {
+            if (faceHit.collider.gameObject != null)
+            {
+                Debug.Log(faceHit.collider.gameObject.ToString());
+                onWall = true;
+                //StartCoroutine("Slide", 1);
+            }
+        }
+        else
+        {
+            onWall = false;
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -90,14 +103,19 @@ public class PlayerMovementv2 : MonoBehaviour
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-
         //jump
         if (Input.GetButtonDown("Jump"))
         {
-            Jump();
-            Debug.Log(jumpForce);
+            if (grounded && !onWall)
+            {
+                Jump();
+            }
+            else if (onWall && !grounded)
+            {
+                WallJump();
+            }
         }
-                     
+
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
@@ -106,7 +124,6 @@ public class PlayerMovementv2 : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
-
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
@@ -116,10 +133,7 @@ public class PlayerMovementv2 : MonoBehaviour
         {
             Decel();
         }
-        
-
-        ApplyVelocityCutoff();        
-
+        ApplyVelocityCutoff();
     }
 
     public void Movement()
@@ -134,28 +148,21 @@ public class PlayerMovementv2 : MonoBehaviour
 
         //caches the start rotation
         Vector3 currentRotation = transform.forward;
-        
+
         //rotates the direction the character is facing to the correct direction based on camera
         //need to have two functions one for short rotations and one for sharp turns with different rotate speed (high speed for sharp turns, low speed for slow turns)
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
         //calculate the rotation for animator
         rotate = Vector3.SignedAngle(currentRotation, transform.forward, transform.up);
-        
-        //if(rotate != 0)
-        //{
-        //    Debug.Log(rotate);
-        //}
-
-        //adds force to the player
         rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
 
-        if(grounded)
+        if (grounded)
         {
             Friction();
         }
     }
-    
+
     //clamps the velocity
     void ApplyVelocityCutoff()
     {
@@ -184,16 +191,18 @@ public class PlayerMovementv2 : MonoBehaviour
 
     public void Jump()
     {
+        if (!grounded)
+        {
+            StartCoroutine("DoubleJumpActivate");
+        }
         if (grounded)
         {
-            //Debug.Log("Normal Jump");
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
             grounded = false;
         }
         else if (canFlutter && !grounded && !onWall)
         {
-            //Debug.Log("Flutter Jump");
             //zero out velocity at start of flutter jump to prevent to much height
             Vector3 tempVelocity = rb.velocity;
             tempVelocity.y = 0;
@@ -203,12 +212,10 @@ public class PlayerMovementv2 : MonoBehaviour
             canFlutter = false;
             anim.SetTrigger("Jump");
         }
-
         if (transform.parent != null)
         {
             transform.parent = null;
         }
-
         anim.SetBool("Grounded", false);
     }
 
@@ -224,47 +231,33 @@ public class PlayerMovementv2 : MonoBehaviour
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
         }
     }
-    
+
     public IEnumerator CheckGround()
     {
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
-            GroundMe();
+            if (footHit.collider.gameObject != null)
+            {
+                GroundMe();
+            }
         }
         else
         {
             grounded = false;
             anim.SetBool("Grounded", false);
         }
-
         yield return new WaitForSecondsRealtime(groundCheckRate);
-
         StartCoroutine(CheckGround());
     }
 
     public void GroundMe()
     {
-        grounded = true;   
-        
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        grounded = true;
+        canFlutter = true;
+        anim.SetBool("Grounded", true);
+        if (footHit.collider.gameObject.tag == "MovingPlatform")
         {
-            if (footHit.collider.gameObject.tag == "MovingPlatform")
-            {
-                transform.parent = footHit.transform.parent;
-            }
-
-        }
-    }
-
-    //to fix bug where would double jump directly off ground
-    public void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "MovingPlatform")
-        {
-            if (!grounded)
-            {
-                StartCoroutine("DoubleJumpActivate");
-            }
+            transform.parent = footHit.transform.parent;
         }
     }
 
@@ -273,15 +266,13 @@ public class PlayerMovementv2 : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         canFlutter = true;
     }
-
-
     //function to call when bouncing off an object (i.e. mushrooms)
     //public void AddBounceForce(Vector3 direction, float force)
     //{        
     //    rb.velocity = Vector3.zero;
     //    rb.AddForce(transform.up * force, ForceMode.Impulse);
     //}
-    
+
 
     //for animator
     public void setSpeed()
@@ -296,56 +287,31 @@ public class PlayerMovementv2 : MonoBehaviour
         anim.SetFloat("Rotate", animRotate);
     }
 
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "MovingPlatform")
-        {
-            GroundMe();
-            anim.SetBool("Grounded", true);
-        }
-    }
-
-    /*
     public void WallJump()
     {
         if (onWall)
         {
-            //jumps off of wall
+            // jumps off of wall
             rb.AddForce((-transform.forward * 10) + (transform.up * 5), ForceMode.Impulse);
-            //sets player looking away from wall
-            //transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            // sets player looking away from wall
+            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
             transform.forward = -transform.forward;
         }
         if (transform.parent != null)
         {
             transform.parent = null;
         }
-
         onWall = false;
     }
 
-    public IEnumerator CheckWall()
+    IEnumerator Slide(float t)
     {
-        if (Physics.BoxCast(transform.position, halves, transform.forward, out faceHit, Quaternion.Euler(0,2*Mathf.PI,0), halves.y))
-        {
-            WallMe();
-        }
-        else
-        {
-            onWall = false;
-        }
-
-        yield return new WaitForSecondsRealtime(groundCheckRate);
-
-        StartCoroutine(CheckWall());
+        yield return new WaitForSeconds(t);
+        float drag = 0;
+        drag += 1 * Time.deltaTime;
+        rb.velocity += new Vector3(0, -drag, 0);
     }
-
-
-    public void WallMe()
-    {
-        onWall = true;
-    }
-    */
-
 }
+
+
+
