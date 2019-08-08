@@ -50,7 +50,7 @@ public class Crouch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponentInParent<Rigidbody>();
 
         grounded = true;
 

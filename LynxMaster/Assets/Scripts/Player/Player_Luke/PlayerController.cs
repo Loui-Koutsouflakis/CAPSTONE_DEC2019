@@ -1,0 +1,122 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+
+    public PlayerClass player;
+
+    [Header("STATE MACHINE NOT ANIMATION")]
+    [SerializeField]
+    Animator stateMachine;
+
+
+
+    //annoying temporary check until we slay the beast that is the grappleComponent tether bool
+    bool isTethered = false; 
+
+    private void Awake()
+    {
+        player.InitializePlayer();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CheckGround());
+    }
+
+    public void Jump()
+    {
+
+        player.GetMoveComponent().Jump();
+        stateMachine.SetTrigger("JumpTrigger");
+
+
+    }
+
+
+    public void Grapple()
+    {
+        //stupid fucking tethered
+        if(!isTethered)
+        {
+            stateMachine.SetTrigger("GrappleTrigger");
+            isTethered = true; 
+        }
+
+        player.SetMovementType("grapple");
+        player.GetGrappleComponent().Grapple();
+
+
+    }
+
+    public void DetatchGrapple()
+    {
+        player.GetGrappleComponent().DetatchGrapple();
+        stateMachine.SetTrigger("FallTrigger");
+
+        //this would be the fall state, but since we don't yet have an air controller
+        //player.SetMovementType("move");
+
+
+    }
+
+
+
+
+    #region Aleks check ground functions
+
+    private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
+    private readonly float groundCheckRate = 0.1f;
+    private RaycastHit footHit;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            GroundMe();
+            player.GetAnimator().SetBool("Grounded", true);
+            stateMachine.SetTrigger("GroundTrigger");
+
+        }
+    }
+
+    public void GroundMe()
+    {
+        player.SetGrounded(true);
+        player.SetFlutter(true);
+        player.SetMovementType("move");
+
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        {
+            if (footHit.collider.gameObject.tag == "MovingPlatform")
+            {
+                player.transform.parent = footHit.transform.parent;
+            }
+
+        }
+    }
+
+    public IEnumerator CheckGround()
+    {
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        {
+            GroundMe();
+        }
+        else
+        {
+            player.SetGrounded(false);
+            player.GetAnimator().SetBool("Grounded", false);
+
+            //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
+        }
+
+        yield return new WaitForSecondsRealtime(groundCheckRate);
+
+        StartCoroutine(CheckGround());
+    }
+
+    #endregion
+
+}
