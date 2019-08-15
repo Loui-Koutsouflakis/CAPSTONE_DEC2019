@@ -28,7 +28,7 @@ public class LevelLoader : MonoBehaviour {
         //While the level is still load do Something
         while(!operation.isDone)
         {
-            //Unity is weird with the way it records progress. this is just to give us a nice 0 to 1 float value to wok with
+            //Unity is weird with the way it records progress. this is just to give us a nice 0 to 1 float value to work with
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
            
             // this sets the progress slider to whatever the percentage of completion the operation is currently at

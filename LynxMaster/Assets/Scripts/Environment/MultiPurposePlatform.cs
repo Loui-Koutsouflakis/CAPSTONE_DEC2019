@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Mike's Scripts/MultiPurposePlatform", 17)]
-
+[ExecuteInEditMode]
 public class MultiPurposePlatform : MonoBehaviour
 {
     //Platform Types

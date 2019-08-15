@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class ObjectDistanceMeasure : MonoBehaviour
 {
+    enum ActionState { MarkArea, Measure}
+    [SerializeField]
+    ActionState state;
     [SerializeField]
     Transform object_1;
     [SerializeField]
@@ -17,7 +20,14 @@ public class ObjectDistanceMeasure : MonoBehaviour
     bool measure;
     float distance = 0;
 
-    
+    [SerializeField,Range(0,500)]
+    float sizeX = 0.0f;
+    [SerializeField, Range(0, 500)]
+    float sizeY = 0.0f;
+    [SerializeField, Range(0, 500)]
+    float sizeZ = 0.0f;
+
+    Vector3 sizeVector;
 
     private void Update()
     {
@@ -26,6 +36,10 @@ public class ObjectDistanceMeasure : MonoBehaviour
             distance = CalcDistance();
             Debug.Log("Distance = " + distance);
         }
+        if (sizeVector.x != sizeZ || sizeVector.y != sizeY || sizeVector.z != sizeZ)
+        {
+
+        }
     }
 
     float CalcDistance()
@@ -33,4 +47,28 @@ public class ObjectDistanceMeasure : MonoBehaviour
         return Vector3.Distance(object_1.position, object_2.position);
     }
 
+    private void OnDrawGizmos()
+    {
+        
+        switch (state)
+        {
+            case ActionState.MarkArea:
+                if (sizeVector.x != sizeZ || sizeVector.y != sizeY || sizeVector.z != sizeZ)
+                {
+                    sizeVector = new Vector3(sizeX, sizeY, sizeZ);
+                }
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireCube(transform.position, sizeVector);
+                break;
+
+
+            case ActionState.Measure:
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(object_1.position, object_1.position + (Vector3.up * 10));
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(object_2.position, object_2.position + (Vector3.up * 10));
+                break;
+
+        }
+    }
 }
