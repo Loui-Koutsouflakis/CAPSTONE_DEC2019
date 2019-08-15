@@ -29,7 +29,7 @@ public class PlayerGroundMovement : MonoBehaviour
     
     //public - to test balance etc.
     //for movement
-    public float walkAccel = 30;
+    public float walkAccel = 60;
     public float climbAccel = 12;
     public float walkMax = 12;
     public float airMax = 8;

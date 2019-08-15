@@ -11,10 +11,12 @@ public class TriggerBlock : MonoBehaviour
 {
     [SerializeField]
     Rigidbody rb;// Switch Rigidbody
-    [SerializeField, Range(0,50)]
+    [SerializeField, Range(0, 50)]
     float blockMass = 1.0f;// Setting For Mass of Rigidbody
     [SerializeField, Range(0, 1)]
     float deadZone = 0.5f;// Buffer Zone for Block Movement
+    [SerializeField, Range(0, 10)]
+    float triggerDepth = 1.0f;
     [SerializeField]
     MultiPurposePlatform triggerActivated;//Platform to Trigger
     [SerializeField]
@@ -34,22 +36,22 @@ public class TriggerBlock : MonoBehaviour
     void Awake()
     {
         rb = GetComponentInChildren<Rigidbody>();
-        rb.mass = blockMass;        
+        rb.mass = blockMass;
         startPosition = transform.position;
-        endPosition = startPosition + Vector3.down * .65f;
+        endPosition = startPosition + Vector3.down * triggerDepth;
         lockedPosition = endPosition + Vector3.down;
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Istriggered();
-        
+        IsTriggered();
+        IsLocked();
         AddForce();
         CurrentPosition();
 
@@ -57,8 +59,11 @@ public class TriggerBlock : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
-        if (c.gameObject.tag == "Player")
+        if (c.gameObject.tag != "Player")
         {
+            Debug.Log("Not Colliding");
+            Physics.IgnoreCollision(transform.GetComponent<BoxCollider>(), c.collider);
+
             //if (transform.position.y <= endPosition.y && !playerOnSwitch)
             //{
             //    startPosition = endPosition;
@@ -66,34 +71,49 @@ public class TriggerBlock : MonoBehaviour
             //}
             //impactVel = c.gameObject.GetComponent<Rigidbody>().mass * Physics.gravity;
         }
-        else
-        {
-            Physics.IgnoreCollision(transform.GetComponent<Collider>(), c.collider);
-
-        }
+        
     }
     private void OnTriggerEnter(Collider o)
     {
-        if(o.gameObject.tag == "Player")
+        if (o.gameObject.tag == "Player")
         {
             playerOnSwitch = true;
+            o.transform.parent = transform;
         }
     }
     private void OnTriggerExit(Collider o)
     {
         if (o.gameObject.tag == "Player")
         {
-            playerOnSwitch = false; ;
+            playerOnSwitch = false;
+            o.transform.parent = null;
+        }
+    }
+    /*
+    private void OnTriggerEnter(Collider o)
+    {
+        if (o.gameObject.tag == "Player")
+        {
+            Player.transform.parent = transform;
         }
     }
 
-    void Istriggered()
+    private void OnTriggerExit(Collider o)
     {
-        if (transform.position.y <= endPosition.y && playerOnSwitch)
+        if (o.gameObject.tag == "Player")
+        {
+            Player.transform.parent = null;
+        }
+    }
+     */
+
+    void IsTriggered()
+    {
+        if (transform.position.y <= endPosition.y)
         {
             startPosition = lockedPosition;
-            rb.drag = 5.0f;
-            rb.mass = 50.0f;
+            //rb.drag = 50.0f;
+            //rb.mass = 100.0f;
             // Add Trigger For Asociated Platform
         }
     }
@@ -102,19 +122,29 @@ public class TriggerBlock : MonoBehaviour
     {
         currentPosition = transform.position;
     }
-    
+
+    void IsLocked()
+    {
+        if (startPosition == lockedPosition)
+        {
+            rb.drag = 50.0f;
+            rb.mass = 100.0f;
+        }
+    }
+
 
     void AddForce()
     {
         //CalcUpwardForce();
         if (transform.position.y > startPosition.y + deadZone)
         {
-            rb.AddForce((rb.mass * Physics.gravity) * (startPosition - transform.position).magnitude * 0.5f);
+            Debug.Log("Pushing Down");
+            rb.AddForce((rb.mass * 9.8f) * Vector3.down, ForceMode.Acceleration);
         }
         if (transform.position.y < startPosition.y - deadZone)
         {
-            rb.AddForce(-(rb.mass * Physics.gravity) * (startPosition - transform.position).magnitude * 0.5f);
-
+            Debug.Log("Pushing Up");
+            rb.AddForce((rb.mass * -9.8f) * Vector3.up * 0.75f, ForceMode.Acceleration);
         }
     }
 

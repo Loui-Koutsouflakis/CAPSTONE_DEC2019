@@ -42,10 +42,9 @@ public class Bounce_Up : MonoBehaviour
 
 
     private void OnCollisionEnter(Collision c)
-    {        
+    {
         if (c.gameObject.tag == "Player")
         {
-            Debug.Log("bounce");
             c.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             c.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * bounce, ForceMode.Impulse);
         }
