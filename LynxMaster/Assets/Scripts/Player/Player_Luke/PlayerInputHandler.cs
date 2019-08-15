@@ -17,6 +17,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
+
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -30,6 +31,9 @@ public class PlayerInputHandler : MonoBehaviour
         //mapping the defaultControls
         JumpCommand jump = new JumpCommand();
         _AButton = SetButton(jump);
+
+        InitCrouchCommand crouch = new InitCrouchCommand();
+        _BButton = SetButton(crouch);
 
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
         _LeftBumperDown = SetButton(grap);
@@ -46,7 +50,14 @@ public class PlayerInputHandler : MonoBehaviour
             _AButton.Execute(playerController);
 
         }
+        if (Input.GetButton("RightBumper"))
+        {
+            _BButton.Execute(playerController);
+        }
+        if (Input.GetButtonUp("RightBumper"))
+        {
 
+        }
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
             _LeftBumperDown.Execute(playerController);
@@ -97,7 +108,6 @@ public class InitiateGrappleCommand : Command
     {
        playCont.Grapple();
     }
-
 }
 
 public class DeatchGrappleCommand : Command
@@ -106,5 +116,20 @@ public class DeatchGrappleCommand : Command
     {
         playCont.DetatchGrapple();
     }
+}
 
+public class InitCrouchCommand : Command
+{
+    public override void Execute(PlayerController playCont)
+    {
+        playCont.Crouch();
+    }
+}
+
+public class DeaCrouchCommand : Command
+{
+    public void Execute(PlayerClass playClass)
+    {
+        playClass.SetMovementType("move");
+    }
 }

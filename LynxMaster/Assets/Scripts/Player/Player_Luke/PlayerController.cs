@@ -82,39 +82,35 @@ public class PlayerController : MonoBehaviour
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
     }
-         
-    #region Aleks check ground functions
+    
+    //man this is alot of jumping back and forth to do something simple lol
+    public void Crouch()
+    {
+        player.SetMovementType("crouch");
+    }
+
+    #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
     private readonly float groundCheckRate = 0.1f;
     private RaycastHit footHit;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            GroundMe();
-            //reset the movement type to ground
-            player.SetMovementType("move");
-            player.GetAnimator().SetBool("Grounded", true);
-            stateMachine.SetTrigger("GroundTrigger");
-
-        }
-    }
-
     public void GroundMe()
-    {
-        player.SetGrounded(true);
-        player.SetFlutter(true);
-        player.SetMovementType("move");
-
+    {  
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
-            if (footHit.collider.gameObject.tag == "MovingPlatform")
+            if (footHit.collider.gameObject != null && player.GetMovementType() != player.crouch)
             {
-                player.transform.parent = footHit.transform.parent;
+                player.SetGrounded(true);
+                player.SetFlutter(true);
+                player.SetMovementType("move");
+                player.GetAnimator().SetBool("Grounded", true);
+                stateMachine.SetTrigger("GroundTrigger");
             }
-
+            else if (footHit.collider.gameObject.tag == "MovingPlatform")
+            {
+                transform.parent = footHit.transform.parent;
+            }
         }
     }
 

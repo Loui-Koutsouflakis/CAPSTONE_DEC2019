@@ -45,7 +45,7 @@ public class PlayerClass : MonoBehaviour
     }
 
 
-    //Alek's ground script
+    //Ground script
     public GameObject move;
     //PlayerMovementv3 moveComponent;
     PlayerGroundMovement moveComponent;
