@@ -81,7 +81,7 @@ public class PlayerMovementv2 : MonoBehaviour
         {
             if (faceHit.collider.gameObject != null)
             {
-                Debug.Log(faceHit.collider.gameObject.ToString());
+                //Debug.Log(faceHit.collider.gameObject.ToString());
                 onWall = true;
                 //StartCoroutine("Slide", 1);
             }

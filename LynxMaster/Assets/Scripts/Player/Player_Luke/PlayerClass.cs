@@ -1,4 +1,5 @@
 ﻿//Luke Fentress 
+//edited 19-08-09 by AT - updated to include air component
 
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class PlayerClass : MonoBehaviour
     #region player movement components
 
     //Grapple
-    GameObject grapple; 
+    public GameObject grapple; 
     GrappleComponent grappleComponent;
     public GrappleComponent GetGrappleComponent()
     {
@@ -36,7 +37,7 @@ public class PlayerClass : MonoBehaviour
     }
 
     //Crouch
-    GameObject crouch; 
+    public GameObject crouch; 
     Crouch crouchComponent;
     public Crouch GetCrouchComponent()
     {
@@ -45,14 +46,24 @@ public class PlayerClass : MonoBehaviour
 
 
     //Alek's ground script
-    GameObject move;
-    PlayerMovementv3 moveComponent;
-    public PlayerMovementv3 GetMoveComponent()
+    public GameObject move;
+    //PlayerMovementv3 moveComponent;
+    PlayerGroundMovement moveComponent;
+    //public PlayerMovementv3 GetMoveComponent()
+    public PlayerGroundMovement GetMoveComponent()
     {
         return moveComponent;
     }
 
-    GameObject[] playerMovementArray = new GameObject[3];
+    //air script
+    public GameObject air;
+    PlayerAirMovement airComponent;
+    public PlayerAirMovement GetAirComponent()
+    {
+        return airComponent;
+    }
+
+    GameObject[] playerMovementArray = new GameObject[4];
     #endregion
 
 
@@ -168,6 +179,19 @@ public class PlayerClass : MonoBehaviour
         }
     }
 
+    public GameObject GetMovementType()
+    {
+        for (int i = 0; i < playerMovementArray.Length; i++)
+        {
+            if(playerMovementArray[i].activeSelf)
+            {
+                return playerMovementArray[i];
+            }
+        }
+
+        return null;
+    }
+
     //handy way to make sure there's nothing wrong
     public void InitializePlayer()
     {
@@ -180,9 +204,11 @@ public class PlayerClass : MonoBehaviour
             rb = this.gameObject.AddComponent<Rigidbody>();
         }
 
+        //set up ground component
         try
         {
-            moveComponent = move.GetComponent<PlayerMovementv3>();
+            //moveComponent = move.GetComponent<PlayerMovementv3>();
+            moveComponent = move.GetComponent<PlayerGroundMovement>();
         }
         catch
         {
@@ -190,14 +216,16 @@ public class PlayerClass : MonoBehaviour
             go.transform.parent = transform;
             go.transform.position = transform.position;
             move = go;
-            move.AddComponent<PlayerMovementv3>();
-            moveComponent = move.GetComponent<PlayerMovementv3>();
+            //move.AddComponent<PlayerMovementv3>();
+            move.AddComponent<PlayerGroundMovement>();
+            //moveComponent = move.GetComponent<PlayerMovementv3>();
+            moveComponent = move.GetComponent<PlayerGroundMovement>();
             move.name = "move";
-
         }
 
         playerMovementArray[0] = move;
 
+        //set up grapple component
         try
         {
             grappleComponent = grapple.GetComponent<GrappleComponent>();
@@ -217,6 +245,7 @@ public class PlayerClass : MonoBehaviour
         grappleComponent.Initialize();
         playerMovementArray[1] = grapple;
 
+        //set up crouch component
         try
         {
             crouchComponent = crouch.GetComponent<Crouch>();
@@ -230,11 +259,29 @@ public class PlayerClass : MonoBehaviour
             crouch.AddComponent<Crouch>();
             crouchComponent = crouch.GetComponent<Crouch>();
             crouch.name = "crouch";
-
-
         }
 
         playerMovementArray[2] = crouch;
+
+        //set up air component
+        try
+        {
+            airComponent = air.GetComponent<PlayerAirMovement>();
+        }
+        catch
+        {
+            GameObject go = new GameObject();
+            go.transform.parent = transform;
+            go.transform.position = transform.position;
+            air = go;
+            air.AddComponent<PlayerAirMovement>();
+            airComponent = air.GetComponent<PlayerAirMovement>();
+            air.name = "air";
+        }
+
+        playerMovementArray[3] = air;
+
+
 
         for (int i = 0; i < playerMovementArray.Length; i++)
         {

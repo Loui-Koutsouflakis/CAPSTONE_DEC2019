@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//created by Luke Fentress - controller script to handle player movement types
+//edited by AT - 19-08-09 - added air controller functionallity
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,13 +31,35 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-
-        player.GetMoveComponent().Jump();
-        stateMachine.SetTrigger("JumpTrigger");
-
-
+        //player.GetMoveComponent().Jump();
+        //currently using if statement for this
+        //however should set up a "currentMovementComponet" then just call player.currentMovementComponent.Jump()
+        
+        if (player.GetMovementType() == player.move)
+        {
+            player.GetMoveComponent().Jump();
+            //set movement type to air
+            player.SetMovementType("air");
+            //sets grounded to false outside of 
+            player.SetGrounded(false);
+            stateMachine.SetTrigger("JumpTrigger");
+        }
+        else if(player.GetMovementType() == player.air)
+        {
+            player.GetAirComponent().Jump();
+        }
+        else if(player.GetMovementType() == player.crouch)
+        {
+            player.GetCrouchComponent().Jump();
+            player.SetMovementType("air");
+            player.SetGrounded(false);
+        }
+        else if(player.GetMovementType() == player.grapple)
+        {
+            //player.GetGrappleComponent().Jump();
+        }
+        
     }
-
 
     public void Grapple()
     {
@@ -47,8 +72,6 @@ public class PlayerController : MonoBehaviour
 
         player.SetMovementType("grapple");
         player.GetGrappleComponent().Grapple();
-
-
     }
 
     public void DetatchGrapple()
@@ -58,13 +81,8 @@ public class PlayerController : MonoBehaviour
 
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
-
-
     }
-
-
-
-
+         
     #region Aleks check ground functions
 
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
@@ -76,6 +94,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             GroundMe();
+            //reset the movement type to ground
+            player.SetMovementType("move");
             player.GetAnimator().SetBool("Grounded", true);
             stateMachine.SetTrigger("GroundTrigger");
 
