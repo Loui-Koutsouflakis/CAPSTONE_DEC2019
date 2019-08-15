@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Mike's Scripts/Kickable_Object", 11)]
 public class Kickable_Object : MonoBehaviour
 {
     Rigidbody rb;
@@ -49,14 +50,15 @@ public class Kickable_Object : MonoBehaviour
     {
         if(o.gameObject.tag == "Player")
         {
-            if(Vector3.Angle(o.transform.forward, transform.forward) >= 90)
-            {
-                rb.AddForce(-(o.transform.forward * forwardForce) + -(o.transform.up * upwardForce), ForceMode.Impulse);
-            }
-            else
-            {
-                rb.AddForce((o.transform.forward * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
-            }            
+            //if(Vector3.Angle(o.transform.forward, transform.forward) >= 90)
+            //{
+            Vector3 kickVector = (o.transform.position - transform.position).normalized;
+                rb.AddForce((kickVector * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
+            //}
+            //else
+            //{
+            //    rb.AddForce((o.transform.forward * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
+            //}            
         }
     }
 

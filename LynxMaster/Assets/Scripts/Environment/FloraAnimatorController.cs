@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//[ExecuteInEditMode]
+[AddComponentMenu("Mike's Scripts/FloraAnimatorController", 12)]
+
 public class FloraAnimatorController : MonoBehaviour
 {
     [SerializeField]

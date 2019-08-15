@@ -4,16 +4,17 @@ using UnityEngine;
 
 
 //updated 05/28- LF
+//updated 08/06
 
 public class GrappleComponent : MonoBehaviour
 {
 
     [Range(45, 90)]
 
-    private Rigidbody body;
+    public Rigidbody rb;
     public Transform tetherPoint;
     public Transform attachedTetherPoint; 
-    public bool tether;
+    public bool tether = false;
     public float maxSwingSpeed;
     public float forwardSpeed = 100;
     public float sidewaysSpeed = 8;
@@ -22,26 +23,34 @@ public class GrappleComponent : MonoBehaviour
     public float boost = 20;
     private bool reachedZero = false;
 
-
     public bool isStaring;
 
     [Range(20, 90)]
     public float maxAngle;
 
-    private GrappleComponent grapple;
-    private PlayerMovementv2 normalMove;
+
+    PlayerClass player;
 
     // Start is called before the first frame update
 
-    private void Awake()
+    public void Initialize()
     {
-        body = GetComponent<Rigidbody>();
-        tether = false;
+        player = GetComponentInParent<PlayerClass>();
+        rb = player.rb;
+    }
 
-        normalMove = GetComponent<PlayerMovementv2>();
-        grapple = GetComponent<GrappleComponent>();
+    public void Grapple()
+    {
+        if (tetherPoint == null)
+        {
+            Debug.Log("No tetherpoint");
+            return;
+        }
 
-        singleton = this;
+        tether = true;
+        attachedTetherPoint = tetherPoint;
+
+
     }
 
 
@@ -49,36 +58,23 @@ public class GrappleComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if there is a tether point
-        if (tetherPoint != null)
-        {
-            if (Input.GetButtonDown("LeftBumper"))//t for testing
-            {
+        if (!tether)
+            return;
 
-                tether = true;
-                attachedTetherPoint = tetherPoint;
-
-            }
-
-        }
-
-
-        if (tether)
-        {
            
-            body.mass = 5;
+            rb.mass = 100;
             Vector3 radial = (attachedTetherPoint.position - transform.position).normalized;
-            Vector3 radialVelocityComponent = Vector3.Dot(body.velocity, radial) * radial;
-            body.velocity -= radialVelocityComponent;
-            body.velocity = body.velocity.normalized * Mathf.Min(body.velocity.magnitude, maxSwingSpeed);
+            Vector3 radialVelocityComponent = Vector3.Dot(rb.velocity, radial) * radial;
+            rb.velocity -= radialVelocityComponent;
+            rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSwingSpeed);
 
             Vector3 tetherDirection = attachedTetherPoint.position - transform.position;
             float tetherLength = tetherDirection.magnitude;
             float x = Vector3.Dot(tetherDirection.normalized, Vector3.up);
             float y = (tetherDirection.normalized - x * Vector3.up).magnitude;
             float theta = Mathf.Atan2(y, x);
-            float tension = body.mass * 9.8f * Mathf.Cos(theta) + body.mass * Mathf.Pow(body.velocity.magnitude, 2) / tetherLength;
-            body.AddForce(tension * tetherDirection.normalized);
+            float tension = rb.mass * 9.8f * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
+            rb.AddForce(tension * tetherDirection.normalized);
             Debug.DrawLine(transform.position, attachedTetherPoint.position);
             float thetaDegrees = theta * Mathf.Rad2Deg;
             //Debug.Log(thetaDegrees);
@@ -92,13 +88,13 @@ public class GrappleComponent : MonoBehaviour
 
             if (reachedZero)
             {
-                body.AddForce(body.velocity.normalized * boost, ForceMode.Impulse);
+                rb.AddForce(rb.velocity.normalized * boost, ForceMode.Impulse);
 
                 if (thetaDegrees > maxAngle)
                 {
-                    body.mass = 1;
-                    body.AddForce(body.velocity.normalized * launchSpeed, ForceMode.Impulse);
-                    normalMove.enabled = true;
+                    rb.mass = 1;
+                    rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
+                    //normalMove.enabled = true;
                     tether = false;
                     attachedTetherPoint = null;
                     reachedZero = false;
@@ -108,25 +104,21 @@ public class GrappleComponent : MonoBehaviour
 
 
 
-        }
+   
+    }
 
+    public void DetatchGrapple()
+    {
+        rb.mass = 1;
+        rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
+        tether = false;
 
+        if (tetherPoint == attachedTetherPoint && isStaring == false)
+            tetherPoint = null;
 
-        if (Input.GetButtonUp("LeftBumper"))
-        {
-            body.mass = 1;
-            body.AddForce(body.velocity.normalized * launchSpeed, ForceMode.Impulse);
-            normalMove.enabled = true;
-            tether = false;
+        attachedTetherPoint = null;
 
-            if (tetherPoint == attachedTetherPoint && isStaring == false)
-                tetherPoint = null;
-
-            attachedTetherPoint = null; 
-
-            reachedZero = false;
-
-        }
+        reachedZero = false;
     }
 
     public Transform setTetherPoint(Transform t)
@@ -147,15 +139,14 @@ public class GrappleComponent : MonoBehaviour
 
 
 
-    private void OnDisable()
-    {
-        tether = false;
-        body.mass = 1;
-    }
+    //private void OnDisable()
+    //{
+    //    tether = false;
+    //    rb.mass = 1;
+    //}
 
 
 
-    public static GrappleComponent singleton;
 
 }
 
