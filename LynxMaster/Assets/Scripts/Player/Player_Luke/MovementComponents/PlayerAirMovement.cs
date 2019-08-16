@@ -36,7 +36,8 @@ public class PlayerAirMovement : MonoBehaviour
     private float vertical;
     private float airForwardSpeed = 10f;
     private float airSideSpeed = 5f;
-    private float airMax = 12f;
+    //need high airMax to allow long jumo
+    private float airMax = 50f;
     private float rotateSpeed = 10f;
 
     private bool deadJoy;
@@ -109,10 +110,11 @@ public class PlayerAirMovement : MonoBehaviour
 
         //rotates the direction the character is facing to the correct direction based on camera
         //air script is different than the ground movement, as the character moves slower in the air and can shift from side to side
-        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+        //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
         
         //adds force to the player
-        rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        rb.AddForce(transform.forward *vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
 
     }
 
@@ -137,7 +139,7 @@ public class PlayerAirMovement : MonoBehaviour
             rb.velocity = tempVelocity;
 
             rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
-            canFlutter = false;
+            player.SetFlutter(false);
         }
         else if(onWall)
         {

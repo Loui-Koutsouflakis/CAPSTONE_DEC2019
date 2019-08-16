@@ -51,9 +51,8 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             _AButton.Execute(playerController);
-
         }
-        if (Input.GetButton("RightBumper"))
+        if (Input.GetButtonDown("RightBumper"))
         {
             _BButton.Execute(playerController);
         }
@@ -64,7 +63,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
             _LeftBumperDown.Execute(playerController);
-
         }
         if (Input.GetButtonUp("LeftBumper"))
         {
@@ -123,6 +121,7 @@ public class InitCrouchCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Crouch();
+        
     }
 }
 

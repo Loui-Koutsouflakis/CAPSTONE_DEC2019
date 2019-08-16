@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
 
 
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
-    bool isTethered = false; 
+    bool isTethered = false;
+    bool isCrouching = false;
 
     private void Awake()
     {
@@ -87,11 +88,13 @@ public class PlayerController : MonoBehaviour
     public void Crouch()
     {
         player.SetMovementType("crouch");
+        isCrouching = true;
     }
 
     public void DeCrouch()
     {
         player.SetMovementType("move");
+        isCrouching = false;
     }
     #region check ground functions
 
@@ -103,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {  
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
-            if (footHit.collider.gameObject != null && player.GetMovementType() != player.crouch)
+            if (footHit.collider.gameObject != null && !isCrouching)
             {
                 player.SetGrounded(true);
                 player.SetFlutter(true);
@@ -112,7 +115,7 @@ public class PlayerController : MonoBehaviour
                 stateMachine.SetTrigger("GroundTrigger");
                 
             }
-            else if (footHit.collider.gameObject != null && player.GetMovementType() == player.crouch)
+            else if (footHit.collider.gameObject != null && isCrouching)
             {
                 player.SetGrounded(true);
                 player.SetFlutter(true);
@@ -136,7 +139,8 @@ public class PlayerController : MonoBehaviour
         {
             player.SetGrounded(false);
             player.GetAnimator().SetBool("Grounded", false);
-
+            Debug.Log("not on ground");
+            player.SetMovementType("air");
             //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
         }
 
@@ -144,6 +148,8 @@ public class PlayerController : MonoBehaviour
 
         StartCoroutine(CheckGround());
     }
+
+
 
     #endregion
 
