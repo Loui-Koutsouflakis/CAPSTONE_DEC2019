@@ -110,6 +110,14 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType("move");
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
+                
+            }
+            else if (footHit.collider.gameObject != null && player.GetMovementType() == player.crouch)
+            {
+                player.SetGrounded(true);
+                player.SetFlutter(true);
+                player.SetMovementType("crouch");
+                player.GetAnimator().SetBool("Crouching", true);
             }
             else if (footHit.collider.gameObject.tag == "MovingPlatform")
             {
