@@ -89,6 +89,10 @@ public class PlayerController : MonoBehaviour
         player.SetMovementType("crouch");
     }
 
+    public void DeCrouch()
+    {
+        player.SetMovementType("move");
+    }
     #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
@@ -106,6 +110,14 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType("move");
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
+                
+            }
+            else if (footHit.collider.gameObject != null && player.GetMovementType() == player.crouch)
+            {
+                player.SetGrounded(true);
+                player.SetFlutter(true);
+                player.SetMovementType("crouch");
+                player.GetAnimator().SetBool("Crouching", true);
             }
             else if (footHit.collider.gameObject.tag == "MovingPlatform")
             {
