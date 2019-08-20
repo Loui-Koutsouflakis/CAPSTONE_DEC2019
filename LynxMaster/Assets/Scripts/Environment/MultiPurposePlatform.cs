@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿//Written by Mike Elkin 07/10/2019
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Mike's Scripts/MultiPurposePlatform", 17)]
+[ExecuteInEditMode]
 public class MultiPurposePlatform : MonoBehaviour
 {
     //Platform Types
@@ -10,29 +13,45 @@ public class MultiPurposePlatform : MonoBehaviour
     PlatformType type;
 
     [SerializeField, Header("Enable Live Editing")]
-    bool liveEdit = false;
-    
+    bool liveEdit = false;// Toggles Ability to Edit Variables While Engine Is Running
+    [SerializeField, Header("Platform Wait Time"), Range(0,5)]
+    float movDelay = 0;
     // Player Reference
     GameObject Player;// Used For Attaching To Platform
     
     // Target Position Variables
-    [Range(-10, 10), SerializeField, Header("End Position / Rotation Point")]
+    [Range(-100, 100), SerializeField, Header("End Position / Rotation Point")]
     float xDistance = 0.0f;// Desired Position X Mod Variable
 
-    [Range(-10, 10), SerializeField]
+    [Range(-100, 100), SerializeField]
     float yDistance = 0.0f;// Desired Position Y Mod Variable
 
-    [Range(-10, 10), SerializeField]
+    [Range(-100, 100), SerializeField]
     float zDistance = 0.0f;// Desired Position Z Mod Variable
 
     [SerializeField, Header("Linear or Radial Movement Repeatable") ]
     bool repeatable = false;
-   
+
+    [SerializeField, Range(1, 4), Header("Slerp Direction Selection")]
+    int slerpDirection = 1;
+
+    [SerializeField, Range(1, 4), Header("Spin Direction")]
+    int axisSpinDirection = 1;
+
+    [SerializeField, Range(1, 4), Header("Rotate Around Direction")]
+    int rotateAroundDirection = 1;
+
     // Movement variables   
     Vector3 startPosition;//Return Point for linear movement
     Vector3 desiredPosition;//Final Destination for linear movement
-    Vector3 target;//Target Destination for linear movement    
-    float startTime = 0.0f;// used for movement timing
+    Vector3 target;//Target Destination for linear movement 
+    Vector3 desiredAxis;// Holds Chosen Axis Of Spin
+    Vector3 desiredAxisAround;
+    float numeratorOfMovement = 0.0f;// Numerator of LERP & SLERP Movement
+    [SerializeField, Range(1, 1000)]
+    float denominatorOfMovement = 1000.0f;// Denominator of LERP & SLERP Movement
+    bool goingForward = true;// Movement Direction Bool
+
     
     //Radial Movement Variables
     Vector3 centerPoint;// Point Between Start Position and Desrired Position
@@ -63,16 +82,15 @@ public class MultiPurposePlatform : MonoBehaviour
     }
     private void OnTriggerEnter(Collider o)
     {
-        if (o.gameObject == Player)
+        if (o.gameObject.tag == "Player")
         {
             Player.transform.parent = transform;
         }
-
     }
 
     private void OnTriggerExit(Collider o)
     {
-        if (o.gameObject == Player)
+        if (o.gameObject.tag == "Player")
         {
             Player.transform.parent = null;
         }
@@ -100,39 +118,135 @@ public class MultiPurposePlatform : MonoBehaviour
             SingleRadialMovement();
         }
     }
-    void GetCenter(Vector3 direction)
+    void GetCenter()
     {
-        centerPoint = (startPosition + desiredPosition) * .5f;
-        centerPoint -= direction;
-        startRelativeToCenter = startPosition - centerPoint;
-        desiredRelativeToCenter = desiredPosition - centerPoint;
+        switch (slerpDirection)
+        {
+            case 1:
+                centerPoint = (startPosition + desiredPosition) * .5f;
+                centerPoint -= Vector3.up;
+                startRelativeToCenter = startPosition - centerPoint;
+                desiredRelativeToCenter = desiredPosition - centerPoint;
+
+                break;
+            case 2:
+                centerPoint = (startPosition + desiredPosition) * .5f;
+                centerPoint -= Vector3.right;
+                startRelativeToCenter = startPosition - centerPoint;
+                desiredRelativeToCenter = desiredPosition - centerPoint;
+                break;
+            case 3:
+                centerPoint = (startPosition + desiredPosition) * .5f;
+                centerPoint -= Vector3.down;
+                startRelativeToCenter = startPosition - centerPoint;
+                desiredRelativeToCenter = desiredPosition - centerPoint;
+                break;
+            case 4:
+                centerPoint = (startPosition + desiredPosition) * .5f;
+                centerPoint -= Vector3.left;
+                startRelativeToCenter = startPosition - centerPoint;
+                desiredRelativeToCenter = desiredPosition - centerPoint;
+                break;
+
+        }
     }
     void SingleRadialMovement()
     {
-        float fractionOfTravelComplete = (Time.time - startTime);
-        transform.position = Vector3.Slerp(startRelativeToCenter, desiredRelativeToCenter, fractionOfTravelComplete);
-        transform.position += centerPoint;
+        if (numeratorOfMovement <= denominatorOfMovement)
+        {
+            transform.position = Vector3.Slerp(startRelativeToCenter, desiredRelativeToCenter, numeratorOfMovement / denominatorOfMovement);
+            transform.position += centerPoint;
+            numeratorOfMovement++;
+        }
     }
     void RepeatableRadialMovement()
     {
-        float fractionOfTravelComplete = Mathf.PingPong(Time.time - startTime, 1);
-        transform.position = Vector3.Slerp(startRelativeToCenter, desiredRelativeToCenter, fractionOfTravelComplete);
-        transform.position += centerPoint;
+        if (numeratorOfMovement <= denominatorOfMovement && goingForward)
+        {
+            transform.position = Vector3.Slerp(startRelativeToCenter, desiredRelativeToCenter, numeratorOfMovement / denominatorOfMovement);
+            transform.position += centerPoint;
+            numeratorOfMovement++;
+            if(numeratorOfMovement > denominatorOfMovement)
+            {
+                StartCoroutine(WaitForMovement(movDelay));                                
+            }
+        }
+        if (numeratorOfMovement >= 0 && !goingForward)
+        {
+            transform.position = Vector3.Slerp(startRelativeToCenter, desiredRelativeToCenter, numeratorOfMovement / denominatorOfMovement);
+            transform.position += centerPoint;
+            numeratorOfMovement--;
+            if (numeratorOfMovement < 0)
+            {
+                StartCoroutine(WaitForMovement(movDelay));                                
+            }
+        }
     }
     void SingleLinearMovement()
     {
-        float fractionOfTravelComplete = (Time.time - startTime);
-        transform.position = Vector3.Lerp(startPosition, desiredPosition, fractionOfTravelComplete);
+        if (numeratorOfMovement <= denominatorOfMovement)
+        {
+            transform.position = Vector3.Lerp(startPosition, desiredPosition, numeratorOfMovement / denominatorOfMovement);
+            numeratorOfMovement++;
+        }
+
     }
     void RepeatableLinearMovement()
     {
-        float fractionOfTravelComplete = Mathf.PingPong((Time.time - startTime), 1);
-        transform.position = Vector3.Lerp(startPosition, desiredPosition, fractionOfTravelComplete);
+        if (numeratorOfMovement <= denominatorOfMovement && goingForward)
+        {
+            transform.position = Vector3.Lerp(startPosition, desiredPosition, numeratorOfMovement / denominatorOfMovement);
+            numeratorOfMovement++;
+            if(numeratorOfMovement > denominatorOfMovement)
+            {
+                StartCoroutine(WaitForMovement(movDelay));                                
+            }
+        }
+        if (numeratorOfMovement >= 0 && !goingForward)
+        {
+            transform.position = Vector3.Lerp(startPosition, desiredPosition, numeratorOfMovement / denominatorOfMovement);
+            numeratorOfMovement--;
+            if (numeratorOfMovement < 0)
+            {
+                StartCoroutine(WaitForMovement(movDelay));                                
+            }
+        }
     }
     void SpinPlatform()
     {
-        transform.Rotate(Vector3.up, 5.0f * Time.deltaTime * speedAroundOwnAxis);
-        transform.RotateAround(desiredPosition, Vector3.up, 5.0f * Time.deltaTime * speedAroundDesiredPosition);
+        switch(axisSpinDirection)
+        {
+            case 1:
+                desiredAxis = Vector3.up;
+                break;
+            case 2:
+                desiredAxis = Vector3.left;
+                break;
+            case 3:
+                desiredAxis = Vector3.down;
+                break;
+            case 4:
+                desiredAxis = Vector3.right;
+                break;
+        }
+        switch(rotateAroundDirection)
+        {
+            case 1:
+                desiredAxisAround = Vector3.up;
+                break;
+            case 2:
+                desiredAxisAround = Vector3.left;
+                break;
+            case 3:
+                desiredAxisAround = Vector3.down;
+                break;
+            case 4:
+                desiredAxisAround = Vector3.right;
+                break;
+
+        }
+        transform.Rotate(desiredAxis, 5.0f * Time.deltaTime * speedAroundOwnAxis);
+        transform.RotateAround(desiredPosition, desiredAxisAround, 5.0f * Time.deltaTime * speedAroundDesiredPosition);
     }
     void ResetPosition()
     {
@@ -140,15 +254,18 @@ public class MultiPurposePlatform : MonoBehaviour
         {
             case PlatformType.Linear:                               
                 desiredPosition.Set(transform.position.x + xDistance, transform.position.y + yDistance, transform.position.z + zDistance);
-                transform.position = startPosition;              
+                transform.position = startPosition;
+                numeratorOfMovement = 0.0f;
                 break;
             case PlatformType.Radial:                              
                 desiredPosition.Set(transform.position.x + xDistance, transform.position.y + yDistance, transform.position.z + zDistance);
-                transform.position = startPosition;              
+                transform.position = startPosition;
+                numeratorOfMovement = 0.0f;
                 break;
             case PlatformType.Spinning:
                 desiredPosition.Set(startPosition.x + xDistance, startPosition.y + yDistance, startPosition.z + zDistance);
                 transform.position = startPosition;
+                numeratorOfMovement = 0.0f;
                 break;
         }
     }
@@ -160,7 +277,7 @@ public class MultiPurposePlatform : MonoBehaviour
                 LinearMovement();
                 break;
             case PlatformType.Radial:                
-                GetCenter(Vector3.up);
+                GetCenter();
                 MoveWithRadius();
                 break;
             case PlatformType.Spinning:
@@ -175,13 +292,15 @@ public class MultiPurposePlatform : MonoBehaviour
         desiredPosition.y = yDistance + transform.position.y;
         desiredPosition.z = zDistance + transform.position.z;
         startPosition = transform.position;
-        startTime = Time.time;
+        numeratorOfMovement = 0.0f;
+        goingForward = true;
     }
-    public void SetObjectMesh()
+    IEnumerator WaitForMovement(float waitTime)
     {
-        // To Be Written
+        yield return new WaitForSecondsRealtime(waitTime);
+        goingForward = !goingForward;
+        StopCoroutine(WaitForMovement(movDelay));
     }
-
     void OnDrawGizmosSelected()
     {
         switch(type)
@@ -196,7 +315,7 @@ public class MultiPurposePlatform : MonoBehaviour
                 break;
             case PlatformType.Spinning:
                 Gizmos.color = Color.green;
-                Gizmos.DrawSphere(desiredPosition, .3f);
+                Gizmos.DrawSphere(desiredPosition, .5f);
                 break;
         }        
     }

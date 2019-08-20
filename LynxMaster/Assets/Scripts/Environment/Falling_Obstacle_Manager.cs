@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//[ExecuteInEditMode]
+[AddComponentMenu("Mike's Scripts/Falling_Obstacle_Manager",13)]
+
 public class Falling_Obstacle_Manager : MonoBehaviour
 {
     [SerializeField]

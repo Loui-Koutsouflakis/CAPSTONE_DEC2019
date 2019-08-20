@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+//[ExecuteInEditMode]
+[AddComponentMenu("Mike's Scripts/Bounce_Up",3)]
 public class Bounce_Up : MonoBehaviour
 {
-    [SerializeField, Range(1, 30)]
+    [SerializeField, Range(1, 300)]
     float bounceBoost = 1.0f;
+    [SerializeField, Range(1, 10)]
+    float bounce = 1.0f;
     [SerializeField]
     GameObject playerRef;
 
@@ -37,10 +43,23 @@ public class Bounce_Up : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
-        if(c.gameObject.tag == "Player")
+        if (c.gameObject.tag == "Player")
+        {
+            c.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            c.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * bounce, ForceMode.Impulse);
+        }
+        if(c.gameObject.tag == "Player" && Input.GetButton("Jump"))
         {
             c.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             c.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * bounceBoost, ForceMode.Impulse);
         }
     }
+    //private void OnTriggerEnter(Collider o)
+    //{
+    //    if (o.gameObject.tag == "Player" && Input.GetButton("Jump"))
+    //    {
+    //        playerRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    //        playerRef.GetComponent<Rigidbody>().AddForce((playerRef.transform.position - transform.position).normalized * bounceBoost, ForceMode.Force);
+    //    }
+    //}
 }
