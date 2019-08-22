@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             player.SetGrounded(false);
             player.GetAnimator().SetBool("Grounded", false);
-            Debug.Log("not on ground");
+            //Debug.Log("not on ground");
             player.SetMovementType("air");
             //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
         }

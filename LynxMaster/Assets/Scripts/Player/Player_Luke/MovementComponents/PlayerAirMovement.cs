@@ -36,7 +36,7 @@ public class PlayerAirMovement : MonoBehaviour
     private float vertical;
     private float airForwardSpeed = 10f;
     private float airSideSpeed = 5f;
-    //need high airMax to allow long jumo
+    //need high airMax to allow long jump
     private float airMax = 50f;
     private float rotateSpeed = 10f;
 
@@ -44,6 +44,9 @@ public class PlayerAirMovement : MonoBehaviour
     private readonly float deadZone = 0.028f;
     private readonly float decelFactor = 0.14f;
     private readonly float velocityDivider = 1.2f;
+
+
+    private bool wallDeadZone;
 
 
     //rayCasts
@@ -58,7 +61,20 @@ public class PlayerAirMovement : MonoBehaviour
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
+
     }
+
+    private void OnEnable()
+    {
+        StartCoroutine(WallWait());
+        wallDeadZone = false;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -91,7 +107,10 @@ public class PlayerAirMovement : MonoBehaviour
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
-            AirMovement();
+            if (!wallDeadZone)
+            {
+                AirMovement();
+            }
         }       
         
         ApplyVelocityCutoff();
@@ -145,16 +164,14 @@ public class PlayerAirMovement : MonoBehaviour
         {
             
             // jumps off of wall
-            rb.AddForce((-transform.forward * 10) + (transform.up * 5), ForceMode.Impulse);
+            rb.AddForce((-transform.forward * 7) + (transform.up * 5), ForceMode.Impulse);
             // sets player looking away from wall
-            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-            transform.forward = -transform.forward;
-            
-            if (transform.parent != null)
-            {
-                transform.parent = null;
-            }
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            player.transform.forward = -transform.forward;
+                        
             onWall = false;
+            wallDeadZone = true;
+            StartCoroutine(WallDeadZone());
         }
 
         if (player.transform.parent != null)
@@ -172,31 +189,50 @@ public class PlayerAirMovement : MonoBehaviour
         Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
         Vector3 topRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        //euler currently checks all around player would need to change if only want it in the front
+        //euler in box cast currently checks all around player would need to change if only want it in the front
         //distance checks slighly in front of player, may want ot change depending on play testing
-        bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        //bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        //if (topOfHead)
+        //{
+        //    Debug.Log("head hit");
+        //}
 
         //toe  raycast
         Vector3 toeRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.5f * transform.localScale.y + 0.1f, transform.position.z);
         Vector3 toeRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        //bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        //if (toeCast)
+        //{
+        //    Debug.Log("mid hit");
+        //}
 
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 midRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        bool midCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        //if (midCast)
+        //{
+        //    Debug.Log("toe hit");
+        //}
 
-        if (toeCast && midCast)
+        if (toeCast && midCast && topOfHead)
         {
             onWall = true;
         }
-        else if (toeCast && !midCast)
+        else if (toeCast && !midCast && !topOfHead)
         {
             //call function to move player up on top of platform
         }
-        else if (!toeCast && !topOfHead)
+        else if (toeCast && midCast && !topOfHead)
+        {
+            //ledge grab if we have it
+        }
+        else
         {
             onWall = false;
         }
@@ -204,6 +240,18 @@ public class PlayerAirMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(wallCheckRate);
 
         StartCoroutine(CheckWall());
+    }
+
+    IEnumerator WallWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(CheckWall());
+    }
+
+    IEnumerator WallDeadZone()
+    {
+        yield return new WaitForSeconds(0.5f);
+        wallDeadZone = false;
     }
 
 }
