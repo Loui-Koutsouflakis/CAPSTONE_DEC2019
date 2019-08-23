@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
         isCrouching = false;
         player.SetCrouching(isCrouching);
     }
+
     #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);

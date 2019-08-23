@@ -14,7 +14,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public Command _AButton = new Command();
     public Command _BButton = new Command();
-    public Command _BButtonUp = new Command();
+
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
 
@@ -35,9 +35,6 @@ public class PlayerInputHandler : MonoBehaviour
         InitCrouchCommand crouch = new InitCrouchCommand();
         _BButton = SetButton(crouch);
 
-        DeCrouchCommand DeaCrouchCommand = new DeCrouchCommand();
-        _BButtonUp = SetButton(DeaCrouchCommand);
-
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
         _LeftBumperDown = SetButton(grap);
 
@@ -56,17 +53,20 @@ public class PlayerInputHandler : MonoBehaviour
         {
             _BButton.Execute(playerController);
         }
-        if (Input.GetButtonUp("RightBumper"))//this is temporary, can't get the left trigger working
+        if (Input.GetButtonUp("RightBumper"))
         {
-            _BButtonUp.Execute(playerController);
+
         }
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
             _LeftBumperDown.Execute(playerController);
         }
+
+
         if (Input.GetButtonUp("LeftBumper"))
         {
             _LeftBumperUp.Execute(playerController);
+
         }
     }
 
@@ -125,10 +125,10 @@ public class InitCrouchCommand : Command
     }
 }
 
-public class DeCrouchCommand : Command
+public class DeaCrouchCommand : Command
 {
-    public override void Execute(PlayerController playCont)
+    public void Execute(PlayerClass playClass)
     {
-        playCont.DeCrouch();
+        playClass.SetMovementType("move");
     }
 }
