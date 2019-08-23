@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Mike's Scripts/MultiPurposePlatform", 17)]
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class MultiPurposePlatform : MonoBehaviour
 {
     //Platform Types
@@ -48,7 +48,7 @@ public class MultiPurposePlatform : MonoBehaviour
     Vector3 desiredAxis;// Holds Chosen Axis Of Spin
     Vector3 desiredAxisAround;
     float numeratorOfMovement = 0.0f;// Numerator of LERP & SLERP Movement
-    [SerializeField, Range(1, 1000)]
+    [SerializeField, Range(1, 1000), Header("Linear & Radial Move Mod")]
     float denominatorOfMovement = 1000.0f;// Denominator of LERP & SLERP Movement
     bool goingForward = true;// Movement Direction Bool
 

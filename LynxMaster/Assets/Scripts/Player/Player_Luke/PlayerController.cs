@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
+    public bool GetIsCrouching()
+    {
+        return isCrouching;
+    }
 
     private void Awake()
     {
@@ -89,13 +93,16 @@ public class PlayerController : MonoBehaviour
     {
         player.SetMovementType("crouch");
         isCrouching = true;
+        player.SetCrouching(isCrouching);
     }
 
     public void DeCrouch()
     {
         player.SetMovementType("move");
         isCrouching = false;
+        player.SetCrouching(isCrouching);
     }
+
     #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
@@ -139,7 +146,7 @@ public class PlayerController : MonoBehaviour
         {
             player.SetGrounded(false);
             player.GetAnimator().SetBool("Grounded", false);
-            Debug.Log("not on ground");
+            //Debug.Log("not on ground");
             player.SetMovementType("air");
             //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
         }

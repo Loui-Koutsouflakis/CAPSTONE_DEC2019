@@ -38,6 +38,7 @@ public class Crouch : MonoBehaviour
 
     //for jumps
     public float longJumpUpForce = 5; // upwards force.
+
     public float longJumpForwardForce = 17; // forward force.
     public float highJumpForce = 12; // crouch jump upwards force.
 
@@ -99,10 +100,12 @@ public class Crouch : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.AddForce(transform.up * longJumpUpForce + transform.forward * longJumpForwardForce, ForceMode.Impulse);
+
     }
 
     public void Movement()
     {
+        //same movement controls as normal, execpt slowe
         //movement based on direction camera is facing
         Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
         Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
