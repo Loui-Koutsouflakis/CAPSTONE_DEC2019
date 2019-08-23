@@ -38,8 +38,9 @@ public class Crouch : MonoBehaviour
 
     //for jumps
     public float longJumpUpForce = 5; // upwards force.
-    public float longJumpForwardForce = 20; // forward force.
-    public float highJumpForce = 20; // crouch jump upwards force.
+
+    public float longJumpForwardForce = 17; // forward force.
+    public float highJumpForce = 12; // crouch jump upwards force.
 
     PlayerClass player;
 
@@ -97,11 +98,14 @@ public class Crouch : MonoBehaviour
 
     public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
     {
+        rb.velocity = Vector3.zero;
         rb.AddForce(transform.up * longJumpUpForce + transform.forward * longJumpForwardForce, ForceMode.Impulse);
+
     }
 
     public void Movement()
     {
+        //same movement controls as normal, execpt slowe
         //movement based on direction camera is facing
         Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
         Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
@@ -111,7 +115,7 @@ public class Crouch : MonoBehaviour
         cammyFront.Normalize();
 
         //rotates the direction the character is facing to the correct direction based on camera
-        transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
         //adds force to the player
         rb.AddForce(transform.forward * crouchAccel, ForceMode.Force);

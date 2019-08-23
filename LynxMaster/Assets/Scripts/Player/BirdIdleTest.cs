@@ -43,10 +43,10 @@ public class BirdIdleTest : MonoBehaviour
                 break;
         }
 
-        if (target != null)
-        {
-            Debug.Log(target.name);
-        }
+        //if (target != null)
+        //{
+        //    //Debug.Log(target.name);
+        //}
     }
 
     private void LookDirection()

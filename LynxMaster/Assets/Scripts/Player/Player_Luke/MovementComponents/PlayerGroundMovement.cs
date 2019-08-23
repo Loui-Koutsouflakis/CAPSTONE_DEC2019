@@ -31,7 +31,7 @@ public class PlayerGroundMovement : MonoBehaviour
     //for movement
     public float walkAccel = 60;
     public float climbAccel = 12;
-    public float walkMax = 12;
+    public float walkMax = 10;
     public float airMax = 8;
     public float rotateSpeed = 120;
     private float frictionCoeff = 0.2f;

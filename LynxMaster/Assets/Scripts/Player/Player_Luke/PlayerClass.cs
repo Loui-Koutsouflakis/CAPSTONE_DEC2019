@@ -85,6 +85,18 @@ public class PlayerClass : MonoBehaviour
         health += healthChange; 
     }
 
+    bool crouching;
+    
+    //gets crouching from player controller to allow air controller to properly limit air movement
+    public void SetCrouching(bool crouch)
+    {
+        crouching = crouch;
+    }
+    public bool GetCrouching()
+    {
+        return crouching;
+    }
+
 
     //IS GROUNDED
     [Header("Is Grounded")]
