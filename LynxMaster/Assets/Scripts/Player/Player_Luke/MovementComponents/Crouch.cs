@@ -37,7 +37,7 @@ public class Crouch : MonoBehaviour
     public bool grounded;
 
     //for jumps
-    public float longJumpUpForce = 5; // upwards force.
+    public float longJumpUpForce = 15; // upwards force.
     public float longJumpForwardForce = 20; // forward force.
     public float highJumpForce = 20; // crouch jump upwards force.
 
