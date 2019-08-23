@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4786118699980226}
   - component: {fileID: 20539314722032298}
   - component: {fileID: 81983118311495474}
+  - component: {fileID: 114263587138782220}
   - component: {fileID: 1174165763}
-  - component: {fileID: 8408691653884481831}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -85,6 +85,30 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122254834441266}
   m_Enabled: 1
+--- !u!114 &114263587138782220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122254834441266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 311ef734960095042a140e03acb88470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIdlePosition: {fileID: 0}
+  lockCursor: 1
+  invY: 0
+  invX: 0
+  orbit: 0
+  Player: {fileID: 0}
+  sensitivity: 1
+  rotationsmoothTime: 0.351
+  distFromPlayer: 10
+  pitchMinMax: {x: 0, y: 0}
+  currentRotation: {x: 0, y: 0, z: 0}
+  eul: {x: 0, y: 0, z: 0}
 --- !u!114 &1174165763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,31 +135,6 @@ MonoBehaviour:
   eul: {x: 0, y: 0, z: 0}
   closestEnemy: {fileID: 0}
   TargetT: {fileID: 0}
---- !u!114 &8408691653884481831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122254834441266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 683538cd08fb70742928cf8036e7b90d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockCursor: 1
-  invY: 0
-  Player: {fileID: 0}
-  playerSpeed: 0
-  playerFront: {x: 0, y: 0, z: 0}
-  sensitivity: 5
-  rotationsmoothTime: 0.351
-  distFromPlayer: 3
-  currentRotation: {x: 0, y: 0, z: 0}
-  z_FOV: 30
-  main: {fileID: 0}
-  aimer: {fileID: 0}
-  cameraOffsetX: 0.2
 --- !u!1 &5473814033245716223
 GameObject:
   m_ObjectHideFlags: 0
