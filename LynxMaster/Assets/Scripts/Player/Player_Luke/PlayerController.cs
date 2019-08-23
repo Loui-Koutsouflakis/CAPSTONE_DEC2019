@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
+    public bool GetIsCrouching()
+    {
+        return isCrouching;
+    }
 
     private void Awake()
     {
@@ -89,12 +93,14 @@ public class PlayerController : MonoBehaviour
     {
         player.SetMovementType("crouch");
         isCrouching = true;
+        player.SetCrouching(isCrouching);
     }
 
     public void DeCrouch()
     {
         player.SetMovementType("move");
         isCrouching = false;
+        player.SetCrouching(isCrouching);
     }
     #region check ground functions
 
