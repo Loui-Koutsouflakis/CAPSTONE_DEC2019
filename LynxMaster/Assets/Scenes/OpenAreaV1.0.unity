@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3592945, g: 0.36175805, b: 0.33154845, a: 1}
+  m_IndirectSpecularColor: {r: 0.3592941, g: 0.36175796, b: 0.33154804, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11031,37 +11031,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 887287570}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &752840493 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1122254834441266, guid: ed0f424436d4a7748b4172bb67a9e0a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1760002059}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &752840494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752840493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 683538cd08fb70742928cf8036e7b90d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockCursor: 1
-  invY: 0
-  Player: {fileID: 1858054635}
-  playerSpeed: 0
-  playerFront: {x: 0, y: 0, z: 0}
-  sensitivity: 5
-  rotationsmoothTime: 0.351
-  distFromPlayer: 10
-  currentRotation: {x: 0, y: 0, z: 0}
-  z_FOV: 30
-  main: {fileID: 1503245204}
-  aimer: {fileID: 2029367473}
-  cameraOffsetX: 0.2
 --- !u!4 &752938994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3285826475724809004, guid: 1bb9dedf57e43de43a1c3d9037270e5c,
@@ -24095,6 +24064,31 @@ PrefabInstance:
     - target: {fileID: 1174165763, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: distFromTarget
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: distFromPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1858054635}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: main
+      value: 
+      objectReference: {fileID: 1503245204}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: aimer
+      value: 
+      objectReference: {fileID: 2029367473}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: rotationsmoothTime
+      value: 0.667
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114263587138782220, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}

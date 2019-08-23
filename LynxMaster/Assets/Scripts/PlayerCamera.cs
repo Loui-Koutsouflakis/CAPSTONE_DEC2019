@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     [Header("Turn on/off the mouse cursor")]
-    public bool lockCursor = true;
+    public bool lockCursor = false;
 
     [Header("Invert Camera Y (set to off for mouse control)")]
     public bool invY;
@@ -20,8 +20,8 @@ public class PlayerCamera : MonoBehaviour
     [Range(1, 10)]
     public float sensitivity = 5;
     [Range(0,1)]
-    public float rotationsmoothTime = 0.351f;
-    float yAngle = 90;
+    public float rotationsmoothTime = 0.667f;
+    float yAngle = 80;
 
     [Header("Distance from Player, Suggested Distance 2-3")]
     [Range(1, 10)]
@@ -55,7 +55,7 @@ public class PlayerCamera : MonoBehaviour
         main = Camera.main;
         i_FOV = main.fieldOfView;
         properDistance = distFromPlayer;
-        pitchMinMax = new Vector2(-5, 90);
+        pitchMinMax = new Vector2(-5, 80);
         //Player = GameObject.FindGameObjectWithTag("Player");
       
         if (lockCursor)
@@ -68,21 +68,22 @@ public class PlayerCamera : MonoBehaviour
     {
         c_FOV = main.fieldOfView;
         //playerSpeed = Player.GetComponent<PlayerMovementv2>().moveSpeed;
-        if (Input.GetButton("LeftBumper"))
-        {
-            looking = true;
-            ZoomFunction();
-        }
-        else if (Input.GetButtonUp("LeftBumper"))
-        {
-            looking = false;
-            main.fieldOfView = i_FOV;
-        }
+        //if (Input.GetButton("LeftBumper"))
+        //{
+        //    looking = true;
+        //    ZoomFunction();
+        //}
+        //else if (Input.GetButtonUp("LeftBumper"))
+        //{
+        //    looking = false;
+        //    main.fieldOfView = i_FOV;
+        //}
     }
     private void LateUpdate()
     {
         CamMovement();
     }
+
     void CamMovement()
     {
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
@@ -95,7 +96,7 @@ public class PlayerCamera : MonoBehaviour
         {
             nonInvertY();
         }
-        pitchMinMax = new Vector2(-20, yAngle);
+        pitchMinMax = new Vector2(-12, yAngle);
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
         eul = transform.eulerAngles;
         eul.x = 0;
@@ -106,11 +107,6 @@ public class PlayerCamera : MonoBehaviour
     void invertY()
     {
         pitch += Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
-        //if (playerSpeed > .3f)
-        //{
-        //    currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, Player.transform.forward.x), ref smoothingVelocity, smooth);
-        //}
-        //else
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
 
     }

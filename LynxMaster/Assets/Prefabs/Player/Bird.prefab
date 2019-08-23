@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4391739586989522}
   - component: {fileID: 631811426}
   - component: {fileID: 1882703317865083837}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bird
   m_TagString: Bird
   m_Icon: {fileID: 0}
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47317bfa2880d6248927cfbb52f7263f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
+  target: {fileID: 0}
 --- !u!114 &1882703317865083837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +84,7 @@ GameObject:
   - component: {fileID: 33106101920035792}
   - component: {fileID: 23651634482078834}
   - component: {fileID: 135858643762478278}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +176,7 @@ GameObject:
   - component: {fileID: 33493011948145564}
   - component: {fileID: 23904756794655210}
   - component: {fileID: 135745069439667706}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +267,7 @@ GameObject:
   - component: {fileID: 33441353877590348}
   - component: {fileID: 23115155424251110}
   - component: {fileID: 135110582583160666}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere (1)
   m_TagString: Bird
   m_Icon: {fileID: 0}
