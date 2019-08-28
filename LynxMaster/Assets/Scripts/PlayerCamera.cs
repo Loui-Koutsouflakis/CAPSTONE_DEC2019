@@ -21,7 +21,7 @@ public class PlayerCamera : MonoBehaviour
     public float sensitivity = 5;
     [Range(0,1)]
     public float rotationsmoothTime = 0.667f;
-    float yAngle = 80;
+    float yAngle = 75;
 
     [Header("Distance from Player, Suggested Distance 2-3")]
     [Range(1, 10)]
@@ -55,7 +55,7 @@ public class PlayerCamera : MonoBehaviour
         main = Camera.main;
         i_FOV = main.fieldOfView;
         properDistance = distFromPlayer;
-        pitchMinMax = new Vector2(-5, 80);
+        pitchMinMax = new Vector2(-5, 75);
         //Player = GameObject.FindGameObjectWithTag("Player");
       
         if (lockCursor)

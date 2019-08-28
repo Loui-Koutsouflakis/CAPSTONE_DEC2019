@@ -24,20 +24,25 @@ public class PlayerAirMovement : MonoBehaviour
 
     //for jumps
     private bool canFlutter;
-    private float flutterForce = 5;
+    public float doubleJumpForce = 7;
 
     //gravity modifiers
-    private float jumpMultiplier = 1.5f;
-    private float fallMultiplier = 5f;
-    private float wallMultiplier = 0.5f;
+    public float jumpMultiplier = 3f;
+    public float fallMultiplier = 8f;
+    public float peakTime = 0.3f; 
+    public float peakHeightMultiplier = 0.8f;
+    public float wallMultiplier = 0.5f;
 
     //air movement
     private float horizontal;
     private float vertical;
-    private float airForwardSpeed = 10f;
-    private float airSideSpeed = 5f;
+    public float airForwardSpeed = 10f;
+    public float airSideSpeed = 5f;
+    public float wallJumpVertical = 7;
+    public float wallJumpHorizontal = 7;
     //need high airMax to allow long jump
     private float airMax = 12f;
+    public float testAirMax = 7;
     private float rotateSpeed = 120f;
 
     private bool deadJoy;
@@ -95,12 +100,16 @@ public class PlayerAirMovement : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (wallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if (rb.velocity.y < 0)
+        else if(rb.velocity.y < -peakTime && rb.velocity.y > peakTime)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (peakHeightMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (rb.velocity.y < peakTime)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -135,7 +144,7 @@ public class PlayerAirMovement : MonoBehaviour
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
         
         //adds force to the player
-        rb.AddForce(transform.forward *vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        rb.AddForce(cammy.transform.forward *vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
     }
 
     void ApplyVelocityCutoff()
@@ -148,7 +157,7 @@ public class PlayerAirMovement : MonoBehaviour
         //air max of 12 is for normal jumps
         else
         {
-            airMax = 12;
+            airMax = testAirMax;
         }
 
         Vector3 horizontalVelocity = rb.velocity;
@@ -169,13 +178,13 @@ public class PlayerAirMovement : MonoBehaviour
             tempVelocity.y = 0;
             rb.velocity = tempVelocity;
 
-            rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
+            rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
         }
         else if(onWall)
         {            
             // jumps off of wall
-            rb.AddForce((-transform.forward * 7) + (transform.up * 7), ForceMode.Impulse);
+            rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
             // sets player looking away from wall (two ways to do it)
             //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
             player.transform.forward = -transform.forward;
@@ -250,7 +259,7 @@ public class PlayerAirMovement : MonoBehaviour
     //prevents player input for a time directly after wall jumping
     IEnumerator WallDeadZone()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         wallDeadZone = false;
     }
 

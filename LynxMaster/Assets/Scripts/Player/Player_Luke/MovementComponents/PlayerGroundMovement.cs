@@ -32,14 +32,14 @@ public class PlayerGroundMovement : MonoBehaviour
     public float walkAccel = 60;
     public float climbAccel = 12;
     public float walkMax = 10;
-    public float airMax = 8;
+    //public float airMax = 8;
     public float rotateSpeed = 120;
     private float frictionCoeff = 0.2f;
 
     public bool grounded;
 
     //for jumps
-    public float jumpForce = 10; 
+    public float jumpForce = 8; 
     
     //for animation
     public Animator anim;
@@ -127,8 +127,10 @@ public class PlayerGroundMovement : MonoBehaviour
     }
     
     public void Jump()
-    {       
+    {
         //Debug.Log("Normal Jump");
+        rb.velocity /= 2;
+
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         anim.SetTrigger("Jump");
        
