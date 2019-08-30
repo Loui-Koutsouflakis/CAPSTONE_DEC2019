@@ -52,6 +52,7 @@ public class PlayerAirMovement : MonoBehaviour
 
 
     private bool wallDeadZone;
+    public bool doubleJumpControl;
 
 
     //rayCasts
@@ -74,6 +75,7 @@ public class PlayerAirMovement : MonoBehaviour
         //starts checking walls when ever the script is enabled
         StartCoroutine(WallWait());
         wallDeadZone = false;
+        doubleJumpControl = false; 
     }
 
     private void OnDisable()
@@ -138,13 +140,21 @@ public class PlayerAirMovement : MonoBehaviour
 
         //rotates the direction the character is facing to the correct direction based on camera
         //air script is different than the ground movement, as the character moves slower in the air and does NOT rotate to face camera forward instead will shift from side to side
-        
+
         //following two lines are what we's use if we wanted to rotate character
         //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
-        
+
         //adds force to the player
-        rb.AddForce(cammy.transform.forward *vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        if (!doubleJumpControl)
+        {
+            rb.AddForce(cammy.transform.forward * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        }
+        else
+        {
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            rb.AddForce(transform.forward * airForwardSpeed, ForceMode.Force);
+        }
     }
 
     void ApplyVelocityCutoff()
@@ -177,6 +187,10 @@ public class PlayerAirMovement : MonoBehaviour
             Vector3 tempVelocity = rb.velocity;
             tempVelocity.y = 0;
             rb.velocity = tempVelocity;
+
+            //to allow control for a brief period after double jump
+            doubleJumpControl = true;
+            StartCoroutine(DoubleJumpControl());
 
             rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
@@ -261,6 +275,12 @@ public class PlayerAirMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         wallDeadZone = false;
+    }
+
+    IEnumerator DoubleJumpControl()
+    {
+        yield return new WaitForSeconds(0.75f);
+        doubleJumpControl = false;
     }
 
 }
