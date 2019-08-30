@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 476245915512411017}
   - component: {fileID: 476245915512411016}
-  - component: {fileID: 2719377180406178300}
   m_Layer: 0
   m_Name: TimedPlatform
   m_TagString: Untagged
@@ -45,26 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d81217dfb5b5334baf131e187fabd64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
   bottomPointOffset: 1
   deadZone: 0.1
   gravityMod: 0
   platformTimer: 2
   timer: 0
+  mySJ: {fileID: 0}
   antiGravForce: {x: 0, y: 0, z: 0}
---- !u!65 &2719377180406178300
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476245915512411018}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: -1.25, z: 0}
 --- !u!54 &476245915963161137
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,15 +116,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 161bc3a464c95994ba780d195e6dc365, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 161bc3a464c95994ba780d195e6dc365, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.09
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 161bc3a464c95994ba780d195e6dc365, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 161bc3a464c95994ba780d195e6dc365, type: 3}
       propertyPath: m_LocalRotation.x
