@@ -1,9 +1,15 @@
-﻿//Luke Fentress 
+﻿//Luke Fentress
 //edited 19-08-09 by AT - updated to include air component
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+public enum MovementType
+{
+    move, grapple, jump, air, crouch
+}
 
 public class PlayerClass : MonoBehaviour
 {
@@ -21,23 +27,30 @@ public class PlayerClass : MonoBehaviour
         return anim;
     }
 
+    public MovementType playerCurrentMove;
 
-    
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
 
     #region player movement components
 
     //Grapple
-    public GameObject grapple; 
+    public GameObject grapple;
     GrappleComponent grappleComponent;
     public GrappleComponent GetGrappleComponent()
     {
         return grappleComponent;
     }
 
+
+    public TetherPoint tetherPoint;
+    public void SetTetherPoint(Collider tP)
+    {
+        tetherPoint = tP.GetComponent<TetherPoint>();
+    }
+
     //Crouch
-    public GameObject crouch; 
+    public GameObject crouch;
     Crouch crouchComponent;
     public Crouch GetCrouchComponent()
     {
@@ -67,7 +80,7 @@ public class PlayerClass : MonoBehaviour
     #endregion
 
 
-    
+
     //this is where I put the player's dynamic variables such as health, grounded, canFlutter, etc...
     #region dynamic player variables
     //HEALTH
@@ -77,16 +90,16 @@ public class PlayerClass : MonoBehaviour
 
     public int GetHealth()
     {
-        return health; 
+        return health;
     }
 
     public void SetHealth(int healthChange)
     {
-        health += healthChange; 
+        health += healthChange;
     }
 
     bool crouching;
-    
+
     //gets crouching from player controller to allow air controller to properly limit air movement
     public void SetCrouching(bool crouch)
     {
@@ -105,13 +118,13 @@ public class PlayerClass : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return grounded; 
+        return grounded;
 
     }
 
     public void SetGrounded(bool value)
     {
-        grounded = value; 
+        grounded = value;
     }
 
     //CAN FLUTTER
@@ -133,8 +146,17 @@ public class PlayerClass : MonoBehaviour
     private RaycastHit footHit;
     public RaycastHit GetFootHit()
     {
-        return footHit; 
+        return footHit;
     }
+
+
+    //CAN FLUTTER
+    [Header("falling")]
+    public bool isFalling;
+
+    //ISGRAPPLING
+    [Header("grapplinig")]
+    public bool isGrappling;
 
 
 
@@ -175,9 +197,34 @@ public class PlayerClass : MonoBehaviour
 
 
 
-    
-    //using a string to activate which script is use. The strings are "grapple", "move", "crouch" 
-    public void SetMovementType(string moveType)
+    public void SetMovementType(MovementType mT)
+    {
+        switch (mT)
+        {
+            case MovementType.air:
+                playerCurrentMove = MovementType.air;
+                SetMovementComponent("air");
+                break;
+            case MovementType.grapple:
+                playerCurrentMove = MovementType.grapple;
+                SetMovementComponent("grapple");
+                break;
+            case MovementType.move:
+                playerCurrentMove = MovementType.move;
+                SetMovementComponent("move");
+                break;
+            case MovementType.crouch:
+                playerCurrentMove = MovementType.crouch;
+                SetMovementComponent("crouch");
+                break;
+
+
+        }
+    }
+
+
+    //using a string to activate which script is use. The strings are "grapple", "move", "crouch"
+    public void SetMovementComponent(string moveType)
     {
         for (int i = 0; i < playerMovementArray.Length; i++)
         {
@@ -185,24 +232,29 @@ public class PlayerClass : MonoBehaviour
             if (playerMovementArray[i].name != moveType)
                 playerMovementArray[i].SetActive(false);
 
+
             else
-                playerMovementArray[i].SetActive(true);
-
-        }
-    }
-
-    public GameObject GetMovementType()
-    {
-        for (int i = 0; i < playerMovementArray.Length; i++)
-        {
-            if(playerMovementArray[i].activeSelf)
             {
-                return playerMovementArray[i];
+                playerMovementArray[i].SetActive(true);
             }
-        }
 
-        return null;
+        }
     }
+
+
+    //NO LONGER IN USE
+    //public GameObject GetMovementType()
+    //{
+    //    for (int i = 0; i < playerMovementArray.Length; i++)
+    //    {
+    //        if(playerMovementArray[i].activeSelf)
+    //        {
+    //            return playerMovementArray[i];
+    //        }
+    //    }
+
+    //    return null;
+    //}
 
     //handy way to make sure there's nothing wrong
     public void InitializePlayer()
@@ -300,11 +352,15 @@ public class PlayerClass : MonoBehaviour
             Debug.Log(playerMovementArray[i].name + " is in the player movement array");
         }
 
-       
-        SetMovementType("move");
+
+        SetMovementType(MovementType.move);
     }
 
 
+
+
+    //DEBUGGING GRAPPLE
+    public LineRenderer debugLine;
 
 
 
