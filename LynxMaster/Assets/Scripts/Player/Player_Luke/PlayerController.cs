@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Animator stateMachine;
 
-
+    public ParticleSystem psJump;
+    public ParticleSystem psRun;
+    public bool jumpParticleIsPlaying;
 
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
@@ -57,6 +59,11 @@ public class PlayerController : MonoBehaviour
 
 
             stateMachine.SetTrigger("JumpTrigger");
+            //Particle stuff from Tony
+            psRun.Stop();
+            psJump.Stop();
+            psJump.Play();
+            jumpParticleIsPlaying = false;
         }
         else if (player.playerCurrentMove == MovementType.air)
         {
@@ -67,6 +74,9 @@ public class PlayerController : MonoBehaviour
             player.GetCrouchComponent().Jump();
             player.SetMovementType(MovementType.air);
             player.SetGrounded(false);
+            //Particle stuff from Tony
+            psJump.Stop();
+            psJump.Play();
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
@@ -133,6 +143,12 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType(MovementType.move);
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
+                psRun.Play();
+                if (!jumpParticleIsPlaying)
+                {
+                    psJump.Play();
+                    jumpParticleIsPlaying = true;
+                }
 
             }
             else if (footHit.collider.gameObject != null && isCrouching)
@@ -141,10 +157,22 @@ public class PlayerController : MonoBehaviour
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);
                 player.GetAnimator().SetBool("Crouching", true);
+                psRun.Play();
+                if (!jumpParticleIsPlaying)
+                {
+                    psJump.Play();
+                    jumpParticleIsPlaying = true;
+                }
             }
             else if (footHit.collider.gameObject.tag == "MovingPlatform")
             {
                 transform.parent = footHit.transform.parent;
+                psRun.Play();
+                if (!jumpParticleIsPlaying)
+                {
+                    psJump.Play();
+                    jumpParticleIsPlaying = true;
+                }
             }
         }
     }
