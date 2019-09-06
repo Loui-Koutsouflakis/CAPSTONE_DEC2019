@@ -24,25 +24,35 @@ public class PlayerAirMovement : MonoBehaviour
 
     //for jumps
     private bool canFlutter;
-    private float flutterForce = 5;
+    public float doubleJumpForce = 7;
 
     //gravity modifiers
-    private float jumpMultiplier = 1.5f;
-    private float fallMultiplier = 5f;
-    private float wallMultiplier = 0.5f;
+    public float jumpMultiplier = 3f;
+    public float fallMultiplier = 8f;
+    public float peakTime = 0.3f; 
+    public float peakHeightMultiplier = 0.8f;
+    public float wallMultiplier = 0.5f;
 
     //air movement
     private float horizontal;
     private float vertical;
-    private float airForwardSpeed = 10f;
-    private float airSideSpeed = 5f;
+    public float airForwardSpeed = 10f;
+    public float airSideSpeed = 5f;
+    public float wallJumpVertical = 7;
+    public float wallJumpHorizontal = 7;
+    //need high airMax to allow long jump
     private float airMax = 12f;
-    private float rotateSpeed = 10f;
+    public float testAirMax = 7;
+    private float rotateSpeed = 120f;
 
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
     private readonly float decelFactor = 0.14f;
     private readonly float velocityDivider = 1.2f;
+
+
+    private bool wallDeadZone;
+    public bool doubleJumpControl;
 
 
     //rayCasts
@@ -57,15 +67,29 @@ public class PlayerAirMovement : MonoBehaviour
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
+
     }
+
+    private void OnEnable()
+    {
+        //starts checking walls when ever the script is enabled
+        StartCoroutine(WallWait());
+        wallDeadZone = false;
+        doubleJumpControl = false; 
+    }
+
+    private void OnDisable()
+    {
+        //stops checking wall on disables to prevent multiple checks running
+        StopAllCoroutines();
+    }
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
         canFlutter = player.CanFlutter();
-
         ControlInput();
-
     }
            
     private void ControlInput()
@@ -78,11 +102,16 @@ public class PlayerAirMovement : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (wallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if (rb.velocity.y < 0)
+        else if(rb.velocity.y < -peakTime && rb.velocity.y > peakTime)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (peakHeightMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (rb.velocity.y < peakTime)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        //player will fall faster on way down
+        else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -90,11 +119,13 @@ public class PlayerAirMovement : MonoBehaviour
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
-            AirMovement();
+            if (!wallDeadZone)
+            {
+                AirMovement();
+            }
         }       
         
         ApplyVelocityCutoff();
-        
     }
 
     public void AirMovement()
@@ -108,16 +139,37 @@ public class PlayerAirMovement : MonoBehaviour
         cammyFront.Normalize();
 
         //rotates the direction the character is facing to the correct direction based on camera
-        //air script is different than the ground movement, as the character moves slower in the air and can shift from side to side
-        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-        
-        //adds force to the player
-        rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        //air script is different than the ground movement, as the character moves slower in the air and does NOT rotate to face camera forward instead will shift from side to side
 
+        //following two lines are what we's use if we wanted to rotate character
+        //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+        //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+
+        //adds force to the player
+        if (!doubleJumpControl)
+        {
+            rb.AddForce(cammy.transform.forward * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+        }
+        else
+        {
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            rb.AddForce(transform.forward * airForwardSpeed, ForceMode.Force);
+        }
     }
 
     void ApplyVelocityCutoff()
     {
+        //if long jumping has a higher air max to allow longer jumps
+        if(player.GetCrouching())
+        {
+            airMax = 50;
+        }
+        //air max of 12 is for normal jumps
+        else
+        {
+            airMax = testAirMax;
+        }
+
         Vector3 horizontalVelocity = rb.velocity;
         horizontalVelocity.y = 0;
        
@@ -136,31 +188,30 @@ public class PlayerAirMovement : MonoBehaviour
             tempVelocity.y = 0;
             rb.velocity = tempVelocity;
 
-            rb.AddForce(transform.up * flutterForce, ForceMode.Impulse);
-            canFlutter = false;
+            //to allow control for a brief period after double jump
+            doubleJumpControl = true;
+            StartCoroutine(DoubleJumpControl());
+
+            rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
+            player.SetFlutter(false);
         }
         else if(onWall)
-        {
-            
+        {            
             // jumps off of wall
-            rb.AddForce((-transform.forward * 10) + (transform.up * 5), ForceMode.Impulse);
-            // sets player looking away from wall
-            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-            transform.forward = -transform.forward;
-            
-            if (transform.parent != null)
-            {
-                transform.parent = null;
-            }
+            rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            // sets player looking away from wall (two ways to do it)
+            //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            player.transform.forward = -transform.forward;
+                        
             onWall = false;
+            wallDeadZone = true;
+            StartCoroutine(WallDeadZone());
         }
 
         if (player.transform.parent != null)
         {
             player.transform.parent = null;
         }
-
-        
     }
 
 
@@ -170,31 +221,39 @@ public class PlayerAirMovement : MonoBehaviour
         Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
         Vector3 topRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        //euler currently checks all around player would need to change if only want it in the front
+        //euler in box cast currently checks all around player would need to change if only want it in the front
         //distance checks slighly in front of player, may want ot change depending on play testing
-        bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-
+        //bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+       
         //toe  raycast
         Vector3 toeRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.5f * transform.localScale.y + 0.1f, transform.position.z);
         Vector3 toeRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-
+        //bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+       
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 midRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
-        bool midCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-
-        if (toeCast && midCast)
+        //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+   
+        //if all three
+        if (toeCast && midCast && topOfHead)
         {
             onWall = true;
         }
-        else if (toeCast && !midCast)
+        else if (toeCast && !midCast && !topOfHead)
         {
-            //call function to move player up on top of platform
+            //call function to move player up on top of platform if we want
         }
-        else if (!toeCast && !topOfHead)
+        else if (toeCast && midCast && !topOfHead)
+        {
+            //ledge grab if we have it
+        }
+        else
         {
             onWall = false;
         }
@@ -202,6 +261,26 @@ public class PlayerAirMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(wallCheckRate);
 
         StartCoroutine(CheckWall());
+    }
+
+    //wait for time after air controller is initially enables to prevent stickign to wall initially if next to wall
+    IEnumerator WallWait()
+    {
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(CheckWall());
+    }
+
+    //prevents player input for a time directly after wall jumping
+    IEnumerator WallDeadZone()
+    {
+        yield return new WaitForSeconds(0.3f);
+        wallDeadZone = false;
+    }
+
+    IEnumerator DoubleJumpControl()
+    {
+        yield return new WaitForSeconds(0.75f);
+        doubleJumpControl = false;
     }
 
 }

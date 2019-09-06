@@ -20,11 +20,11 @@ public class ObjectDistanceMeasure : MonoBehaviour
     bool measure;
     float distance = 0;
 
-    [SerializeField,Range(0,500)]
+    [SerializeField,Range(0,1000)]
     float sizeX = 0.0f;
-    [SerializeField, Range(0, 500)]
+    [SerializeField, Range(0, 1000)]
     float sizeY = 0.0f;
-    [SerializeField, Range(0, 500)]
+    [SerializeField, Range(0, 1000)]
     float sizeZ = 0.0f;
 
     Vector3 sizeVector;
@@ -60,8 +60,6 @@ public class ObjectDistanceMeasure : MonoBehaviour
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireCube(transform.position, sizeVector);
                 break;
-
-
             case ActionState.Measure:
                 Gizmos.color = Color.blue;
                 Gizmos.DrawLine(object_1.position, object_1.position + (Vector3.up * 10));
