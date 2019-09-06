@@ -254,10 +254,12 @@ public class PlayerAirMovement : MonoBehaviour
         }
         else if (toeCast && !midCast && !topOfHead)
         {
+            onWall = false;
             //call function to move player up on top of platform if we want
         }
         else if (toeCast && midCast && !topOfHead)
         {
+            onWall = false;
             //ledge grab if we have it
         }
         else
