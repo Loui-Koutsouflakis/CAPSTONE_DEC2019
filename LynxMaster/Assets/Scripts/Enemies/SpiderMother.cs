@@ -29,6 +29,7 @@ public class SpiderMother : MonoBehaviour
     {
         locationSpawned = transform.position;
         SetDestination("Wonder");
+        //transform.
     }
 
     private void Start()
