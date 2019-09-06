@@ -98,7 +98,7 @@ public class PlayerAirMovement : MonoBehaviour
         vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
 
         //will slide a slower speed down wall
-        if(onWall)
+        if(onWall && rb.velocity.y <= 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (wallMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -116,12 +116,18 @@ public class PlayerAirMovement : MonoBehaviour
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
 
+        Vector3 forward = transform.forward;
+        Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
+
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
             if (!wallDeadZone)
             {
-                AirMovement();
+                if(Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
+                {
+                    AirMovement();
+                }
             }
         }       
         
@@ -144,6 +150,7 @@ public class PlayerAirMovement : MonoBehaviour
         //following two lines are what we's use if we wanted to rotate character
         //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+             
 
         //adds force to the player
         if (!doubleJumpControl)
@@ -222,8 +229,8 @@ public class PlayerAirMovement : MonoBehaviour
         Vector3 topRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
         //euler in box cast currently checks all around player would need to change if only want it in the front
-        //distance checks slighly in front of player, may want ot change depending on play testing
         //bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        //distance checks slighly in front of player, may want ot change depending on play testing
         bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
         //toe  raycast
@@ -263,7 +270,7 @@ public class PlayerAirMovement : MonoBehaviour
         StartCoroutine(CheckWall());
     }
 
-    //wait for time after air controller is initially enables to prevent stickign to wall initially if next to wall
+    //wait for time after air controller is initially enabled to prevent sticking to wall initially if next to wall
     IEnumerator WallWait()
     {
         yield return new WaitForSeconds(0.3f);
