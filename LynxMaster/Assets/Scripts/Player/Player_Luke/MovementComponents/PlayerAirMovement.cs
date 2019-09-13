@@ -124,14 +124,7 @@ public class PlayerAirMovement : MonoBehaviour
         {
             if (!wallDeadZone)
             {
-                if (onWall)
-                {
-                    if (Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
-                    {
-                        AirMovement();
-                    }
-                }
-                else
+                if(Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
                 {
                     AirMovement();
                 }
