@@ -19,37 +19,33 @@ public class GameManager : MonoBehaviour
     bool isMuted = false;
 
     public int PlayerHealth;
-
+    
     //public List<Image> Hearts = new List<Image>();
 
-    //public AudioSource Music;
+    public AudioSource Music;
 
     public GameObject UIElements;
 
-    //public Slider Volume;
+    public Slider Volume;
 
-    //private float previousVolume;
+    private float previousVolume;
 
     //Loading Screen Variables
-    // public GameObject m_LoadScreen;
-    // public Slider progressBar;
-    // public Text progressPercent;
+    public GameObject m_LoadScreen;
+    public Slider progressBar;
+    public Text progressPercent;
 
     void Awake()
     {
-        //DontDestroyOnLoad(this);
-        //MakeSingleton();
+        DontDestroyOnLoad(this);
+        MakeSingleton();
         GameIsPaused = false;
 
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
-
-
         ChangeQuality();
 
         //LoseHealth();
@@ -65,17 +61,17 @@ public class GameManager : MonoBehaviour
         //}
 
         //Quits the game
-        if (Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Q))
         {
             Quit();
         }
         //Unpauses the game
-        if (Input.GetKeyDown(KeyCode.P) && GameIsPaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && GameIsPaused)
         {
             Resume();
         }
         //Pauses the Game
-        else if (Input.GetKeyDown(KeyCode.P) && !GameIsPaused)
+        else if (Input.GetKeyDown(KeyCode.Escape) && !GameIsPaused)
         {
             Pause();
         }
@@ -106,7 +102,7 @@ public class GameManager : MonoBehaviour
     //simply changes the quality based on unitys standerds of Low, Medium and High quality
     public void ChangeQuality()
     {
-        switch (Input.inputString)
+        switch(Input.inputString)
         {
             case "1":
                 QualitySettings.SetQualityLevel(0, true);
@@ -129,21 +125,21 @@ public class GameManager : MonoBehaviour
     }
 
     //Controls the muting of sound in the scene
-    //public void MuteSound()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.M) && !isMuted)
-    //    {
-    //        isMuted = true;
-    //        previousVolume = Music.volume;
-    //        Music.volume = 0;
-    //    }
-    //    else if(Input.GetKeyDown(KeyCode.M) && isMuted)
-    //    {
-
-    //        Music.volume = previousVolume;
-    //        isMuted = false;
-    //    }
-    //}
+    public void MuteSound()
+    {
+        if(Input.GetKeyDown(KeyCode.M) && !isMuted)
+        {
+            isMuted = true;
+            previousVolume = Music.volume;
+            Music.volume = 0;
+        }
+        else if(Input.GetKeyDown(KeyCode.M) && isMuted)
+        {
+            
+            Music.volume = previousVolume;
+            isMuted = false;
+        }
+    }
     //Enables the pause menu and sets timescale to 0
     void Pause()
     {
@@ -165,7 +161,7 @@ public class GameManager : MonoBehaviour
     //Placeholder way for me to test health loss
     public void LoseHealth()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.X))
         {
             PlayerHealth--;
         }
@@ -207,17 +203,11 @@ public class GameManager : MonoBehaviour
     public void Death()
     {
         Debug.Log("You Died");
-        Time.timeScale = 1f;
-    }
-
-    public void GoToMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
     }
 
 
+ 
 
-
-
+   
+   
 }
