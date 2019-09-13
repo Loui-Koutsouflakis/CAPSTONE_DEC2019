@@ -23,7 +23,7 @@ public class PlayerInputHandler : MonoBehaviour
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
     public Command SetButton(Command action)
     {
-        return action; 
+        return action;
     }
 
     private void InitializeDefaultControls()
@@ -68,6 +68,16 @@ public class PlayerInputHandler : MonoBehaviour
             _LeftBumperUp.Execute(playerController);
 
         }
+
+
+
+        ////for debugging-- pause with tab
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Debug.Break();
+        }
+
+
     }
 
 
@@ -85,7 +95,7 @@ public class PlayerInputHandler : MonoBehaviour
 
 public class Command
 {
-    
+
     public virtual void Execute(PlayerController playCont) { }
 
 }
@@ -95,7 +105,7 @@ public class JumpCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Jump();
-      
+
     }
 }
 
@@ -104,7 +114,7 @@ public class InitiateGrappleCommand : Command
 {
     public override void Execute(PlayerController playCont)
     {
-       playCont.Grapple();
+        playCont.Grapple();
     }
 }
 
@@ -121,14 +131,14 @@ public class InitCrouchCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Crouch();
-        
+
     }
 }
 
-public class DeaCrouchCommand : Command
+public class DeCrouchCommand : Command
 {
-    public void Execute(PlayerClass playClass)
+    public void Execute(PlayerController playCont)
     {
-        playClass.SetMovementType("move");
+        playCont.deCrouch();
     }
 }

@@ -124,7 +124,14 @@ public class PlayerAirMovement : MonoBehaviour
         {
             if (!wallDeadZone)
             {
-                if(Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
+                if (onWall)
+                {
+                    if (Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
+                    {
+                        AirMovement();
+                    }
+                }
+                else
                 {
                     AirMovement();
                 }
@@ -254,10 +261,12 @@ public class PlayerAirMovement : MonoBehaviour
         }
         else if (toeCast && !midCast && !topOfHead)
         {
+            onWall = false;
             //call function to move player up on top of platform if we want
         }
         else if (toeCast && midCast && !topOfHead)
         {
+            onWall = false;
             //ledge grab if we have it
         }
         else
