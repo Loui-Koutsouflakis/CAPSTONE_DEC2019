@@ -18,8 +18,8 @@ public class InteractComponent : MonoBehaviour {
     {
         if(!visionCone)
         {
-            GameObject coneObject = GameObject.FindWithTag("VisionCone");
-            visionCone = coneObject.transform; 
+            //GameObject coneObject = GameObject.FindWithTag("VisionCone");
+            //visionCone = coneObject.transform; 
         }
 
 
