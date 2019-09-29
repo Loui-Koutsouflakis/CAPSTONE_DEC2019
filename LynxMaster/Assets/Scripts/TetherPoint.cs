@@ -12,7 +12,7 @@ public class TetherPoint : MonoBehaviour, Interact
 
     public GrappleComponent grappleComp;
 
-    private void Awake()
+    private void Start()
     {
         GameObject player = GameObject.FindWithTag("Player");
         grappleComp = player.GetComponent<GrappleComponent>();

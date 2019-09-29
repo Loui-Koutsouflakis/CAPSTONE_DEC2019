@@ -75,7 +75,8 @@ public class GrappleComponent : MonoBehaviour
             float theta = Mathf.Atan2(y, x);
 
             ////since we are using a gravity multiplier, we will likely need to add that here as well to have the swing feel right (i.e higher gravity)
-            float tension = rb.mass * 9.8f * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength; 
+            //float tension = rb.mass * 9.8f * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
+            float tension = rb.mass * Physics.gravity.y * 8 * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
             rb.AddForce(tension * tetherDirection.normalized);
             Debug.DrawLine(transform.position, attachedTetherPoint.position);
             float thetaDegrees = theta * Mathf.Rad2Deg;
