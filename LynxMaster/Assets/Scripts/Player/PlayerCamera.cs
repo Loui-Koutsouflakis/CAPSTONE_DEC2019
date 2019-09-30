@@ -42,20 +42,23 @@ public class PlayerCamera : MonoBehaviour
     [Header("Camera Field of View")]
     float i_FOV = 60;
     public float z_FOV = 30;
+    float b_FOV = 80;
     float c_FOV;
-    float smooth = 30;
+    float smooth = 15;
 
     [Header("CameraRayCast")]
     public Camera main;
     public GameObject aimer;
     LayerMask layerMask;
     public float cameraOffsetX = .2f;
+    public float cameraOffsetY;
     void Start()
     {
         main = Camera.main;
         i_FOV = main.fieldOfView;
         properDistance = distFromPlayer;
         pitchMinMax = new Vector2(-5, 75);
+        properDistance = distFromPlayer;
         //Player = GameObject.FindGameObjectWithTag("Player");
       
         if (lockCursor)
@@ -101,7 +104,20 @@ public class PlayerCamera : MonoBehaviour
         eul = transform.eulerAngles;
         eul.x = 0;
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX)) * CameraRaycast(distFromPlayer); 
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX)) * CameraRaycast(distFromPlayer) + (transform.up * cameraOffsetY);
+
+        //if (Player.GetComponent<Rigidbody>().velocity.magnitude > 0 && c_FOV > z_FOV)
+        //{
+        //    main.fieldOfView += (-smooth * Time.deltaTime);
+        //}
+        //else if(Player.GetComponent<Rigidbody>().velocity.magnitude == 0 && c_FOV <= i_FOV)
+        //{
+        //    main.fieldOfView -= (-smooth * Time.deltaTime);
+        //}
+        //else if(Player.GetComponent<Rigidbody>().velocity.magnitude < 0 && c_FOV <= b_FOV)
+        //{
+        //    main.fieldOfView -= (-smooth * Time.deltaTime);
+        //}
     }
 
     void invertY()
@@ -120,6 +136,7 @@ public class PlayerCamera : MonoBehaviour
     {
         invY = !invY;
     }
+
     void ZoomFunction()
     {
         looking = true;
@@ -137,10 +154,9 @@ public class PlayerCamera : MonoBehaviour
     }
     float CameraRaycast(float x)
     {
-        int layerMask = 1 << 2;
+        int layerMask = 1 << 9;
         layerMask = ~layerMask;
         RaycastHit hit;
-        //Debug.DrawRay(aimer.transform.position, aimer.transform.TransformDirection(Vector3.forward) * 1000, Color.red);
         aimer.transform.LookAt(main.transform.position);
         if (Physics.Raycast(aimer.transform.position, aimer.transform.TransformDirection(Vector3.forward), out hit,10, layerMask))
         {
@@ -156,4 +172,6 @@ public class PlayerCamera : MonoBehaviour
         }
         return x;
     }
+
+
 }
