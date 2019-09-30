@@ -36,11 +36,13 @@ public class Crouch : MonoBehaviour
 
     public bool grounded;
 
+    public bool enteredScript;
+
     //for jumps
     public float longJumpUpForce = 5; // upwards force.
 
-    public float longJumpForwardForce = 17; // forward force.
-    public float highJumpForce = 12; // crouch jump upwards force.
+    public float longJumpForwardForce = 12; // forward force.
+    public float highJumpForce = 8.5f; // crouch jump upwards force.
 
     PlayerClass player;
 
@@ -52,8 +54,21 @@ public class Crouch : MonoBehaviour
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
+        enteredScript = false;
     }
-    
+
+    public void OnEnable()
+    {
+        enteredScript = true;
+        StartCoroutine(LongJumpTimer());
+    }
+
+    IEnumerator LongJumpTimer()
+    {
+        yield return new WaitForSeconds(1);
+        enteredScript = false;
+    }
+
     void FixedUpdate()
     {
         grounded = player.IsGrounded();
@@ -81,13 +96,23 @@ public class Crouch : MonoBehaviour
 
     public void Jump()
     {
-        if(Mathf.Abs(horizontal) <= deadZone && Mathf.Abs(vertical) <= deadZone)
+        //if(Mathf.Abs(horizontal) <= deadZone && Mathf.Abs(vertical) <= deadZone)
+        //{
+        //    HighJump();
+        //}
+        //else
+        //{
+        //    LongJump();
+        //}
+        if(enteredScript && Mathf.Abs(horizontal) >= deadZone && Mathf.Abs(vertical) >= deadZone)
         {
-            HighJump();
+            LongJump();
+            Debug.Log("long jump");
         }
         else
         {
-            LongJump();
+            HighJump();
+            Debug.Log("high jump");
         }
     }
 

@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
+     
 
     public void Jump()
     {
@@ -75,12 +76,13 @@ public class PlayerController : MonoBehaviour
             player.SetMovementType(MovementType.air);
             player.SetGrounded(false);
             //Particle stuff from Tony
+            psRun.Stop();
             psJump.Stop();
             psJump.Play();
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
-            player.GetGrappleComponent().DetatchGrapple();
+            DetatchGrapple();
         }
 
     }
@@ -100,7 +102,7 @@ public class PlayerController : MonoBehaviour
 
     public void DetatchGrapple()
     {
-        player.isGrappling = false;
+        //player.isGrappling = false; moved to grapplecomponent
 
         player.GetGrappleComponent().DetatchGrapple();
         stateMachine.SetTrigger("FallTrigger");
@@ -154,7 +156,14 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType(MovementType.move);
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
-                psRun.Play();
+                if(player.playerCurrentMove == MovementType.move)
+                {
+                    psRun.Play();
+                }
+                else
+                {
+                    psRun.Stop();
+                }
                 if (!jumpParticleIsPlaying)
                 {
                     psJump.Play();
@@ -168,7 +177,14 @@ public class PlayerController : MonoBehaviour
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);
                 player.GetAnimator().SetBool("Crouching", true);
-                psRun.Play();
+                if (player.playerCurrentMove == MovementType.move)
+                {
+                    psRun.Play();
+                }
+                else
+                {
+                    psRun.Stop();
+                }
                 if (!jumpParticleIsPlaying)
                 {
                     psJump.Play();
@@ -178,7 +194,14 @@ public class PlayerController : MonoBehaviour
             else if (footHit.collider.gameObject.tag == "MovingPlatform")
             {
                 transform.parent = footHit.transform.parent;
-                psRun.Play();
+                if (player.playerCurrentMove == MovementType.move)
+                {
+                    psRun.Play();
+                }
+                else
+                {
+                    psRun.Stop();
+                }
                 if (!jumpParticleIsPlaying)
                 {
                     psJump.Play();

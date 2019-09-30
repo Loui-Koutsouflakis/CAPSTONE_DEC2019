@@ -99,25 +99,23 @@ public class GrappleComponent : MonoBehaviour
 
             if (thetaDegrees > maxAngle)
             {
-                rb.mass = 1;
-                rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
+                DetatchGrapple();
+                //rb.mass = 1;
+                //rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
                 //normalMove.enabled = true;
-                tether = false;
-                attachedTetherPoint = null;
-                reachedZero = false;
+                //tether = false;
+                //attachedTetherPoint = null;
+               // reachedZero = false;
             }
 
         }
     }
 
-    //public void Jump()
-    //{
-        
-    //}
-       
 
     public void DetatchGrapple()
     {
+        player.isGrappling = false;
+
         rb.mass = 1;
         rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
         tether = false;

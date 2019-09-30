@@ -39,7 +39,7 @@ public class PlayerGroundMovement : MonoBehaviour
     public bool grounded;
 
     //for jumps
-    public float jumpForce = 8; 
+    public float jumpForce = 5.5f; 
     
     //for animation
     public Animator anim;
