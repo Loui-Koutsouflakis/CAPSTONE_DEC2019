@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    public PlayerMovementv2 h_PlayerScript;
+    public PlayerClass h_PlayerScript;
     public Vector3 spawnPoint;
     public int h_Health;
 

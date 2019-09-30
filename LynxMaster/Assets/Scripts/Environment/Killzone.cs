@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Killzone : MonoBehaviour
 {
-    public PlayerMovementv2 playerScript;
+    public PlayerClass playerScript;
     public Vector3 spawnPoint;
 
     private void Start()

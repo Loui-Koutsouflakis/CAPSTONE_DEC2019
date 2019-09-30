@@ -1,11 +1,11 @@
-﻿// Sebastian Borkowski
-// edited by AT 19-08-14 - changed to support new architecture
+﻿//created 19-08-09 - ground movement scrip based on old player movement script by AT edited by LF
+//keeps ground movement but removed air funtionallity
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crouch : MonoBehaviour
+public class PlayerGroundMovement : PlayerVariables
 {
     //rigidbody
     public Rigidbody rb;
@@ -26,61 +26,50 @@ public class Crouch : MonoBehaviour
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
     private readonly float decelFactor = 0.14f;
-
+    
     //public - to test balance etc.
-    //for movement
-    public float crouchAccel = 15;
-    public float crouchMax = 6;
-    public float rotateSpeed = 120;
+    //for movement  
+    //public float airMax = 8;    
     private float frictionCoeff = 0.2f;
 
     public bool grounded;
-
-    public bool enteredScript;
-
     //for jumps
-    public float longJumpUpForce = 5; // upwards force.
-
-    public float longJumpForwardForce = 12; // forward force.
-    public float highJumpForce = 8.5f; // crouch jump upwards force.
+    
+    
+    //for animation
+    public Animator anim;
+    private float moveSpeed;
+    private float rotate;
+    private float animRotate;
 
     PlayerClass player;
-
+       
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponentInParent<Rigidbody>();
         player = GetComponentInParent<PlayerClass>();
-
+        anim = GetComponentInParent<PlayerClass>().GetAnimator();
+     
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
-        enteredScript = false;
     }
-
-    public void OnEnable()
-    {
-        enteredScript = true;
-        StartCoroutine(LongJumpTimer());
-    }
-
-    IEnumerator LongJumpTimer()
-    {
-        yield return new WaitForSeconds(1);
-        enteredScript = false;
-    }
-
+             
+    // Update is called once per frame
     void FixedUpdate()
     {
         grounded = player.IsGrounded();
 
         ControlInput();
+        setSpeed();//for animations
+        setRotate();//for animations
     }
 
     public void ControlInput()
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-
+        
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
@@ -90,47 +79,12 @@ public class Crouch : MonoBehaviour
         {
             Decel();
         }
-        
-        ApplyVelocityCutoff();        
-    }
-
-    public void Jump()
-    {
-        //if(Mathf.Abs(horizontal) <= deadZone && Mathf.Abs(vertical) <= deadZone)
-        //{
-        //    HighJump();
-        //}
-        //else
-        //{
-        //    LongJump();
-        //}
-        if(enteredScript && Mathf.Abs(horizontal) >= deadZone && Mathf.Abs(vertical) >= deadZone)
-        {
-            LongJump();
-            Debug.Log("long jump");
-        }
-        else
-        {
-            HighJump();
-            Debug.Log("high jump");
-        }
-    }
-
-    public void HighJump() // will apply force upwards similar to the hight of the double jump.
-    {
-        rb.AddForce(transform.up * highJumpForce, ForceMode.Impulse);
-    }
-
-    public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
-    {
-        rb.velocity = Vector3.zero;
-        rb.AddForce(transform.up * longJumpUpForce + transform.forward * longJumpForwardForce, ForceMode.Impulse);
-
+               
+        ApplyVelocityCutoff();
     }
 
     public void Movement()
     {
-        //same movement controls as normal, execpt slowe
         //movement based on direction camera is facing
         Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
         Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
@@ -138,35 +92,51 @@ public class Crouch : MonoBehaviour
         cammyFront.y = 0;
         cammyRight.Normalize();
         cammyFront.Normalize();
-
-        //rotates the direction the character is facing to the correct direction based on camera
+                        
         player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-
+               
         //adds force to the player
-        rb.AddForce(transform.forward * crouchAccel, ForceMode.Force);
-
+        rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
+                
         Friction();
     }
 
+    //clamps the velocity
     void ApplyVelocityCutoff()
     {
         Vector3 horizontalVelocity = rb.velocity;
         horizontalVelocity.y = 0;
-
-        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, crouchMax) * horizontalVelocity.normalized;
-
+        
+        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax) * horizontalVelocity.normalized;
+       
         rb.velocity = horizontalVelocity + rb.velocity.y * Vector3.up;
     }
 
     void Friction()
     {
         float friction = frictionCoeff * rb.mass * Physics.gravity.magnitude;
-        Vector3 groundNormal = footHit.normal;
+        Vector3 groundNormal = player.GetFootHit().normal;
         Vector3 normalComponentofVelocity = Vector3.Dot(rb.velocity, groundNormal) * groundNormal;
         Vector3 parallelComponentofVelocity = rb.velocity - normalComponentofVelocity;
         rb.AddForce(-friction * parallelComponentofVelocity);
     }
-        
+    
+    public void Jump()
+    {
+        //Debug.Log("Normal Jump");
+        rb.velocity /= 2;
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        anim.SetTrigger("Jump");
+       
+        if (player.transform.parent != null)
+        {
+            player.transform.parent = null;
+        }
+              
+        anim.SetBool("Grounded", false);
+    }
+
     public void Decel()
     {
         if (!deadJoy)
@@ -178,5 +148,18 @@ public class Crouch : MonoBehaviour
         {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
         }
+    }
+       
+    //for animator
+    public void setSpeed()
+    {
+        moveSpeed = rb.velocity.magnitude / walkMax;
+        anim.SetFloat("Speed", moveSpeed);
+    }
+
+    public void setRotate()
+    {
+        animRotate = rotate / rotateSpeed;
+        anim.SetFloat("Rotate", animRotate);
     }
 }

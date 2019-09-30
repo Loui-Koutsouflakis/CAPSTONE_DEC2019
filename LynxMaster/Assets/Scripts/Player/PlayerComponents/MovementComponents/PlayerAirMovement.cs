@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirMovement : MonoBehaviour
+public class PlayerAirMovement : PlayerVariables
 {
     //architecture
     PlayerClass player;
@@ -24,29 +24,22 @@ public class PlayerAirMovement : MonoBehaviour
 
     //for jumps
     private bool canFlutter;
-    public float doubleJumpForce = 7;
+   
 
     //for ground pound
     private float DropForce = 20;
 
     //gravity modifiers
-    public float jumpMultiplier = 3f;
-    public float fallMultiplier = 8f;
-    public float peakTime = 0.3f; 
-    public float peakHeightMultiplier = 0.8f;
-    public float wallMultiplier = 0.5f;
+   
 
     //air movement
     private float horizontal;
     private float vertical;
-    public float airForwardSpeed = 10f;
-    public float airSideSpeed = 5f;
-    public float wallJumpVertical = 7;
-    public float wallJumpHorizontal = 7;
+    
     //need high airMax to allow long jump
     private float airMax = 12f;
-    public float testAirMax = 7;
-    private float rotateSpeed = 120f;
+    
+    private float airRotateSpeed = 120f;
 
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
@@ -158,7 +151,7 @@ public class PlayerAirMovement : MonoBehaviour
         //air script is different than the ground movement, as the character moves slower in the air and does NOT rotate to face camera forward instead will shift from side to side
 
         //following two lines are what we's use if we wanted to rotate character
-        //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+        //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
              
 
@@ -169,7 +162,7 @@ public class PlayerAirMovement : MonoBehaviour
         }
         else
         {
-            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
             rb.AddForce(transform.forward * airForwardSpeed, ForceMode.Force);
         }
     }
@@ -213,11 +206,13 @@ public class PlayerAirMovement : MonoBehaviour
             player.SetFlutter(false);
         }
         else if(onWall)
-        {            
+        {
+            //zero out velocity
+            rb.velocity = Vector3.zero;
             // jumps off of wall
             rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
             // sets player looking away from wall (two ways to do it)
-            //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+            //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
             player.transform.forward = -transform.forward;
                         
             onWall = false;
