@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PlayerVariables : MonoBehaviour
 {
-    //can change these during testing
+//Change Variables in script between test plays to adjust values.
     [Header("Ground Movement")]
     public float walkAccel = 60;
     public float climbAccel = 12;
@@ -65,7 +65,7 @@ public class PlayerVariables : MonoBehaviour
     //[Header("Ground Movement")]
     //public float walkAccel = 60;
     //public float climbAccel = 12;
-    //public float walkMax = 10;
+    //public float walkMax = 5;
     //public float rotateSpeed = 120;
     //public float jumpForce = 5.5f;
 
@@ -81,7 +81,7 @@ public class PlayerVariables : MonoBehaviour
     //public float airSideSpeed = 5f;
     //public float wallJumpVertical = 7;
     //public float wallJumpHorizontal = 7;
-    //public float testAirMax = 7;
+    //public float testAirMax = 3.5f;
 
     //[Header("Crouch Movement")]
     //public float crouchAccel = 15;
