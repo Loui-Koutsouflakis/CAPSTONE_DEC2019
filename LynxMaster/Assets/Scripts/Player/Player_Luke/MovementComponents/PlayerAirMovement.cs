@@ -26,6 +26,9 @@ public class PlayerAirMovement : MonoBehaviour
     private bool canFlutter;
     public float doubleJumpForce = 7;
 
+    //for ground pound
+    private float DropForce = 20;
+
     //gravity modifiers
     public float jumpMultiplier = 3f;
     public float fallMultiplier = 8f;
@@ -228,6 +231,10 @@ public class PlayerAirMovement : MonoBehaviour
         }
     }
 
+    public void GroundPound()
+    {
+        player.rb.AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
+    }
 
     public IEnumerator CheckWall()
     {

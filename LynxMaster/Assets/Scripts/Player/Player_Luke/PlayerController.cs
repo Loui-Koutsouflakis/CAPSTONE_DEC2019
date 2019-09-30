@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
-            //player.GetGrappleComponent().Jump();
+            player.GetGrappleComponent().DetatchGrapple();
         }
 
     }
@@ -114,9 +114,19 @@ public class PlayerController : MonoBehaviour
     //man this is alot of jumping back and forth to do something simple lol
     public void Crouch()
     {
-        player.SetMovementType(MovementType.crouch);
-        isCrouching = true;
-        player.SetCrouching(isCrouching);
+        if (player.playerCurrentMove == MovementType.move)
+        {
+            player.SetMovementType(MovementType.crouch);
+            isCrouching = true;
+            player.SetCrouching(isCrouching);
+        }
+        else if(player.playerCurrentMove == MovementType.air)
+        {
+            player.GetAirComponent().GroundPound();
+            player.SetMovementType(MovementType.crouch);
+            isCrouching = true;
+
+        }
     }
 
     public void deCrouch()
@@ -125,6 +135,7 @@ public class PlayerController : MonoBehaviour
         isCrouching = false;
         player.SetCrouching(isCrouching);
     }
+
 
     #region check ground functions
 

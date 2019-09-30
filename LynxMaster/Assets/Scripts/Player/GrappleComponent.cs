@@ -8,14 +8,11 @@ using UnityEngine;
 
 public class GrappleComponent : MonoBehaviour
 {
-
-    [Range(45, 90)]
-
     public Rigidbody rb;
-    public Transform tetherPoint;
-    public Transform attachedTetherPoint; 
+
+    public Transform attachedTetherPoint;
     public bool tether = false;
-    public float maxSwingSpeed;
+    public float maxSwingSpeed = 20;
     public float forwardSpeed = 100;
     public float sidewaysSpeed = 8;
     public float jumpSpeed = 10;
@@ -28,19 +25,23 @@ public class GrappleComponent : MonoBehaviour
     [Range(20, 90)]
     public float maxAngle;
 
-
+    [SerializeField]
     PlayerClass player;
+
+    public Transform tetherPoint;
 
     // Start is called before the first frame update
 
     public void Initialize()
     {
         player = GetComponentInParent<PlayerClass>();
-        rb = player.rb;
+        rb = GetComponentInParent<Rigidbody>();
     }
 
     public void Grapple()
     {
+        tetherPoint = player.tetherPoint.GetTetherLocation();
+
         if (tetherPoint == null)
         {
             Debug.Log("No tetherpoint");
@@ -50,6 +51,7 @@ public class GrappleComponent : MonoBehaviour
         tether = true;
         attachedTetherPoint = tetherPoint;
 
+        player.debugLine.GetComponent<LineRenderer>().enabled = true;
 
     }
 
@@ -58,57 +60,61 @@ public class GrappleComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if (!tether)
             return;
 
-           
-            rb.mass = 100;
-            Vector3 radial = (attachedTetherPoint.position - transform.position).normalized;
-            Vector3 radialVelocityComponent = Vector3.Dot(rb.velocity, radial) * radial;
-            rb.velocity -= radialVelocityComponent;
-            rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSwingSpeed);
-
-            Vector3 tetherDirection = attachedTetherPoint.position - transform.position;
-            float tetherLength = tetherDirection.magnitude;
-            float x = Vector3.Dot(tetherDirection.normalized, Vector3.up);
-            float y = (tetherDirection.normalized - x * Vector3.up).magnitude;
-            float theta = Mathf.Atan2(y, x);
-
-            ////since we are using a gravity multiplier, we will likely need to add that here as well to have the swing feel right (i.e higher gravity)
-            //float tension = rb.mass * 9.8f * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
-            float tension = rb.mass * Physics.gravity.y * 8 * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
-            rb.AddForce(tension * tetherDirection.normalized);
-            Debug.DrawLine(transform.position, attachedTetherPoint.position);
-            float thetaDegrees = theta * Mathf.Rad2Deg;
-            //Debug.Log(thetaDegrees);
+        player.debugLine.SetPosition(0, player.transform.position);
+        player.debugLine.SetPosition(1, attachedTetherPoint.position);
 
 
-            if (thetaDegrees < 5)
+        rb.mass = 100;
+        Vector3 radial = (attachedTetherPoint.position - transform.position).normalized;
+        Vector3 radialVelocityComponent = Vector3.Dot(rb.velocity, radial) * radial;
+        rb.velocity -= radialVelocityComponent;
+        rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSwingSpeed);
+
+        Vector3 tetherDirection = attachedTetherPoint.position - transform.position;
+        float tetherLength = tetherDirection.magnitude;
+        float x = Vector3.Dot(tetherDirection.normalized, Vector3.up);
+        float y = (tetherDirection.normalized - x * Vector3.up).magnitude;
+        float theta = Mathf.Atan2(y, x);
+        float tension = rb.mass * 9.8f * 8*  Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
+        rb.AddForce(tension * tetherDirection.normalized);
+        Debug.DrawLine(transform.position, attachedTetherPoint.position);
+        float thetaDegrees = theta * Mathf.Rad2Deg;
+        //Debug.Log(thetaDegrees);
+
+
+        if (thetaDegrees < 5)
+        {
+            Debug.Log("Reached Zero");
+            reachedZero = true;
+        }
+
+        if (reachedZero)
+        {
+            rb.AddForce(rb.velocity.normalized * boost, ForceMode.Impulse);
+
+            if (thetaDegrees > maxAngle)
             {
-                Debug.Log("Reached Zero");
-                reachedZero = true;
+                rb.mass = 1;
+                rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
+                //normalMove.enabled = true;
+                tether = false;
+                attachedTetherPoint = null;
+                reachedZero = false;
             }
 
-            if (reachedZero)
-            {
-                rb.AddForce(rb.velocity.normalized * boost, ForceMode.Impulse);
-
-                if (thetaDegrees > maxAngle)
-                {
-                    rb.mass = 1;
-                    rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
-                    //normalMove.enabled = true;
-                    tether = false;
-                    attachedTetherPoint = null;
-                    reachedZero = false;
-                }
-
-            }
-
-
-
-   
+        }
     }
+
+    //public void Jump()
+    //{
+        
+    //}
+       
 
     public void DetatchGrapple()
     {
@@ -122,6 +128,8 @@ public class GrappleComponent : MonoBehaviour
         attachedTetherPoint = null;
 
         reachedZero = false;
+
+        player.debugLine.enabled = false;
     }
 
     public Transform setTetherPoint(Transform t)
@@ -134,7 +142,7 @@ public class GrappleComponent : MonoBehaviour
 
 
         Debug.Log("No tetherpoint");
-        tetherPoint = null; 
+        tetherPoint = null;
         return tetherPoint;
 
     }
@@ -142,15 +150,5 @@ public class GrappleComponent : MonoBehaviour
 
 
 
-    //private void OnDisable()
-    //{
-    //    tether = false;
-    //    rb.mass = 1;
-    //}
-
-
-
-
 }
-
 

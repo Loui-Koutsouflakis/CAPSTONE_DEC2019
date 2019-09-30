@@ -18,6 +18,9 @@ public class PlayerInputHandler : MonoBehaviour
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
 
+    public Command _RightBumperDown = new Command();
+    public Command _RightBumperUp = new Command();
+
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -33,7 +36,10 @@ public class PlayerInputHandler : MonoBehaviour
         _AButton = SetButton(jump);
 
         InitCrouchCommand crouch = new InitCrouchCommand();
-        _BButton = SetButton(crouch);
+        _RightBumperDown = SetButton(crouch);
+
+        DeCrouchCommand deCrouch = new DeCrouchCommand();
+        _RightBumperUp = SetButton(deCrouch);
 
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
         _LeftBumperDown = SetButton(grap);
@@ -51,11 +57,11 @@ public class PlayerInputHandler : MonoBehaviour
         }
         if (Input.GetButtonDown("RightBumper"))
         {
-            _BButton.Execute(playerController);
+            _RightBumperDown.Execute(playerController);
         }
         if (Input.GetButtonUp("RightBumper"))
         {
-
+            _RightBumperUp.Execute(playerController);
         }
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
@@ -65,23 +71,15 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (Input.GetButtonUp("LeftBumper"))
         {
-            _LeftBumperUp.Execute(playerController);
-
+            //_LeftBumperUp.Execute(playerController);
         }
-
-
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             Debug.Break();
-        }
-
-
+        }        
     }
-
-
-
 
     private void Start()
     {
@@ -137,7 +135,7 @@ public class InitCrouchCommand : Command
 
 public class DeCrouchCommand : Command
 {
-    public void Execute(PlayerController playCont)
+    public override void Execute(PlayerController playCont)
     {
         playCont.deCrouch();
     }
