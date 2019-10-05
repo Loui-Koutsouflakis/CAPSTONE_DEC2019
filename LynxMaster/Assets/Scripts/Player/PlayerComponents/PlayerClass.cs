@@ -347,10 +347,10 @@ public class PlayerClass : MonoBehaviour
 
 
 
-        for (int i = 0; i < playerMovementArray.Length; i++)
-        {
-            Debug.Log(playerMovementArray[i].name + " is in the player movement array");
-        }
+        //for (int i = 0; i < playerMovementArray.Length; i++)
+        //{
+        //    Debug.Log(playerMovementArray[i].name + " is in the player movement array");
+        //}
 
 
         SetMovementType(MovementType.move);

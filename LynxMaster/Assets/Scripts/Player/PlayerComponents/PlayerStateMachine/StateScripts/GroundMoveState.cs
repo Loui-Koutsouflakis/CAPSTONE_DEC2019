@@ -10,7 +10,7 @@ public class GroundMoveState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player = animator.GetComponent<PlayerController>().player; 
-        Debug.Log("Player has entered the ground state");
+        //Debug.Log("Player has entered the ground state");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -23,7 +23,7 @@ public class GroundMoveState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("GroundTrigger");
-        Debug.Log("Player has entered the ground state");
+        //Debug.Log("Player has entered the ground state");
 
     }
 

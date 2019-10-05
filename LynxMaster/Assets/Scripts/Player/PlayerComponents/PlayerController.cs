@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
         if (playerHeight > player.transform.position.y)
         {
             player.isFalling = true;
-            Debug.Log("Player Falling");
+            //Debug.Log("Player Falling");
         }
         else
             player.isFalling = false;

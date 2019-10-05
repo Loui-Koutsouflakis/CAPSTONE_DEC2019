@@ -12,10 +12,10 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Player")]
     public GameObject Player;
-    [SerializeField]
-    float playerSpeed;
-    [SerializeField]
+    public GameObject shadow;
+    Rigidbody p_RB;
     Vector3 playerFront;
+
     [Header("Camera Sensitivity and rotation smoothing(Suggested sensitivity = 4)")]
     [Range(1, 10)]
     public float sensitivity = 5;
@@ -37,21 +37,23 @@ public class PlayerCamera : MonoBehaviour
     Vector3 temp;
     float yaw;
     float pitch;
-    bool looking = false;
+   // bool looking = false;
 
     [Header("Camera Field of View")]
-    float i_FOV = 60;
+    public float i_FOV = 60;
     public float z_FOV = 30;
-    float b_FOV = 80;
-    float c_FOV;
-    float smooth = 15;
+    public float b_FOV = 80;
+    public float c_FOV;
+    public float smooth = 90;
 
     [Header("CameraRayCast")]
     public Camera main;
     public GameObject aimer;
+    RaycastHit s_Ground;
     LayerMask layerMask;
-    public float cameraOffsetX = .2f;
-    public float cameraOffsetY;
+    float cameraOffsetX = .2f;
+    float cameraOffsetY = 0.5f;
+
     void Start()
     {
         main = Camera.main;
@@ -59,8 +61,8 @@ public class PlayerCamera : MonoBehaviour
         properDistance = distFromPlayer;
         pitchMinMax = new Vector2(-5, 75);
         properDistance = distFromPlayer;
-        //Player = GameObject.FindGameObjectWithTag("Player");
-      
+        p_RB = Player.GetComponent<Rigidbody>();
+
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -70,21 +72,15 @@ public class PlayerCamera : MonoBehaviour
     private void Update()
     {
         c_FOV = main.fieldOfView;
-        //playerSpeed = Player.GetComponent<PlayerMovementv2>().moveSpeed;
-        //if (Input.GetButton("LeftBumper"))
-        //{
-        //    looking = true;
-        //    ZoomFunction();
-        //}
-        //else if (Input.GetButtonUp("LeftBumper"))
-        //{
-        //    looking = false;
-        //    main.fieldOfView = i_FOV;
-        //}
+        if (ShadowManager(Player))
+        {
+            shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
+        }
     }
     private void LateUpdate()
     {
         CamMovement();
+        JumpCamera();
     }
 
     void CamMovement()
@@ -106,18 +102,6 @@ public class PlayerCamera : MonoBehaviour
         transform.eulerAngles = currentRotation;
         transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX)) * CameraRaycast(distFromPlayer) + (transform.up * cameraOffsetY);
 
-        //if (Player.GetComponent<Rigidbody>().velocity.magnitude > 0 && c_FOV > z_FOV)
-        //{
-        //    main.fieldOfView += (-smooth * Time.deltaTime);
-        //}
-        //else if(Player.GetComponent<Rigidbody>().velocity.magnitude == 0 && c_FOV <= i_FOV)
-        //{
-        //    main.fieldOfView -= (-smooth * Time.deltaTime);
-        //}
-        //else if(Player.GetComponent<Rigidbody>().velocity.magnitude < 0 && c_FOV <= b_FOV)
-        //{
-        //    main.fieldOfView -= (-smooth * Time.deltaTime);
-        //}
     }
 
     void invertY()
@@ -137,21 +121,28 @@ public class PlayerCamera : MonoBehaviour
         invY = !invY;
     }
 
-    void ZoomFunction()
+    void JumpCamera()
     {
-        looking = true;
-        if (c_FOV != z_FOV)
+        
+        if (p_RB.velocity.y > 0 && c_FOV <= b_FOV)
         {
-            if (c_FOV > z_FOV)
-            {
-                main.fieldOfView += (-smooth * Time.deltaTime);
-            }
+            main.fieldOfView -= (-smooth * Time.deltaTime);
         }
-        else if (c_FOV <= z_FOV)
+        if (p_RB.velocity.y <= 0 && c_FOV >= i_FOV)
         {
-            main.fieldOfView = z_FOV;
+            main.fieldOfView += (-smooth * Time.deltaTime);
         }
     }
+
+    public bool ShadowManager(GameObject x)
+    {
+        int p_LayerMask = 1 << 9;
+        p_LayerMask = ~p_LayerMask;
+        Vector3 lineStart = x.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y - 10, lineStart.z);
+        return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, p_LayerMask);
+    }
+
     float CameraRaycast(float x)
     {
         int layerMask = 1 << 9;
@@ -172,6 +163,21 @@ public class PlayerCamera : MonoBehaviour
         }
         return x;
     }
-
+    //*********************************************************************NOT IN USE BUT MAYBE LATER*************************************************************************
+    //void ZoomFunction()
+    //{
+    //    looking = true;
+    //    if (c_FOV != z_FOV)
+    //    {
+    //        if (c_FOV > z_FOV)
+    //        {
+    //            main.fieldOfView += (-smooth * Time.deltaTime);
+    //        }
+    //    }
+    //    else if (c_FOV <= z_FOV)
+    //    {
+    //        main.fieldOfView = z_FOV;
+    //    }
+    //}
 
 }
