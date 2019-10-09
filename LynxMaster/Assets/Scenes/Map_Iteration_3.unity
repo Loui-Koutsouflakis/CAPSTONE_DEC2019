@@ -1527,12 +1527,12 @@ PrefabInstance:
     - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: sensitivity
-      value: 2.5
+      value: 1.68
       objectReference: {fileID: 0}
     - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: rotationsmoothTime
-      value: 0.202
+      value: 0.535
       objectReference: {fileID: 0}
     - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
@@ -1554,6 +1554,11 @@ PrefabInstance:
       propertyPath: shadow
       value: 
       objectReference: {fileID: 402236012}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: distFromPlayer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
 --- !u!1 &1197769697
@@ -2707,6 +2712,41 @@ PrefabInstance:
     - target: {fileID: 6575495761812243378, guid: 98d1aa778282eff45a62fff301d680b3,
         type: 3}
       propertyPath: measure
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648469899939422707, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957315429653101, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957315429653101, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957315429653101, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957315558691707, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: MovingPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957316491816336, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: liveEdit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356957316491816336, guid: 98d1aa778282eff45a62fff301d680b3,
+        type: 3}
+      propertyPath: slerpDirection
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
