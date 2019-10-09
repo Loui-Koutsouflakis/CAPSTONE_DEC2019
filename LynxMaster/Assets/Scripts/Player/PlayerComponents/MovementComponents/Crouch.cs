@@ -60,6 +60,11 @@ public class Crouch : PlayerVariables
         StartCoroutine(LongJumpTimer());
     }
 
+    public void OnDisable()
+    {
+        enteredScript = false;
+    }
+
     IEnumerator LongJumpTimer()
     {
         yield return new WaitForSeconds(1);
@@ -101,7 +106,7 @@ public class Crouch : PlayerVariables
         //{
         //    LongJump();
         //}
-        if(enteredScript && Mathf.Abs(horizontal) >= deadZone && Mathf.Abs(vertical) >= deadZone)
+        if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone)
         {
             LongJump();
             Debug.Log("long jump");
@@ -116,12 +121,14 @@ public class Crouch : PlayerVariables
     public void HighJump() // will apply force upwards similar to the hight of the double jump.
     {
         rb.AddForce(transform.up * highJumpForce, ForceMode.Impulse);
+        player.SetHighJump(true);
     }
 
     public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
     {
         rb.velocity = Vector3.zero;
         rb.AddForce(transform.up * longJumpUpForce + transform.forward * longJumpForwardForce, ForceMode.Impulse);
+        player.SetLongJump(true);
 
     }
 

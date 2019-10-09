@@ -48,7 +48,7 @@ public class PlayerInputHandler : MonoBehaviour
         _LeftBumperUp = SetButton(dGrap);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         //if this seems redundant, that only because we've named the XBOX A_Button "jump" in the Unity Editor  
         if (Input.GetButtonDown("Jump"))

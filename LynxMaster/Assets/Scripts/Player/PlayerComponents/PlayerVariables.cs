@@ -18,7 +18,8 @@ public class PlayerVariables : MonoBehaviour
 
     [Header("Air Movement")]
     public float jumpMultiplier = 3f;
-    public float fallMultiplier = 8f;
+    public float fallMultiplier = 3f;
+    public float fallTime = 2.8f;
     public float peakTime = 0.3f;
     public float peakHeightMultiplier = 0.8f;
     public float doubleJumpForce = 7;
@@ -28,12 +29,14 @@ public class PlayerVariables : MonoBehaviour
     public float wallJumpVertical = 7;
     public float wallJumpHorizontal = 7;
     public float testAirMax = 3.5f;
+    public float longJumpMax = 50;
+    public float highJumpAirMax = 1;
 
     [Header("Crouch Movement")]
     public float crouchAccel = 15;
     public float crouchMax = 6;
     public float crouchRotateSpeed = 120;
-    public float longJumpUpForce = 5; // upwards force.
+    public float longJumpUpForce = 4; // upwards force.
     public float longJumpForwardForce = 12; // forward force.
     public float highJumpForce = 8.5f; // crouch jump upwards force.
 
@@ -45,7 +48,10 @@ public class PlayerVariables : MonoBehaviour
     public float launchSpeed;
     public float boost = 20;
 
-
+    protected float EaseIn(float t)
+    {
+        return t * t;
+    }
 
     //To be done later
     //PlayerClass player;
@@ -72,7 +78,8 @@ public class PlayerVariables : MonoBehaviour
 
     //[Header("Air Movement")]
     //public float jumpMultiplier = 3f;
-    //public float fallMultiplier = 8f;
+    //public float fallMultiplier = 3f;
+    //public float fallTime = 2.8f;
     //public float peakTime = 0.3f;
     //public float peakHeightMultiplier = 0.8f;
     //public float doubleJumpForce = 7;
@@ -82,6 +89,8 @@ public class PlayerVariables : MonoBehaviour
     //public float wallJumpVertical = 7;
     //public float wallJumpHorizontal = 7;
     //public float testAirMax = 3.5f;
+    //public float longJumpMax = 20;
+    //public float highJumpAirMax = 1;
 
     //[Header("Crouch Movement")]
     //public float crouchAccel = 15;

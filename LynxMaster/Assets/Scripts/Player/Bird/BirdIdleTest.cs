@@ -73,12 +73,14 @@ public class BirdIdleTest : MonoBehaviour
         currentState = BirdState.fetch;
     }
 
+    //Idle state that follows the player
     public void FollowState()
     {
         LookDirection();
         Follow();
     }
 
+    //moves towards the target platform or item
     public void FetchState()
     {
         if(target)
@@ -86,6 +88,7 @@ public class BirdIdleTest : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
     }
+
 
     public void ComeBackState()
     {

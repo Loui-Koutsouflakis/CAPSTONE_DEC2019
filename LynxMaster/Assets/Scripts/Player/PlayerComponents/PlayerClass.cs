@@ -156,9 +156,7 @@ public class PlayerClass : MonoBehaviour
 
     //ISGRAPPLING
     [Header("grapplinig")]
-    public bool isGrappling;
-
-
+    public bool isGrappling;    
 
     //ON WALL
 
@@ -191,6 +189,31 @@ public class PlayerClass : MonoBehaviour
     }
 
 
+    //Long and high jumps
+    [SerializeField]
+    private bool isHighJump;
+    [SerializeField]
+    private bool isLongJump;
+
+    public bool GetHighJump()
+    {
+        return isHighJump;
+    }
+
+    public void SetHighJump(bool value)
+    {
+        isHighJump = value;
+    }
+
+    public bool GetLongJump()
+    {
+        return isLongJump;
+    }
+
+    public void SetLongJump(bool value)
+    {
+        isLongJump = value;
+    }
 
     #endregion
 

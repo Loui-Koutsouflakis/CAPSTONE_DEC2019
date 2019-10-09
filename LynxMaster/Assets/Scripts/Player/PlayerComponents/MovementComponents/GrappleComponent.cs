@@ -87,7 +87,15 @@ public class GrappleComponent : MonoBehaviour
         //Debug.Log(thetaDegrees);
 
 
-        if (thetaDegrees < 5)
+        //if (thetaDegrees < 5)
+        //{
+        //    Debug.Log("Reached Zero");
+        //    reachedZero = true;
+        //}
+
+        Vector3 heading = attachedTetherPoint.position - transform.position;
+        float dot = Vector3.Dot(heading, transform.forward);
+        if(dot < 0)
         {
             Debug.Log("Reached Zero");
             reachedZero = true;
@@ -114,6 +122,7 @@ public class GrappleComponent : MonoBehaviour
 
     public void DetatchGrapple()
     {
+        Debug.Log("grapple detached");
         player.isGrappling = false;
 
         rb.mass = 1;

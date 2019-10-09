@@ -49,8 +49,14 @@ public class PlayerCamera : MonoBehaviour
     [Header("CameraRayCast")]
     public Camera main;
     public GameObject aimer;
+    int p_LayerMask = 1 << 9;
+    RaycastHit hit;
+    RaycastHit wall;
     RaycastHit s_Ground;
     LayerMask layerMask;
+    public float wallDist = 5;
+    public float wallCheckSmoothing = 60;
+    public bool enclosed = false;
     float cameraOffsetX = .2f;
     float cameraOffsetY = 0.5f;
 
@@ -62,7 +68,8 @@ public class PlayerCamera : MonoBehaviour
         pitchMinMax = new Vector2(-5, 75);
         properDistance = distFromPlayer;
         p_RB = Player.GetComponent<Rigidbody>();
-
+        p_LayerMask = ~p_LayerMask;
+        
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -77,9 +84,11 @@ public class PlayerCamera : MonoBehaviour
             shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
         }
     }
+
     private void LateUpdate()
     {
         CamMovement();
+        //CameraFieldOfView();
         JumpCamera();
     }
 
@@ -101,7 +110,6 @@ public class PlayerCamera : MonoBehaviour
         eul.x = 0;
         transform.eulerAngles = currentRotation;
         transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX)) * CameraRaycast(distFromPlayer) + (transform.up * cameraOffsetY);
-
     }
 
     void invertY()
@@ -123,21 +131,31 @@ public class PlayerCamera : MonoBehaviour
 
     void JumpCamera()
     {
-        
-        if (p_RB.velocity.y > 0 && c_FOV <= b_FOV)
+        if (p_RB.velocity.y > 0 && c_FOV <= b_FOV/* && !enclosed*/) 
         {
-            main.fieldOfView -= (-smooth * Time.deltaTime);
+            main.fieldOfView += (smooth * Time.deltaTime);
         }
-        if (p_RB.velocity.y <= 0 && c_FOV >= i_FOV)
+        if (p_RB.velocity.y <= 0 && c_FOV >= i_FOV /*&& !enclosed*/)
         {
-            main.fieldOfView += (-smooth * Time.deltaTime);
+            main.fieldOfView -= (smooth * Time.deltaTime);
         }
     }
-
+    
+    void CameraFieldOfView()
+    {
+        if (isInCloseR() && isInCloseL() && c_FOV <= b_FOV)
+        {
+            main.fieldOfView += wallCheckSmoothing * Time.deltaTime;
+            enclosed = true;
+        }
+        else if (!isInCloseL() && !isInCloseR() && c_FOV >= i_FOV)
+        {
+            main.fieldOfView -= wallCheckSmoothing * Time.deltaTime;
+            enclosed = false;
+        }
+    }
     public bool ShadowManager(GameObject x)
     {
-        int p_LayerMask = 1 << 9;
-        p_LayerMask = ~p_LayerMask;
         Vector3 lineStart = x.transform.position;
         Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y - 10, lineStart.z);
         return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, p_LayerMask);
@@ -145,11 +163,8 @@ public class PlayerCamera : MonoBehaviour
 
     float CameraRaycast(float x)
     {
-        int layerMask = 1 << 9;
-        layerMask = ~layerMask;
-        RaycastHit hit;
         aimer.transform.LookAt(main.transform.position);
-        if (Physics.Raycast(aimer.transform.position, aimer.transform.TransformDirection(Vector3.forward), out hit,10, layerMask))
+        if (Physics.Raycast(aimer.transform.position, aimer.transform.TransformDirection(Vector3.forward), out hit,10, p_LayerMask))
         {
             float dist = hit.distance;
             if (dist < distFromPlayer)
@@ -163,6 +178,23 @@ public class PlayerCamera : MonoBehaviour
         }
         return x;
     }
+
+    public bool isInCloseL()
+    {
+        Vector3 lineStart = Player.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x + wallDist, lineStart.y, lineStart.z);
+        Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+        return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
+    }
+
+    public bool isInCloseR()
+    {
+        Vector3 lineStart = Player.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x - wallDist, lineStart.y, lineStart.z);
+        Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+        return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
+    }
+  
     //*********************************************************************NOT IN USE BUT MAYBE LATER*************************************************************************
     //void ZoomFunction()
     //{

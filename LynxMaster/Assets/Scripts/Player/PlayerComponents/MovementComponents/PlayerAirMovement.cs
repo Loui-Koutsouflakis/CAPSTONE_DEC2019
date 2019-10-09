@@ -104,7 +104,7 @@ public class PlayerAirMovement : PlayerVariables
         }
         else if (rb.velocity.y < peakTime)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
         else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
@@ -170,9 +170,13 @@ public class PlayerAirMovement : PlayerVariables
     void ApplyVelocityCutoff()
     {
         //if long jumping has a higher air max to allow longer jumps
-        if(player.GetCrouching())
+        if(player.GetLongJump())
         {
-            airMax = 50;
+            airMax = longJumpMax;
+        }
+        else if(player.GetHighJump())
+        {
+            airMax = highJumpAirMax;
         }
         //air max of 12 is for normal jumps
         else
@@ -218,12 +222,17 @@ public class PlayerAirMovement : PlayerVariables
             onWall = false;
             wallDeadZone = true;
             StartCoroutine(WallDeadZone());
+            player.SetFlutter(true);
         }
 
         if (player.transform.parent != null)
         {
             player.transform.parent = null;
         }
+
+        //resets air control when jumping out of a long jump or high jump
+        player.SetHighJump(false);
+        player.SetLongJump(false);
     }
 
     public void GroundPound()
