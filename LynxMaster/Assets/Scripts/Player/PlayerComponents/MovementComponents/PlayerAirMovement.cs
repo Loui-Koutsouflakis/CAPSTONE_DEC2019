@@ -50,6 +50,8 @@ public class PlayerAirMovement : PlayerVariables
     private bool wallDeadZone;
     public bool doubleJumpControl;
 
+    private Vector3 wallNormal;
+
 
     //rayCasts
     private RaycastHit faceHit;
@@ -78,6 +80,12 @@ public class PlayerAirMovement : PlayerVariables
     {
         //stops checking wall on disables to prevent multiple checks running
         StopAllCoroutines();
+        //resets high and long jumps
+        if (player)//or error on startup
+        {
+            player.SetHighJump(false);
+            player.SetLongJump(false);
+        }
     }
 
 
@@ -193,8 +201,13 @@ public class PlayerAirMovement : PlayerVariables
     }
 
     public void Jump()
-    {       
-        if(canFlutter && !onWall)
+    {
+        Vector3 forward = transform.forward;
+        Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
+
+        //Vector3.Dot(forward, inputDir) < 0
+
+        if (canFlutter && !onWall)
         {
             //Debug.Log("Flutter Jump");
             //zero out velocity at start of flutter jump to prevent to much height
@@ -214,11 +227,16 @@ public class PlayerAirMovement : PlayerVariables
             //zero out velocity
             rb.velocity = Vector3.zero;
             // jumps off of wall
-            rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            //rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
             // sets player looking away from wall (two ways to do it)
             //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
-            player.transform.forward = -transform.forward;
-                        
+            //player.transform.forward = -transform.forward; use this
+            
+            player.transform.forward = wallNormal;
+            
+
+            rb.AddForce((transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+
             onWall = false;
             wallDeadZone = true;
             StartCoroutine(WallDeadZone());
@@ -258,17 +276,19 @@ public class PlayerAirMovement : PlayerVariables
         //bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
+        RaycastHit hit;
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 midRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
    
         //if all three
         if (toeCast && midCast && topOfHead)
         {
             onWall = true;
+            wallNormal = hit.normal;
         }
         else if (toeCast && !midCast && !topOfHead)
         {
