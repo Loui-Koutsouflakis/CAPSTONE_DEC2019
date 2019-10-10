@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
+
+    [SerializeField]
+    private bool canMultiJump = true;
     public bool GetIsCrouching()
     {
         return isCrouching;
@@ -42,7 +45,6 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
-     
 
     public void Jump()
     {
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
             psJump.Play();
             jumpParticleIsPlaying = false;
         }
-        else if (player.playerCurrentMove == MovementType.air)
+        else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
             player.GetAirComponent().Jump();
         }
@@ -141,14 +143,18 @@ public class PlayerController : MonoBehaviour
 
     #region check ground functions
 
-    private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
+    private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
     private readonly float groundCheckRate = 0.1f;
     private RaycastHit footHit;
 
     public void GroundMe()
     {
+        
+
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
+            Debug.Log(footHit.collider.name);
+
             if (footHit.collider.gameObject != null && !isCrouching)
             {
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not 
@@ -256,7 +262,7 @@ public class PlayerController : MonoBehaviour
 
 
     ///LUKE FALLING CHECK
-
+    [SerializeField]
     bool isFalling;
 
     public bool IsPlayerFalling()
@@ -264,6 +270,7 @@ public class PlayerController : MonoBehaviour
         return isFalling;
     }
 
+    
     float playerHeight;
 
     IEnumerator FallCheck()
