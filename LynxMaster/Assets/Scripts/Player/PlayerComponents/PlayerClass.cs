@@ -13,6 +13,7 @@ public enum MovementType
 
 public class PlayerClass : MonoBehaviour
 {
+    
 
 
     [Header("RigidBody")]
@@ -28,6 +29,8 @@ public class PlayerClass : MonoBehaviour
     }
 
     public MovementType playerCurrentMove;
+
+    public LayerMask airMask;
 
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
@@ -194,6 +197,8 @@ public class PlayerClass : MonoBehaviour
     private bool isHighJump;
     [SerializeField]
     private bool isLongJump;
+    [SerializeField]
+    private bool isDoubleJump;
 
     public bool GetHighJump()
     {
@@ -213,6 +218,16 @@ public class PlayerClass : MonoBehaviour
     public void SetLongJump(bool value)
     {
         isLongJump = value;
+    }
+
+    public bool GetDoubleJump()
+    {
+        return isDoubleJump;
+    }
+
+    public void SetDoubleJump(bool value)
+    {
+        isDoubleJump = value;
     }
 
     #endregion
