@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 476245915512411016}
   m_Layer: 0
   m_Name: TimedPlatform
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,6 +67,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!65 &476245915963161140
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476245915776155720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3693848, y: 0.876739, z: 0.27342397}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!145 &476245915963161136
 SpringJoint:
   m_ObjectHideFlags: 0
@@ -90,19 +103,6 @@ SpringJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!65 &476245915963161140
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476245915776155720}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.3693848, y: 0.876739, z: 0.27342397}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &476245915776059112
 PrefabInstance:
   m_ObjectHideFlags: 0

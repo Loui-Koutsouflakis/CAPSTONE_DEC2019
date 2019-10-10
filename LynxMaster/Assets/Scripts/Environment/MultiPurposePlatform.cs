@@ -80,21 +80,21 @@ public class MultiPurposePlatform : MonoBehaviour
             PlatformRun();
         }
     }
-    private void OnTriggerEnter(Collider o)
-    {
-        if (o.gameObject.tag == "Player")
-        {
-            Player.transform.parent = transform;
-        }
-    }
+    //private void OnTriggerEnter(Collider o)
+    //{
+    //    if (o.gameObject.tag == "Player")
+    //    {
+    //        Player.transform.parent = transform;
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider o)
-    {
-        if (o.gameObject.tag == "Player")
-        {
-            Player.transform.parent = null;
-        }
-    }
+    //private void OnTriggerExit(Collider o)
+    //{
+    //    if (o.gameObject.tag == "Player")
+    //    {
+    //        Player.transform.parent = null;
+    //    }
+    //}
 
     void LinearMovement()
     {
