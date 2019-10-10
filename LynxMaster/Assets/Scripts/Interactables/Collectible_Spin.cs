@@ -39,7 +39,7 @@ public class Collectible_Spin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PSRotation();
+        //PSRotation();
         RotateAround();
     }
 
@@ -59,7 +59,7 @@ public class Collectible_Spin : MonoBehaviour
         rotationVector.x = rotX;
         rotationVector.y = rotY;
         rotationVector.z = rotZ;
-        myPS.transform.eulerAngles = rotationVector;
+        //myPS.transform.eulerAngles = rotationVector;
     }
     
     void RotateAround()//Rotates Orb
