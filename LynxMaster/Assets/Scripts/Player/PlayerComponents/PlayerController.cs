@@ -153,8 +153,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
         {
-            Debug.Log(footHit.collider.name);
-
             if (footHit.collider.gameObject != null && !isCrouching)
             {
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not 
