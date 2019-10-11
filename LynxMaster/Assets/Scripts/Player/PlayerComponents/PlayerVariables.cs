@@ -29,7 +29,7 @@ public class PlayerVariables : MonoBehaviour
     public float wallJumpVertical = 7;
     public float wallJumpHorizontal = 7;
     public float testAirMax = 6f;
-    public float doubleJumpMax = 2f;
+    public float doubleJumpMax = 4f;
     public float longJumpMax = 50;
     public float highJumpAirMax = 1;
 
