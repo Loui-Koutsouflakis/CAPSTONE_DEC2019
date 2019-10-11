@@ -43,13 +43,22 @@ public class Collectible_Spin : MonoBehaviour
         RotateAround();
     }
 
-    private void OnCollisionEnter(Collision c)
+
+    private void OnTriggerEnter(Collider o)
     {
-        if (c.gameObject.tag == "Player")
-        {            
+        if (o.gameObject.tag == "Player")
+        {
             gameObject.SetActive(false);
         }
     }
+
+    //private void OnCollisionEnter(Collision c)
+    //{
+    //    if (c.gameObject.tag == "Player")
+    //    {            
+    //        gameObject.SetActive(false);
+    //    }
+    //}
 
     void PSRotation()//Rotates the Particle System
     {        
