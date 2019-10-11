@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
-
+    public LayerMask p_Layer = 1 << 9;
     [SerializeField]
     private bool canMultiJump = true;
     public bool GetIsCrouching()
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CheckGround());
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
-
+        p_Layer = ~p_Layer;
 
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
@@ -150,8 +150,8 @@ public class PlayerController : MonoBehaviour
     public void GroundMe()
     {
         
-
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        // We can probably move this into the ground check>??? to reduce the casts
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
         {
             if (footHit.collider.gameObject != null && !isCrouching)
             {
@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator CheckGround()
     {
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y,p_Layer))
         {
             GroundMe();
         }
