@@ -59,9 +59,9 @@ public class MultiPurposePlatform : MonoBehaviour
     Vector3 desiredRelativeToCenter;// Desired Position Relative To Center
     
     // Spinning Platfrom exclusive Variables
-    [SerializeField, Range(0, 100), Header("Spinning Type Speed Variables")]
+    [SerializeField, Range(1, 100), Header("Spinning Type Speed Variables")]
     float speedAroundDesiredPosition = 1.0f;// Rotation Speed Around Desired Position
-    [SerializeField, Range(0, 100)]
+    [SerializeField, Range(1, 100)]
     float speedAroundOwnAxis = 1.0f;// Rotation Around Own Y Axis
     // Use this for initialization
     void Start()
