@@ -23,7 +23,7 @@ public class GrappleComponent : MonoBehaviour
     public bool isStaring;
 
     [Range(20, 90)]
-    private float maxAngle = 45;
+    public float maxAngle;
 
     [SerializeField]
     PlayerClass player;
@@ -55,29 +55,19 @@ public class GrappleComponent : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-        DetatchGrapple();
-    }
-
 
 
     // Update is called once per frame
     void Update()
     {
-        //to see if character runs into wall
-        CheckCollisions();
 
-        
-    }
 
-    private void FixedUpdate()
-    {
         if (!tether)
             return;
 
         player.debugLine.SetPosition(0, player.transform.position);
         player.debugLine.SetPosition(1, attachedTetherPoint.position);
+
 
         rb.mass = 100;
         Vector3 radial = (attachedTetherPoint.position - transform.position).normalized;
@@ -90,15 +80,22 @@ public class GrappleComponent : MonoBehaviour
         float x = Vector3.Dot(tetherDirection.normalized, Vector3.up);
         float y = (tetherDirection.normalized - x * Vector3.up).magnitude;
         float theta = Mathf.Atan2(y, x);
-        float tension = rb.mass * 9.8f * 8 * Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
+        float tension = rb.mass * 9.8f * 8*  Mathf.Cos(theta) + rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength;
         rb.AddForce(tension * tetherDirection.normalized);
         Debug.DrawLine(transform.position, attachedTetherPoint.position);
         float thetaDegrees = theta * Mathf.Rad2Deg;
         //Debug.Log(thetaDegrees);
 
+
+        //if (thetaDegrees < 5)
+        //{
+        //    Debug.Log("Reached Zero");
+        //    reachedZero = true;
+        //}
+
         Vector3 heading = attachedTetherPoint.position - transform.position;
         float dot = Vector3.Dot(heading, transform.forward);
-        if (dot < 0)
+        if(dot < 0)
         {
             Debug.Log("Reached Zero");
             reachedZero = true;
@@ -116,13 +113,13 @@ public class GrappleComponent : MonoBehaviour
                 //normalMove.enabled = true;
                 //tether = false;
                 //attachedTetherPoint = null;
-                // reachedZero = false;
+               // reachedZero = false;
             }
 
         }
     }
 
-    
+
     public void DetatchGrapple()
     {
         Debug.Log("grapple detached");
@@ -140,8 +137,6 @@ public class GrappleComponent : MonoBehaviour
         reachedZero = false;
 
         player.debugLine.enabled = false;
-
-        player.SetMovementType(MovementType.air);
     }
 
     public Transform setTetherPoint(Transform t)
@@ -157,30 +152,6 @@ public class GrappleComponent : MonoBehaviour
         tetherPoint = null;
         return tetherPoint;
 
-    }
-
-    //check in direction of movement to detach grapple if hit something
-    private void CheckCollisions()
-    {
-        //top of head raycast
-        Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
-
-        //distance checks slighly in front of player, may want ot change depending on play testing
-        bool topOfHead = Physics.Raycast(topRaycastLocation, rb.velocity.normalized, 0.4f, player.airMask);//0.5f * transform.localScale.z + 0.1f);
-
-        //toe  raycast
-        Vector3 toeRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.5f * transform.localScale.y + 0.1f, transform.position.z);
-        bool toeCast = Physics.Raycast(toeRaycastLocation, rb.velocity.normalized, 0.4f, player.airMask);
-
-        RaycastHit hit;
-        //mid raycast
-        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        bool midCast = Physics.Raycast(midRaycastLocation, rb.velocity.normalized, out hit, 0.4f, player.airMask);
-
-        if(topOfHead || toeCast || midCast)
-        {
-            DetatchGrapple();
-        }
     }
 
 
