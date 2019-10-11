@@ -201,7 +201,7 @@
 
 				float4 rim = rimIntensity * _RimColor;
 
-				return tex2D(_MainTex, i.uv) * tex2D(_Ramp, i.uvRamp) * (_AmbientColor + light + specular + rim) * i.diff;
+				return tex2D(_MainTex, i.uv) * tex2D(_Ramp, i.uvRamp) * (_AmbientColor + light + specular + rim)/* * i.diff*/;
 			}
 			ENDCG
 		}
