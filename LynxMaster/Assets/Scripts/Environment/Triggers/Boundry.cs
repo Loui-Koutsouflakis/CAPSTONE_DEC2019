@@ -26,11 +26,11 @@ public class Boundry : MonoBehaviour
                 c.transform.position = startPosition.position;// Need connection to Current Spawn Point
                 Debug.Log("Player Hit Rock Bottom");
             }
-            else if (!c.gameObject.GetComponent<PlayerMovementv2>().grounded)
-            {
-                //Vector3.
-                c.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.Cross(c.transform.position, transform.position) * reboundForce, ForceMode.Impulse);
-            }
+            //else if (!c.gameObject.GetComponent<PlayerMovementv2>().grounded) 
+            //{
+            //    //Vector3.
+            //    c.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.Cross(c.transform.position, transform.position) * reboundForce, ForceMode.Impulse);
+            //}
 
         }
     }

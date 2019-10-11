@@ -59,9 +59,9 @@ public class MultiPurposePlatform : MonoBehaviour
     Vector3 desiredRelativeToCenter;// Desired Position Relative To Center
     
     // Spinning Platfrom exclusive Variables
-    [SerializeField, Range(1, 100), Header("Spinning Type Speed Variables")]
+    [SerializeField, Range(0, 100), Header("Spinning Type Speed Variables")]
     float speedAroundDesiredPosition = 1.0f;// Rotation Speed Around Desired Position
-    [SerializeField, Range(1, 100)]
+    [SerializeField, Range(0, 100)]
     float speedAroundOwnAxis = 1.0f;// Rotation Around Own Y Axis
     // Use this for initialization
     void Start()
@@ -80,21 +80,21 @@ public class MultiPurposePlatform : MonoBehaviour
             PlatformRun();
         }
     }
-    private void OnTriggerEnter(Collider o)
-    {
-        if (o.gameObject.tag == "Player")
-        {
-            Player.transform.parent = transform;
-        }
-    }
+    //private void OnTriggerEnter(Collider o)
+    //{
+    //    if (o.gameObject.tag == "Player")
+    //    {
+    //        Player.transform.parent = transform;
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider o)
-    {
-        if (o.gameObject.tag == "Player")
-        {
-            Player.transform.parent = null;
-        }
-    }
+    //private void OnTriggerExit(Collider o)
+    //{
+    //    if (o.gameObject.tag == "Player")
+    //    {
+    //        Player.transform.parent = null;
+    //    }
+    //}
 
     void LinearMovement()
     {
