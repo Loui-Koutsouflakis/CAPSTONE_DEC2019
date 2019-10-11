@@ -208,7 +208,7 @@ public class PlayerAirMovement : PlayerVariables
         Vector3 inputDir = cammy.transform.forward * vertical + cammy.transform.right * horizontal;
 
 
-        if (onWall && Vector3.Dot(wallNormal, inputDir) > 0) //wall jump only if pressing away from the wall
+        if (onWall && Vector3.Dot(wallNormal, inputDir) >= 0) //wall jump only if pressing away from the wall
         {
             //zero out velocity
             rb.velocity = Vector3.zero;
