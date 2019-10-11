@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
 
                 GetComponent<SpiderMother>().enabled = true;
                 GetComponent<SpiderMother>().locationSpawned = transform.position;
+                GetComponent<SpiderMother>().SetDestination("Wonder");
                 hitPoints = 3;
                 break;
         }

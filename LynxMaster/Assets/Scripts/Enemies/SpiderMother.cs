@@ -7,18 +7,16 @@ public class SpiderMother : MonoBehaviour
     public Enemy enemyScript;
     public bool kill;
     public float range;
+    public float meleeAttackRange;
 
     public Vector3 locationSpawned;
     public float speed;
     private Vector3 destination;
-    private Vector3 nextDestination;
-    private WaitForSecondsRealtime frameRate = new WaitForSecondsRealtime(1/60);
     Vector2 tempV2;
     Vector2 tempLocation;
     Rigidbody rigidBody;
     float angleDifferenceForward = 0.0f;
     bool shootingTodds = false;
-    bool facingNewDirection = true;
 
     private void Awake()
     {
@@ -27,18 +25,6 @@ public class SpiderMother : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        locationSpawned = transform.position;
-        SetDestination("Wonder");
-        facingNewDirection = false;
-        //transform.
-    }
-
-    private void Start()
-    {
-        
-    }
     private void Kill()
     {
         StartCoroutine(enemyScript.DeathSequence());
@@ -46,27 +32,16 @@ public class SpiderMother : MonoBehaviour
         kill = false;
     }
 
-
-
-
-
-
     // Current choices "Wonder" and "ChasePlayer"
     public void SetDestination(string MovementPattern)
     {
-        if (!shootingTodds)
-        {
+        //if (!shootingTodds)
+        //{
             if (MovementPattern == "Wonder")
             {
                 destination.x = Random.Range(locationSpawned.x - 20, locationSpawned.x + 20);
                 destination.y = transform.position.y;
                 destination.z = Random.Range(locationSpawned.z - 20, locationSpawned.z + 20);
-
-
-                //destination = new Vector3(
-                //    Random.Range(locationSpawned.x - 20, locationSpawned.x + 20),
-                //    transform.position.y,
-                //    Random.Range(locationSpawned.z - 20, locationSpawned.z + 20)); ;
             }
             else if (MovementPattern == "ChasePlayer")
             {
@@ -76,39 +51,38 @@ public class SpiderMother : MonoBehaviour
 
             float tempMag = 0;
 
-            if (MovementPattern != "StandAndShoot")
-            {
-                tempV2 = new Vector2(destination.x, destination.z);
-                tempLocation = new Vector2(locationSpawned.x, locationSpawned.z);
-                tempMag = (tempV2 - tempLocation).magnitude;
-            }
-            //Debug.Log(destination);
             switch (MovementPattern)
             {
                 case "Wonder":
-
+                    tempV2 = new Vector2(destination.x, destination.z);
+                    tempLocation = new Vector2(locationSpawned.x, locationSpawned.z);
+                    tempMag = (tempV2 - tempLocation).magnitude;
                     if (tempMag > range)
                     {
+                        shootingTodds = false;
                         SetDestination(MovementPattern);
                     }
                     break;
 
                 case "ChasePlayer":
-                    if (tempMag > range)
+                    tempV2 = new Vector2(destination.x, destination.z);
+                    tempLocation = new Vector2(transform.position.x, transform.position.z);
+                    tempMag = (tempV2 - tempLocation).magnitude;
+                    if (tempMag > meleeAttackRange)
                     {
                         SetDestination("StandAndShoot");
                     }
                     break;
                 case "StandAndShoot":
-                    destination = transform.position;
+                    //destination = transform.position;
                     if (!shootingTodds)
                     {
-                        ShootTheTods();
                         shootingTodds = true;
+                        ShootTheTods();
                     }
                     break;
             }
-        }
+        //}
         tempV2 *= 0;
         tempLocation *= 0;
 
@@ -122,18 +96,14 @@ public class SpiderMother : MonoBehaviour
 
     void Update()
     {
-        //if((transform.position - destination).magnitude < 2 || )
-        //{
-        //    facingNewDirection = false;
-        //}
+
         if (kill) Kill();
-        //Debug.Log(GetComponent<Rigidbody>().velocity);
 
         if ((transform.position - destination).magnitude < 5 && !enemyScript.seesPlayer)
         {
             SetDestination("Wonder");
         }
-        //Debug.Log(enemyScript.playerTrigger.transform.position);
+
         if (enemyScript.playerTrigger != null)
         {
             if (enemyScript.seesPlayer && (locationSpawned - enemyScript.playerTrigger.transform.position).magnitude < range)
@@ -145,7 +115,6 @@ public class SpiderMother : MonoBehaviour
                 SetDestination("StandAndShoot");
             }
         }
-        //Debug.Log((transform.position - destination).magnitude);   
     }
 
 
@@ -156,10 +125,12 @@ public class SpiderMother : MonoBehaviour
     Vector3 newDirection;
     private void FixedUpdate()
     {
-        movement = transform.forward * (speed * Time.deltaTime);
-        movement.y = 0;
-
-
+        if (!shootingTodds)
+        {
+            movement = transform.forward * (speed * Time.deltaTime);
+            movement.y = 0;
+            transform.position += (transform.forward * (speed * Time.deltaTime));
+        }
 
         newDirection = destination - rigidBody.position;
         newDirection.y = transform.forward.y;
@@ -167,13 +138,6 @@ public class SpiderMother : MonoBehaviour
 
         if (angle > 5) transform.Rotate(transform.up, -1);
         if (angle < -5) transform.Rotate(transform.up, 1);
-
-        //Debug.Log(movement);
-        //Vector3 targetPosition = rigidBody.position + transform.forward;
-
-
-        transform.position += (transform.forward * (speed * Time.deltaTime)); 
-
     }
 
 }
