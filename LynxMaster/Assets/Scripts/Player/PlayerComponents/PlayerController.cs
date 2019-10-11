@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
         {
             if (footHit.collider.gameObject != null && !isCrouching)
             {
-                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not 
+                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
                     transform.parent = footHit.transform.parent;
                 }
@@ -181,6 +181,10 @@ public class PlayerController : MonoBehaviour
             }
             else if (footHit.collider.gameObject != null && isCrouching)
             {
+                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
+                {
+                    transform.parent = footHit.transform.parent;
+                }
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);
@@ -198,26 +202,7 @@ public class PlayerController : MonoBehaviour
                     psJump.Play();
                     jumpParticleIsPlaying = true;
                 }
-            }
-            //useless
-            //else if (footHit.collider.gameObject.tag == "MovingPlatform")
-            //{
-            //    transform.parent = footHit.transform.parent;
-            //    transform.parent = footHit.collider.gameObject.transform;
-            //    if (player.playerCurrentMove == MovementType.move)
-            //    {
-            //        psRun.Play();
-            //    }
-            //    else
-            //    {
-            //        psRun.Stop();
-            //    }
-            //    if (!jumpParticleIsPlaying)
-            //    {
-            //        psJump.Play();
-            //        jumpParticleIsPlaying = true;
-            //    }
-            //}
+            }          
         }
     }
 
