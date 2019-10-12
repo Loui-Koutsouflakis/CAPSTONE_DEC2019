@@ -133,6 +133,10 @@ public class PlayerGroundMovement : PlayerVariables
         {
             player.transform.parent = null;
         }
+
+        //for jump bug fix
+        player.SetGroundCheck(false);
+        player.StartCoroutine(player.GroundCheckStop());
               
         anim.SetBool("Grounded", false);
     }

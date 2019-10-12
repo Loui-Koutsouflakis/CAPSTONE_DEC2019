@@ -208,25 +208,28 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator CheckGround()
     {
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y,p_Layer))
+        if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
-            GroundMe();
-        }
-        else
-        {
-            player.SetGrounded(false);
-            player.GetAnimator().SetBool("Grounded", false);
-            //Debug.Log("not on ground");
-            if (player.playerCurrentMove == MovementType.grapple)
+            if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
-
+                GroundMe();
             }
-
             else
             {
-                player.SetMovementType(MovementType.air);
+                player.SetGrounded(false);
+                player.GetAnimator().SetBool("Grounded", false);
+                //Debug.Log("not on ground");
+                if (player.playerCurrentMove == MovementType.grapple)
+                {
+
+                }
+
+                else
+                {
+                    player.SetMovementType(MovementType.air);
+                }
+                //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
             }
-            //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
         }
 
         yield return new WaitForSecondsRealtime(groundCheckRate);

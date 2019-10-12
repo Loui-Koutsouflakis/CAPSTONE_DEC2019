@@ -113,6 +113,27 @@ public class PlayerClass : MonoBehaviour
         return crouching;
     }
 
+    // for jump bug fix
+    [SerializeField]
+    private bool groundCheckEnabled = true;
+
+    public bool GetGroundCheck()
+    {
+        return groundCheckEnabled;
+    }
+
+    public void SetGroundCheck(bool value)
+    {
+        groundCheckEnabled = value;
+    }
+
+    public IEnumerator GroundCheckStop()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SetGroundCheck(true);
+        Debug.Log("ground check stopped");
+    }
+
 
     //IS GROUNDED
     [Header("Is Grounded")]
