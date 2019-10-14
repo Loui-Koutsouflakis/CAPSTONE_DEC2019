@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem psJump;
     public ParticleSystem psRun;
     public bool jumpParticleIsPlaying;
-
+    public bool isSwimming;
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
@@ -141,7 +141,6 @@ public class PlayerController : MonoBehaviour
         player.SetCrouching(isCrouching);
     }
 
-
     #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
@@ -203,7 +202,13 @@ public class PlayerController : MonoBehaviour
                     psJump.Play();
                     jumpParticleIsPlaying = true;
                 }
-            }          
+            }
+            else if (footHit.collider.gameObject.tag == "Water")
+            {
+                player.SetGrounded(false);
+                player.SetSwimming(true);
+                player.SetMovementType(MovementType.swim);
+            }
         }
     }
 
@@ -283,8 +288,6 @@ public class PlayerController : MonoBehaviour
             player.isFalling = false;
 
         StartCoroutine(FallCheck());
-
-
     }
 
     #endregion
@@ -298,6 +301,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
             objectsInsideSphere.Add(other);
+
     }
 
     private void OnTriggerExit(Collider other)

@@ -9,7 +9,7 @@ using UnityEngine;
 
 public enum MovementType
 {
-    move, grapple, jump, air, crouch
+    move, grapple, jump, air, crouch, swim
 }
 
 public class PlayerClass : MonoBehaviour
@@ -61,6 +61,14 @@ public class PlayerClass : MonoBehaviour
         return crouchComponent;
     }
 
+    //Water Movement
+    public GameObject swim;
+    WaterMovement SwimComponent;
+    public WaterMovement GetSwimComponent()
+    {
+        return SwimComponent;
+    }
+
 
     //Ground script
     public GameObject move;
@@ -80,7 +88,7 @@ public class PlayerClass : MonoBehaviour
         return airComponent;
     }
 
-    GameObject[] playerMovementArray = new GameObject[4];
+    GameObject[] playerMovementArray = new GameObject[5];
     #endregion
 
 
@@ -114,6 +122,17 @@ public class PlayerClass : MonoBehaviour
         return crouching;
     }
 
+    //Recently added swimming test
+    bool swimming;
+    public void SetSwimming(bool swim)
+    {
+        swimming = swim;
+    }
+    public bool GetSwimming()
+    {
+        return swimming;
+
+    }
     // for jump bug fix
     [SerializeField]
     private bool groundCheckEnabled = true;
@@ -277,7 +296,10 @@ public class PlayerClass : MonoBehaviour
                 playerCurrentMove = MovementType.crouch;
                 SetMovementComponent("crouch");
                 break;
-
+            case MovementType.swim:
+                playerCurrentMove = MovementType.swim;
+                SetMovementComponent("swim");
+                break;
 
         }
     }
@@ -406,7 +428,23 @@ public class PlayerClass : MonoBehaviour
         playerMovementArray[3] = air;
 
 
+        //set up crouch component
+        try
+        {
+            SwimComponent = swim.GetComponent<WaterMovement>();
+        }
+        catch
+        {
+            GameObject go = new GameObject();
+            go.transform.parent = transform;
+            go.transform.position = transform.position;
+            swim = go;
+            swim.AddComponent<WaterMovement>();
+            SwimComponent = swim.GetComponent<WaterMovement>();
+            swim.name = "swim";
+        }
 
+        playerMovementArray[4] = swim;
         //for (int i = 0; i < playerMovementArray.Length; i++)
         //{
         //    Debug.Log(playerMovementArray[i].name + " is in the player movement array");

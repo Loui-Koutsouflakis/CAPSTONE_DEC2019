@@ -171,6 +171,21 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    void CameMovementWater()
+    {
+        yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        float f = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        pitch = (invY) ? pitch += f : pitch -= f;
+        pitch = Mathf.Clamp(pitch, -75, pitchMinMax.y);
+        if (Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0 && p_RB.velocity.magnitude == 0)
+            camReset = true;
+        else
+            cameraResetTimer = 0;
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
+        transform.eulerAngles = currentRotation;
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
+    }
+
     //Checks cameras distance from the player and adjusts accordingly
     float CameraRaycast(float x)
     {
@@ -214,8 +229,7 @@ public class PlayerCamera : MonoBehaviour
                 transform.localEulerAngles = cameraOneEuler;
                 break;
             case 3:
-                transform.position = cameraTwoPos;
-                transform.localEulerAngles = cameraTwoEuler;
+                CameMovementWater();
                 break;
         }
     }

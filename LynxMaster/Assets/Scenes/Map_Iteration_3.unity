@@ -1812,6 +1812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 766506669}
+  - component: {fileID: 766506670}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -1875,6 +1876,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &766506670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766506668}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &779345295 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1568866940849246532, guid: 98d1aa778282eff45a62fff301d680b3,
@@ -2705,6 +2719,11 @@ PrefabInstance:
         type: 3}
       propertyPath: invY
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: cameraChoice
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 726697624, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_Enabled
@@ -3557,7 +3576,7 @@ PrefabInstance:
     - target: {fileID: 1648128211513457737, guid: 97d08b9e576864f99a6747c0e329e35b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -93.24222
+      value: -53.14
       objectReference: {fileID: 0}
     - target: {fileID: 1648128211513457737, guid: 97d08b9e576864f99a6747c0e329e35b,
         type: 3}
@@ -3608,6 +3627,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642521484152387325, guid: 97d08b9e576864f99a6747c0e329e35b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97d08b9e576864f99a6747c0e329e35b, type: 3}
@@ -4703,6 +4727,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1539700876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2009082550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009082537}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1b6d703d2393d48899e5e7ee72cc2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 0.1
+  period: 1
 --- !u!1 &2032015936
 GameObject:
   m_ObjectHideFlags: 0

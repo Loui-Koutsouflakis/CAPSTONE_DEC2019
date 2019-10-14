@@ -320,5 +320,4 @@ public class PlayerAirMovement : PlayerVariables
         yield return new WaitForSeconds(0.75f);
         doubleJumpControl = false;
     }
-
 }
