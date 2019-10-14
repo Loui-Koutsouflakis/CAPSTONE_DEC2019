@@ -47,9 +47,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -98,18 +99,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockCursor: 0
-  invY: 0
+  invY: 1
   Player: {fileID: 0}
-  playerSpeed: 0
-  playerFront: {x: 0, y: 0, z: 0}
-  sensitivity: 5
-  rotationsmoothTime: 0.667
-  distFromPlayer: 4
+  shadow: {fileID: 0}
+  sensitivity: 3.5
+  rotationsmoothTime: 0.202
   currentRotation: {x: 0, y: 0, z: 0}
-  z_FOV: 30
+  i_FOV: 70
+  c_FOV: 0
+  enclosedCam_FOV: 75
+  smooth: 15
   main: {fileID: 20539314722032298}
   aimer: {fileID: 0}
-  cameraOffsetX: 0.2
+  c_Lerp: 0.5
+  FlatDistance: 5
+  wallCamChoice: 0
+  cameraChoice: 0
+  cameraOnePos: {x: -57.7, y: 6.7, z: -0.05}
+  cameraOneEuler: {x: 24.267, y: 180, z: 0}
+  cameraTwoPos: {x: 0, y: 0, z: 0}
+  cameraTwoEuler: {x: 0, y: 0, z: 0}
 --- !u!114 &726697623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +126,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122254834441266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
@@ -134,7 +143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122254834441266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 

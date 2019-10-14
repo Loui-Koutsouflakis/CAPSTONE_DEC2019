@@ -121,7 +121,7 @@ public class PlayerCamera : MonoBehaviour
         pitch = (invY) ? pitch += f : pitch -= f;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
-        if (Input.GetAxis("CamX") == 0 && Input.GetAxis("CamY") == 0 && p_RB.velocity.magnitude == 0)
+        if (Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0 && p_RB.velocity.magnitude == 0)
             camReset = true;
         else
             cameraResetTimer = 0;
