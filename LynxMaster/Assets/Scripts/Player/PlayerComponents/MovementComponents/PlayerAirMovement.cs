@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Air Movement", 5)]
+
 public class PlayerAirMovement : PlayerVariables
 {
     //architecture
@@ -113,7 +115,7 @@ public class PlayerAirMovement : PlayerVariables
             rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton"))
         {
             rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(jumpMultiplier/fallTime) * Time.fixedDeltaTime;
         }

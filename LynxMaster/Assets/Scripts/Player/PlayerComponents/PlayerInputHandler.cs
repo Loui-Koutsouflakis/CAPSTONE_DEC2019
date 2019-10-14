@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Input Handler", 0)]
+
 public class PlayerInputHandler : MonoBehaviour
 {
 
@@ -51,7 +53,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void Update()
     {
         //if this seems redundant, that only because we've named the XBOX A_Button "jump" in the Unity Editor  
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("AButton"))
         {
             _AButton.Execute(playerController);
         }

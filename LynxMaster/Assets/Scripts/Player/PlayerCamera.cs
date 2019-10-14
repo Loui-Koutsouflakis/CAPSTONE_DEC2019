@@ -1,8 +1,11 @@
 ﻿//Written by: Kyle J. Ennis
+//last edited 14/10/19
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[AddComponentMenu("Camera", 0)]
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -18,8 +21,10 @@ public class PlayerCamera : MonoBehaviour
     Rigidbody p_RB;
 
     [Header("Camera Sensitivity and rotation smoothing")]
+    [Tooltip("Adjusts camera movement sensitivity.")]
     [Range(1, 10)]
     public float sensitivity = 2.5f;
+    [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
     [Range(0, 1)]
     public float rotationsmoothTime = 0.202f;
 
@@ -46,9 +51,13 @@ public class PlayerCamera : MonoBehaviour
     #endregion
 
     [Header("Camera Field of View")]
+    [Tooltip("Initial camera field of view.")]
     public float i_FOV = 70;
+    [Tooltip("Current camera field of view.")]
     public float c_FOV;
+    [Tooltip("Field of view when the player enters a small area.")]
     public float enclosedCam_FOV = 75;
+    [Tooltip("How quickly the camera switches between enclosed areas and open areas.")]
     public float smooth = 15;
 
 
@@ -69,15 +78,23 @@ public class PlayerCamera : MonoBehaviour
     #endregion
 
     [Header("2D Platforming")]
+    [Tooltip("The cameras follow speed when in 2D Mode.")]
     public float c_Lerp;
+    [Tooltip("How far away the camera is when in 2D Mode.")]
     public float FlatDistance;
+    [Tooltip("Which direction the 2D mode is set to. 0 = forward, 1 = back, 2 = left, 3 = right.")]
     public int wallCamChoice;//0 = forward, 1 = back, 2 = left, 3 = right
 
     [Header("Cinematics")]
+    [Tooltip("Choose what type of camera the game is currently using. 0 = 3D Orbit Mode, 1 = 2D Platforming Mode, 2+ are the cinematic cameras.")]
     public int cameraChoice;//0 = 3D Platforming, 1 = 2D Platforming, 2+ = Cinematic Camera types or underdetermined functionality (to be written)
+    [Tooltip("Cinematic camera One.")]
     public Vector3 cameraOnePos;
+    [Tooltip("Cinematic Camera Ones rotation.")]
     public Vector3 cameraOneEuler;
+    [Tooltip("Cinematic Camera Two.")]
     public Vector3 cameraTwoPos;
+    [Tooltip("Cinematic Camera Twos rotation.")]
     public Vector3 cameraTwoEuler;
 
     void Start()

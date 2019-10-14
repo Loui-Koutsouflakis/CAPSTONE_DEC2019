@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Crouch Movement", 6)]
+
 public class Crouch : PlayerVariables
 {
     //rigidbody

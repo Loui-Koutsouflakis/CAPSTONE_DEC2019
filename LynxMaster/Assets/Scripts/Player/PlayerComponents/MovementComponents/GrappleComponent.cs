@@ -5,6 +5,7 @@ using UnityEngine;
 
 //updated 05/28- LF
 //updated 08/06
+[AddComponentMenu("Player Scripts/Grapple Movement", 4)]
 
 public class GrappleComponent : MonoBehaviour
 {

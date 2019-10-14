@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Player Class", 2)]
 
 public enum MovementType
 {

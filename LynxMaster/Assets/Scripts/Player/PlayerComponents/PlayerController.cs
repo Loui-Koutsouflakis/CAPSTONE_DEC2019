@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Player Controller", 1)]
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -129,7 +131,6 @@ public class PlayerController : MonoBehaviour
             player.GetAirComponent().GroundPound();
             player.SetMovementType(MovementType.crouch);
             isCrouching = true;
-
         }
     }
 

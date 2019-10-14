@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿//Edit * Kyle 10/14/19 added movementThreshold and slowWalk variables for PlayerGroundMovementScript
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 //This is a handy reference 
-
+[AddComponentMenu("Player Scripts/Player Variables", 3)]
 public class PlayerVariables : MonoBehaviour
 {
 //Change Variables in script between test plays to adjust values.
@@ -14,7 +15,8 @@ public class PlayerVariables : MonoBehaviour
     public float walkMax = 6;
     public float rotateSpeed = 120;
     public float jumpForce = 5.5f;
-
+    public float movementThreshold = 0.7f;
+    public float slowWalk = 15;
 
     [Header("Air Movement")]
     public float jumpMultiplier = 3f;
