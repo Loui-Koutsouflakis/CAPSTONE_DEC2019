@@ -11,6 +11,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
+    float triggerDeadZone = 0.2f;
     public PlayerController playerController;
 
 
@@ -23,6 +24,8 @@ public class PlayerInputHandler : MonoBehaviour
     public Command _RightBumperDown = new Command();
     public Command _RightBumperUp = new Command();
 
+    public Command _LeftTriggerDown = new Command();
+    public Command _LeftTriggerUp = new Command();
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -38,10 +41,11 @@ public class PlayerInputHandler : MonoBehaviour
         _AButton = SetButton(jump);
 
         InitCrouchCommand crouch = new InitCrouchCommand();
-        _RightBumperDown = SetButton(crouch);
-
+        _LeftTriggerDown = SetButton(crouch);
+        //_RightBumperDown = SetButton(crouch);
         DeCrouchCommand deCrouch = new DeCrouchCommand();
-        _RightBumperUp = SetButton(deCrouch);
+        _LeftTriggerUp = SetButton(deCrouch);
+        //_RightBumperUp = SetButton(deCrouch);
 
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
         _LeftBumperDown = SetButton(grap);
@@ -70,6 +74,15 @@ public class PlayerInputHandler : MonoBehaviour
             _LeftBumperDown.Execute(playerController);
         }
 
+        if (Input.GetAxis("LeftTrigger") >= triggerDeadZone)
+        {
+            _LeftTriggerDown.Execute(playerController);
+        }
+
+        if (Input.GetAxis("LeftTrigger") < triggerDeadZone)
+        {
+            _LeftTriggerUp.Execute(playerController);
+        }
 
         if (Input.GetButtonUp("LeftBumper"))
         {
@@ -105,7 +118,6 @@ public class JumpCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Jump();
-
     }
 }
 

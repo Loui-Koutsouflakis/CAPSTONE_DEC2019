@@ -51,6 +51,11 @@ public class PlayerVariables : MonoBehaviour
     public float launchSpeed;
     public float boost = 20;
 
+    [Header("Swimming Movement")]
+    public float swimSpeed = 9;
+    public float swimMax = 3;
+    public float swimRotateSpeed = 100;
+
     protected float EaseIn(float t)
     {
         return t * t;

@@ -20,13 +20,16 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem psJump;
     public ParticleSystem psRun;
     public bool jumpParticleIsPlaying;
-    public bool isSwimming;
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
     public LayerMask p_Layer = 1 << 9;
     [SerializeField]
     private bool canMultiJump = true;
+    //for the swimming script
+    public float waterCheckDist = 100;
+    RaycastHit water;
+
     public bool GetIsCrouching()
     {
         return isCrouching;
@@ -43,11 +46,21 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
         p_Layer = ~p_Layer;
-
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
 
+    private void Update()
+    {
+       //// if (isUnderWater())
+       //     if (water.collider.tag == "Water")
+       //     {
+       //         player.SetGrounded(false);
+       //         player.SetSwimming(true);
+       //         player.SetMovementType(MovementType.swim);
+       //     }
+        
+    }
     public void Jump()
     {
         //player.GetMoveComponent().Jump();
@@ -79,6 +92,7 @@ public class PlayerController : MonoBehaviour
             player.GetCrouchComponent().Jump();
             player.SetMovementType(MovementType.air);
             player.SetGrounded(false);
+           // player.SetSwimming(false);
             //Particle stuff from Tony
             psRun.Stop();
             psJump.Stop();
@@ -89,6 +103,10 @@ public class PlayerController : MonoBehaviour
             DetatchGrapple();
         }
 
+        //else if(player.playerCurrentMove == MovementType.swim)
+        //{
+        //    player.GetSwimComponent().swim();
+        //}
     }
 
     public void Grapple()
@@ -149,10 +167,11 @@ public class PlayerController : MonoBehaviour
 
     public void GroundMe()
     {
-        
+
         // We can probably move this into the ground check>??? to reduce the casts
         if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
         {
+
             if (footHit.collider.gameObject != null && !isCrouching)
             {
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
@@ -164,7 +183,7 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType(MovementType.move);
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
-                if(player.playerCurrentMove == MovementType.move)
+                if (player.playerCurrentMove == MovementType.move)
                 {
                     psRun.Play();
                 }
@@ -203,17 +222,22 @@ public class PlayerController : MonoBehaviour
                     jumpParticleIsPlaying = true;
                 }
             }
-            else if (footHit.collider.gameObject.tag == "Water")
-            {
-                player.SetGrounded(false);
-                player.SetSwimming(true);
-                player.SetMovementType(MovementType.swim);
-            }
         }
     }
+    
+
+    //public bool isUnderWater()
+    //{
+    //    Vector3 lineStart = player.transform.position;
+    //    Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y + waterCheckDist, lineStart.z);
+    //    Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+    //    return Physics.Linecast(lineStart, vectorToSearch, out water, p_Layer);
+    //}
 
     public IEnumerator CheckGround()
     {
+        //if (isUnderWater() && water.collider.tag != "Water" || !isUnderWater())
+        //{
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
@@ -223,7 +247,9 @@ public class PlayerController : MonoBehaviour
             else
             {
                 player.SetGrounded(false);
-                player.GetAnimator().SetBool("Grounded", false);
+                   // player.SetSwimming(false);
+
+                    player.GetAnimator().SetBool("Grounded", false);
                 //Debug.Log("not on ground");
                 if (player.playerCurrentMove == MovementType.grapple)
                 {
@@ -242,6 +268,7 @@ public class PlayerController : MonoBehaviour
 
 
         StartCoroutine(CheckGround());
+        //}
     }
 
 

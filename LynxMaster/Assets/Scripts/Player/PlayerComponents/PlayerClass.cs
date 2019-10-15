@@ -88,7 +88,7 @@ public class PlayerClass : MonoBehaviour
         return airComponent;
     }
 
-    GameObject[] playerMovementArray = new GameObject[5];
+    GameObject[] playerMovementArray = new GameObject[4];
     #endregion
 
 
@@ -131,7 +131,6 @@ public class PlayerClass : MonoBehaviour
     public bool GetSwimming()
     {
         return swimming;
-
     }
     // for jump bug fix
     [SerializeField]
@@ -296,10 +295,10 @@ public class PlayerClass : MonoBehaviour
                 playerCurrentMove = MovementType.crouch;
                 SetMovementComponent("crouch");
                 break;
-            case MovementType.swim:
-                playerCurrentMove = MovementType.swim;
-                SetMovementComponent("swim");
-                break;
+            //case MovementType.swim:
+            //    playerCurrentMove = MovementType.swim;
+            //    SetMovementComponent("swim");
+            //    break;
 
         }
     }
@@ -409,6 +408,24 @@ public class PlayerClass : MonoBehaviour
 
         playerMovementArray[2] = crouch;
 
+        ////set up swim component
+        //try
+        //{
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //}
+        //catch
+        //{
+        //    GameObject go = new GameObject();
+        //    go.transform.parent = transform;
+        //    go.transform.position = transform.position;
+        //    swim = go;
+        //    swim.AddComponent<WaterMovement>();
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //    swim.name = "swim";
+        //}
+
+        //playerMovementArray[3] = swim;
+
         //set up air component
         try
         {
@@ -427,24 +444,6 @@ public class PlayerClass : MonoBehaviour
 
         playerMovementArray[3] = air;
 
-
-        //set up crouch component
-        try
-        {
-            SwimComponent = swim.GetComponent<WaterMovement>();
-        }
-        catch
-        {
-            GameObject go = new GameObject();
-            go.transform.parent = transform;
-            go.transform.position = transform.position;
-            swim = go;
-            swim.AddComponent<WaterMovement>();
-            SwimComponent = swim.GetComponent<WaterMovement>();
-            swim.name = "swim";
-        }
-
-        playerMovementArray[4] = swim;
         //for (int i = 0; i < playerMovementArray.Length; i++)
         //{
         //    Debug.Log(playerMovementArray[i].name + " is in the player movement array");

@@ -58,7 +58,7 @@ public class NewMainMenu : UIManager
                 if(selected == i)
                 {
                     MenuItems[i].gameObject.GetComponent<Renderer>().material = whenSelected;
-                    if (Input.GetButton("Jump"))
+                    if (Input.GetButton("ABUtton"))
                     {
                         buttons[i].Execute(UIManager.singleton);
                     }

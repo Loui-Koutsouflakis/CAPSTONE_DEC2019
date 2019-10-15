@@ -31,6 +31,7 @@ public class PlayerCamera : MonoBehaviour
     [Header("Distance from Player, Suggested Distance 2-3")]
     [Range(1, 10)]
     float distFromPlayer = 3;
+    public float distFromPlayerUnderWater = 1.5f;
     float properDistance;
     Vector2 pitchMinMax;
 
@@ -122,6 +123,10 @@ public class PlayerCamera : MonoBehaviour
             if (cameraResetTimer >= cameraResetTime)
                 resetCamera();
         }
+        if (Player.GetComponent<PlayerClass>().playerCurrentMove == MovementType.swim)
+            cameraChoice = 3;
+        else
+            cameraChoice = 0;
     }
 
     private void LateUpdate()
@@ -173,26 +178,23 @@ public class PlayerCamera : MonoBehaviour
 
     void CameMovementWater()
     {
-        yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        float f = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        yaw += Input.GetAxis("HorizontalJoy") * sensitivity + Input.GetAxis("Horizontal") * sensitivity;
+        float f = Input.GetAxis("VerticalJoy") * sensitivity + Input.GetAxis("Vertical") * sensitivity;
         pitch = (invY) ? pitch += f : pitch -= f;
-        pitch = Mathf.Clamp(pitch, -75, pitchMinMax.y);
-        if (Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0 && p_RB.velocity.magnitude == 0)
-            camReset = true;
-        else
-            cameraResetTimer = 0;
+        pitch = Mathf.Clamp(pitch, -75, 75);
+      
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * CameraRaycast(distFromPlayerUnderWater);
     }
 
     //Checks cameras distance from the player and adjusts accordingly
     float CameraRaycast(float x)
     {
-        if (Physics.Raycast(aimer.transform.position, main.transform.position - aimer.transform.position, out hit, properDistance, p_LayerMask))
+        if (Physics.Raycast(aimer.transform.position, main.transform.position - aimer.transform.position, out hit, x, p_LayerMask))
             return hit.distance;
         else
-            return properDistance;
+            return x;
     }
 
     //needs to be tied to menu system for adjustment by player

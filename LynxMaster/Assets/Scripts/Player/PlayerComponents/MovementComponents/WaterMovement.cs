@@ -23,12 +23,11 @@ public class WaterMovement : PlayerVariables
     protected float vertical;
     protected bool deadJoy;
     protected readonly float deadZone = 0.028f;
-    protected readonly float decelFactor = 0.14f;
-    Vector3 g;
-    //public - to test balance etc.
-    //for movement
-
-
+    protected readonly float decelFactor = 0.4f;
+    public float waterCheckDist = 100;
+    LayerMask p_LayerMask = 1 << 9;
+    RaycastHit water;
+    Vector2 g;
     private float frictionCoeff = 0.2f;
 
     public bool grounded;
@@ -39,25 +38,22 @@ public class WaterMovement : PlayerVariables
     // Start is called before the first frame update
     void Start()
     {
+        g = Physics.gravity;
         rb = GetComponentInParent<Rigidbody>();
         player = GetComponentInParent<PlayerClass>();
-        g = Physics.gravity;
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
+        p_LayerMask = ~p_LayerMask;
         enteredScript = false;
     }
 
     public void OnEnable()
     {
-        cammy.GetComponent<PlayerCamera>().cameraChoice = 3;
-        Physics.gravity.Set(0, 0, 0);
         enteredScript = true;
     }
 
     public void OnDisable()
     {
-        cammy.GetComponent<PlayerCamera>().cameraChoice = 0;
-        Physics.gravity = g;
         enteredScript = false;
     }
 
@@ -66,43 +62,29 @@ public class WaterMovement : PlayerVariables
         ControlInput();
     }
 
+    public void swim()
+    {
+        if(rb.velocity.magnitude < swimMax)
+        rb.AddForce(cammy.transform.forward * EaseIn(swimSpeed/swimMax), ForceMode.Impulse);
+        Friction();
+    }
 
     public void ControlInput()
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-
-        //if move input then move if no input stop
-        if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
-        {
-            Movement();
-        }
-        else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone)
-        {
-            Decel();
-        }
-
+        Movement();
+        Friction();
         ApplyVelocityCutoff();
     }
 
     public void Movement()
     {
-        //same movement controls as normal, execpt slowe
-        //movement based on direction camera is facing
-        Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
-        Vector3 cammyFront = cammy.transform.TransformDirection(Vector3.forward);
-        cammyRight.y = 0;
-        cammyFront.y = 0;
-        cammyRight.Normalize();
-        cammyFront.Normalize();
+
 
         //rotates the direction the character is facing to the correct direction based on camera
-        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront + cammyRight, crouchRotateSpeed * Time.fixedDeltaTime, 0.0f));
+        //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront + cammyRight * horizontal, swimRotateSpeed * Time.fixedDeltaTime, 0.0f));
+        player.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
 
-        //adds force to the player
-        rb.AddForce(transform.forward * crouchAccel, ForceMode.Force);
-
-        Friction();
     }
 
     void ApplyVelocityCutoff()
@@ -110,30 +92,33 @@ public class WaterMovement : PlayerVariables
         Vector3 horizontalVelocity = rb.velocity;
         horizontalVelocity.y = 0;
 
-        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, crouchMax) * horizontalVelocity.normalized;
+        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, swimMax) * horizontalVelocity.normalized;
 
         rb.velocity = horizontalVelocity + rb.velocity.y * Vector3.up;
     }
 
     void Friction()
     {
-        float friction = frictionCoeff * rb.mass * Physics.gravity.magnitude;
+        float friction = frictionCoeff * rb.mass;
         Vector3 groundNormal = footHit.normal;
         Vector3 normalComponentofVelocity = Vector3.Dot(rb.velocity, groundNormal) * groundNormal;
         Vector3 parallelComponentofVelocity = rb.velocity - normalComponentofVelocity;
-        rb.AddForce(-friction * parallelComponentofVelocity);
+        rb.AddForce((-friction * 2) * parallelComponentofVelocity);
     }
 
     public void Decel()
-    {
-        if (!deadJoy)
-        {
-            deadJoy = true;
-        }
-
-        if (rb.velocity.magnitude > 1f && grounded)
+    { 
+        if (rb.velocity.magnitude > 1f)
         {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
         }
+    }
+
+    public bool isUnderWater()
+    {
+        Vector3 lineStart = rb.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y + waterCheckDist, lineStart.z);
+        Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+        return Physics.Linecast(lineStart, vectorToSearch, out water, p_LayerMask);
     }
 }
