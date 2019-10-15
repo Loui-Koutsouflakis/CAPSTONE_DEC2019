@@ -92,7 +92,15 @@ public class SpiderMother : MonoBehaviour, IKillable
     }
     private IEnumerator Valnerable()
     {
+        for (int i = 0; i < 30; i++)
+        {
+            //movement = transform.forward * (-speed * Time.deltaTime);
+            //movement.y = 0;
+            transform.position += (transform.forward * (-speed * Time.deltaTime));
+            yield return new WaitForSecondsRealtime(1/60);
+        }
         Debug.Log("Play valnerable animation");
+
 
         yield return new WaitForSecondsRealtime(10);
 
@@ -198,8 +206,8 @@ public class SpiderMother : MonoBehaviour, IKillable
         {
             if (!shootingTodds)
             {
-                movement = transform.forward * (speed * Time.deltaTime);
-                movement.y = 0;
+                //movement = transform.forward * (speed * Time.deltaTime);
+                //movement.y = 0;
                 transform.position += (transform.forward * (speed * Time.deltaTime));
             }
 
