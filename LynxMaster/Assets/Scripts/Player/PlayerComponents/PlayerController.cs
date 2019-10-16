@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Player Controller", 1)]
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -18,10 +20,16 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem psJump;
     public ParticleSystem psRun;
     public bool jumpParticleIsPlaying;
-
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
     bool isCrouching = false;
+    public LayerMask p_Layer = 1 << 9;
+    [SerializeField]
+    private bool canMultiJump = true;
+    //for the swimming script
+    public float waterCheckDist = 100;
+    RaycastHit water;
+
     public bool GetIsCrouching()
     {
         return isCrouching;
@@ -37,13 +45,22 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CheckGround());
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
-
-
+        p_Layer = ~p_Layer;
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
-     
 
+    private void Update()
+    {
+       //// if (isUnderWater())
+       //     if (water.collider.tag == "Water")
+       //     {
+       //         player.SetGrounded(false);
+       //         player.SetSwimming(true);
+       //         player.SetMovementType(MovementType.swim);
+       //     }
+        
+    }
     public void Jump()
     {
         //player.GetMoveComponent().Jump();
@@ -66,7 +83,7 @@ public class PlayerController : MonoBehaviour
             psJump.Play();
             jumpParticleIsPlaying = false;
         }
-        else if (player.playerCurrentMove == MovementType.air)
+        else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
             player.GetAirComponent().Jump();
         }
@@ -75,6 +92,7 @@ public class PlayerController : MonoBehaviour
             player.GetCrouchComponent().Jump();
             player.SetMovementType(MovementType.air);
             player.SetGrounded(false);
+           // player.SetSwimming(false);
             //Particle stuff from Tony
             psRun.Stop();
             psJump.Stop();
@@ -85,6 +103,10 @@ public class PlayerController : MonoBehaviour
             DetatchGrapple();
         }
 
+        //else if(player.playerCurrentMove == MovementType.swim)
+        //{
+        //    player.GetSwimComponent().swim();
+        //}
     }
 
     public void Grapple()
@@ -127,7 +149,6 @@ public class PlayerController : MonoBehaviour
             player.GetAirComponent().GroundPound();
             player.SetMovementType(MovementType.crouch);
             isCrouching = true;
-
         }
     }
 
@@ -138,20 +159,22 @@ public class PlayerController : MonoBehaviour
         player.SetCrouching(isCrouching);
     }
 
-
     #region check ground functions
 
-    private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
+    private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
     private readonly float groundCheckRate = 0.1f;
     private RaycastHit footHit;
 
     public void GroundMe()
     {
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+
+        // We can probably move this into the ground check>??? to reduce the casts
+        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
         {
+
             if (footHit.collider.gameObject != null && !isCrouching)
             {
-                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not 
+                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
                     transform.parent = footHit.transform.parent;
                 }
@@ -160,7 +183,7 @@ public class PlayerController : MonoBehaviour
                 player.SetMovementType(MovementType.move);
                 player.GetAnimator().SetBool("Grounded", true);
                 stateMachine.SetTrigger("GroundTrigger");
-                if(player.playerCurrentMove == MovementType.move)
+                if (player.playerCurrentMove == MovementType.move)
                 {
                     psRun.Play();
                 }
@@ -177,6 +200,10 @@ public class PlayerController : MonoBehaviour
             }
             else if (footHit.collider.gameObject != null && isCrouching)
             {
+                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
+                {
+                    transform.parent = footHit.transform.parent;
+                }
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);
@@ -195,55 +222,53 @@ public class PlayerController : MonoBehaviour
                     jumpParticleIsPlaying = true;
                 }
             }
-            //useless
-            //else if (footHit.collider.gameObject.tag == "MovingPlatform")
-            //{
-            //    transform.parent = footHit.transform.parent;
-            //    transform.parent = footHit.collider.gameObject.transform;
-            //    if (player.playerCurrentMove == MovementType.move)
-            //    {
-            //        psRun.Play();
-            //    }
-            //    else
-            //    {
-            //        psRun.Stop();
-            //    }
-            //    if (!jumpParticleIsPlaying)
-            //    {
-            //        psJump.Play();
-            //        jumpParticleIsPlaying = true;
-            //    }
-            //}
         }
     }
+    
+
+    //public bool isUnderWater()
+    //{
+    //    Vector3 lineStart = player.transform.position;
+    //    Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y + waterCheckDist, lineStart.z);
+    //    Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+    //    return Physics.Linecast(lineStart, vectorToSearch, out water, p_Layer);
+    //}
 
     public IEnumerator CheckGround()
     {
-        if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y))
+        //if (isUnderWater() && water.collider.tag != "Water" || !isUnderWater())
+        //{
+        if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
-            GroundMe();
-        }
-        else
-        {
-            player.SetGrounded(false);
-            player.GetAnimator().SetBool("Grounded", false);
-            //Debug.Log("not on ground");
-            if (player.playerCurrentMove == MovementType.grapple)
+            if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
-
+                GroundMe();
             }
-
             else
             {
-                player.SetMovementType(MovementType.air);
+                player.SetGrounded(false);
+                   // player.SetSwimming(false);
+
+                    player.GetAnimator().SetBool("Grounded", false);
+                //Debug.Log("not on ground");
+                if (player.playerCurrentMove == MovementType.grapple)
+                {
+
+                }
+
+                else
+                {
+                    player.SetMovementType(MovementType.air);
+                }
+                //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
             }
-            //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
         }
 
         yield return new WaitForSecondsRealtime(groundCheckRate);
 
 
         StartCoroutine(CheckGround());
+        //}
     }
 
 
@@ -256,7 +281,7 @@ public class PlayerController : MonoBehaviour
 
 
     ///LUKE FALLING CHECK
-
+    [SerializeField]
     bool isFalling;
 
     public bool IsPlayerFalling()
@@ -264,6 +289,7 @@ public class PlayerController : MonoBehaviour
         return isFalling;
     }
 
+    
     float playerHeight;
 
     IEnumerator FallCheck()
@@ -289,8 +315,6 @@ public class PlayerController : MonoBehaviour
             player.isFalling = false;
 
         StartCoroutine(FallCheck());
-
-
     }
 
     #endregion
@@ -304,6 +328,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
             objectsInsideSphere.Add(other);
+
     }
 
     private void OnTriggerExit(Collider other)

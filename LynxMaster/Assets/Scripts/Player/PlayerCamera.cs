@@ -1,51 +1,68 @@
-﻿using System.Collections;
+﻿//Written by: Kyle J. Ennis
+//last edited 14/10/19
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[AddComponentMenu("Camera", 0)]
 
 public class PlayerCamera : MonoBehaviour
 {
     [Header("Turn on/off the mouse cursor")]
     public bool lockCursor = false;
 
-    [Header("Invert Camera Y (set to off for mouse control)")]
+    [Header("Invert Camera Y")]
     public bool invY;
 
     [Header("Player")]
     public GameObject Player;
     public GameObject shadow;
     Rigidbody p_RB;
-    Vector3 playerFront;
 
-    [Header("Camera Sensitivity and rotation smoothing(Suggested sensitivity = 4)")]
+    [Header("Camera Sensitivity and rotation smoothing")]
+    [Tooltip("Adjusts camera movement sensitivity.")]
     [Range(1, 10)]
-    public float sensitivity = 5;
-    [Range(0,1)]
-    public float rotationsmoothTime = 0.667f;
-    float yAngle = 75;
+    public float sensitivity = 2.5f;
+    [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
+    [Range(0, 1)]
+    public float rotationsmoothTime = 0.202f;
 
     [Header("Distance from Player, Suggested Distance 2-3")]
     [Range(1, 10)]
-    public float distFromPlayer = 3;
-    float properDistance = 3;
-    Vector2 pitchMinMax; //set to -15 and 90 respectively in editor
+    float distFromPlayer = 3;
+    public float distFromPlayerUnderWater = 1.5f;
+    float properDistance;
+    Vector2 pitchMinMax;
+
 
     [Header("Debug current camera rotations and eulers")]
     [SerializeField]
     Vector3 currentRotation;
-    Vector3 eul;
     Vector3 smoothingVelocity;
-    Vector3 temp;
     float yaw;
     float pitch;
-   // bool looking = false;
+    // bool looking = false;
+
+    #region CameraReset
+    bool camReset;
+    float cameraResetTimer;
+    float cameraResetTime = 1;
+    float cameraResetSmoothing = 0.5f;
+    #endregion
 
     [Header("Camera Field of View")]
-    public float i_FOV = 60;
-    public float z_FOV = 30;
-    public float b_FOV = 80;
+    [Tooltip("Initial camera field of view.")]
+    public float i_FOV = 70;
+    [Tooltip("Current camera field of view.")]
     public float c_FOV;
-    public float smooth = 90;
+    [Tooltip("Field of view when the player enters a small area.")]
+    public float enclosedCam_FOV = 75;
+    [Tooltip("How quickly the camera switches between enclosed areas and open areas.")]
+    public float smooth = 15;
 
+
+    #region CameraRayCasts
     [Header("CameraRayCast")]
     public Camera main;
     public GameObject aimer;
@@ -53,132 +70,202 @@ public class PlayerCamera : MonoBehaviour
     RaycastHit hit;
     RaycastHit wall;
     RaycastHit s_Ground;
-    LayerMask layerMask;
-    public float wallDist = 5;
-    public float wallCheckSmoothing = 60;
-    public bool enclosed = false;
+    float wallDist = 5;
+    float wallCheckSmoothing = 20;
+    bool enclosed = false;
     float cameraOffsetX = .2f;
-    float cameraOffsetY = 0.5f;
+    float cameraOffsetY = 0.2f;
+    float camDist;
+    #endregion
+
+    [Header("2D Platforming")]
+    [Tooltip("The cameras follow speed when in 2D Mode.")]
+    public float c_Lerp;
+    [Tooltip("How far away the camera is when in 2D Mode.")]
+    public float FlatDistance;
+    [Tooltip("Which direction the 2D mode is set to. 0 = forward, 1 = back, 2 = left, 3 = right.")]
+    public int wallCamChoice;//0 = forward, 1 = back, 2 = left, 3 = right
+
+    [Header("Cinematics")]
+    [Tooltip("Choose what type of camera the game is currently using. 0 = 3D Orbit Mode, 1 = 2D Platforming Mode, 2+ are the cinematic cameras.")]
+    public int cameraChoice;//0 = 3D Platforming, 1 = 2D Platforming, 2+ = Cinematic Camera types or underdetermined functionality (to be written)
+    [Tooltip("Cinematic camera One.")]
+    public Vector3 cameraOnePos;
+    [Tooltip("Cinematic Camera Ones rotation.")]
+    public Vector3 cameraOneEuler;
+    [Tooltip("Cinematic Camera Two.")]
+    public Vector3 cameraTwoPos;
+    [Tooltip("Cinematic Camera Twos rotation.")]
+    public Vector3 cameraTwoEuler;
 
     void Start()
     {
         main = Camera.main;
-        i_FOV = main.fieldOfView;
         properDistance = distFromPlayer;
         pitchMinMax = new Vector2(-5, 75);
-        properDistance = distFromPlayer;
         p_RB = Player.GetComponent<Rigidbody>();
         p_LayerMask = ~p_LayerMask;
-        
+      
         if (lockCursor)
-        {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
     }
     private void Update()
     {
         c_FOV = main.fieldOfView;
+        camDist = CameraRaycast(distFromPlayer);
         if (ShadowManager(Player))
-        {
             shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
+        if (cameraChoice == 0)
+        {
+            if (camReset && cameraResetTimer < cameraResetTime)
+                cameraResetTimer += 1 * Time.deltaTime;
+            if (cameraResetTimer >= cameraResetTime)
+                resetCamera();
         }
+        //if (Player.GetComponent<PlayerClass>().playerCurrentMove == MovementType.swim)
+        //    cameraChoice = 3;
+        //else
+        //    cameraChoice = 0;
     }
 
     private void LateUpdate()
-    {
-        CamMovement();
-        //CameraFieldOfView();
-        JumpCamera();
+    {       
+        CameraTypes(cameraChoice);
+        EnclosedCameraFunctions(isInCloseF(),isInCloseB(), isInCloseL(), isInCloseR());
     }
 
-    void CamMovement()
+    //Basic Camera Movements, Orbit around player and joystick control, as well as player offset
+    void CamMovement3D()
     {
-        pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
         yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        if (invY)
-        {
-            invertY();
-        }
-        if (!invY)
-        {
-            nonInvertY();
-        }
-        pitchMinMax = new Vector2(-12, yAngle);
+        float f = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        pitch = (invY) ? pitch += f : pitch -= f;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-        eul = transform.eulerAngles;
-        eul.x = 0;
+
+        if (Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0 && p_RB.velocity.magnitude == 0)
+            camReset = true;
+        else
+            cameraResetTimer = 0;
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX)) * CameraRaycast(distFromPlayer) + (transform.up * cameraOffsetY);
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
     }
 
-    void invertY()
+    //2D Platforming void, for those tough to reach areas
+    void CamMovement2D(int x)
     {
-        pitch += Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
-        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
-
+        switch (x)
+        {
+            case 0:
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * FlatDistance, ref smoothingVelocity, c_Lerp);
+                break;
+            case 1:
+                transform.eulerAngles = new Vector3(0, 180, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * FlatDistance, ref smoothingVelocity, c_Lerp);
+                break;
+            case 2:
+                transform.eulerAngles = new Vector3(0, 90, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * FlatDistance, ref smoothingVelocity, c_Lerp);
+                break;
+            case 3:
+                transform.eulerAngles = new Vector3(0,-90, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * FlatDistance, ref smoothingVelocity, c_Lerp);
+                break;
+        }
     }
-    void nonInvertY()
+
+    void CameMovementWater()
     {
-        pitch -= Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        yaw += Input.GetAxis("HorizontalJoy") * sensitivity + Input.GetAxis("Horizontal") * sensitivity;
+        float f = Input.GetAxis("VerticalJoy") * sensitivity + Input.GetAxis("Vertical") * sensitivity;
+        pitch = (invY) ? pitch += f : pitch -= f;
+        pitch = Mathf.Clamp(pitch, -75, 75);
+      
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
+        transform.eulerAngles = currentRotation;
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * CameraRaycast(distFromPlayerUnderWater);
     }
 
+    //Checks cameras distance from the player and adjusts accordingly
+    float CameraRaycast(float x)
+    {
+        if (Physics.Raycast(aimer.transform.position, main.transform.position - aimer.transform.position, out hit, x, p_LayerMask))
+            return hit.distance;
+        else
+            return x;
+    }
+
+    //needs to be tied to menu system for adjustment by player
     public void switchInverseY()
     {
         invY = !invY;
     }
 
-    void JumpCamera()
+    //Zooms the camera out when in tight enclosures for a better view
+    void EnclosedCameraFunctions(bool w,bool x, bool y,bool z)
     {
-        if (p_RB.velocity.y > 0 && c_FOV <= b_FOV/* && !enclosed*/) 
-        {
-            main.fieldOfView += (smooth * Time.deltaTime);
-        }
-        if (p_RB.velocity.y <= 0 && c_FOV >= i_FOV /*&& !enclosed*/)
-        {
-            main.fieldOfView -= (smooth * Time.deltaTime);
-        }
-    }
-    
-    void CameraFieldOfView()
-    {
-        if (isInCloseR() && isInCloseL() && c_FOV <= b_FOV)
-        {
-            main.fieldOfView += wallCheckSmoothing * Time.deltaTime;
+        if (w && x || y && z)
             enclosed = true;
-        }
-        else if (!isInCloseL() && !isInCloseR() && c_FOV >= i_FOV)
+        else if (!w && !x || !y && !z)
         {
-            main.fieldOfView -= wallCheckSmoothing * Time.deltaTime;
             enclosed = false;
         }
-    }
-    public bool ShadowManager(GameObject x)
-    {
-        Vector3 lineStart = x.transform.position;
-        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y - 10, lineStart.z);
-        return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, p_LayerMask);
+        CameraZooms(enclosed, wallCheckSmoothing, enclosedCam_FOV);
     }
 
-    float CameraRaycast(float x)
+    //Used for positioning camera for cinematics and while the player is playing ** ADD MORE CASES FOR MORE CAMERA LOCATIONS
+    void CameraTypes(int camera)
     {
-        aimer.transform.LookAt(main.transform.position);
-        if (Physics.Raycast(aimer.transform.position, aimer.transform.TransformDirection(Vector3.forward), out hit,10, p_LayerMask))
+        switch (camera)
         {
-            float dist = hit.distance;
-            if (dist < distFromPlayer)
-            {
-                x = dist;
-            }
-            else 
-            {
-                x = properDistance;
-            }
+            case 0:
+                CamMovement3D();
+                break;
+            case 1:
+                CamMovement2D(wallCamChoice);
+                break;
+            case 2:
+                transform.position = Vector3.SmoothDamp(transform.position, cameraOnePos, ref smoothingVelocity, smooth * Time.deltaTime);
+                transform.localEulerAngles = cameraOneEuler;
+                break;
+            case 3:
+                CameMovementWater();
+                break;
         }
-        return x;
     }
 
+    //set this up for all zooms, cinematic and what not 
+    void CameraZooms(bool x, float smoothing, float t_goal)
+    {
+        switch (x)
+        {
+            case true:
+                if (c_FOV < t_goal)
+                    main.fieldOfView += smoothing * Time.deltaTime;
+                else
+                    main.fieldOfView = t_goal;
+                break;
+            case false:
+                if (c_FOV > i_FOV)
+                    main.fieldOfView -= smoothing * Time.deltaTime;
+                else
+                    main.fieldOfView = i_FOV;
+                break;
+        }
+    }
+
+    void resetCamera()
+    {
+        camReset = false;
+        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, cameraResetSmoothing);
+        transform.eulerAngles = currentRotation;
+        pitch = currentRotation.x;
+        yaw = currentRotation.y;
+    }
+
+    #region  AreaChecks
     public bool isInCloseL()
     {
         Vector3 lineStart = Player.transform.position;
@@ -194,7 +281,32 @@ public class PlayerCamera : MonoBehaviour
         Debug.DrawLine(lineStart, vectorToSearch, Color.black);
         return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
     }
-  
+
+    public bool isInCloseF()
+    {
+        Vector3 lineStart = Player.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y, lineStart.z + wallDist);
+        Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+        return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
+    }
+
+    public bool isInCloseB()
+    {
+        Vector3 lineStart = Player.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y, lineStart.z - wallDist);
+        Debug.DrawLine(lineStart, vectorToSearch, Color.black);
+        return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
+    }
+
+    //places a shadow beneath the player
+    public bool ShadowManager(GameObject x)
+    {
+        Vector3 lineStart = x.transform.position;
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y - 100, lineStart.z);
+        return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, p_LayerMask);
+    }
+    #endregion
+
     //*********************************************************************NOT IN USE BUT MAYBE LATER*************************************************************************
     //void ZoomFunction()
     //{
@@ -211,5 +323,4 @@ public class PlayerCamera : MonoBehaviour
     //        main.fieldOfView = z_FOV;
     //    }
     //}
-
 }

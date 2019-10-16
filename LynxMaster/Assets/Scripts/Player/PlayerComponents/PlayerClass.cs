@@ -5,14 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Player Class", 2)]
 
 public enum MovementType
 {
-    move, grapple, jump, air, crouch
+    move, grapple, jump, air, crouch, swim
 }
 
 public class PlayerClass : MonoBehaviour
 {
+    
 
 
     [Header("RigidBody")]
@@ -28,6 +30,8 @@ public class PlayerClass : MonoBehaviour
     }
 
     public MovementType playerCurrentMove;
+
+    public LayerMask airMask;
 
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
@@ -55,6 +59,14 @@ public class PlayerClass : MonoBehaviour
     public Crouch GetCrouchComponent()
     {
         return crouchComponent;
+    }
+
+    //Water Movement
+    public GameObject swim;
+    WaterMovement SwimComponent;
+    public WaterMovement GetSwimComponent()
+    {
+        return SwimComponent;
     }
 
 
@@ -108,6 +120,37 @@ public class PlayerClass : MonoBehaviour
     public bool GetCrouching()
     {
         return crouching;
+    }
+
+    //Recently added swimming test
+    bool swimming;
+    public void SetSwimming(bool swim)
+    {
+        swimming = swim;
+    }
+    public bool GetSwimming()
+    {
+        return swimming;
+    }
+    // for jump bug fix
+    [SerializeField]
+    private bool groundCheckEnabled = true;
+
+    public bool GetGroundCheck()
+    {
+        return groundCheckEnabled;
+    }
+
+    public void SetGroundCheck(bool value)
+    {
+        groundCheckEnabled = value;
+    }
+
+    public IEnumerator GroundCheckStop()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SetGroundCheck(true);
+        Debug.Log("ground check stopped");
     }
 
 
@@ -194,6 +237,8 @@ public class PlayerClass : MonoBehaviour
     private bool isHighJump;
     [SerializeField]
     private bool isLongJump;
+    [SerializeField]
+    private bool isDoubleJump;
 
     public bool GetHighJump()
     {
@@ -213,6 +258,16 @@ public class PlayerClass : MonoBehaviour
     public void SetLongJump(bool value)
     {
         isLongJump = value;
+    }
+
+    public bool GetDoubleJump()
+    {
+        return isDoubleJump;
+    }
+
+    public void SetDoubleJump(bool value)
+    {
+        isDoubleJump = value;
     }
 
     #endregion
@@ -240,7 +295,10 @@ public class PlayerClass : MonoBehaviour
                 playerCurrentMove = MovementType.crouch;
                 SetMovementComponent("crouch");
                 break;
-
+            //case MovementType.swim:
+            //    playerCurrentMove = MovementType.swim;
+            //    SetMovementComponent("swim");
+            //    break;
 
         }
     }
@@ -350,6 +408,24 @@ public class PlayerClass : MonoBehaviour
 
         playerMovementArray[2] = crouch;
 
+        ////set up swim component
+        //try
+        //{
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //}
+        //catch
+        //{
+        //    GameObject go = new GameObject();
+        //    go.transform.parent = transform;
+        //    go.transform.position = transform.position;
+        //    swim = go;
+        //    swim.AddComponent<WaterMovement>();
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //    swim.name = "swim";
+        //}
+
+        //playerMovementArray[3] = swim;
+
         //set up air component
         try
         {
@@ -367,8 +443,6 @@ public class PlayerClass : MonoBehaviour
         }
 
         playerMovementArray[3] = air;
-
-
 
         //for (int i = 0; i < playerMovementArray.Length; i++)
         //{

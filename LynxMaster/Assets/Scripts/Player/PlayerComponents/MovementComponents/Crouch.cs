@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Crouch Movement", 6)]
+
 public class Crouch : PlayerVariables
 {
     //rigidbody
@@ -116,6 +118,10 @@ public class Crouch : PlayerVariables
             HighJump();
             Debug.Log("high jump");
         }
+
+        //for jump bug fix
+        player.SetGroundCheck(false);
+        player.StartCoroutine(player.GroundCheckStop());
     }
 
     public void HighJump() // will apply force upwards similar to the hight of the double jump.

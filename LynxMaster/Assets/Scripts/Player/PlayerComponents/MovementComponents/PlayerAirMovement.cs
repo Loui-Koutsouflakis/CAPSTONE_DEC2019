@@ -85,6 +85,7 @@ public class PlayerAirMovement : PlayerVariables
         {
             player.SetHighJump(false);
             player.SetLongJump(false);
+            player.SetDoubleJump(false);
         }
     }
 
@@ -115,7 +116,7 @@ public class PlayerAirMovement : PlayerVariables
             rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton"))
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -187,6 +188,10 @@ public class PlayerAirMovement : PlayerVariables
             airMax = highJumpAirMax;
         }
         //air max of 12 is for normal jumps
+        else if(player.GetDoubleJump())
+        {
+            airMax = doubleJumpMax;
+        }
         else
         {
             airMax = testAirMax;
@@ -202,12 +207,26 @@ public class PlayerAirMovement : PlayerVariables
 
     public void Jump()
     {
-        Vector3 forward = transform.forward;
-        Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
+        //Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
+        Vector3 inputDir = cammy.transform.forward * vertical + cammy.transform.right * horizontal;
 
-        //Vector3.Dot(forward, inputDir) < 0
 
-        if (canFlutter && !onWall)
+        if (onWall && Vector3.Dot(wallNormal, inputDir) >= 0) //wall jump only if pressing away from the wall
+        {
+            //zero out velocity
+            rb.velocity = Vector3.zero;
+            // sets player looking away from wall (two ways to do it)         
+            player.transform.forward = wallNormal;
+            //jump off the wall
+            rb.AddForce((transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+
+            onWall = false;
+            wallDeadZone = true;
+            StartCoroutine(WallDeadZone());
+            player.SetFlutter(true);
+            player.SetDoubleJump(false);
+        }
+        else if (canFlutter)
         {
             //Debug.Log("Flutter Jump");
             //zero out velocity at start of flutter jump to prevent to much height
@@ -221,26 +240,7 @@ public class PlayerAirMovement : PlayerVariables
 
             rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
-        }
-        else if(onWall)
-        {
-            //zero out velocity
-            rb.velocity = Vector3.zero;
-            // jumps off of wall
-            //rb.AddForce((-transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
-            // sets player looking away from wall (two ways to do it)
-            //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, -transform.forward, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
-            //player.transform.forward = -transform.forward; use this
-            
-            player.transform.forward = wallNormal;
-            
-
-            rb.AddForce((transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
-
-            onWall = false;
-            wallDeadZone = true;
-            StartCoroutine(WallDeadZone());
-            player.SetFlutter(true);
+            player.SetDoubleJump(true);
         }
 
         if (player.transform.parent != null)
