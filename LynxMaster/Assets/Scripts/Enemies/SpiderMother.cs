@@ -2,43 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiderMother : MonoBehaviour
+public class SpiderMother : MonoBehaviour, IKillable
 {
-    public Enemy enemyScript;
+    [Range(0, 5)]
+    public int rotationSpeed = 3;
+
     public bool kill;
     public float range;
-
-    public Vector3 locationSpawned;
+    public float meleeAttackRange;
+    public float shootRange;
     public float speed;
+    private WaitForSecondsRealtime vulnerableTime = new WaitForSecondsRealtime(5);
+    private WaitForSecondsRealtime timeBetweenSpiderlings = new WaitForSecondsRealtime(0.5f);
+    private WaitForSecondsRealtime shootCoolDownTimer = new WaitForSecondsRealtime(10);
+
+
     private Vector3 destination;
-    private Vector3 nextDestination;
-    private WaitForSecondsRealtime frameRate = new WaitForSecondsRealtime(1/60);
-    Vector2 tempV2;
-    Vector2 tempLocation;
+    Vector2 destinationVector2;
+    Vector2 tempLocationVector2;
     Rigidbody rigidBody;
-    float angleDifferenceForward = 0.0f;
     bool shootingTodds = false;
-    bool facingNewDirection = true;
+
+    float timeCount = 0f;
+    bool rotate = false;
+    Vector3 movement;
+    float angle;
+    Vector3 newDirection;
+    private Enemy enemyScript;
+    private Vector3 locationSpawned;
+    public bool vulnerable = false;
+    bool attacking = false;
+    bool shootCoolDown = false;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
         enemyScript = GetComponent<Enemy>();
-
     }
 
-    private void OnEnable()
+    public IEnumerator CheckHit()
     {
-        locationSpawned = transform.position;
-        SetDestination("Wonder");
-        facingNewDirection = false;
-        //transform.
+        yield return 0;
     }
 
-    private void Start()
+    public IEnumerator TakeDamage(int dmg)
     {
-        
+        enemyScript.TakeDamage(dmg);
+        yield return 0;
     }
+
+    public IEnumerator Die()
+    {
+        enemyScript.DeathSequence();
+        yield return 0;
+    }
+
+    public void SetSpawnLocation(Vector3 pos)
+    {
+        locationSpawned = pos;
+    }
+
     private void Kill()
     {
         StartCoroutine(enemyScript.DeathSequence());
@@ -46,134 +69,154 @@ public class SpiderMother : MonoBehaviour
         kill = false;
     }
 
+    IEnumerator ShootTheTods()
+    {
+        int numberOfSpiderlings = Random.Range(3, 6);
+        for (int i = 0; i < numberOfSpiderlings; i++)
+        {
+            Debug.Log("Shoot spiderling " + i);
+            yield return timeBetweenSpiderlings;
+        }
+
+        shootingTodds = false;
+        StartCoroutine(ShootCoolDown());
+    }
+
+    void AttackPlayer()
+    {
+        Debug.Log("Hit player");
+        Debug.Log("Play attack animation");
+        attacking = false;
+        vulnerable = true;
+        StartCoroutine(Valnerable());
+    }
+    private IEnumerator Valnerable()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            //movement = transform.forward * (-speed * Time.deltaTime);
+            //movement.y = 0;
+            transform.position += (transform.forward * (-speed * Time.deltaTime));
+            yield return new WaitForSecondsRealtime(1/60);
+        }
+        Debug.Log("Play valnerable animation");
 
 
+        yield return new WaitForSecondsRealtime(10);
+
+        vulnerable = false;
+    }
+
+    private IEnumerator ShootCoolDown()
+    {
 
 
+        yield return new WaitForSecondsRealtime(10);
 
-    // Current choices "Wonder" and "ChasePlayer"
+        shootCoolDown = false;
+    }
+
+
     public void SetDestination(string MovementPattern)
     {
-        if (!shootingTodds)
+        float tempMag = 0;
+
+        if (!vulnerable)
         {
-            if (MovementPattern == "Wonder")
-            {
-                destination.x = Random.Range(locationSpawned.x - 20, locationSpawned.x + 20);
-                destination.y = transform.position.y;
-                destination.z = Random.Range(locationSpawned.z - 20, locationSpawned.z + 20);
-
-
-                //destination = new Vector3(
-                //    Random.Range(locationSpawned.x - 20, locationSpawned.x + 20),
-                //    transform.position.y,
-                //    Random.Range(locationSpawned.z - 20, locationSpawned.z + 20)); ;
-            }
-            else if (MovementPattern == "ChasePlayer")
-            {
-                destination = enemyScript.playerTrigger.transform.position;
-                destination.y = transform.position.y;
-            }
-
-            float tempMag = 0;
-
-            if (MovementPattern != "StandAndShoot")
-            {
-                tempV2 = new Vector2(destination.x, destination.z);
-                tempLocation = new Vector2(locationSpawned.x, locationSpawned.z);
-                tempMag = (tempV2 - tempLocation).magnitude;
-            }
-            //Debug.Log(destination);
             switch (MovementPattern)
             {
                 case "Wonder":
+                    destination.x = Random.Range(locationSpawned.x - 20, locationSpawned.x + 20);
+                    destination.y = transform.position.y;
+                    destination.z = Random.Range(locationSpawned.z - 20, locationSpawned.z + 20);
 
+                    destinationVector2 = new Vector2(destination.x, destination.z);
+                    tempLocationVector2 = new Vector2(locationSpawned.x, locationSpawned.z);
+                    tempMag = (destinationVector2 - tempLocationVector2).magnitude;
                     if (tempMag > range)
                     {
+                        shootingTodds = false;
                         SetDestination(MovementPattern);
                     }
                     break;
 
                 case "ChasePlayer":
-                    if (tempMag > range)
+                    destination = enemyScript.playerTrigger.transform.position;
+                    destination.y = transform.position.y;
+
+                    destinationVector2 = new Vector2(destination.x, destination.z);
+                    tempLocationVector2 = new Vector2(transform.position.x, transform.position.z);
+                    tempMag = (destinationVector2 - tempLocationVector2).magnitude;
+
+                    if (tempMag <= meleeAttackRange)
                     {
+                        attacking = true;
+                        AttackPlayer();
+                    }
+                    else if (tempMag > meleeAttackRange && tempMag > shootRange && !shootCoolDown)
+                    {
+                        shootCoolDown = true;
                         SetDestination("StandAndShoot");
                     }
+
                     break;
+
                 case "StandAndShoot":
-                    destination = transform.position;
+                    destination = enemyScript.playerTrigger.transform.position;
                     if (!shootingTodds)
                     {
-                        ShootTheTods();
                         shootingTodds = true;
+                        StartCoroutine(ShootTheTods());
                     }
                     break;
             }
         }
-        tempV2 *= 0;
-        tempLocation *= 0;
-
-    }
-
-    void ShootTheTods()
-    {
-
-        shootingTodds = false;
+        else
+        {
+            destination = transform.position;
+        }
+        destinationVector2 *= 0;
+        tempLocationVector2 *= 0;
     }
 
     void Update()
     {
-        //if((transform.position - destination).magnitude < 2 || )
-        //{
-        //    facingNewDirection = false;
-        //}
-        if (kill) Kill();
-        //Debug.Log(GetComponent<Rigidbody>().velocity);
+        if (rotationSpeed > 5)
+        {
+            rotationSpeed = 5;
+            Debug.Log("Rotation speed to high. Rotation speed was set to 5.");
+        }
 
-        if ((transform.position - destination).magnitude < 5 && !enemyScript.seesPlayer)
+        if (kill) Kill();
+
+        if (!enemyScript.seesPlayer && (transform.position - destination).magnitude < 5)
         {
             SetDestination("Wonder");
         }
-        //Debug.Log(enemyScript.playerTrigger.transform.position);
-        if (enemyScript.playerTrigger != null)
+
+        if (enemyScript.seesPlayer)
         {
-            if (enemyScript.seesPlayer && (locationSpawned - enemyScript.playerTrigger.transform.position).magnitude < range)
-            {
-                SetDestination("ChasePlayer");
-            }
-            else if (enemyScript.seesPlayer && (locationSpawned - enemyScript.playerTrigger.transform.position).magnitude > range)
-            {
-                SetDestination("StandAndShoot");
-            }
+            SetDestination("ChasePlayer");
         }
-        //Debug.Log((transform.position - destination).magnitude);   
     }
 
-
-    float timeCount = 0f;
-    bool rotate = false;
-    Vector3 movement;
-    float angle;
-    Vector3 newDirection;
     private void FixedUpdate()
     {
-        movement = transform.forward * (speed * Time.deltaTime);
-        movement.y = 0;
+        if (!vulnerable && !attacking)
+        {
+            if (!shootingTodds)
+            {
+                //movement = transform.forward * (speed * Time.deltaTime);
+                //movement.y = 0;
+                transform.position += (transform.forward * (speed * Time.deltaTime));
+            }
 
+            newDirection = destination - rigidBody.position;
+            newDirection.y = transform.forward.y;
+            angle = Vector3.SignedAngle(newDirection, transform.forward, transform.up);
 
-
-        newDirection = destination - rigidBody.position;
-        newDirection.y = transform.forward.y;
-        angle = Vector3.SignedAngle(newDirection, transform.forward, transform.up);
-
-        if (angle > 5) transform.Rotate(transform.up, -1);
-        if (angle < -5) transform.Rotate(transform.up, 1);
-
-        //Debug.Log(movement);
-        //Vector3 targetPosition = rigidBody.position + transform.forward;
-
-
-        transform.position += (transform.forward * (speed * Time.deltaTime)); 
-
+            if (angle > 5) transform.Rotate(transform.up, -rotationSpeed);
+            if (angle < -5) transform.Rotate(transform.up, rotationSpeed);
+        }
     }
-
 }

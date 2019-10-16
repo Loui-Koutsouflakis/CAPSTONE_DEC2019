@@ -54,7 +54,8 @@ public class Enemy : MonoBehaviour
             case EnemyType.Tod:
 
                 GetComponent<SpiderMother>().enabled = true;
-                GetComponent<SpiderMother>().locationSpawned = transform.position;
+                GetComponent<SpiderMother>().SetSpawnLocation(transform.position);
+                GetComponent<SpiderMother>().SetDestination("Wonder");
                 hitPoints = 3;
                 break;
         }
@@ -80,10 +81,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int dmg)
     {
         if (canTakeDamage)
         {
+            hitPoints -= dmg;
+
             if (hitPoints > 1)
             {
                 StartCoroutine(DamageSequence());
@@ -109,7 +112,6 @@ public class Enemy : MonoBehaviour
     public IEnumerator DamageSequence()
     {
         canTakeDamage = false;
-
         // Handle particles, animations, sounds, whatever timed sequence for damage is needed, same as above
 
         yield return new WaitForSecondsRealtime(timeUntilDamagable);
