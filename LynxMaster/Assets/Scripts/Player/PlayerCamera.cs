@@ -123,10 +123,10 @@ public class PlayerCamera : MonoBehaviour
             if (cameraResetTimer >= cameraResetTime)
                 resetCamera();
         }
-        if (Player.GetComponent<PlayerClass>().playerCurrentMove == MovementType.swim)
-            cameraChoice = 3;
-        else
-            cameraChoice = 0;
+        //if (Player.GetComponent<PlayerClass>().playerCurrentMove == MovementType.swim)
+        //    cameraChoice = 3;
+        //else
+        //    cameraChoice = 0;
     }
 
     private void LateUpdate()
@@ -256,6 +256,14 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    void resetCamera()
+    {
+        camReset = false;
+        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.localEulerAngles, ref smoothingVelocity, cameraResetSmoothing);
+        transform.eulerAngles = currentRotation;
+        pitch = currentRotation.x;
+        yaw = currentRotation.y;
+    }
 
     #region  AreaChecks
     public bool isInCloseL()
@@ -299,14 +307,6 @@ public class PlayerCamera : MonoBehaviour
     }
     #endregion
 
-    void resetCamera()
-    {
-        camReset = false;
-        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.localEulerAngles, ref smoothingVelocity, cameraResetSmoothing);
-        transform.eulerAngles = currentRotation;
-        pitch = currentRotation.x;
-        yaw = currentRotation.y;
-    }
     //*********************************************************************NOT IN USE BUT MAYBE LATER*************************************************************************
     //void ZoomFunction()
     //{

@@ -11,12 +11,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
-    float triggerDeadZone = 0.2f;
     public PlayerController playerController;
-
 
     public Command _AButton = new Command();
     public Command _BButton = new Command();
+    public Command _XButton = new Command();
+    public Command _YBUtton = new Command();
 
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
@@ -26,6 +26,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public Command _LeftTriggerDown = new Command();
     public Command _LeftTriggerUp = new Command();
+
+    public Command _RightTriggerDown = new Command();
+    public Command _RightTriggerUp = new Command();
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -48,10 +51,10 @@ public class PlayerInputHandler : MonoBehaviour
         //_RightBumperUp = SetButton(deCrouch);
 
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
-        _LeftBumperDown = SetButton(grap);
+        _RightBumperDown = SetButton(grap);
 
         DeatchGrappleCommand dGrap = new DeatchGrappleCommand();
-        _LeftBumperUp = SetButton(dGrap);
+        _RightBumperUp = SetButton(dGrap);
     }
 
     private void Update()
@@ -69,25 +72,25 @@ public class PlayerInputHandler : MonoBehaviour
         {
             _RightBumperUp.Execute(playerController);
         }
+
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
             _LeftBumperDown.Execute(playerController);
         }
-
-        if (Input.GetAxis("LeftTrigger") >= triggerDeadZone)
-        {
-            _LeftTriggerDown.Execute(playerController);
-        }
-
-        if (Input.GetAxis("LeftTrigger") < triggerDeadZone)
-        {
-            _LeftTriggerUp.Execute(playerController);
-        }
-
         if (Input.GetButtonUp("LeftBumper"))
         {
             //_LeftBumperUp.Execute(playerController);
         }
+
+        if (Input.GetAxis("LeftTrigger") == 1)
+        {
+            _LeftTriggerDown.Execute(playerController);
+        }
+        if (Input.GetAxis("LeftTrigger") < 1)
+        {
+            _LeftTriggerUp.Execute(playerController);
+        }
+
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
