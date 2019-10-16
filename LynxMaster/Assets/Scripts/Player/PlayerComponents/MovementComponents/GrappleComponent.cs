@@ -24,7 +24,7 @@ public class GrappleComponent : MonoBehaviour
     public bool isStaring;
 
     [Range(20, 90)]
-    private float maxAngle = 45;
+    private float maxAngle = 60;
 
     [SerializeField]
     PlayerClass player;
@@ -141,8 +141,10 @@ public class GrappleComponent : MonoBehaviour
         reachedZero = false;
 
         player.debugLine.enabled = false;
+        player.SetFlutter(true);
 
         player.SetMovementType(MovementType.air);
+
     }
 
     public Transform setTetherPoint(Transform t)

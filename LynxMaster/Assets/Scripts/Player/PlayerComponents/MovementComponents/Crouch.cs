@@ -53,7 +53,7 @@ public class Crouch : PlayerVariables
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
-        enteredScript = false;
+        enteredScript = true;
     }
 
     public void OnEnable()
@@ -108,7 +108,7 @@ public class Crouch : PlayerVariables
         //{
         //    LongJump();
         //}
-        if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone)
+        if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone && player.rb.velocity.magnitude >= 0.2f)
         {
             LongJump();
             Debug.Log("long jump");
