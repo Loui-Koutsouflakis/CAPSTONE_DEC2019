@@ -31,8 +31,11 @@ public class PlayerCamera : MonoBehaviour
     [Header("Distance from Player, Suggested Distance 2-3")]
     [Range(1, 10)]
     float distFromPlayer = 3;
-    public float distFromPlayerUnderWater = 1.5f;
-    float properDistance;
+    float YAxis;
+    float YDistSpeed = 1;
+    float camDistMax = 5;
+    float camDistMin = 2;
+    float distFromPlayerUnderWater = 1.5f;
     Vector2 pitchMinMax;
 
 
@@ -47,19 +50,23 @@ public class PlayerCamera : MonoBehaviour
     #region CameraReset
     bool camReset;
     float cameraResetTimer;
-    float cameraResetTime = 1;
+    float cameraResetTime = 2;
     float cameraResetSmoothing = 0.5f;
+
+    bool camWall;
+    float camWallTimer;
+    float camWallTime = .5f;
     #endregion
 
     [Header("Camera Field of View")]
     [Tooltip("Initial camera field of view.")]
-    public float i_FOV = 70;
+    float i_FOV = 70;
     [Tooltip("Current camera field of view.")]
-    public float c_FOV;
+    float c_FOV;
     [Tooltip("Field of view when the player enters a small area.")]
-    public float enclosedCam_FOV = 75;
+    float enclosedCam_FOV = 75;
     [Tooltip("How quickly the camera switches between enclosed areas and open areas.")]
-    public float smooth = 15;
+    float smooth = 5;
 
 
     #region CameraRayCasts
@@ -80,9 +87,9 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("2D Platforming")]
     [Tooltip("The cameras follow speed when in 2D Mode.")]
-    public float c_Lerp;
+    float c_Lerp;
     [Tooltip("How far away the camera is when in 2D Mode.")]
-    public float FlatDistance;
+    float FlatDistance;
     [Tooltip("Which direction the 2D mode is set to. 0 = forward, 1 = back, 2 = left, 3 = right.")]
     public int wallCamChoice;//0 = forward, 1 = back, 2 = left, 3 = right
 
@@ -101,8 +108,7 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         main = Camera.main;
-        properDistance = distFromPlayer;
-        pitchMinMax = new Vector2(-5, 75);
+        pitchMinMax = new Vector2(-20, 75);
         p_RB = Player.GetComponent<Rigidbody>();
         p_LayerMask = ~p_LayerMask;
       
@@ -112,7 +118,9 @@ public class PlayerCamera : MonoBehaviour
     }
     private void Update()
     {
+
         c_FOV = main.fieldOfView;
+        distFromPlayer = UpDownCam(invY);
         camDist = CameraRaycast(distFromPlayer);
         if (ShadowManager(Player))
             shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
@@ -121,28 +129,65 @@ public class PlayerCamera : MonoBehaviour
             if (camReset && cameraResetTimer < cameraResetTime)
                 cameraResetTimer += 1 * Time.deltaTime;
             if (cameraResetTimer >= cameraResetTime)
-                resetCamera();
+                resetCamera(cameraResetSmoothing);
+            if (camWall)
+            {
+                wallTimer();
+            }
+            if (Input.GetButton("LeftBumper") && p_RB.velocity.magnitude <= 1)
+            {
+                resetCamera(0.15f);
+            }
         }
-        //if (Player.GetComponent<PlayerClass>().playerCurrentMove == MovementType.swim)
-        //    cameraChoice = 3;
-        //else
-        //    cameraChoice = 0;
     }
 
     private void LateUpdate()
     {       
         CameraTypes(cameraChoice);
-        EnclosedCameraFunctions(isInCloseF(),isInCloseB(), isInCloseL(), isInCloseR());
+        EnclosedCameraFunctions(isInCloseF(), isInCloseB(), isInCloseL(), isInCloseR());        
+        if(Vector3.Distance(this.gameObject.transform.position, Player.gameObject.transform.position) <= 1)
+        {
+            camWall = true;
+        }
+        if(Vector3.Distance(this.gameObject.transform.position, Player.gameObject.transform.position) > 1)
+        {
+            camWall = false;
+            camWallTimer = 0;
+        }
     }
 
+    void wallTimer()
+    {
+        if (camWall && camWallTimer < camWallTime)
+            camWallTimer += 1 * Time.deltaTime;
+        if (camWallTimer >= camWallTime)
+            resetCamera(1f);
+    }
+    float UpDownCam(bool x)
+    {
+        if (distFromPlayer < camDistMin)
+            distFromPlayer = camDistMin;
+        if (distFromPlayer > camDistMax)
+            distFromPlayer = camDistMax;
+
+        if (x)
+        {
+            if (distFromPlayer <= camDistMax && distFromPlayer >= camDistMin)
+                distFromPlayer += YAxis * YDistSpeed * Time.deltaTime;
+            return distFromPlayer;
+        }
+        else
+            if (distFromPlayer <= camDistMax && distFromPlayer >= camDistMin)
+            distFromPlayer -= YAxis * YDistSpeed * Time.deltaTime;
+        return distFromPlayer;
+    }
     //Basic Camera Movements, Orbit around player and joystick control, as well as player offset
     void CamMovement3D()
     {
         yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        float f = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
-        pitch = (invY) ? pitch += f : pitch -= f;
+        YAxis = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-
         if (Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0 && p_RB.velocity.magnitude == 0)
             camReset = true;
         else
@@ -185,7 +230,7 @@ public class PlayerCamera : MonoBehaviour
       
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * CameraRaycast(distFromPlayerUnderWater);
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * (CameraRaycast(distFromPlayerUnderWater) + 0.05f);
     }
 
     //Checks cameras distance from the player and adjusts accordingly
@@ -256,10 +301,10 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    void resetCamera()
+    void resetCamera(float x)
     {
         camReset = false;
-        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, cameraResetSmoothing);
+        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, x);
         transform.eulerAngles = currentRotation;
         pitch = currentRotation.x;
         yaw = currentRotation.y;
