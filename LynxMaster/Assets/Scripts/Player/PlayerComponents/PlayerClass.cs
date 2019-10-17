@@ -51,7 +51,10 @@ public class PlayerClass : MonoBehaviour
     public TetherPoint tetherPoint;
     public void SetTetherPoint(Collider tP)
     {
-        tetherPoint = tP.GetComponent<TetherPoint>();
+        if (tP != null)
+            tetherPoint = tP.GetComponent<TetherPoint>();
+        else
+            tetherPoint = null;
     }
 
     //Crouch

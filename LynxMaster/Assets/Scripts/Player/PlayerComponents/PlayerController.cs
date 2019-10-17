@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         //         player.SetSwimming(true);
         //         player.SetMovementType(MovementType.swim);
         //     }
-        player.vel = player.rb.velocity;
+        //player.vel = player.rb.velocity;
         //Debug.Log(player.vel);
     }
     public void Jump()
@@ -430,7 +430,6 @@ public class PlayerController : MonoBehaviour
 
                     float dis = Vector3.Distance(transform.position, objec.transform.position);
                     distancesToObjects.Add(dis);
-
                 }
 
             }
@@ -442,8 +441,10 @@ public class PlayerController : MonoBehaviour
                 player.SetTetherPoint(closestPoint);
             }
             else
+            {
                 closestPoint = null;
-
+                player.SetTetherPoint(null);
+            }
 
             yield return new WaitForSecondsRealtime(checkSphereRate);
             distancesToObjects.Clear();

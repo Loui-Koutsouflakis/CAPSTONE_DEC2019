@@ -70,9 +70,11 @@ public class PlayerGroundMovement : PlayerVariables
 
     private void OnEnable()
     {
-        
-        //Debug.Log(rb.velocity);
-        
+        if (rb)
+        {
+            Debug.Log(rb.velocity);
+            ControlInput();
+        }
     }
 
     public void ControlInput()

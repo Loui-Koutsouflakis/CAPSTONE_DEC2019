@@ -31,6 +31,12 @@ public class GrappleComponent : MonoBehaviour
 
     public Transform tetherPoint;
 
+    //for new version
+    private Vector3 tetherDirection;
+    private float tetherLength;
+    private float angleToTether;
+
+
     // Start is called before the first frame update
 
     public void Initialize()
@@ -51,6 +57,11 @@ public class GrappleComponent : MonoBehaviour
 
         tether = true;
         attachedTetherPoint = tetherPoint;
+        
+        //new stuff
+        tetherDirection = attachedTetherPoint.transform.position - transform.position;
+        tetherLength = tetherDirection.magnitude;
+        angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
 
         player.debugLine.GetComponent<LineRenderer>().enabled = true;
 
@@ -76,7 +87,7 @@ public class GrappleComponent : MonoBehaviour
     {
         if (!tether)
             return;
-
+        /*old version of tether
         player.debugLine.SetPosition(0, player.transform.position);
         player.debugLine.SetPosition(1, attachedTetherPoint.position);
 
@@ -121,6 +132,28 @@ public class GrappleComponent : MonoBehaviour
             }
 
         }
+        */
+        //if (attachedTetherPoint)
+        //{
+            //updates velocity
+            Vector3 deltaVelocity = rb.mass * Physics.gravity * Mathf.Sin(angleToTether * Mathf.Deg2Rad) * Time.fixedDeltaTime;
+            rb.velocity -= Vector3.Dot(rb.velocity, deltaVelocity) * deltaVelocity;
+
+            //calculates and adds tension force
+            float tension = rb.mass * 9.8f * Mathf.Cos(angleToTether * Mathf.Deg2Rad) + (rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength);
+            rb.AddForce(tension * tetherDirection.normalized);
+
+            //updates position 
+            tetherDirection = attachedTetherPoint.transform.position - transform.position;
+            angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
+            //Debug.Log(angleToTether);
+        //}
+        //draws a debug line to show grapple where grapping
+        //Debug.DrawLine(transform.position, attachedTetherPoint.transform.position);
+        //line.SetPosition(0, transform.position);
+        //line.SetPosition(1, grappleTarget.transform.position);
+
+
     }
 
     
@@ -135,6 +168,7 @@ public class GrappleComponent : MonoBehaviour
         rb.mass = 1;
         rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
         tether = false;
+        
 
         if (tetherPoint == attachedTetherPoint && isStaring == false)
             tetherPoint = null;
