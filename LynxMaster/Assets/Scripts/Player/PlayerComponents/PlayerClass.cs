@@ -1,5 +1,6 @@
 ﻿//Luke Fentress
 //edited 19-08-09 by AT - updated to include air component
+//19-10-16 - added generic add force fuction
 
 using System.Collections;
 using System.Collections.Generic;
@@ -452,13 +453,14 @@ public class PlayerClass : MonoBehaviour
 
         SetMovementType(MovementType.move);
     }
-
-
-
-
+    
     //DEBUGGING GRAPPLE
     public LineRenderer debugLine;
 
-
+    //genereric addforce fuctions that can be called by anything
+    public void GenericAddForce(Vector3 direction, float force)
+    {
+        rb.AddForce(direction * force, ForceMode.Impulse);
+    }
 
 }

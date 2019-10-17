@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     //public AudioSource Music;
 
-    public GameObject UIElements;
+    //public GameObject UIElements;
 
     //public Slider Volume;
 
@@ -65,10 +65,10 @@ public class GameManager : MonoBehaviour
         //}
 
         //Quits the game
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Quit();
-        }
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    Quit();
+        //}
         //Unpauses the game
         if (Input.GetKeyDown(KeyCode.P) && GameIsPaused || Input.GetButtonDown("Start") && GameIsPaused)
         {
@@ -148,8 +148,8 @@ public class GameManager : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        UIElements.SetActive(false);
-        Time.timeScale = 0f;
+        //UIElements.SetActive(false);
+        Time.timeScale = 0.0000000000000001f;
         GameIsPaused = true;
 
     }
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        UIElements.SetActive(true);
+        //UIElements.SetActive(true);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }

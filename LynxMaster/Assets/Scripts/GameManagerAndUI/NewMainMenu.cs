@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class NewMainMenu : UIManager
 {
     public Animation scrollOpen;
-    public GameObject[] MenuItems = new GameObject[3];
-     MenuButtons[] buttons = new MenuButtons[3];
+    public GameObject[] MenuItems = new GameObject[4];
+     MenuButtons[] buttons = new MenuButtons[4];
+    [SerializeField]
     int selected = 0;
     public Material whenSelected;
     public Material whenNotSelected;
@@ -16,6 +17,7 @@ public class NewMainMenu : UIManager
     float verticalInput;
     bool recieveInput = true;
     public UIManager ui;
+   
 
 
 
@@ -30,11 +32,12 @@ public class NewMainMenu : UIManager
 
         MenuItems[0].AddComponent<Button_StartGame>();
         buttons[0] = MenuItems[0].GetComponent<Button_StartGame>();
-        Debug.Log(buttons[0]);
-        MenuItems[1].AddComponent<Button_Settings>();
-        buttons[1] = MenuItems[1].GetComponent<Button_Settings>();
-        MenuItems[2].AddComponent<Button_QuitGame>();
-        buttons[2] = MenuItems[2].GetComponent<Button_QuitGame>();
+        MenuItems[1].AddComponent<Button_Continue>();
+        buttons[1] = MenuItems[1].GetComponent<Button_Continue>(); 
+        MenuItems[2].AddComponent<Button_Settings>();
+        buttons[2] = MenuItems[2].GetComponent<Button_Settings>();
+        MenuItems[3].AddComponent<Button_QuitGame>();
+        buttons[3] = MenuItems[3].GetComponent<Button_QuitGame>();
 
 
         
@@ -58,7 +61,7 @@ public class NewMainMenu : UIManager
                 if(selected == i)
                 {
                     MenuItems[i].gameObject.GetComponent<Renderer>().material = whenSelected;
-                    if (Input.GetButton("AButton"))
+                    if (Input.GetButtonDown("AButton"))
                     {
                         buttons[i].Execute(UIManager.singleton);
                     }

@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CheckGround());
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
+        StartCoroutine(PlatformCheck());
         p_Layer = ~p_Layer;
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
@@ -247,6 +248,11 @@ public class PlayerController : MonoBehaviour
             else
             {
                 player.SetGrounded(false);
+
+                //if(transform.parent != null)
+                //{
+                //    transform.parent = null;
+                //}
                    // player.SetSwimming(false);
 
                     player.GetAnimator().SetBool("Grounded", false);
@@ -270,6 +276,22 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CheckGround());
         //}
     }
+
+    //breaks parenting if was on moving platform, needed a longer time to prevent jittering
+    public IEnumerator PlatformCheck()
+    {
+        if (!Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
+        {
+            if (transform.parent != null)
+            {
+                transform.parent = null;
+            }
+        }
+        
+        yield return new WaitForSecondsRealtime(0.6f);
+        
+        StartCoroutine(PlatformCheck());
+}
 
 
 
@@ -442,6 +464,7 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
+    
 
 
     #endregion

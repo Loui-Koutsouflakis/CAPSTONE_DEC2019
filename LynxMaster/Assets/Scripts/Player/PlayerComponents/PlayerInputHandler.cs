@@ -1,5 +1,7 @@
 ﻿//Luke F 08/06
 
+//kyle E added more button functionality
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,7 +81,7 @@ private bool isToggled = false;
         }
         if (Input.GetButtonUp("LeftBumper"))
         {
-            //_LeftBumperUp.Execute(playerController);
+            _LeftBumperUp.Execute(playerController);
         }
 
         if (Input.GetAxisRaw("LeftTrigger") != 0)
