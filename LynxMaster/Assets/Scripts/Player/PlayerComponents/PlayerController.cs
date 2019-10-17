@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
             player.GetAirComponent().Jump();
-            stateMachine.SetTrigger("Jump");
+            stateMachine.SetTrigger("DJump");
         }
         else if (player.playerCurrentMove == MovementType.crouch)
         {
