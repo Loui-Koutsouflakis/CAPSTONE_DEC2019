@@ -37,6 +37,8 @@ public class GrappleComponent : MonoBehaviour
     private float angleToTether;
 
 
+    private float intialSpeed;
+
     // Start is called before the first frame update
 
     public void Initialize()
@@ -64,6 +66,8 @@ public class GrappleComponent : MonoBehaviour
         angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
 
         player.debugLine.GetComponent<LineRenderer>().enabled = true;
+
+        intialSpeed = rb.velocity.magnitude;
 
     }
 
@@ -156,6 +160,20 @@ public class GrappleComponent : MonoBehaviour
 
     }
 
+    //speed up the model if input
+    public void SpeedUp()
+    {
+        Vector3 newVelocity = rb.velocity;
+        float newVelMag = newVelocity.magnitude; 
+        if (Vector3.Dot(player.transform.forward, rb.velocity) > 0)
+        {
+            newVelMag = newVelMag * 1.2f;
+            Debug.Log("speeding up");
+        }        
+        newVelocity = Mathf.Min(newVelMag, intialSpeed) * newVelocity.normalized;
+        rb.velocity = newVelocity;
+    }
+
     
     public void DetatchGrapple()
     {
@@ -222,9 +240,5 @@ public class GrappleComponent : MonoBehaviour
             DetatchGrapple();
         }
     }
-
-
-
-
 }
 

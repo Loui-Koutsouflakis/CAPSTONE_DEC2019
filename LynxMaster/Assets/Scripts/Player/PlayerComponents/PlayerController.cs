@@ -170,6 +170,14 @@ public class PlayerController : MonoBehaviour
         player.SetCrouching(isCrouching);
     }
 
+    public void SpeedUp()
+    {
+        if(player.playerCurrentMove == MovementType.grapple)
+        {
+            player.GetGrappleComponent().SpeedUp();
+        }
+    }
+
     #region check ground functions
 
     private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
