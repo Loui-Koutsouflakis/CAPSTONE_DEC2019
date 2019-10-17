@@ -126,6 +126,9 @@ public class GrappleComponent : MonoBehaviour
     
     public void DetatchGrapple()
     {
+        if (!tether)
+            return;
+
         Debug.Log("grapple detached");
         player.isGrappling = false;
 

@@ -134,7 +134,7 @@ public class PlayerGroundMovement : PlayerVariables
         rb.velocity /= 2;
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        anim.SetTrigger("AButton");
+        anim.SetTrigger("Jump");
        
         if (player.transform.parent != null)
         {
