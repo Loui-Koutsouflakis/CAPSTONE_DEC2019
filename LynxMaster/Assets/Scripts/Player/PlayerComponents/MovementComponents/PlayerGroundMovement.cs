@@ -68,6 +68,13 @@ public class PlayerGroundMovement : PlayerVariables
         setRotate();//for animations
     }
 
+    private void OnEnable()
+    {
+        
+        //Debug.Log(rb.velocity);
+        
+    }
+
     public void ControlInput()
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
@@ -134,7 +141,7 @@ public class PlayerGroundMovement : PlayerVariables
         rb.velocity /= 2;
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        anim.SetTrigger("Jump");
+        //anim.SetTrigger("Jump");
        
         if (player.transform.parent != null)
         {
@@ -145,7 +152,7 @@ public class PlayerGroundMovement : PlayerVariables
         player.SetGroundCheck(false);
         player.StartCoroutine(player.GroundCheckStop());
               
-        anim.SetBool("Grounded", false);
+        //anim.SetBool("Grounded", false);
     }
 
     public void Decel()

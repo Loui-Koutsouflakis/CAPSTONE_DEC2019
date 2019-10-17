@@ -86,10 +86,11 @@ public class PlayerAirMovement : PlayerVariables
             player.SetHighJump(false);
             player.SetLongJump(false);
             player.SetDoubleJump(false);
+            anim.SetFloat("YVelocity", 0);
+            //Debug.Log(rb.velocity);
         }
     }
-
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -144,6 +145,8 @@ public class PlayerAirMovement : PlayerVariables
         }       
         
         ApplyVelocityCutoff();
+
+        anim.SetFloat("YVelocity", player.rb.velocity.y / 10);
     }
 
     public void AirMovement()

@@ -111,6 +111,8 @@ public class PlayerClass : MonoBehaviour
         health += healthChange;
     }
 
+    public Vector3 vel;
+
     bool crouching;
 
     //gets crouching from player controller to allow air controller to properly limit air movement
