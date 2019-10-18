@@ -31,6 +31,7 @@ private bool isToggled = false;
 
     public Command _RightTriggerDown = new Command();
     public Command _RightTriggerUp = new Command();
+    public Command _RightTrigger = new Command();
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -57,6 +58,9 @@ private bool isToggled = false;
 
         DeatchGrappleCommand dGrap = new DeatchGrappleCommand();
         _RightBumperUp = SetButton(dGrap);
+
+        SpeedUpGrappleCommand speedUp = new SpeedUpGrappleCommand();
+        _RightTrigger = SetButton(speedUp);
     }
 
     private void Update()
@@ -101,6 +105,11 @@ private bool isToggled = false;
             }
         }
 
+        if(Input.GetAxis("RightTrigger") != 0)
+        {
+            _RightTrigger.Execute(playerController);
+        }
+
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -116,14 +125,9 @@ private bool isToggled = false;
 }
 
 
-
-
-
 public class Command
 {
-
     public virtual void Execute(PlayerController playCont) { }
-
 }
 
 public class JumpCommand : Command
@@ -133,7 +137,6 @@ public class JumpCommand : Command
         playCont.Jump();
     }
 }
-
 
 public class InitiateGrappleCommand : Command
 {
@@ -166,4 +169,13 @@ public class DeCrouchCommand : Command
     {
         playCont.deCrouch();
     }
+}
+
+public class SpeedUpGrappleCommand : Command
+{
+    public override void Execute(PlayerController playCont)
+    {
+        playCont.SpeedUp();
+    }
+
 }
