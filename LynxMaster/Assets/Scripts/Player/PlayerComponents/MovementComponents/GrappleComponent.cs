@@ -5,6 +5,7 @@ using UnityEngine;
 
 //updated 05/28- LF
 //updated 08/06
+[AddComponentMenu("Player Scripts/Grapple Movement", 4)]
 
 public class GrappleComponent : MonoBehaviour
 {
@@ -23,12 +24,20 @@ public class GrappleComponent : MonoBehaviour
     public bool isStaring;
 
     [Range(20, 90)]
-    private float maxAngle = 45;
+    private float maxAngle = 60;
 
     [SerializeField]
     PlayerClass player;
 
     public Transform tetherPoint;
+
+    //for new version
+    private Vector3 tetherDirection;
+    private float tetherLength;
+    private float angleToTether;
+
+
+    private float intialSpeed;
 
     // Start is called before the first frame update
 
@@ -50,8 +59,15 @@ public class GrappleComponent : MonoBehaviour
 
         tether = true;
         attachedTetherPoint = tetherPoint;
+        
+        //new stuff
+        tetherDirection = attachedTetherPoint.transform.position - transform.position;
+        tetherLength = tetherDirection.magnitude;
+        angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
 
         player.debugLine.GetComponent<LineRenderer>().enabled = true;
+
+        intialSpeed = rb.velocity.magnitude;
 
     }
 
@@ -75,7 +91,7 @@ public class GrappleComponent : MonoBehaviour
     {
         if (!tether)
             return;
-
+        /*old version of tether
         player.debugLine.SetPosition(0, player.transform.position);
         player.debugLine.SetPosition(1, attachedTetherPoint.position);
 
@@ -120,17 +136,57 @@ public class GrappleComponent : MonoBehaviour
             }
 
         }
+        */
+        //if (attachedTetherPoint)
+        //{
+            //updates velocity
+            Vector3 deltaVelocity = rb.mass * Physics.gravity * Mathf.Sin(angleToTether * Mathf.Deg2Rad) * Time.fixedDeltaTime;
+            rb.velocity -= Vector3.Dot(rb.velocity, deltaVelocity) * deltaVelocity;
+
+            //calculates and adds tension force
+            float tension = rb.mass * 9.8f * Mathf.Cos(angleToTether * Mathf.Deg2Rad) + (rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / tetherLength);
+            rb.AddForce(tension * tetherDirection.normalized);
+
+            //updates position 
+            tetherDirection = attachedTetherPoint.transform.position - transform.position;
+            angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
+            //Debug.Log(angleToTether);
+        //}
+        //draws a debug line to show grapple where grapping
+        //Debug.DrawLine(transform.position, attachedTetherPoint.transform.position);
+        //line.SetPosition(0, transform.position);
+        //line.SetPosition(1, grappleTarget.transform.position);
+
+
+    }
+
+    //speed up the model if input
+    public void SpeedUp()
+    {
+        Vector3 newVelocity = rb.velocity;
+        float newVelMag = newVelocity.magnitude; 
+        if (Vector3.Dot(player.transform.forward, rb.velocity) > 0)
+        {
+            newVelMag = newVelMag * 1.2f;
+            Debug.Log("speeding up");
+        }        
+        newVelocity = Mathf.Min(newVelMag, intialSpeed) * newVelocity.normalized;
+        rb.velocity = newVelocity;
     }
 
     
     public void DetatchGrapple()
     {
+        if (!tether)
+            return;
+
         Debug.Log("grapple detached");
         player.isGrappling = false;
 
         rb.mass = 1;
         rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
         tether = false;
+        
 
         if (tetherPoint == attachedTetherPoint && isStaring == false)
             tetherPoint = null;
@@ -140,8 +196,10 @@ public class GrappleComponent : MonoBehaviour
         reachedZero = false;
 
         player.debugLine.enabled = false;
+        player.SetFlutter(true);
 
         player.SetMovementType(MovementType.air);
+
     }
 
     public Transform setTetherPoint(Transform t)
@@ -182,9 +240,5 @@ public class GrappleComponent : MonoBehaviour
             DetatchGrapple();
         }
     }
-
-
-
-
 }
 

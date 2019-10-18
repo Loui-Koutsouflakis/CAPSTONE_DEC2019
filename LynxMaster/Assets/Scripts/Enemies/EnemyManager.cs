@@ -9,10 +9,12 @@ public class EnemyManager : MonoBehaviour
     // Depending on how much the enemies differ, 
     // we may use a pool for each enemy
     public Enemy[] enemyPool;
+    
     public int enemyIndex;
 
     public void SpawnEnemy(Vector3 spawnPoint, EnemyType type)
     {
+
         enemyPool[enemyIndex].gameObject.transform.position = spawnPoint;
         enemyPool[enemyIndex].Spawn(type);
         HandleIndex();

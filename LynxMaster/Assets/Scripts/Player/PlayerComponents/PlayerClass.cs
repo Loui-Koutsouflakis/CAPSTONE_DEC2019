@@ -1,14 +1,16 @@
 ﻿//Luke Fentress
 //edited 19-08-09 by AT - updated to include air component
+//19-10-16 - added generic add force fuction
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Player Class", 2)]
 
 public enum MovementType
 {
-    move, grapple, jump, air, crouch
+    move, grapple, jump, air, crouch, swim
 }
 
 public class PlayerClass : MonoBehaviour
@@ -49,7 +51,10 @@ public class PlayerClass : MonoBehaviour
     public TetherPoint tetherPoint;
     public void SetTetherPoint(Collider tP)
     {
-        tetherPoint = tP.GetComponent<TetherPoint>();
+        if (tP != null)
+            tetherPoint = tP.GetComponent<TetherPoint>();
+        else
+            tetherPoint = null;
     }
 
     //Crouch
@@ -58,6 +63,14 @@ public class PlayerClass : MonoBehaviour
     public Crouch GetCrouchComponent()
     {
         return crouchComponent;
+    }
+
+    //Water Movement
+    public GameObject swim;
+    WaterMovement SwimComponent;
+    public WaterMovement GetSwimComponent()
+    {
+        return SwimComponent;
     }
 
 
@@ -101,6 +114,8 @@ public class PlayerClass : MonoBehaviour
         health += healthChange;
     }
 
+    public Vector3 vel;
+
     bool crouching;
 
     //gets crouching from player controller to allow air controller to properly limit air movement
@@ -111,6 +126,37 @@ public class PlayerClass : MonoBehaviour
     public bool GetCrouching()
     {
         return crouching;
+    }
+
+    //Recently added swimming test
+    bool swimming;
+    public void SetSwimming(bool swim)
+    {
+        swimming = swim;
+    }
+    public bool GetSwimming()
+    {
+        return swimming;
+    }
+    // for jump bug fix
+    [SerializeField]
+    private bool groundCheckEnabled = true;
+
+    public bool GetGroundCheck()
+    {
+        return groundCheckEnabled;
+    }
+
+    public void SetGroundCheck(bool value)
+    {
+        groundCheckEnabled = value;
+    }
+
+    public IEnumerator GroundCheckStop()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SetGroundCheck(true);
+        Debug.Log("ground check stopped");
     }
 
 
@@ -255,7 +301,10 @@ public class PlayerClass : MonoBehaviour
                 playerCurrentMove = MovementType.crouch;
                 SetMovementComponent("crouch");
                 break;
-
+            //case MovementType.swim:
+            //    playerCurrentMove = MovementType.swim;
+            //    SetMovementComponent("swim");
+            //    break;
 
         }
     }
@@ -365,6 +414,24 @@ public class PlayerClass : MonoBehaviour
 
         playerMovementArray[2] = crouch;
 
+        ////set up swim component
+        //try
+        //{
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //}
+        //catch
+        //{
+        //    GameObject go = new GameObject();
+        //    go.transform.parent = transform;
+        //    go.transform.position = transform.position;
+        //    swim = go;
+        //    swim.AddComponent<WaterMovement>();
+        //    SwimComponent = swim.GetComponent<WaterMovement>();
+        //    swim.name = "swim";
+        //}
+
+        //playerMovementArray[3] = swim;
+
         //set up air component
         try
         {
@@ -383,8 +450,6 @@ public class PlayerClass : MonoBehaviour
 
         playerMovementArray[3] = air;
 
-
-
         //for (int i = 0; i < playerMovementArray.Length; i++)
         //{
         //    Debug.Log(playerMovementArray[i].name + " is in the player movement array");
@@ -393,13 +458,14 @@ public class PlayerClass : MonoBehaviour
 
         SetMovementType(MovementType.move);
     }
-
-
-
-
+    
     //DEBUGGING GRAPPLE
     public LineRenderer debugLine;
 
-
+    //genereric addforce fuctions that can be called by anything
+    public void GenericAddForce(Vector3 direction, float force)
+    {
+        rb.AddForce(direction * force, ForceMode.Impulse);
+    }
 
 }

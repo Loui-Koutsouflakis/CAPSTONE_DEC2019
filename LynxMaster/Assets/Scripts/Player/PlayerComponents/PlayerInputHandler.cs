@@ -1,19 +1,24 @@
 ﻿//Luke F 08/06
 
+//kyle E added more button functionality
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Input Handler", 0)]
 public class PlayerInputHandler : MonoBehaviour
 {
+private bool isToggled = false;
 
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
     public PlayerController playerController;
 
-
     public Command _AButton = new Command();
     public Command _BButton = new Command();
+    public Command _XButton = new Command();
+    public Command _YBUtton = new Command();
 
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
@@ -21,6 +26,12 @@ public class PlayerInputHandler : MonoBehaviour
     public Command _RightBumperDown = new Command();
     public Command _RightBumperUp = new Command();
 
+    public Command _LeftTriggerDown = new Command();
+    public Command _LeftTriggerUp = new Command();
+
+    public Command _RightTriggerDown = new Command();
+    public Command _RightTriggerUp = new Command();
+    public Command _RightTrigger = new Command();
     //etc...
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
@@ -36,22 +47,26 @@ public class PlayerInputHandler : MonoBehaviour
         _AButton = SetButton(jump);
 
         InitCrouchCommand crouch = new InitCrouchCommand();
-        _RightBumperDown = SetButton(crouch);
-
+        _LeftTriggerDown = SetButton(crouch);
+        //_RightBumperDown = SetButton(crouch);
         DeCrouchCommand deCrouch = new DeCrouchCommand();
-        _RightBumperUp = SetButton(deCrouch);
+        _LeftTriggerUp = SetButton(deCrouch);
+        //_RightBumperUp = SetButton(deCrouch);
 
         InitiateGrappleCommand grap = new InitiateGrappleCommand();
-        _LeftBumperDown = SetButton(grap);
+        _RightBumperDown = SetButton(grap);
 
         DeatchGrappleCommand dGrap = new DeatchGrappleCommand();
-        _LeftBumperUp = SetButton(dGrap);
+        _RightBumperUp = SetButton(dGrap);
+
+        SpeedUpGrappleCommand speedUp = new SpeedUpGrappleCommand();
+        _RightTrigger = SetButton(speedUp);
     }
 
     private void Update()
     {
         //if this seems redundant, that only because we've named the XBOX A_Button "jump" in the Unity Editor  
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("AButton"))
         {
             _AButton.Execute(playerController);
         }
@@ -63,16 +78,38 @@ public class PlayerInputHandler : MonoBehaviour
         {
             _RightBumperUp.Execute(playerController);
         }
+
         if (Input.GetButtonDown("LeftBumper"))//p for testing
         {
             _LeftBumperDown.Execute(playerController);
         }
-
-
         if (Input.GetButtonUp("LeftBumper"))
         {
-            //_LeftBumperUp.Execute(playerController);
+            _LeftBumperUp.Execute(playerController);
         }
+
+        if (Input.GetAxisRaw("LeftTrigger") != 0)
+        {
+            if (!isToggled)
+            {
+                isToggled = true;
+                _LeftTriggerDown.Execute(playerController);
+            }
+        }
+        if (Input.GetAxisRaw("LeftTrigger") == 0)
+        {
+            if (isToggled)
+            {
+                isToggled = false;
+                _LeftTriggerUp.Execute(playerController);
+            }
+        }
+
+        if(Input.GetAxis("RightTrigger") != 0)
+        {
+            _RightTrigger.Execute(playerController);
+        }
+
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -88,14 +125,9 @@ public class PlayerInputHandler : MonoBehaviour
 }
 
 
-
-
-
 public class Command
 {
-
     public virtual void Execute(PlayerController playCont) { }
-
 }
 
 public class JumpCommand : Command
@@ -103,10 +135,8 @@ public class JumpCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Jump();
-
     }
 }
-
 
 public class InitiateGrappleCommand : Command
 {
@@ -139,4 +169,13 @@ public class DeCrouchCommand : Command
     {
         playCont.deCrouch();
     }
+}
+
+public class SpeedUpGrappleCommand : Command
+{
+    public override void Execute(PlayerController playCont)
+    {
+        playCont.SpeedUp();
+    }
+
 }

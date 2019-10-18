@@ -22,34 +22,37 @@ public class PlayerAirMovement : PlayerVariables
     //for animator
     private Animator anim;
 
-    //for double jumps
+    //for jumps
     private bool canFlutter;
    
+
     //for ground pound
     private float DropForce = 20;
-       
+
+    //gravity modifiers
+   
+
     //air movement
     private float horizontal;
     private float vertical;
     
-    //clamp for movespeed in air
+    //need high airMax to allow long jump
     private float airMax = 12f;
     
     private float airRotateSpeed = 120f;
 
-    //deceleration
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
     private readonly float decelFactor = 0.14f;
     private readonly float velocityDivider = 1.2f;
 
-    //bools to allow enamble/disable controls in air
+
     private bool wallDeadZone;
     public bool doubleJumpControl;
 
-    //caches wall normal to allow juming directly off wall
     private Vector3 wallNormal;
-    
+
+
     //rayCasts
     private RaycastHit faceHit;
 
@@ -83,15 +86,16 @@ public class PlayerAirMovement : PlayerVariables
             player.SetHighJump(false);
             player.SetLongJump(false);
             player.SetDoubleJump(false);
+            anim.SetFloat("YVelocity", 0);
+            //Debug.Log(rb.velocity);
         }
     }
-
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
         canFlutter = player.CanFlutter();
-        ControlInput();       
+        ControlInput();
     }
            
     private void ControlInput()
@@ -113,13 +117,13 @@ public class PlayerAirMovement : PlayerVariables
             rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > peakTime && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton"))
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(jumpMultiplier/fallTime) * Time.fixedDeltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
 
         Vector3 forward = transform.forward;
-        Vector3 inputDir = cammy.transform.forward * vertical + cammy.transform.right * horizontal;
+        Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
 
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
@@ -141,6 +145,8 @@ public class PlayerAirMovement : PlayerVariables
         }       
         
         ApplyVelocityCutoff();
+
+        anim.SetFloat("YVelocity", player.rb.velocity.y / 10);
     }
 
     public void AirMovement()
@@ -160,6 +166,7 @@ public class PlayerAirMovement : PlayerVariables
         //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
              
+
         //adds force to the player
         if (!doubleJumpControl)
         {
@@ -183,12 +190,11 @@ public class PlayerAirMovement : PlayerVariables
         {
             airMax = highJumpAirMax;
         }
-        //sightly slower speed after double jumping
+        //air max of 12 is for normal jumps
         else if(player.GetDoubleJump())
         {
             airMax = doubleJumpMax;
-        }        
-        //normal jump speed
+        }
         else
         {
             airMax = testAirMax;
@@ -208,7 +214,7 @@ public class PlayerAirMovement : PlayerVariables
         Vector3 inputDir = cammy.transform.forward * vertical + cammy.transform.right * horizontal;
 
 
-        if (onWall && Vector3.Dot(wallNormal, inputDir) > 0) //wall jump only if pressing away from the wall
+        if (onWall && Vector3.Dot(wallNormal, inputDir) >= 0) //wall jump only if pressing away from the wall
         {
             //zero out velocity
             rb.velocity = Vector3.zero;
@@ -223,7 +229,7 @@ public class PlayerAirMovement : PlayerVariables
             player.SetFlutter(true);
             player.SetDoubleJump(false);
         }
-        else if(canFlutter)
+        else if (canFlutter)
         {
             //Debug.Log("Flutter Jump");
             //zero out velocity at start of flutter jump to prevent to much height
@@ -238,7 +244,7 @@ public class PlayerAirMovement : PlayerVariables
             rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
             player.SetDoubleJump(true);
-        }       
+        }
 
         if (player.transform.parent != null)
         {
@@ -258,26 +264,34 @@ public class PlayerAirMovement : PlayerVariables
     public IEnumerator CheckWall()
     {
         //top of head boxcast
-        Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);       
+        Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
+        Vector3 topRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
+        //euler in box cast currently checks all around player would need to change if only want it in the front
+        //bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         //distance checks slighly in front of player, may want ot change depending on play testing
-        bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.4f, player.airMask);//0.5f * transform.localScale.z + 0.1f);
+        bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
         //toe  raycast
         Vector3 toeRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.5f * transform.localScale.y + 0.1f, transform.position.z);
-        bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.4f, player.airMask);
+        Vector3 toeRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
+
+        //bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
         RaycastHit hit;
         //mid raycast
-        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);        
-        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out hit, 0.4f, player.airMask);
+        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 midRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
+
+        //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
    
         //if all three
         if (toeCast && midCast && topOfHead)
         {
             onWall = true;
-            wallNormal = hit.normal; //gets the normal vector of the wall for wall jumps
-            Debug.Log("on wall");
+            wallNormal = hit.normal;
         }
         else if (toeCast && !midCast && !topOfHead)
         {

@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Crouch Movement", 6)]
+
 public class Crouch : PlayerVariables
 {
     //rigidbody
@@ -51,7 +53,7 @@ public class Crouch : PlayerVariables
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
         cammy = camObject.GetComponent<Camera>();
-        enteredScript = false;
+        enteredScript = true;
     }
 
     public void OnEnable()
@@ -106,7 +108,7 @@ public class Crouch : PlayerVariables
         //{
         //    LongJump();
         //}
-        if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone)
+        if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone && player.rb.velocity.magnitude >= 0.2f)
         {
             LongJump();
             Debug.Log("long jump");
@@ -116,6 +118,10 @@ public class Crouch : PlayerVariables
             HighJump();
             Debug.Log("high jump");
         }
+
+        //for jump bug fix
+        player.SetGroundCheck(false);
+        player.StartCoroutine(player.GroundCheckStop());
     }
 
     public void HighJump() // will apply force upwards similar to the hight of the double jump.

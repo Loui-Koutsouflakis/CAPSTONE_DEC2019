@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿//Edit * Kyle 10/14/19 added movementThreshold and slowWalk variables for PlayerGroundMovementScript
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 //This is a handy reference 
-
+[AddComponentMenu("Player Scripts/Player Variables", 3)]
 public class PlayerVariables : MonoBehaviour
 {
 //Change Variables in script between test plays to adjust values.
@@ -14,7 +15,8 @@ public class PlayerVariables : MonoBehaviour
     public float walkMax = 6;
     public float rotateSpeed = 120;
     public float jumpForce = 5.5f;
-
+    public float movementThreshold = 0.7f;
+    public float slowWalk = 15;
 
     [Header("Air Movement")]
     public float jumpMultiplier = 3f;
@@ -27,9 +29,9 @@ public class PlayerVariables : MonoBehaviour
     public float airForwardSpeed = 10f;
     public float airSideSpeed = 5f;
     public float wallJumpVertical = 7;
-    public float wallJumpHorizontal = 7;
+    public float wallJumpHorizontal = 5;
     public float testAirMax = 6f;
-    public float doubleJumpMax = 2f;
+    public float doubleJumpMax = 4f;
     public float longJumpMax = 50;
     public float highJumpAirMax = 1;
 
@@ -37,7 +39,7 @@ public class PlayerVariables : MonoBehaviour
     public float crouchAccel = 15;
     public float crouchMax = 6;
     public float crouchRotateSpeed = 120;
-    public float longJumpUpForce = 4; // upwards force.
+    public float longJumpUpForce = 4.8f; // upwards force.
     public float longJumpForwardForce = 12; // forward force.
     public float highJumpForce = 7.9f; // crouch jump upwards force.
 
@@ -48,6 +50,11 @@ public class PlayerVariables : MonoBehaviour
     public float jumpSpeed = 10;
     public float launchSpeed;
     public float boost = 20;
+
+    [Header("Swimming Movement")]
+    public float swimSpeed = 9;
+    public float swimMax = 3;
+    public float swimRotateSpeed = 100;
 
     protected float EaseIn(float t)
     {
@@ -88,7 +95,7 @@ public class PlayerVariables : MonoBehaviour
     //public float airForwardSpeed = 10f;
     //public float airSideSpeed = 5f;
     //public float wallJumpVertical = 7;
-    //public float wallJumpHorizontal = 7;
+    //public float wallJumpHorizontal = 5;
     //public float testAirMax = 6f;
     //public float doubleJumpMax = 3.5f;
     //public float longJumpMax = 20;
@@ -98,7 +105,7 @@ public class PlayerVariables : MonoBehaviour
     //public float crouchAccel = 15;
     //public float crouchMax = 6;
     //public float crouchRotateSpeed = 120;
-    //public float longJumpUpForce = 5; // upwards force.
+    //public float longJumpUpForce = 4.8f; // upwards force.
     //public float longJumpForwardForce = 12; // forward force.
     //public float highJumpForce = 7.9f; // crouch jump upwards force.
 

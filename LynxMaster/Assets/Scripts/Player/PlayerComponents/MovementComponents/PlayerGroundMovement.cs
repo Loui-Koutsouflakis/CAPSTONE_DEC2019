@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player Scripts/Ground Movement", 7)]
+
 public class PlayerGroundMovement : PlayerVariables
 {
     //rigidbody
@@ -25,6 +27,7 @@ public class PlayerGroundMovement : PlayerVariables
     private float vertical;
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
+
     private readonly float decelFactor = 0.14f;
     
     //public - to test balance etc.
@@ -65,6 +68,15 @@ public class PlayerGroundMovement : PlayerVariables
         setRotate();//for animations
     }
 
+    private void OnEnable()
+    {
+        if (rb)
+        {
+            Debug.Log(rb.velocity);
+            ControlInput();
+        }
+    }
+
     public void ControlInput()
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
@@ -73,7 +85,10 @@ public class PlayerGroundMovement : PlayerVariables
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
-            Movement();
+            if (horizontal > movementThreshold || horizontal < -movementThreshold || vertical > movementThreshold || vertical < -movementThreshold)
+                Movement(walkAccel);
+            else 
+                Movement(slowWalk);
         }
         else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone)
         {
@@ -83,7 +98,7 @@ public class PlayerGroundMovement : PlayerVariables
         ApplyVelocityCutoff();
     }
 
-    public void Movement()
+    public void Movement(float speed)
     {
         //movement based on direction camera is facing
         Vector3 cammyRight = cammy.transform.TransformDirection(Vector3.right);
@@ -92,14 +107,15 @@ public class PlayerGroundMovement : PlayerVariables
         cammyFront.y = 0;
         cammyRight.Normalize();
         cammyFront.Normalize();
-                        
+
         player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
-               
         //adds force to the player
-        rb.AddForce(transform.forward * walkAccel, ForceMode.Force);
-                
+        rb.AddForce(transform.forward * speed, ForceMode.Force);
+
         Friction();
     }
+
+    
 
     //clamps the velocity
     void ApplyVelocityCutoff()
@@ -127,14 +143,18 @@ public class PlayerGroundMovement : PlayerVariables
         rb.velocity /= 2;
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        anim.SetTrigger("Jump");
+        //anim.SetTrigger("Jump");
        
         if (player.transform.parent != null)
         {
             player.transform.parent = null;
         }
+
+        //for jump bug fix
+        player.SetGroundCheck(false);
+        player.StartCoroutine(player.GroundCheckStop());
               
-        anim.SetBool("Grounded", false);
+        //anim.SetBool("Grounded", false);
     }
 
     public void Decel()
