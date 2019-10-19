@@ -160,7 +160,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (camWall && camWallTimer < camWallTime)
             camWallTimer += 1 * Time.deltaTime;
-        if (camWallTimer >= camWallTime)
+        if (camWallTimer >= camWallTime && Input.GetAxis("CamX") + Input.GetAxis("MouseX") != 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") != 0)
             resetCamera(1f);
     }
     float UpDownCam(bool x)
@@ -304,6 +304,10 @@ public class PlayerCamera : MonoBehaviour
     void resetCamera(float x)
     {
         camReset = false;
+        if (currentRotation.y >= 180)
+            currentRotation.y = -180;
+        if (currentRotation.y <= -180)
+            currentRotation.y = 180;
         currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, x);
         transform.eulerAngles = currentRotation;
         pitch = currentRotation.x;
