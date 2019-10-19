@@ -1,4 +1,5 @@
 ﻿//created Aug 8, 2019 - air controller
+//19/10/19 - modified by KE - cleaned redundant code, moved all initialization functions to the playerVariables script to reduce load times and optimize script
 
 using System.Collections;
 using System.Collections.Generic;
@@ -6,35 +7,15 @@ using UnityEngine;
 
 public class PlayerAirMovement : PlayerVariables
 {
-    //architecture
-    PlayerClass player;
-
-    //rigid body
-    private Rigidbody rb;
-
-    //camera object
-    private Camera cammy;
-
     //wall check
     private bool onWall;
     private float wallCheckRate = 0.1f;
 
-    //for animator
-    private Animator anim;
-
     //for jumps
     private bool canFlutter;
    
-
     //for ground pound
     private float DropForce = 20;
-
-    //gravity modifiers
-   
-
-    //air movement
-    private float horizontal;
-    private float vertical;
     
     //need high airMax to allow long jump
     private float airMax = 12f;
@@ -45,7 +26,6 @@ public class PlayerAirMovement : PlayerVariables
     private readonly float deadZone = 0.028f;
     private readonly float decelFactor = 0.14f;
     private readonly float velocityDivider = 1.2f;
-
 
     private bool wallDeadZone;
     public bool doubleJumpControl;
@@ -59,12 +39,6 @@ public class PlayerAirMovement : PlayerVariables
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponentInParent<Rigidbody>();
-        player = GetComponentInParent<PlayerClass>();
-        anim = GetComponentInParent<PlayerClass>().GetAnimator();
-
-        GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
-        cammy = camObject.GetComponent<Camera>();
 
     }
 
@@ -100,8 +74,6 @@ public class PlayerAirMovement : PlayerVariables
            
     private void ControlInput()
     {
-        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
 
         //will slide a slower speed down wall
         if(onWall && rb.velocity.y <= 0)

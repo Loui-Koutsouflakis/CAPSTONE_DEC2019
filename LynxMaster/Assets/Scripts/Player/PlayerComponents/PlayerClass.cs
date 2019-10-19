@@ -1,6 +1,7 @@
 ﻿//Luke Fentress
 //edited 19-08-09 by AT - updated to include air component
 //19-10-16 - added generic add force fuction
+//19/10/19 - modified by KE - cleaned redundant code
 
 using System.Collections;
 using System.Collections.Generic;
@@ -48,7 +49,6 @@ public class PlayerClass : MonoBehaviour
         return grappleComponent;
     }
 
-
     public TetherPoint tetherPoint;
     public void SetTetherPoint(Collider tP)
     {
@@ -77,9 +77,9 @@ public class PlayerClass : MonoBehaviour
 
     //Ground script
     public GameObject move;
-    //PlayerMovementv3 moveComponent;
+
     PlayerGroundMovement moveComponent;
-    //public PlayerMovementv3 GetMoveComponent()
+
     public PlayerGroundMovement GetMoveComponent()
     {
         return moveComponent;
@@ -354,19 +354,10 @@ public class PlayerClass : MonoBehaviour
     //handy way to make sure there's nothing wrong
     public void InitializePlayer()
     {
-        try
-        {
-            rb = GetComponent<Rigidbody>();
-        }
-        catch
-        {
-            rb = this.gameObject.AddComponent<Rigidbody>();
-        }
-
+       
         //set up ground component
         try
         {
-            //moveComponent = move.GetComponent<PlayerMovementv3>();
             moveComponent = move.GetComponent<PlayerGroundMovement>();
         }
         catch
@@ -400,8 +391,6 @@ public class PlayerClass : MonoBehaviour
             grapple.name = "grapple";
 
         }
-
-        grappleComponent.Initialize();
         playerMovementArray[1] = grapple;
 
         //set up crouch component

@@ -1,5 +1,6 @@
 ﻿// Sebastian Borkowski
 // edited by AT 19-08-14 - changed to support new architecture
+//19/10/19 - modified by KE - cleaned redundant code, moved all initialization functions to the playerVariables script to reduce load times and optimize script
 
 using System.Collections;
 using System.Collections.Generic;
@@ -9,50 +10,25 @@ using UnityEngine;
 
 public class Crouch : PlayerVariables
 {
-    //rigidbody
-    public Rigidbody rb;
-
-    //camera object
-    public Camera cammy;
-
     //raycasts
     private RaycastHit footHit;
 
     //vectors
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
 
-    //priamtives
-    //private
-    protected float horizontal;
-    protected float vertical;
     protected bool deadJoy;
     protected readonly float deadZone = 0.028f;
     protected readonly float decelFactor = 0.14f;
 
-    //public - to test balance etc.
-    //for movement
-   
-    
     private float frictionCoeff = 0.2f;
 
     public bool grounded;
 
     public bool enteredScript;
 
-    //for jumps
-
-  
-
-    PlayerClass player;
-
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponentInParent<Rigidbody>();
-        player = GetComponentInParent<PlayerClass>();
-
-        GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
-        cammy = camObject.GetComponent<Camera>();
         enteredScript = true;
     }
 
@@ -82,9 +58,6 @@ public class Crouch : PlayerVariables
 
     public void ControlInput()
     {
-        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {

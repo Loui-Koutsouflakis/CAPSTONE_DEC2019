@@ -7,27 +7,17 @@ using UnityEngine;
 //updated 08/06
 [AddComponentMenu("Player Scripts/Grapple Movement", 4)]
 
-public class GrappleComponent : MonoBehaviour
+public class GrappleComponent : PlayerVariables
 {
-    public Rigidbody rb;
 
     public Transform attachedTetherPoint;
     public bool tether = false;
-    public float maxSwingSpeed = 20;
-    public float forwardSpeed = 100;
-    public float sidewaysSpeed = 8;
-    public float jumpSpeed = 10;
-    public float launchSpeed;
-    public float boost = 20;
     private bool reachedZero = false;
 
     public bool isStaring;
 
     [Range(20, 90)]
     private float maxAngle = 60;
-
-    [SerializeField]
-    PlayerClass player;
 
     public Transform tetherPoint;
 
@@ -40,12 +30,6 @@ public class GrappleComponent : MonoBehaviour
     private float intialSpeed;
 
     // Start is called before the first frame update
-
-    public void Initialize()
-    {
-        player = GetComponentInParent<PlayerClass>();
-        rb = GetComponentInParent<Rigidbody>();
-    }
 
     public void Grapple()
     {
@@ -68,7 +52,6 @@ public class GrappleComponent : MonoBehaviour
         player.debugLine.GetComponent<LineRenderer>().enabled = true;
 
         intialSpeed = rb.velocity.magnitude;
-
     }
 
     private void OnDisable()
@@ -83,8 +66,6 @@ public class GrappleComponent : MonoBehaviour
     {
         //to see if character runs into wall
         CheckCollisions();
-
-        
     }
 
     private void FixedUpdate()

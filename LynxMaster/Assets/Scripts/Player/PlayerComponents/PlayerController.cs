@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     #region Enemy Stuff
     public int spiderWebs = 0;
-
+    public bool paused = false;
     #endregion
 
     public bool GetIsCrouching()

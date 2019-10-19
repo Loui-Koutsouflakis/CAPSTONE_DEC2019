@@ -15,7 +15,8 @@ private bool isToggled = false;
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
     public PlayerController playerController;
-
+    public float horizontal;
+    public float vertical;
     #region XBox Controller
 
     public Command _AButton = new Command();
@@ -75,61 +76,58 @@ private bool isToggled = false;
 
     private void Update()
     {
-        //if this seems redundant, that only because we've named the XBOX A_Button "jump" in the Unity Editor  
+
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
         if (Input.GetButtonDown("AButton"))
-        {
             _AButton.Execute(playerController);
-        }
+
+        #region Left and Right Bumpers
         if (Input.GetButtonDown("RightBumper"))
-        {
             _RightBumperDown.Execute(playerController);
-        }
+
         if (Input.GetButtonUp("RightBumper"))
-        {
             _RightBumperUp.Execute(playerController);
-        }
 
         if (Input.GetButtonDown("LeftBumper"))//p for testing
-        {
             _LeftBumperDown.Execute(playerController);
-        }
-        if (Input.GetButtonUp("LeftBumper"))
-        {
-            _LeftBumperUp.Execute(playerController);
-        }
 
+        if (Input.GetButtonUp("LeftBumper"))
+            _LeftBumperUp.Execute(playerController);
+        #endregion
+
+        #region Left Trigger
         if (Input.GetAxisRaw("LeftTrigger") != 0)
-        {
             if (!isToggled)
             {
                 isToggled = true;
                 _LeftTriggerDown.Execute(playerController);
             }
-        }
         if (Input.GetAxisRaw("LeftTrigger") == 0)
-        {
             if (isToggled)
             {
                 isToggled = false;
                 _LeftTriggerUp.Execute(playerController);
             }
-        }
 
-        if(Input.GetAxis("RightTrigger") != 0)
-        {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            _LeftTriggerDown.Execute(playerController);
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+            _LeftTriggerUp.Execute(playerController);
+        #endregion
+
+        #region Right Trigger
+        if (Input.GetAxis("RightTrigger") != 0)
             _RightTrigger.Execute(playerController);
-        }
 
         if (Input.GetButtonDown("Back"))
-        {
             _BackButton.Execute(playerController);
-        }
+        #endregion
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
-        {
             Debug.Break();
-        }        
     }
 
     private void Start()
@@ -179,7 +177,6 @@ public class InitCrouchCommand : Command
     public override void Execute(PlayerController playCont)
     {
         playCont.Crouch();
-
     }
 }
 
@@ -197,5 +194,4 @@ public class SpeedUpGrappleCommand : Command
     {
         playCont.SpeedUp();
     }
-
 }

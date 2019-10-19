@@ -6,7 +6,7 @@ using UnityEngine;
 
 //This is a handy reference 
 [AddComponentMenu("Player Scripts/Player Variables", 3)]
-public class PlayerVariables : MonoBehaviour
+public class PlayerVariables : PlayerInputHandler
 {
 //Change Variables in script between test plays to adjust values.
     [Header("Ground Movement")]
@@ -15,8 +15,8 @@ public class PlayerVariables : MonoBehaviour
     public float walkMax = 6;
     public float rotateSpeed = 120;
     public float jumpForce = 5.5f;
-    public float movementThreshold = 0.7f;
-    public float slowWalk = 15;
+    public float movementThreshold = 0.5f;
+    public float slowWalk = 6;
 
     [Header("Air Movement")]
     public float jumpMultiplier = 3f;
@@ -44,7 +44,7 @@ public class PlayerVariables : MonoBehaviour
     public float highJumpForce = 7.9f; // crouch jump upwards force.
 
     [Header("Grapple Movement")]
-    public float maxSwingSpeed;
+    public float maxSwingSpeed = 20;
     public float forwardSpeed = 100;
     public float sidewaysSpeed = 8;
     public float jumpSpeed = 10;
@@ -56,16 +56,28 @@ public class PlayerVariables : MonoBehaviour
     public float swimMax = 3;
     public float swimRotateSpeed = 100;
 
+
+
     protected float EaseIn(float t)
     {
         return t * t;
     }
 
-    //To be done later
-    //PlayerClass player;
-    //Rigidbody rb;
-    //Animator anim;
+    protected Rigidbody rb;
+    protected Camera cammy;
+    private RaycastHit footHit;
+    protected Animator anim;
+    protected PlayerClass player;
 
+    void Awake()
+    {
+        rb = GetComponentInParent<Rigidbody>();
+        player = GetComponentInParent<PlayerClass>();
+        anim = GetComponentInParent<PlayerClass>().GetAnimator();
+
+        GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
+        cammy = camObject.GetComponent<Camera>();
+    }
     //private void Awake()
     //{
     //    player = FindObjectOfType<PlayerClass>();

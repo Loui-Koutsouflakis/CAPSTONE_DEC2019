@@ -144,7 +144,7 @@ public class MiniGameManager : PlayerInputHandler
 
     IEnumerator GameStart(float t, Text g, Slider s, Game j)
     {
-        player.GetComponentInChildren<PlayerInputHandler>().enabled = false;
+        player.GetComponentInChildren<PlayerController>().paused = true;
         s.gameObject.SetActive(true);
         whichGame = j;
         yield return new WaitForSeconds(t);
@@ -186,7 +186,7 @@ public class MiniGameManager : PlayerInputHandler
                 l.value = 0;
                 l.gameObject.SetActive(false);
                 whichGame = Game.None;
-                player.GetComponentInChildren<PlayerInputHandler>().enabled = true;
+                player.GetComponentInChildren<PlayerController>().paused = false;
                 break;
 
             case Game.Press:
@@ -215,7 +215,7 @@ public class MiniGameManager : PlayerInputHandler
                 l.value = 0;
                 l.gameObject.SetActive(false);
                 whichGame = Game.None;
-                player.GetComponentInChildren<PlayerInputHandler>().enabled = true;
+                player.GetComponentInChildren<PlayerController>().paused = false;
                 break;
             default:
                 break;

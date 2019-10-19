@@ -1,5 +1,6 @@
 ﻿//created 19-08-09 - ground movement scrip based on old player movement script by AT edited by LF
 //keeps ground movement but removed air funtionallity
+//19/10/19 - modified by KE - cleaned redundant code, moved all initialization functions to the playerVariables script to reduce load times and optimize script
 
 using System.Collections;
 using System.Collections.Generic;
@@ -9,25 +10,15 @@ using UnityEngine;
 
 public class PlayerGroundMovement : PlayerVariables
 {
-    //rigidbody
-    public Rigidbody rb;
-
-    //camera object
-    public Camera cammy;
-
-    //raycasts
-    private RaycastHit footHit;
+   
 
     //vectors
     private readonly Vector3 halves = new Vector3(0.34f, 0.385f, 0.34f);
 
     //priamtives
     //private
-    private float horizontal;
-    private float vertical;
     private bool deadJoy;
     private readonly float deadZone = 0.028f;
-
     private readonly float decelFactor = 0.14f;
     
     //public - to test balance etc.
@@ -40,23 +31,13 @@ public class PlayerGroundMovement : PlayerVariables
     
     
     //for animation
-    public Animator anim;
     private float moveSpeed;
     private float rotate;
     private float animRotate;
 
-    PlayerClass player;
        
     // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponentInParent<Rigidbody>();
-        player = GetComponentInParent<PlayerClass>();
-        anim = GetComponentInParent<PlayerClass>().GetAnimator();
-     
-        GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
-        cammy = camObject.GetComponent<Camera>();
-    }
+
              
     // Update is called once per frame
     void FixedUpdate()
@@ -79,9 +60,6 @@ public class PlayerGroundMovement : PlayerVariables
 
     public void ControlInput()
     {
-        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-        
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
         {
