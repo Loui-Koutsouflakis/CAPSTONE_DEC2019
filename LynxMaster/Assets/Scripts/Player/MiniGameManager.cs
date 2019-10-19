@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MiniGameManager : MonoBehaviour
+public class MiniGameManager : PlayerInputHandler
 {
     [System.Serializable]
     public enum Game { None, Tap, Press };
@@ -47,7 +47,7 @@ public class MiniGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !playing)
+        if (player.GetComponent<PlayerController>().spiderWebs >= 3 && !playing)
         {
             playing = true;
             exclaimer = true;
@@ -83,9 +83,9 @@ public class MiniGameManager : MonoBehaviour
             TextColorChanger(mt_Exclaim);
             if (a_TapSlider.value > 0)
             {
-                a_TapSlider.value -= 0.5f * Time.deltaTime;
+                a_TapSlider.value -= 0.2f * Time.deltaTime;
             }
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("AButton"))
             {
                 a_TapSlider.value += 0.2f;
                 score = a_TapSlider.value;
@@ -120,7 +120,7 @@ public class MiniGameManager : MonoBehaviour
             {
                 p_Button.color = Color.green;
                 p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size * 3.5f, 10 * Time.deltaTime);
-                if (Input.GetButtonDown("Jump"))
+                if (Input.GetButtonDown("AButton"))
                 {
                     score += 1;
                 }
@@ -129,7 +129,7 @@ public class MiniGameManager : MonoBehaviour
             {
                 p_Button.color = Color.red;
                 p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size, 4 * Time.deltaTime);
-                if (Input.GetButtonDown("Jump"))
+                if (Input.GetButtonDown("AButton"))
                 {
                     score -= 1;
                 }
@@ -166,17 +166,21 @@ public class MiniGameManager : MonoBehaviour
                 if (s >= 1 && s < 1.8f)
                 {
                     t.text = "Good!";
+                    player.GetComponent<PlayerController>().spiderWebs = 0;
                     t.color = Color.yellow;
                 }
                 if (s >= 1.8f && s < 2.5f)
                 {
                     t.text = "Great!";
                     t.color = Color.green;
+                    player.GetComponent<PlayerController>().spiderWebs = 0;
+
                 }
                 if (s >= 2.5f && s <= 3)
                 {
                     t.text = "perfect!";
                     t.color = Color.blue;
+                    player.GetComponent<PlayerController>().spiderWebs = 0;
                 }
                 yield return new WaitForSeconds(1.5f);
                 l.value = 0;

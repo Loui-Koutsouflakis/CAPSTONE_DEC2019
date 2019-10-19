@@ -1,6 +1,7 @@
 ﻿//Luke F 08/06
 
-//kyle E added more button functionality
+//kyle E added more button functionality for the Xbox Controller
+//Kyle E added show HUD from the Hudmanageer script.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,10 +16,14 @@ private bool isToggled = false;
     //exists
     public PlayerController playerController;
 
+    #region XBox Controller
+
     public Command _AButton = new Command();
     public Command _BButton = new Command();
     public Command _XButton = new Command();
     public Command _YBUtton = new Command();
+
+    public Command _BackButton = new Command();
 
     public Command _LeftBumperDown = new Command();
     public Command _LeftBumperUp = new Command();
@@ -32,7 +37,9 @@ private bool isToggled = false;
     public Command _RightTriggerDown = new Command();
     public Command _RightTriggerUp = new Command();
     public Command _RightTrigger = new Command();
+    
     //etc...
+    #endregion
 
     //This will be the fuction that Ben or whomever can use to change the buttons in the main menu
     public Command SetButton(Command action)
@@ -61,6 +68,9 @@ private bool isToggled = false;
 
         SpeedUpGrappleCommand speedUp = new SpeedUpGrappleCommand();
         _RightTrigger = SetButton(speedUp);
+
+        HudShow h_Show = new HudShow();
+        _BackButton = SetButton(h_Show);
     }
 
     private void Update()
@@ -110,6 +120,10 @@ private bool isToggled = false;
             _RightTrigger.Execute(playerController);
         }
 
+        if (Input.GetButtonDown("Back"))
+        {
+            _BackButton.Execute(playerController);
+        }
 
         ////for debugging-- pause with tab
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -130,6 +144,12 @@ public class Command
     public virtual void Execute(PlayerController playCont) { }
 }
 
+public class HudShow : Command {
+    public override void Execute(PlayerController playCont)
+    {
+        playCont.ShowHud();
+    }
+}
 public class JumpCommand : Command
 {
     public override void Execute(PlayerController playCont)

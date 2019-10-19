@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public PlayerClass player;
-
+    public HudManager h_Manager;
     [Header("STATE MACHINE NOT ANIMATION")]
     [SerializeField]
     Animator stateMachine;
@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     //for the swimming script
     public float waterCheckDist = 100;
     RaycastHit water;
+
+    #region Enemy Stuff
+    public int spiderWebs = 0;
+
+    #endregion
 
     public bool GetIsCrouching()
     {
@@ -58,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+   
         //// if (isUnderWater())
         //     if (water.collider.tag == "Water")
         //     {
@@ -68,6 +74,12 @@ public class PlayerController : MonoBehaviour
         //player.vel = player.rb.velocity;
         //Debug.Log(player.vel);
     }
+
+    public void ShowHud()
+    {
+        h_Manager.HudButtonDown();
+    }
+
     public void Jump()
     {
         //player.GetMoveComponent().Jump();

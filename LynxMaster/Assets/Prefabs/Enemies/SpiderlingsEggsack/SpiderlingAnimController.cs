@@ -6,6 +6,7 @@ public class SpiderlingAnimController : MonoBehaviour
 {
     public Spiderlings spiderlings;
     private Animator anim;
+    public bool hitPlayer = false;
 
     public void Step()
     {

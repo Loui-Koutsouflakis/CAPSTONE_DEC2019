@@ -18,7 +18,8 @@ public class Spiderlings : MonoBehaviour, IKillable
     private Transform player;
     private Vector3 destination;
     private Vector3 newDirection;
-
+    public PlayerController p_Reference;
+    bool gotYa = false;
     public void SetPlayer(Transform player)
     {
         this.player = player; 
@@ -26,6 +27,7 @@ public class Spiderlings : MonoBehaviour, IKillable
     private void Awake()
     {
         enemyScript = GetComponent<Enemy>();
+        p_Reference = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     private void OnEnable()
@@ -57,7 +59,11 @@ public class Spiderlings : MonoBehaviour, IKillable
     // Update is called once per frame
     void Update()
     {
-        
+        if (stuckPlayer)
+        {
+            p_Reference.spiderWebs += 1;
+            gotYa = false;
+        }
     }
 
     private void FixedUpdate()
@@ -67,7 +73,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         {
 
             stuckPlayer = true;
-
+            gotYa = true;
         }
         
         if((destination - transform.position).magnitude > fireRange)
@@ -93,6 +99,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         {
             spiderlingAnimController.TrapPlayer(true);
             SetLineRend(player.position);
+            
         }
     }
 

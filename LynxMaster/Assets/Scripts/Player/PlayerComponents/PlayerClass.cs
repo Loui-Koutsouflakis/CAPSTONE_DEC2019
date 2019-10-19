@@ -10,7 +10,7 @@ using UnityEngine;
 
 public enum MovementType
 {
-    move, grapple, jump, air, crouch, swim
+    move, grapple, jump, air, crouch
 }
 
 public class PlayerClass : MonoBehaviour
@@ -34,6 +34,7 @@ public class PlayerClass : MonoBehaviour
 
     public LayerMask airMask;
 
+ 
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
 
@@ -90,6 +91,13 @@ public class PlayerClass : MonoBehaviour
     public PlayerAirMovement GetAirComponent()
     {
         return airComponent;
+    }
+
+    public GameObject stuck;
+    PlayerAirMovement stuckComponnent;
+    public PlayerAirMovement GetStuckComponent()
+    {
+        return stuckComponnent;
     }
 
     GameObject[] playerMovementArray = new GameObject[4];

@@ -75,14 +75,6 @@ public class HudManager : MonoBehaviour
         {
             pieTf.localPosition = Vector3.Lerp(pieTf.localPosition, localHide, hudLerp * Time.deltaTime);
         }
-
-        //
-        // DEBUG INPUT
-        // MOVE INPUT HANDLER TO PLAYER SYSTEM
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton6))
-        {
-            HudButtonDown();
-        }
         
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -103,16 +95,6 @@ public class HudManager : MonoBehaviour
         {
             MoonsUp();
         }
-
-        //if(Input.GetKeyDown(KeyCode.Alpha0))
-        //{
-        //    HealthZero();
-        //}
-
-        //if(Input.GetKeyDown(KeyCode.Alpha9))
-        //{
-        //    HealthFull();
-        //}
     }
 
     public void HudButtonDown()
