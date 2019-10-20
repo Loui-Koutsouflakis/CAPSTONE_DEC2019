@@ -19,7 +19,7 @@ public class Spiderlings : MonoBehaviour, IKillable
     private Vector3 destination;
     private Vector3 newDirection;
     public PlayerController p_Reference;
-    bool gotYa = false;
+
     public void SetPlayer(Transform player)
     {
         this.player = player; 
@@ -59,21 +59,21 @@ public class Spiderlings : MonoBehaviour, IKillable
     // Update is called once per frame
     void Update()
     {
-        if (stuckPlayer)
-        {
-            p_Reference.spiderWebs += 1;
-            gotYa = false;
-        }
+        
+    }
+
+    void increaseWeb()
+    {
+        p_Reference.spiderWebs++;
     }
 
     private void FixedUpdate()
     {
         if (player != null) destination = player.position;
-        if ((destination - transform.position).magnitude <= fireRange / 2)
+        if ((destination - transform.position).magnitude <= fireRange / 2 && !stuckPlayer)
         {
-
+            increaseWeb();
             stuckPlayer = true;
-            gotYa = true;
         }
         
         if((destination - transform.position).magnitude > fireRange)
@@ -116,9 +116,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         if (hitPoints < 1)
         {
             StartCoroutine(Die());
-
         }
-
 
         yield return 0;
     }

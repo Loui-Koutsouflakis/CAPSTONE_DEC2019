@@ -51,105 +51,107 @@ public class MiniGameManager : PlayerInputHandler
         {
             playing = true;
             exclaimer = true;
-            StartCoroutine(GameStart(5, mt_Exclaim, a_TapSlider, Game.Tap));
+            GameStarter(5, mt_Exclaim, a_TapSlider, Game.Tap);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !playing)
-        {
-            playing = true;
-            exclaimer = true;
-            StartCoroutine(GameStart(5, p_Exclaim, p_Slider, Game.Press));
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2) && !playing)
+        //{
+        //    playing = true;
+        //    exclaimer = true;
+        //    StartCoroutine(GameStart(5, p_Exclaim, p_Slider, Game.Press));
+        //}
         switch (whichGame)
         {
             case Game.None:
                 score = 0;
                 break;
             case Game.Tap:
-                AttackTap();
+                AttackTap(mt_Exclaim, a_TapSlider, Game.Tap);
                 break;
             case Game.Press:
-                AttackPress();
+                //AttackPress();
                 break;
             default:
                 break;
         }
     }
 
-    void AttackTap()
+    void AttackTap(Text g, Slider s, Game j)
     {
         if (exclaimer)
         {
-            mt_Exclaim.text = "Tap Jump!!";
+            mt_Exclaim.text = "Tap Jump To Escape!!";
             TextColorChanger(mt_Exclaim);
-            if (a_TapSlider.value > 0)
-            {
-                a_TapSlider.value -= 0.2f * Time.deltaTime;
-            }
             if (Input.GetButtonDown("AButton"))
             {
                 a_TapSlider.value += 0.2f;
                 score = a_TapSlider.value;
             }
+            if (a_TapSlider.value > 0)
+                a_TapSlider.value -= 0.2f * Time.deltaTime;
             if (a_TapSlider.value < 1)
-            {
                 a_Fill.color = Color.red;
-            }
             if (a_TapSlider.value >= 1 && a_TapSlider.value < 1.8f)
-            {
                 a_Fill.color = Color.yellow;
-            }
             if (a_TapSlider.value >= 1.8f && a_TapSlider.value < 2.5f)
-            {
                 a_Fill.color = Color.green;
-            }
             if (a_TapSlider.value >= 2.5f)
-            {
                 a_Fill.color = Color.blue;
+            if (score >= attackMax - 0.3f)
+            {
+                playing = false;
+                StartCoroutine(GameEnd(g, score, j, s));
             }
         }
     }
 
-    void AttackPress()
-    {
-        if (exclaimer)
-        {
-            p_Exclaim.text = "Tap B When the button Turns Green!";
-            TextColorChanger(p_Exclaim);
-            p_Slider.value = Mathf.Lerp(0, 20, Mathf.PingPong(Time.time, 1));
-            if (p_Slider.value >= 8f && p_Slider.value <= 12f)
-            {
-                p_Button.color = Color.green;
-                p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size * 3.5f, 10 * Time.deltaTime);
-                if (Input.GetButtonDown("AButton"))
-                {
-                    score += 1;
-                }
-            }
-            else if (p_Slider.value < 8 || p_Slider.value > 12)
-            {
-                p_Button.color = Color.red;
-                p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size, 4 * Time.deltaTime);
-                if (Input.GetButtonDown("AButton"))
-                {
-                    score -= 1;
-                }
-            }
-        }
-    }
+    //void AttackPress()
+    //{
+    //    if (exclaimer)
+    //    {
+    //        p_Exclaim.text = "Tap B When the button Turns Green!";
+    //        TextColorChanger(p_Exclaim);
+    //        p_Slider.value = Mathf.Lerp(0, 20, Mathf.PingPong(Time.time, 1));
+    //        if (p_Slider.value >= 8f && p_Slider.value <= 12f)
+    //        {
+    //            p_Button.color = Color.green;
+    //            p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size * 3.5f, 10 * Time.deltaTime);
+    //            if (Input.GetButtonDown("AButton"))
+    //            {
+    //                score += 1;
+    //            }
+    //        }
+    //        else if (p_Slider.value < 8 || p_Slider.value > 12)
+    //        {
+    //            p_Button.color = Color.red;
+    //            p_Button.transform.localScale = Vector3.Lerp(p_Button.transform.localScale, pb_Size, 4 * Time.deltaTime);
+    //            if (Input.GetButtonDown("AButton"))
+    //            {
+    //                score -= 1;
+    //            }
+    //        }
+    //    }
+    //}
 
     void TextColorChanger(Text t)
     {
         t.color = Color.Lerp(Color.yellow, Color.green, Mathf.PingPong(Time.time, 1f));
     }
 
-    IEnumerator GameStart(float t, Text g, Slider s, Game j)
+    //IEnumerator GameStart(float t, Text g, Slider s, Game j)
+    //{
+    //    player.GetComponentInChildren<PlayerController>().paused = true;
+    //    s.gameObject.SetActive(true);
+    //    whichGame = j;
+    //    yield return new WaitForSeconds(t);
+    //    playing = false;
+    //    StartCoroutine(GameEnd(g, score, j, s));
+    //}
+
+    void GameStarter(float t, Text g, Slider s, Game j)
     {
         player.GetComponentInChildren<PlayerController>().paused = true;
         s.gameObject.SetActive(true);
         whichGame = j;
-        yield return new WaitForSeconds(t);
-        playing = false;
-        StartCoroutine(GameEnd(g, score, j, s));
     }
 
     IEnumerator GameEnd(Text t, float s, Game g, Slider l)

@@ -6,7 +6,7 @@ public class EggSack : MonoBehaviour
 {
     public GameObject spiderlingPrefab;
     private GameObject[] spiderlings = new GameObject[6];
-    private GameObject prePoolHolder;
+    protected GameObject prePoolHolder;
     private int spiderlingsToSpawn;
     private Vector3 yIncrease = new Vector3(0, 2, 0);
     private int SpiderlingsToSpawn()
