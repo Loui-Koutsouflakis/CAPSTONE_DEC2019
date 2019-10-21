@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public PlayerClass player;
     public HudManager h_Manager;
     [Header("STATE MACHINE NOT ANIMATION")]
-    [SerializeField]
+    //[SerializeField]
     Animator stateMachine;
 
     //public Animator anim;
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         player.InitializePlayer();
+        stateMachine = player.GetAnimator();
     }
 
     
@@ -107,7 +108,8 @@ public class PlayerController : MonoBehaviour
         else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
             player.GetAirComponent().Jump();
-            stateMachine.SetTrigger("DJump");
+            //animation trigger moved to air script
+            //stateMachine.SetTrigger("DJump");
         }
         else if (player.playerCurrentMove == MovementType.crouch)
         {
@@ -143,6 +145,9 @@ public class PlayerController : MonoBehaviour
         //stateMachine.SetTrigger("GrappleTrigger");
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
+
+        //WILL OPTOMIZE
+        player.GetComponentInChildren<RayCast_IK>().IK_Grapple();
     }
 
     public void DetatchGrapple()
@@ -150,6 +155,8 @@ public class PlayerController : MonoBehaviour
         //player.isGrappling = false; moved to grapplecomponent
 
         player.GetGrappleComponent().DetatchGrapple();
+        player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
+
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
 
@@ -157,6 +164,7 @@ public class PlayerController : MonoBehaviour
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
     }
+
 
     //man this is alot of jumping back and forth to do something simple lol
     public void Crouch()
@@ -170,7 +178,7 @@ public class PlayerController : MonoBehaviour
         else if(player.playerCurrentMove == MovementType.air)
         {
             player.GetAirComponent().GroundPound();
-            player.SetMovementType(MovementType.crouch);
+            //player.SetMovementType(MovementType.crouch);
             isCrouching = true;
         }
     }
