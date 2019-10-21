@@ -110,10 +110,10 @@ public class RayCast_IK : MonoBehaviour
 
             //playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
             leftHandTarget.position = wall.point - new Vector3(0.2f, -0.3f, 0);
-            // float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
+            float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
 
             //LEFT_HAND---NOT WORKING
-            //playerIK.solvers.leftHand.SetIKPositionWeight(0.85f);
+            playerIK.solvers.leftHand.SetIKPositionWeight(0.85f);
 
             //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
 
@@ -123,18 +123,18 @@ public class RayCast_IK : MonoBehaviour
         if (rb.velocity.magnitude < 0.001f && pc.playerCurrentMove == MovementType.move)
         {
             _IKOff = true;
-            //if (isInCloseL())
-            //{
+            if (isInCloseL())
+            {
 
-            //    leftHandTarget.position = lWall.point + new Vector3(0, 0.25f, 0);
-            //    float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
+                leftHandTarget.position = lWall.point + new Vector3(0, 0.25f, 0);
+                float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
 
-            //    playerIK.solvers.leftHand.SetIKPositionWeight(llimbWeight);
-            //    if (playerIK.solvers.leftHand.GetIKPositionWeight() > 0.7)
-            //        ikVelocity = 0;
-            //    //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
+                playerIK.solvers.leftHand.SetIKPositionWeight(llimbWeight);
+                if (playerIK.solvers.leftHand.GetIKPositionWeight() > 0.7)
+                    ikVelocity = 0;
+                //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
 
-            //}
+            }
 
 
             if (isInCloseR())
