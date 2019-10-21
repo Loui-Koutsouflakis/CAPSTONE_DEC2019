@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public PlayerClass player;
     public HudManager h_Manager;
     [Header("STATE MACHINE NOT ANIMATION")]
-    [SerializeField]
+    //[SerializeField]
     Animator stateMachine;
 
     //public Animator anim;
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         player.InitializePlayer();
+        stateMachine = player.GetAnimator();
     }
 
     
