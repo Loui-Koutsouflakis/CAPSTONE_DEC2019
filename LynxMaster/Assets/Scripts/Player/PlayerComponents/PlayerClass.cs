@@ -245,7 +245,6 @@ public class PlayerClass : MonoBehaviour
         tether = value;
     }
 
-    public Transform attachedGrapplePoint;
 
     //Long and high jumps
     [SerializeField]

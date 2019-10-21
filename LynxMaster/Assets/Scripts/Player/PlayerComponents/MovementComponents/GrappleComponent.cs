@@ -35,7 +35,6 @@ public class GrappleComponent : PlayerVariables
     {
         tetherPoint = player.tetherPoint.GetTetherLocation();
 
-
         if (tetherPoint == null)
         {
             Debug.Log("No tetherpoint");
@@ -44,7 +43,7 @@ public class GrappleComponent : PlayerVariables
 
         tether = true;
         attachedTetherPoint = tetherPoint;
-        player.attachedGrapplePoint = attachedTetherPoint; 
+        
         //new stuff
         tetherDirection = attachedTetherPoint.transform.position - transform.position;
         tetherLength = tetherDirection.magnitude;
@@ -132,16 +131,14 @@ public class GrappleComponent : PlayerVariables
             //updates position 
             tetherDirection = attachedTetherPoint.transform.position - transform.position;
             angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
-        //Debug.Log(angleToTether);
+            //Debug.Log(angleToTether);
         //}
         //draws a debug line to show grapple where grapping
         //Debug.DrawLine(transform.position, attachedTetherPoint.transform.position);
         //line.SetPosition(0, transform.position);
         //line.SetPosition(1, grappleTarget.transform.position);
 
-        Debug.Log(rb.velocity.magnitude);
 
-        ApplyVelocityCutoff();
     }
 
     //speed up the model if input
@@ -199,12 +196,6 @@ public class GrappleComponent : PlayerVariables
         tetherPoint = null;
         return tetherPoint;
 
-    }
-
-    //clamps the velocity to prevent flinging off the grapple point
-    void ApplyVelocityCutoff()
-    {
-        rb.velocity = Mathf.Min(rb.velocity.magnitude, grappleMax) * rb.velocity.normalized;        
     }
 
     //check in direction of movement to detach grapple if hit something
