@@ -144,6 +144,9 @@ public class PlayerController : MonoBehaviour
         //stateMachine.SetTrigger("GrappleTrigger");
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
+
+        //WILL OPTOMIZE
+        player.GetComponentInChildren<RayCast_IK>().IK_Grapple();
     }
 
     public void DetatchGrapple()
@@ -151,6 +154,8 @@ public class PlayerController : MonoBehaviour
         //player.isGrappling = false; moved to grapplecomponent
 
         player.GetGrappleComponent().DetatchGrapple();
+        player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
+
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
 
@@ -158,6 +163,7 @@ public class PlayerController : MonoBehaviour
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
     }
+
 
     //man this is alot of jumping back and forth to do something simple lol
     public void Crouch()

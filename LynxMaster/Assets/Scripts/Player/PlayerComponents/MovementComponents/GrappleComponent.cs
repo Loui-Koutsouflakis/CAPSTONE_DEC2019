@@ -35,6 +35,7 @@ public class GrappleComponent : PlayerVariables
     {
         tetherPoint = player.tetherPoint.GetTetherLocation();
 
+
         if (tetherPoint == null)
         {
             Debug.Log("No tetherpoint");
@@ -43,7 +44,7 @@ public class GrappleComponent : PlayerVariables
 
         tether = true;
         attachedTetherPoint = tetherPoint;
-        
+        player.attachedGrapplePoint = attachedTetherPoint; 
         //new stuff
         tetherDirection = attachedTetherPoint.transform.position - transform.position;
         tetherLength = tetherDirection.magnitude;
