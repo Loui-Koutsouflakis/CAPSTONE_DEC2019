@@ -216,8 +216,6 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.parent = footHit.transform.parent;
                 }
-                if(footHit.collider.gameObject.tag == "Spiderlings")
-                    footHit.collider.gameObject.GetComponent<Spiderlings>().Die();
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.move);
