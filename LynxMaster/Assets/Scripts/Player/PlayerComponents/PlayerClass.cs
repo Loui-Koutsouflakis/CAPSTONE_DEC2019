@@ -16,6 +16,7 @@ public enum MovementType
 
 public class PlayerClass : MonoBehaviour
 {
+    
 
 
     [Header("RigidBody")]
@@ -464,5 +465,4 @@ public class PlayerClass : MonoBehaviour
         rb.AddForce(direction * force, ForceMode.Impulse);
     }
 
-    
 }

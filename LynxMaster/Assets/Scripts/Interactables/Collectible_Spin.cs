@@ -1,5 +1,4 @@
-﻿//Edited 19/10/19 KE - Added pooling and collection, tied to HUD MAnager now
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,15 +30,9 @@ public class Collectible_Spin : MonoBehaviour
     float yStart = 0.0f;//used to store the starting Y world position
     bool movingUp;//used to switch direction of vertical movement
     #endregion
-
-    public HudManager h_Manager;
-    public Transform meteorPool;
- 
     void Awake()
     {
         myPS = GetComponentInChildren<ParticleSystem>();
-        meteorPool = GameObject.FindGameObjectWithTag("MeteorPool").transform;
-        h_Manager = GameObject.FindGameObjectWithTag("HUD").GetComponent<HudManager>();
         yStart = transform.position.y;
     }
 
@@ -50,6 +43,13 @@ public class Collectible_Spin : MonoBehaviour
         RotateAround();
     }
 
+    private void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "Player")
+        {            
+            gameObject.SetActive(false);
+        }
+    }
 
     void PSRotation()//Rotates the Particle System
     {        
@@ -87,12 +87,5 @@ public class Collectible_Spin : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {       
-          if (other.gameObject.tag == "Lumi")
-        {
-            transform.position = meteorPool.transform.position;
-            h_Manager.ShardsUp();
-        }
-    }
+
 }

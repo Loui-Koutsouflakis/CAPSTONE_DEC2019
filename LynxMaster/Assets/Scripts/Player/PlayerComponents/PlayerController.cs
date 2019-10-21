@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
 
     public PlayerClass player;
     public HudManager h_Manager;
-    public Transform meteorPool;
-
     [Header("STATE MACHINE NOT ANIMATION")]
     [SerializeField]
     Animator stateMachine;
@@ -404,6 +402,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
             objectsInsideSphere.Add(other);
+
     }
 
     private void OnTriggerExit(Collider other)
