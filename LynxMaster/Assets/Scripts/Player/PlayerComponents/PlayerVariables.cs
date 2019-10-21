@@ -50,6 +50,7 @@ public class PlayerVariables : PlayerInputHandler
     public float jumpSpeed = 10;
     public float launchSpeed;
     public float boost = 20;
+    public float grappleMax = 20;
 
     [Header("Swimming Movement")]
     public float swimSpeed = 9;

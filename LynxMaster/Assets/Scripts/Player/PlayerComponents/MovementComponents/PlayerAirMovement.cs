@@ -186,7 +186,7 @@ public class PlayerAirMovement : PlayerVariables
         Vector3 inputDir = cammy.transform.forward * vertical + cammy.transform.right * horizontal;
 
 
-        if (onWall && Vector3.Dot(wallNormal, inputDir) >= 0) //wall jump only if pressing away from the wall
+        if (onWall && Vector3.Dot(wallNormal, inputDir) > 0) //wall jump only if pressing away from the wall (as per brad's request) if we want when no dir is pressed add >=
         {
             //zero out velocity
             rb.velocity = Vector3.zero;
@@ -208,6 +208,8 @@ public class PlayerAirMovement : PlayerVariables
             Vector3 tempVelocity = rb.velocity;
             tempVelocity.y = 0;
             rb.velocity = tempVelocity;
+
+            anim.SetTrigger("DJump");
 
             //to allow control for a brief period after double jump
             doubleJumpControl = true;
