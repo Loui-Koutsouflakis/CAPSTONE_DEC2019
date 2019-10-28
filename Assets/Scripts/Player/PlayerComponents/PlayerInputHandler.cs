@@ -15,8 +15,8 @@ private bool isToggled = false;
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
     protected PlayerController playerController;
-    public float horizontal;
-    public float vertical;
+    protected float horizontal;
+    protected float vertical;
     #region XBox Controller
 
     public Command _AButton = new Command();
@@ -102,16 +102,20 @@ private bool isToggled = false;
             _LeftBumperUp.Execute(playerController);
         #endregion
 
+        float trigger = Input.GetAxisRaw("LeftTrigger");
+
         #region Left Trigger
-        if (Input.GetAxisRaw("LeftTrigger") != 0)
+        if (trigger >= 0.001f)
             if (!isToggled)
             {
+                //Debug.Log("triggered" + trigger);
                 isToggled = true;
                 _LeftTriggerDown.Execute(playerController);
             }
-        if (Input.GetAxisRaw("LeftTrigger") == 0)
+        if (trigger < 0.001f)
             if (isToggled)
             {
+                    //Debug.Log(" not triggered" + trigger);
                 isToggled = false;
                 _LeftTriggerUp.Execute(playerController);
             }

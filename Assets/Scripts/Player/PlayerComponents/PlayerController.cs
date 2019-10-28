@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             player.SetGrounded(false);
 
 
-            stateMachine.SetTrigger("Jump");
+            //stateMachine.SetTrigger("Jump");
             stateMachine.SetBool("Grounded", false);
 
             //Particle stuff from Tony
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
             psRun.Stop();
             psJump.Stop();
             psJump.Play();
-            stateMachine.SetTrigger("Jump");
+            //stateMachine.SetTrigger("Jump");
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
@@ -214,7 +214,10 @@ public class PlayerController : MonoBehaviour
 
     public void deCrouch()
     {
-        player.SetMovementType(MovementType.move);
+        if(player.playerCurrentMove == MovementType.crouch)
+        {
+            player.SetMovementType(MovementType.move);
+        }
         isCrouching = false;
         player.SetCrouching(isCrouching);
     }
@@ -262,7 +265,7 @@ public class PlayerController : MonoBehaviour
 
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
-                    transform.parent = footHit.transform.parent;
+                    transform.parent = footHit.transform;
                     if(footHit.collider.GetComponent<Interact>() != null)
                     {
                         footHit.collider.GetComponent<Interact>().InteractWithMe();
@@ -305,7 +308,7 @@ public class PlayerController : MonoBehaviour
 
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
-                    transform.parent = footHit.transform.parent;
+                    transform.parent = footHit.transform;
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
                         footHit.collider.GetComponent<Interact>().InteractWithMe();

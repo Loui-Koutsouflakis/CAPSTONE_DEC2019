@@ -6,7 +6,7 @@ using UnityEngine;
 
 //This is a handy reference 
 [AddComponentMenu("Player Scripts/Player Variables", 3)]
-public class PlayerVariables : PlayerInputHandler
+public class PlayerVariables : MonoBehaviour
 {
 //Change Variables in script between test plays to adjust values.
     [Header("Ground Movement")]

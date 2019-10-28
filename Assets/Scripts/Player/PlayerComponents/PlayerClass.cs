@@ -175,7 +175,7 @@ public class PlayerClass : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         SetGroundCheck(true);
-        Debug.Log("ground check stopped");
+        //Debug.Log("ground check stopped");
     }
 
 

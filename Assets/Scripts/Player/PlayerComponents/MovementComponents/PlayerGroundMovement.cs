@@ -36,10 +36,11 @@ public class PlayerGroundMovement : PlayerVariables
     private float animRotate;
     private float flairTimer;
     private float flairRandom;
-       
-    // Start is called before the first frame update
 
-             
+    // Start is called before the first frame update
+    private float horizontal;
+    private float vertical;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -48,6 +49,12 @@ public class PlayerGroundMovement : PlayerVariables
         ControlInput();
         setSpeed();//for animations
         setRotate();//for animations
+    }
+
+    private void Update()
+    {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
     }
 
     private void OnEnable()
@@ -157,6 +164,8 @@ public class PlayerGroundMovement : PlayerVariables
         //for jump bug fix
         player.SetGroundCheck(false);
         player.StartCoroutine(player.GroundCheckStop());
+
+        anim.SetTrigger("Jump");
               
         //anim.SetBool("Grounded", false);
     }
