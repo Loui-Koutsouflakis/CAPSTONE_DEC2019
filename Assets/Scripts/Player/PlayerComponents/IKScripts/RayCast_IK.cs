@@ -11,6 +11,13 @@ public class RayCast_IK : MonoBehaviour
 
     FullBodyBipedIK fBIK;
     public BipedIK playerIK;
+
+
+    //Rotation of Target Transform should be: 
+
+    //RHand x: 0, y: 150, z:320
+    //LHand x: -10, y:90, Z:-140
+
     public Transform rightHandTarget;
     public Transform leftHandTarget;
     public Transform leftLegTarget;
@@ -20,7 +27,7 @@ public class RayCast_IK : MonoBehaviour
 
 
     public float bipediIKWeigh = 0.2f;
-    public float fBIKWeigh = 0.1f; 
+    public float fBIKWeigh = 0.1f;
 
 
     LineRenderer rope;
@@ -68,6 +75,8 @@ public class RayCast_IK : MonoBehaviour
     }
 
 
+    //These are the raycasts that determine if the player is near a wall
+
     #region raycasts
     public bool isInCloseF()
     {
@@ -77,10 +86,16 @@ public class RayCast_IK : MonoBehaviour
         return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
     }
 
+    Quaternion ReturnRotation(RaycastHit hit)
+    {
+        Quaternion rotation = Quaternion.LookRotation(transform.position, hit.point);
+        return rotation;
+    }
+
     public bool isInCloseL()
     {
         Vector3 lineStart = player.transform.position + new Vector3(0, 0.5f, 0);
-        Vector3 vectorToSearch = player.transform.position + (player.transform.right / -3.5f + player.transform.forward / 3) + new Vector3(0, 0.5f, 0);
+        Vector3 vectorToSearch = player.transform.position + (player.transform.right / -2f + player.transform.forward / 4) + new Vector3(0, 0.5f, 0);
         Debug.DrawLine(lineStart, vectorToSearch, Color.green);
         return Physics.Linecast(lineStart, vectorToSearch, out lWall, p_LayerMask);
     }
@@ -88,7 +103,7 @@ public class RayCast_IK : MonoBehaviour
     public bool isInCloseR()
     {
         Vector3 lineStart = player.transform.position + new Vector3(0, 0.5f, 0);
-        Vector3 vectorToSearch = player.transform.position + (player.transform.right / 4 + player.transform.forward / 3) + new Vector3(0, 0.5f, 0);
+        Vector3 vectorToSearch = player.transform.position + (player.transform.right / 2 + player.transform.forward / 4) + new Vector3(0, 0.5f, 0);
         Debug.DrawLine(lineStart, vectorToSearch, Color.blue);
         return Physics.Linecast(lineStart, vectorToSearch, out rWall, p_LayerMask);
     }
@@ -98,7 +113,7 @@ public class RayCast_IK : MonoBehaviour
 
 
 
-
+    //simple function to turn off the individual IK limb
     void ReturnHand(IKSolverLimb limb)
     {
         if (!_IKOff)
@@ -106,9 +121,11 @@ public class RayCast_IK : MonoBehaviour
 
 
         limb.SetIKPositionWeight(0);
+        limb.SetIKRotationWeight(0);
 
     }
 
+    //if you want both turned off
     public void ReturnBothHands()
     {
         ReturnHand(playerIK.solvers.rightHand);
@@ -127,89 +144,44 @@ public class RayCast_IK : MonoBehaviour
 
 
 
-            fBIK.solver.IKPositionWeight = 0.5f; 
-            fBIK.solver.rightHandEffector.target = rightHandTarget;
-            fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
-            fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
-            fBIK.solver.rightArmChain.pull = 0.5f; 
+        fBIK.solver.IKPositionWeight = 0.5f;
+        fBIK.solver.rightHandEffector.target = rightHandTarget;
+        fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
+        fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
+        fBIK.solver.rightArmChain.pull = 0.5f;
 
-  
 
-    
+
+
 
         rope.enabled = true;
 
 
     }
 
-    IEnumerator StartGrapple(float weight)
-    {
-        while (playerIK.solvers.rightHand.GetIKPositionWeight() < weight)
-        {
-            float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-            playerIK.solvers.rightHand.SetIKPositionWeight(rlimbWeight);
-            yield return null;
-        }
 
-    }
 
     public void IK_EndGrapple()
     {
-        Debug.Log("Yo");
         rope.enabled = false;
-        fBIK.solver.IKPositionWeight = 0;
-        fBIK.solver.rightHandEffector.positionWeight = 0;
         playerIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
+        StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
+
 
 
     }
 
-    private void DisplayRope()
+    IEnumerator EndGrapCoroutine(float weight)
     {
-        //This is not the actual width, but the width use so we can see the rope
-        float ropeWidth = 0.2f;
-
-        rope.startWidth = ropeWidth;
-        rope.endWidth = ropeWidth;
-
-
-        //Update the list with rope sections by approximating the rope with a bezier curve
-        //A Bezier curve needs 4 control points
-        Vector3 A = tetherPoint.position;
-        Vector3 D = grapplePoint.position;
-
-        //Upper control point
-        //To get a little curve at the top than at the bottom
-        Vector3 B = A + -tetherPoint.up * (-(A - D).magnitude * 0.1f);
-        //B = A;
-
-        //Lower control point
-        Vector3 C = D + -grapplePoint.up * ((A - D).magnitude * 0.5f);
-
-        //Get the positions
-        //BezierCurve.GetBezierCurve(A, B, C, D, allRopeSections);
-
-
-        //An array with all rope section positions
-        Vector3[] positions = new Vector3[allRopeSections.Count];
-
-        for (int i = 0; i < allRopeSections.Count; i++)
+        while (fBIK.solver.IKPositionWeight > 0)
         {
-            positions[i] = allRopeSections[i];
+            weight -= 0.01f;
+            fBIK.solver.IKPositionWeight = weight;
+            fBIK.solver.rightHandEffector.positionWeight = weight;
+            yield return null;
         }
 
-        //Just add a line between the start and end position for testing purposes
-        //Vector3[] positions = new Vector3[2];
-
-        //positions[0] = whatTheRopeIsConnectedTo.position;
-        //positions[1] = whatIsHangingFromTheRope.position;
-
-
-        //Add the positions to the line renderer
-        rope.positionCount = positions.Length;
-
-        rope.SetPositions(positions);
     }
 
 
@@ -218,36 +190,42 @@ public class RayCast_IK : MonoBehaviour
     {
         //rb.velocity.magnitude > 2f &&
 
-        if (pc.IsGrounded() && isInCloseF())
-        {
-            rightHandTarget.position = wall.point + player.transform.right / 5 + new Vector3(0, 0.3f, 0);
-            float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-            playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
-
-            //playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
-            leftHandTarget.position = wall.point - new Vector3(0.2f, -0.3f, 0);
-            // float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-
-            //LEFT_HAND---NOT WORKING
-            playerIK.solvers.leftHand.SetIKPositionWeight(0.6f);
-
-            //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
-
-        }
-
         if (pc.IsGrounded())
         {
+
+            if (isInCloseF() && rb.velocity.magnitude > 2f)
+            {
+                rightHandTarget.position = wall.point + player.transform.right / 5 + new Vector3(0, 0.3f, 0);
+                float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
+                playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
+                playerIK.solvers.rightHand.SetIKRotationWeight(0.5f);
+
+
+                leftHandTarget.position = wall.point - player.transform.right / 5 - new Vector3(0, -0.3f, 0);
+                //float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
+                playerIK.solvers.leftHand.SetIKRotationWeight(0.5f);
+
+                playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
+
+
+            }
+
+
 
             if (rb.velocity.magnitude < 0.001f)
             {
                 _IKOff = true;
-                if (isInCloseL())
+                if (!isInCloseF() && isInCloseL())
                 {
 
                     leftHandTarget.position = lWall.point + new Vector3(0, 0.25f, 0);
+
+                    //leftHandTarget.rotation = ReturnRotation(lWall);
+
                     float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
 
                     playerIK.solvers.leftHand.SetIKPositionWeight(llimbWeight);
+                    playerIK.solvers.leftHand.SetIKRotationWeight(1);
                     if (playerIK.solvers.leftHand.GetIKPositionWeight() > 0.7)
                         ikVelocity = 0;
                     //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
@@ -255,86 +233,58 @@ public class RayCast_IK : MonoBehaviour
                 }
 
 
-                if (isInCloseR())
+                if (!isInCloseF() && isInCloseR())
                 {
                     rightHandTarget.position = rWall.point + new Vector3(0, 0.25f, 0);
                     float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
                     playerIK.solvers.rightHand.SetIKPositionWeight(rlimbWeight);
+                    playerIK.solvers.rightHand.SetIKRotationWeight(1);
+
                     if (playerIK.solvers.rightHand.GetIKPositionWeight() > 0.7)
                         ikVelocity = 0;
 
                     // playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
 
                 }
-
+                fBIK.solver.IKPositionWeight = 0;
             }
 
 
 
-            if (!isInCloseF() && !isInCloseR())
-                ReturnHand(playerIK.solvers.rightHand);
-
-            if (!isInCloseF() && !isInCloseL())
-                ReturnHand(playerIK.solvers.leftHand);
-
-            //if (!isInCloseF() )
-            //{
-            //    ReturnHands(playerIK.solvers.rightHand);
-            //    ReturnHands(playerIK.solvers.leftHand);
-
-            //}
 
         }
 
-
-        if (pc.playerCurrentMove == MovementType.grapple)
+        else
         {
 
-            rightHandTarget.position = pc.attachedGrapplePoint.position;
-            rope.SetPosition(0, tetherPoint.position);
-            rope.SetPosition(1, grapplePoint.position);
-            rope.startWidth = 0.1f;
-            rope.endWidth = 0.1f;
+            if (pc.playerCurrentMove == MovementType.grapple)
+            {
 
-            // DisplayRope();
+                rightHandTarget.position = pc.attachedGrapplePoint.position;
+                rope.SetPosition(0, tetherPoint.position);
+                rope.SetPosition(1, grapplePoint.position);
+                rope.startWidth = 0.1f;
+                rope.endWidth = 0.1f;
 
+            }
+            else if (fBIK.solver.IKPositionWeight > 0)
+            {
+                //fBIK.solver.IKPositionWeight = 0; 
+            }
+        }
+
+
+        if (!isInCloseF())
+        {
+            if (!isInCloseR())
+                ReturnHand(playerIK.solvers.rightHand);
+
+            if (!isInCloseL())
+                ReturnHand(playerIK.solvers.leftHand);
 
         }
 
 
-
-        //if (pc.playerCurrentMove == MovementType.grapple)
-        //{
-        //    tetherPoint = pc.tetherPoint.transform.position;
-
-
-        //    rightHandTarget.position = tetherPoint;
-        //    float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-
-        //    //BIPED_IK
-        //    //playerIK.solvers.rightHand.SetIKPositionWeight(rlimbWeight);
-
-        //    //FB__IK
-        //    fBIK.solver.rightHandEffector.target = rightHandTarget;
-        //    fBIK.solver.rightHandEffector.positionWeight = rlimbWeight; 
-
-        //    // leftLegTarget.position = -player.transform.up - player.transform.right;
-        //    //playerIK.solvers.leftFoot.target = leftLegTarget;
-        //    //playerIK.solvers.leftFoot.IKPositionWeight = 0.8f;
-
-        //    //rightLegTarget.position = -player.transform.up + player.transform.right;
-        //    //playerIK.solvers.rightFoot.target = rightLegTarget;
-        //    //playerIK.solvers.rightFoot.IKPositionWeight = 0.8f;
-        //    //playerIK.solvers.spine.target = rightLegTarget;
-        //    //playerIK.solvers.spine.IKPositionWeight = 0.8f;
-
-        //}
-        //else
-        //{
-        //    playerIK.solvers.leftFoot.IKPositionWeight = 0;
-
-        //    playerIK.solvers.rightFoot.IKPositionWeight = 0;
-        //}
 
 
 

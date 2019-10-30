@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
+    
 
     private void Start()
     {
@@ -75,11 +75,12 @@ public class PlayerController : MonoBehaviour
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
 
-
     public void ShowHud()
     {
         h_Manager.HudButtonDown();
     }
+
+    
 
     public void Jump()
     {

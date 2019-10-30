@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class AnimatorMonoBehavior : MonoBehaviour
 {
+
+    public PlayerClass player;
+
+    //for idle flair
     public void StartRoutine(Animator anim)
     {
         StartCoroutine(IdleStop(anim));
@@ -12,5 +16,5 @@ public class AnimatorMonoBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(8);
         anim.SetBool("Idle", false);
-    }
+    }   
 }

@@ -39,6 +39,9 @@ public class Crouch : PlayerVariables
 
     public void OnEnable()
     {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
         enteredScript = true;
         StartCoroutine(LongJumpTimer());
         anim.SetBool("Crouching", true);

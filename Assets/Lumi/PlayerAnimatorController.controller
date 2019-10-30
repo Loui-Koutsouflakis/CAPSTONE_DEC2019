@@ -262,7 +262,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7994420373552569429, guid: 70740c9c2ac053741ab18d051178fc13,
+  m_Motion: {fileID: -1467468735436782815, guid: 70740c9c2ac053741ab18d051178fc13,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -519,7 +519,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: WallJumpB
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6266508270160081261}
   m_Solo: 0
@@ -733,8 +736,8 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: WallJump
-    m_Type: 9
+  - m_Name: WallJumpB
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1099,9 +1102,9 @@ AnimatorStateMachine:
   - {fileID: 3777840357703500035}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107232172529502090}
-    second: []
   - first: {fileID: 1107910185453411972}
+    second: []
+  - first: {fileID: 1107232172529502090}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
@@ -1141,7 +1144,7 @@ AnimatorStateMachine:
     m_Position: {x: 1850, y: -720, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6266508270160081261}
-    m_Position: {x: 1660, y: -820, z: 0}
+    m_Position: {x: 1540, y: -840, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -1667,19 +1670,16 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: WallJump
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -9105611630041828477}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.31481466
   m_TransitionOffset: 0
-  m_ExitTime: 0.60526323
+  m_ExitTime: 0.50483084
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

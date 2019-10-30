@@ -59,12 +59,21 @@ public class PlayerGroundMovement : PlayerVariables
 
     private void OnEnable()
     {
-        if (rb)
-        {
-            //Debug.Log(rb.velocity);
-            ControlInput();
-        }
+        //if (rb)
+        //{
+        //    //Debug.Log(rb.velocity);
+        //    ControlInput();
+        //}
         flairRandom = Random.Range(5, 10);
+
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
+        Debug.Log("onEnable");
+        Debug.Log(horizontal);
+        Debug.Log(vertical);
+        Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+        Debug.Log(Input.GetAxis("Vertical") + "vert");
     }
 
     private void OnDisable()
@@ -119,9 +128,9 @@ public class PlayerGroundMovement : PlayerVariables
         cammyRight.Normalize();
         cammyFront.Normalize();
 
-        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
         //adds force to the player
-        rb.AddForce(transform.forward * speed, ForceMode.Force);
+        rb.AddForce(player.transform.forward * speed, ForceMode.Force);
 
         Friction();
     }
