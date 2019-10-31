@@ -74,11 +74,11 @@ public class PlayerAirMovement : PlayerVariables
             wallRotate = false;
             //Debug.Log("script disabled");
 
-            Debug.Log("onDisable");
-            Debug.Log(horizontal);
-            Debug.Log(vertical);
-            Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
-            Debug.Log(Input.GetAxis("Vertical") + "vert");
+            //Debug.Log("onDisable");
+            //Debug.Log(horizontal);
+            //Debug.Log(vertical);
+            //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+            //Debug.Log(Input.GetAxis("Vertical") + "vert");
         }
     }
     

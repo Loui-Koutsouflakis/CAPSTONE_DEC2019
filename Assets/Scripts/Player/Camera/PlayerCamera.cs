@@ -129,14 +129,14 @@ public class PlayerCamera : MonoBehaviour
 
         if (CamType == CameraType.Orbit)
         {
-            if (camReset && cameraResetTimer < cameraResetTime)
-                cameraResetTimer += 1 * Time.deltaTime;
-            if (cameraResetTimer >= cameraResetTime)
-                resetCamera(cameraResetSmoothing);
-            if (camWall)
-            {
-                wallTimer();
-            }
+            //if (camReset && cameraResetTimer < cameraResetTime)
+            //    cameraResetTimer += 1 * Time.deltaTime;
+            //if (cameraResetTimer >= cameraResetTime)
+            //    resetCamera(cameraResetSmoothing);
+            //if (camWall)
+            //{
+            //    wallTimer();
+            //}
             if (Input.GetButtonDown("LeftBumper"))
             {
                 resetCamera(0.0f);
@@ -161,10 +161,10 @@ public class PlayerCamera : MonoBehaviour
 
     void wallTimer()
     {
-        if (camWall && camWallTimer < camWallTime)
-            camWallTimer += 1 * Time.deltaTime;
-        if (camWallTimer >= camWallTime && Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0)
-            resetCamera(1f);
+        //if (camWall && camWallTimer < camWallTime)
+        //    camWallTimer += 1 * Time.deltaTime;
+        //if (camWallTimer >= camWallTime && Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0)
+        //    resetCamera(1f);
     }
 
     float UpDownCam(bool x)
@@ -293,10 +293,6 @@ public class PlayerCamera : MonoBehaviour
     void resetCamera(float x)
     {
         camReset = false;
-        if (currentRotation.y == 180)
-            currentRotation.y = -180;
-        if (currentRotation.y == -180)
-            currentRotation.y = 180;
         currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, x);
         transform.eulerAngles = currentRotation;
         pitch = currentRotation.x;

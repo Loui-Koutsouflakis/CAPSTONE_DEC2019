@@ -199,7 +199,7 @@ public class HudManager : MonoBehaviour
             //ANIM HERE
             //healthRenderers[health - 1].enabled = false;
             healthAnims[health - 1].SetTrigger("Lose");
-            p_Class.SetHealth(-1);
+            //p_Class.SetHealth(-1);
         }
     }
 
@@ -213,7 +213,7 @@ public class HudManager : MonoBehaviour
             //ANIM HERE
             //healthRenderers[health].enabled = true;
             healthAnims[health].SetTrigger("Gain");
-            p_Class.SetHealth(1);
+            //p_Class.SetHealth(1);
         }
     }
 

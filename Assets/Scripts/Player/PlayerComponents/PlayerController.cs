@@ -158,8 +158,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Pull()
-    {
-        closestPullPoint.GetComponent<PullablePlatform>().MovePlatform();
+    {        
+        closestPullPoint.GetComponent<Interact>().InteractWithMe();
     }
 
 
@@ -236,9 +236,16 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == 10)//enemy layer
         {
             if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10)
-            player.SetHealth(-1);
+            {
+                player.SetHealth(-1);
+                h_Manager.HealthDown();
+                player.GenericAddForce(collision.gameObject.transform.position - player.transform.position, 3);
+                if(player.GetHealth() <= 0)
+                {
+                    //death animation
+                }
+            }
         }
-
     }
 
     #region check ground functions
@@ -259,7 +266,10 @@ public class PlayerController : MonoBehaviour
                 {
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
-                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        if(footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
+                        {
+                            footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        }
                     }
                     player.SetGroundPounding(false);
                 }
@@ -272,10 +282,19 @@ public class PlayerController : MonoBehaviour
                         footHit.collider.GetComponent<Interact>().InteractWithMe();
                     }
                 }
+
                 if(footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
+                    player.GenericAddForce(transform.up, 5);
                 }
+
+                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                {
+                    footHit.collider.GetComponent<Interact>().InteractWithMe();                 
+                }
+
+
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.move);
@@ -302,7 +321,10 @@ public class PlayerController : MonoBehaviour
                 {
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
-                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
+                        {
+                            footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        }
                     }
                     player.SetGroundPounding(false);
                 }
@@ -315,10 +337,18 @@ public class PlayerController : MonoBehaviour
                         footHit.collider.GetComponent<Interact>().InteractWithMe();
                     }
                 }
+
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
+                    player.GenericAddForce(transform.up, 5);
                 }
+
+                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                {
+                    footHit.collider.GetComponent<Interact>().InteractWithMe();
+                }
+
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);

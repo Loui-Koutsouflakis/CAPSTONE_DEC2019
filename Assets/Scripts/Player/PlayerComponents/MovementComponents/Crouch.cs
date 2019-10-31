@@ -66,6 +66,10 @@ public class Crouch : PlayerVariables
         grounded = player.IsGrounded();
 
         ControlInput();
+        Debug.Log(horizontal);
+        Debug.Log(vertical);
+        //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+        //Debug.Log(Input.GetAxis("Vertical") + "vert");
     }
 
     private void Update()

@@ -69,11 +69,11 @@ public class PlayerGroundMovement : PlayerVariables
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
 
-        Debug.Log("onEnable");
-        Debug.Log(horizontal);
-        Debug.Log(vertical);
-        Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
-        Debug.Log(Input.GetAxis("Vertical") + "vert");
+        //Debug.Log("onEnable");
+        //Debug.Log(horizontal);
+        //Debug.Log(vertical);
+        //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+        //Debug.Log(Input.GetAxis("Vertical") + "vert");
     }
 
     private void OnDisable()
