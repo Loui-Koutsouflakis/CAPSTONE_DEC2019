@@ -104,6 +104,8 @@ public class PlayerCamera : MonoBehaviour
     float yaw;
     float pitch;
 
+    float time = 0;
+
     #region CameraShake
     public float magX;
     public float mag;
@@ -134,8 +136,9 @@ public class PlayerCamera : MonoBehaviour
 
         if (Input.GetKey(KeyCode.T))
         {
-            //CamType = CameraType.Shake;
-            CamType = CameraType.Cinema;
+           CamType = CameraType.Shake;
+            // CamType = CameraType.Cinema;
+            time = 0;
         }
 
         if (ShadowManager(Player))
@@ -254,6 +257,7 @@ public class PlayerCamera : MonoBehaviour
     //Used for positioning camera for cinematics and while the player is playing ** ADD MORE CASES FOR MORE CAMERA LOCATIONS
     void CameraTypes(CameraType cam)
     {
+
         switch (cam)
         {
             case CameraType.Orbit:
@@ -266,10 +270,10 @@ public class PlayerCamera : MonoBehaviour
                 TravelToCinematic(cameraOnePos, 3);
                 break;
             case CameraType.Shake:
-                float time = 0;
-                if(time < dur)
-                CameraShake(magX, mag);
-                else
+                time += Time.deltaTime;
+                if (time < dur)
+                    CameraShake(magX, mag);
+                else                    
                     CamType = CameraType.Orbit;
                 break;
         }

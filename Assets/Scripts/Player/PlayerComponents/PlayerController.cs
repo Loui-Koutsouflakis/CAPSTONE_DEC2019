@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem pullParticle;
     ParticleSystem.EmissionModule pullParticleEmission;
 
+    [SerializeField]
+    SkinnedMeshRenderer[] lumiParts;
 
 
     #region Enemy Stuff
@@ -58,6 +60,9 @@ public class PlayerController : MonoBehaviour
         tetherParticleEmission.enabled = false;
         pullParticleEmission = pullParticle.emission;
         pullParticleEmission.enabled = false;
+
+        lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
+
 
     }
 
@@ -239,7 +244,8 @@ public class PlayerController : MonoBehaviour
             {
                 player.SetHealth(-1);
                 h_Manager.HealthDown();
-                player.GenericAddForce(collision.gameObject.transform.position - player.transform.position, 3);
+                player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3);
+
                 if(player.GetHealth() <= 0)
                 {
                     //death animation
@@ -247,6 +253,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    
 
     #region check ground functions
 
