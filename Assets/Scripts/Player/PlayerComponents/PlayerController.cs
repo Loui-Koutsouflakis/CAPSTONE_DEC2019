@@ -271,6 +271,8 @@ public class PlayerController : MonoBehaviour
                             footHit.collider.GetComponent<Interact>().InteractWithMe();
                         }
                     }
+                    player.DisableControls();
+                    StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
                 }
 
@@ -326,6 +328,8 @@ public class PlayerController : MonoBehaviour
                             footHit.collider.GetComponent<Interact>().InteractWithMe();
                         }
                     }
+                    player.DisableControls();
+                    StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
                 }
 
@@ -371,6 +375,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    IEnumerator GroundPoundStop()
+    {
+        yield return new WaitForSeconds(1.1f);
+        player.EnableControls();
+    }
+
 
     //public bool isUnderWater()
     //{
@@ -613,14 +623,15 @@ public class PlayerController : MonoBehaviour
             {
                 closestPoint = null;
                 player.SetTetherPoint(null);
+                TurnOffParticle(true);
             }
 
             distancesToObjects.Clear();
             interactPoints.Clear();
 
         }
-        else
-            TurnOffParticle(true);
+        
+            
 
 
         if (pullableObjectsInSphere.Count > 0)
@@ -650,13 +661,14 @@ public class PlayerController : MonoBehaviour
             else
             {
                 closestPullPoint = null;
+                TurnOffParticle(false);
             }
 
             pullPoints.Clear();
             distanceToPullPoints.Clear();
         }
-        else
-            TurnOffParticle(false);
+        
+           
 
 
         //generic

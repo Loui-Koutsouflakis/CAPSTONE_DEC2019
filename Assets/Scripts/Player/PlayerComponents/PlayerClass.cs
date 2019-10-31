@@ -144,10 +144,21 @@ public class PlayerClass : MonoBehaviour
 
     public Vector3 vel;
 
-    private bool controlsEnabled;
+    private bool controlsEnabled = true;
 
-     
+    public bool GetControlsEnabled()
+    {
+        return controlsEnabled;
+    }
 
+    public void DisableControls()
+    {
+        controlsEnabled = false;
+    }
+    public void EnableControls()
+    {
+        controlsEnabled = true;
+    }
 
     bool crouching;
 

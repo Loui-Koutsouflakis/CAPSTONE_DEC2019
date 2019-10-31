@@ -44,9 +44,12 @@ public class PlayerGroundMovement : PlayerVariables
     // Update is called once per frame
     void FixedUpdate()
     {
-        grounded = player.IsGrounded();
 
-        ControlInput();
+        if(player.GetControlsEnabled())
+        {
+            ControlInput();
+        }
+        grounded = player.IsGrounded();
         setSpeed();//for animations
         setRotate();//for animations
     }
@@ -116,6 +119,8 @@ public class PlayerGroundMovement : PlayerVariables
         }
                
         ApplyVelocityCutoff();
+
+
     }
 
     public void Movement(float speed)

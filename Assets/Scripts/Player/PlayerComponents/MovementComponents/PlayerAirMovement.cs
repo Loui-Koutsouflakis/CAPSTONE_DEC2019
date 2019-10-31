@@ -86,7 +86,10 @@ public class PlayerAirMovement : PlayerVariables
     void FixedUpdate()
     {
         canFlutter = player.CanFlutter();
-        ControlInput();
+        if(player.GetControlsEnabled())
+        {
+            ControlInput();
+        }
 
         if (wallRotate)
         {
@@ -291,7 +294,7 @@ public class PlayerAirMovement : PlayerVariables
 
     IEnumerator GroundPoundFloat()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         Debug.Log("start drop");
         //Debug.Log("entered coroutine");
         player.rb.isKinematic = false;

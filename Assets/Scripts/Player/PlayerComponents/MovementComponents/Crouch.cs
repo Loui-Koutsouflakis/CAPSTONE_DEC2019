@@ -52,7 +52,10 @@ public class Crouch : PlayerVariables
     {
         enteredScript = false;
         anim.SetBool("Crouching", false);
-        
+        if(player.rb.isKinematic == true)
+        {
+            player.rb.isKinematic = false;
+        }
     }
 
     IEnumerator LongJumpTimer()
@@ -65,9 +68,13 @@ public class Crouch : PlayerVariables
     {
         grounded = player.IsGrounded();
 
-        ControlInput();
-        Debug.Log(horizontal);
-        Debug.Log(vertical);
+        if(player.GetControlsEnabled())
+        { 
+            ControlInput();
+        }
+
+        //Debug.Log(horizontal);
+        //Debug.Log(vertical);
         //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
         //Debug.Log(Input.GetAxis("Vertical") + "vert");
     }
