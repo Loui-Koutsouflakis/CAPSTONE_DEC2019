@@ -141,6 +141,18 @@ public class PlayerClass : MonoBehaviour
         
     }
 
+    private bool damagable;
+
+    public void SetDamagable(bool value)
+    {
+        damagable = value;
+    }
+
+    public bool GetDamagable()
+    {
+        return damagable;
+    }
+
 
     public Vector3 vel;
 

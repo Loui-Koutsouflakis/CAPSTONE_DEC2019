@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     SkinnedMeshRenderer[] lumiParts;
+    private int timesThrough =0;
 
 
     #region Enemy Stuff
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         player.InitializePlayer();
+        player.SetDamagable(true);
         stateMachine = player.GetAnimator();
         tetherParticleEmission = tetherParticle.emission;
         tetherParticleEmission.enabled = false;
@@ -64,9 +66,7 @@ public class PlayerController : MonoBehaviour
         lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
 
 
-    }
-
-    
+    }   
 
     private void Start()
     {
@@ -79,6 +79,14 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
+
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        StartCoroutine(DamageFlashOff());
+    //    }
+    //}
 
     public void ShowHud()
     {
@@ -198,8 +206,7 @@ public class PlayerController : MonoBehaviour
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
     }
-
-
+    
     //man this is alot of jumping back and forth to do something simple lol
     public void Crouch()
     {
@@ -242,19 +249,57 @@ public class PlayerController : MonoBehaviour
         {
             if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10)
             {
-                player.SetHealth(-1);
-                h_Manager.HealthDown();
-                player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3);
-
-                if(player.GetHealth() <= 0)
+                if (player.GetDamagable())
                 {
-                    //death animation
+                    player.SetHealth(-1);
+                    h_Manager.HealthDown();
+                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3);
+                    StartCoroutine(DamageFlashOff());
+                    player.SetDamagable(false);
+                    if (player.GetHealth() <= 0)
+                    {
+                        //death animation
+                    }
                 }
             }
         }
     }
 
-    
+    IEnumerator DamageFlashOff()
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (SkinnedMeshRenderer skin in lumiParts)
+        {
+            skin.enabled = false;
+            //Vector4 color = skin.material.color;
+            //color = new Vector4(color.x, color.y, color.z, 0.5f);
+            //skin.material.color = color; 
+        }
+
+        StartCoroutine(DamageFlashOn());
+    }
+
+    IEnumerator DamageFlashOn()
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (SkinnedMeshRenderer skin in lumiParts)
+        {
+            skin.enabled = true;
+            //Vector4 color = skin.material.color;
+            //color = new Vector4(color.x, color.y, color.z, 1.0f);
+            //skin.material.color = color;
+        }
+        timesThrough += 1;
+        if(timesThrough <= 5)
+        {
+            StartCoroutine(DamageFlashOff());
+        }
+        else
+        {
+            player.SetDamagable(true);
+            timesThrough = 0;
+        }
+    }
 
     #region check ground functions
 
