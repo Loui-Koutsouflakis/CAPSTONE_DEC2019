@@ -176,6 +176,7 @@ public class GrappleComponent : PlayerVariables
             tetherPoint = null;
 
         attachedTetherPoint = null;
+        player.attachedGrapplePoint = null;
 
         reachedZero = false;
 

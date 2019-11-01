@@ -28,6 +28,9 @@ public class Crouch : PlayerVariables
 
     float moveSpeed;
 
+    private float horizontal;
+    private float vertical;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,16 +39,23 @@ public class Crouch : PlayerVariables
 
     public void OnEnable()
     {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
         enteredScript = true;
         StartCoroutine(LongJumpTimer());
         anim.SetBool("Crouching", true);
+        anim.SetBool("HighJumpB", false);
     }
 
     public void OnDisable()
     {
         enteredScript = false;
         anim.SetBool("Crouching", false);
-        anim.speed = 1;
+        if(player.rb.isKinematic == true)
+        {
+            player.rb.isKinematic = false;
+        }
     }
 
     IEnumerator LongJumpTimer()
@@ -58,7 +68,21 @@ public class Crouch : PlayerVariables
     {
         grounded = player.IsGrounded();
 
-        ControlInput();
+        if(player.GetControlsEnabled())
+        { 
+            ControlInput();
+        }
+
+        //Debug.Log(horizontal);
+        //Debug.Log(vertical);
+        //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+        //Debug.Log(Input.GetAxis("Vertical") + "vert");
+    }
+
+    private void Update()
+    {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
     }
 
     public void ControlInput()
@@ -75,17 +99,9 @@ public class Crouch : PlayerVariables
         
         ApplyVelocityCutoff();
 
-
         moveSpeed = rb.velocity.magnitude / crouchMax;
         //temp fix until we have crouch idle
-        if(moveSpeed <= 0.1f)
-        {
-            anim.speed = 0;
-        }
-        else
-        {
-            anim.speed = 1;
-        }
+        
         anim.SetFloat("CrouchSpeed", moveSpeed);
     }
 
@@ -102,12 +118,13 @@ public class Crouch : PlayerVariables
         if(enteredScript && Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)) >= deadZone && player.rb.velocity.magnitude >= 0.2f)
         {
             LongJump();
-            Debug.Log("long jump");
+            //Debug.Log("long jump");
         }
         else
         {
+            anim.SetBool("HighJumpB", true);
             HighJump();
-            Debug.Log("high jump");
+            //Debug.Log("high jump");
         }
 
         //for jump bug fix

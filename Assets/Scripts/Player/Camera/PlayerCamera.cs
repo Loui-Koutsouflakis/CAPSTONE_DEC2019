@@ -73,7 +73,7 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("How quickly the camera switches between enclosed areas and open areas.")]
     float smooth = 5;
 
-    public enum CameraType { Orbit, SideScroll, Cinema }
+    public enum CameraType { Orbit, SideScroll, Cinema, Shake }
     [Header("CameraType")]
     [SerializeField]
     [Tooltip("Choose what type of camera the game is currently using.")]
@@ -104,6 +104,16 @@ public class PlayerCamera : MonoBehaviour
     float yaw;
     float pitch;
 
+    float time = 0;
+
+    #region CameraShake
+    public float magX;
+    public float mag;
+    public float dur;
+
+    public bool increasing = true;
+    #endregion
+
     void Start()
     {
         main = Camera.main;
@@ -124,19 +134,18 @@ public class PlayerCamera : MonoBehaviour
         distFromPlayer = UpDownCam(invY);
         camDist = CameraRaycast(distFromPlayer);
 
+        if (Input.GetKey(KeyCode.T))
+        {
+           CamType = CameraType.Shake;
+            // CamType = CameraType.Cinema;
+            time = 0;
+        }
+
         if (ShadowManager(Player))
             shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
 
         if (CamType == CameraType.Orbit)
         {
-            if (camReset && cameraResetTimer < cameraResetTime)
-                cameraResetTimer += 1 * Time.deltaTime;
-            if (cameraResetTimer >= cameraResetTime)
-                resetCamera(cameraResetSmoothing);
-            if (camWall)
-            {
-                wallTimer();
-            }
             if (Input.GetButtonDown("LeftBumper"))
             {
                 resetCamera(0.0f);
@@ -157,14 +166,6 @@ public class PlayerCamera : MonoBehaviour
             camWall = false;
             camWallTimer = 0;
         }
-    }
-
-    void wallTimer()
-    {
-        if (camWall && camWallTimer < camWallTime)
-            camWallTimer += 1 * Time.deltaTime;
-        if (camWallTimer >= camWallTime && Input.GetAxis("CamX") + Input.GetAxis("MouseX") == 0 && Input.GetAxis("CamY") + Input.GetAxis("MouseY") == 0)
-            resetCamera(1f);
     }
 
     float UpDownCam(bool x)
@@ -256,6 +257,7 @@ public class PlayerCamera : MonoBehaviour
     //Used for positioning camera for cinematics and while the player is playing ** ADD MORE CASES FOR MORE CAMERA LOCATIONS
     void CameraTypes(CameraType cam)
     {
+
         switch (cam)
         {
             case CameraType.Orbit:
@@ -265,7 +267,14 @@ public class PlayerCamera : MonoBehaviour
                 CamMovement2D(wallCamChoice);
                 break;
             case CameraType.Cinema:
-                transform.position = Vector3.SmoothDamp(transform.position, cameraOnePos.position, ref smoothingVelocity, smooth * Time.deltaTime);
+                TravelToCinematic(cameraOnePos, 3);
+                break;
+            case CameraType.Shake:
+                time += Time.deltaTime;
+                if (time < dur)
+                    CameraShake(magX, mag);
+                else                    
+                    CamType = CameraType.Orbit;
                 break;
         }
     }
@@ -293,16 +302,47 @@ public class PlayerCamera : MonoBehaviour
     void resetCamera(float x)
     {
         camReset = false;
-        if (currentRotation.y == 180)
-            currentRotation.y = -180;
-        if (currentRotation.y == -180)
-            currentRotation.y = 180;
         currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, x);
         transform.eulerAngles = currentRotation;
         pitch = currentRotation.x;
         yaw = currentRotation.y;
     }
 
+    void CameraShake(float x, float mag)
+    {
+        float y = -x;
+        if (currentRotation.z > x)
+            increasing = false;
+        else if (currentRotation.z < y)
+            increasing = true;
+        if (increasing)
+            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw, currentRotation.z += mag * Time.deltaTime), ref smoothingVelocity, rotationsmoothTime);
+        else
+            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw, currentRotation.z -= mag * Time.deltaTime), ref smoothingVelocity, rotationsmoothTime);
+
+
+        yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        YAxis = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
+        pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
+        pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
+        transform.eulerAngles = currentRotation;
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
+    }
+
+    //will switch this to travel along a path using an array
+    void TravelToCinematic(Transform camPos, float travelSpeed)
+    {
+        transform.position = Vector3.SmoothDamp(transform.position, camPos.position, ref smoothingVelocity, travelSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, camPos.rotation, travelSpeed * Time.deltaTime);
+        //int i = 0;
+        //foreach (var item in camPos)
+        //{
+        //    transform.position = Vector3.SmoothDamp(transform.position, camPos[i].position, ref smoothingVelocity, travelSpeed);
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, camPos[i].rotation, travelSpeed * Time.deltaTime);
+        //    if (transform.position == camPos[i].position)
+        //        i++;
+        //}
+    }
     #region  AreaChecks
     public bool isInCloseL()
     {
@@ -331,7 +371,7 @@ public class PlayerCamera : MonoBehaviour
     public bool isInCloseB()
     {
         Vector3 lineStart = Player.transform.position;
-        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y, lineStart.z - wallDist);
+        Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y- wallDist, lineStart.z );
         Debug.DrawLine(lineStart, vectorToSearch, Color.black);
         return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
     }

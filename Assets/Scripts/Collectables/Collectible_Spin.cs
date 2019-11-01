@@ -31,6 +31,8 @@ public class Collectible_Spin : MonoBehaviour
     bool movingUp;//used to switch direction of vertical movement
     Transform collectionPool;
     HudManager hud;
+    [SerializeField]
+    PlayerClass player;
     #endregion
     void Awake()
     {
@@ -38,6 +40,7 @@ public class Collectible_Spin : MonoBehaviour
         yStart = transform.position.y;
         //collectionPool = GameObject.FindGameObjectWithTag("CollectionPool").transform;
         hud = GameObject.FindObjectOfType<HudManager>();
+        player = FindObjectOfType<PlayerClass>();
     }
 
     // Update is called once per frame
@@ -52,6 +55,7 @@ public class Collectible_Spin : MonoBehaviour
         if (c.gameObject.layer == 14)
         {
             hud.ShardsUp();
+            player.SetShards(1);
             Destroy(this.gameObject);
         }
     }

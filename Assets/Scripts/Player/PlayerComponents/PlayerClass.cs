@@ -16,9 +16,6 @@ public enum MovementType
 
 public class PlayerClass : MonoBehaviour
 {
-    
-
-
     [Header("RigidBody")]
     [SerializeField]
     public Rigidbody rb;
@@ -35,7 +32,9 @@ public class PlayerClass : MonoBehaviour
 
     public LayerMask airMask;
 
- 
+
+    public HudManager h_Manager;
+
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
 
@@ -121,7 +120,57 @@ public class PlayerClass : MonoBehaviour
         health += healthChange;
     }
 
+    public int shards;
+    private int healthShards;
+
+    public int GetShards()
+    {
+        return shards;
+    }
+
+    public void SetShards(int value)
+    {
+        shards += value;
+        healthShards = shards;
+        if(healthShards >= 20 && health < 3)
+        {
+            SetHealth(1);
+            h_Manager.HealthUp();
+            healthShards = 0;
+        }
+        
+    }
+
+    private bool damagable;
+
+    public void SetDamagable(bool value)
+    {
+        damagable = value;
+    }
+
+    public bool GetDamagable()
+    {
+        return damagable;
+    }
+
+
     public Vector3 vel;
+
+    private bool controlsEnabled = true;
+
+    public bool GetControlsEnabled()
+    {
+        return controlsEnabled;
+    }
+
+    public void DisableControls()
+    {
+        controlsEnabled = false;
+    }
+    public void EnableControls()
+    {
+        controlsEnabled = true;
+    }
 
     bool crouching;
 
@@ -175,7 +224,7 @@ public class PlayerClass : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         SetGroundCheck(true);
-        Debug.Log("ground check stopped");
+        //Debug.Log("ground check stopped");
     }
 
 

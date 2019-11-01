@@ -15,8 +15,9 @@ private bool isToggled = false;
     //we can parent this to the player or have it as a seperate game object. Need to consider that the controls can be changed before a player
     //exists
     protected PlayerController playerController;
-    public float horizontal;
-    public float vertical;
+    protected PlayerClass playerClass;
+    protected float horizontal;
+    protected float vertical;
     #region XBox Controller
 
     public Command _AButton = new Command();
@@ -51,6 +52,7 @@ private bool isToggled = false;
     public void Awake()
     {
         playerController = GetComponentInParent<PlayerController>();
+        playerClass = GetComponentInParent<PlayerClass>();
     }
 
     private void InitializeDefaultControls()
@@ -82,53 +84,61 @@ private bool isToggled = false;
     private void Update()
     {
 
-        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+        if(playerClass.GetControlsEnabled())
+        {
+            horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+        
+            if (Input.GetButtonDown("AButton"))
+                _AButton.Execute(playerController);
 
-        if (Input.GetButtonDown("AButton"))
-            _AButton.Execute(playerController);
+            #region Left and Right Bumpers
+            if (Input.GetButtonDown("RightBumper"))
+                _RightBumperDown.Execute(playerController);
 
-        #region Left and Right Bumpers
-        if (Input.GetButtonDown("RightBumper"))
-            _RightBumperDown.Execute(playerController);
+            if (Input.GetButtonUp("RightBumper"))
+                _RightBumperUp.Execute(playerController);
 
-        if (Input.GetButtonUp("RightBumper"))
-            _RightBumperUp.Execute(playerController);
+            if (Input.GetButtonDown("LeftBumper"))//p for testing
+                _LeftBumperDown.Execute(playerController);
 
-        if (Input.GetButtonDown("LeftBumper"))//p for testing
-            _LeftBumperDown.Execute(playerController);
+            if (Input.GetButtonUp("LeftBumper"))
+                _LeftBumperUp.Execute(playerController);
+            #endregion
 
-        if (Input.GetButtonUp("LeftBumper"))
-            _LeftBumperUp.Execute(playerController);
-        #endregion
+            #region Left Trigger
+            float trigger = Input.GetAxisRaw("LeftTrigger");
 
-        #region Left Trigger
-        if (Input.GetAxisRaw("LeftTrigger") != 0)
-            if (!isToggled)
-            {
-                isToggled = true;
+            if (trigger >= 0.001f)
+                if (!isToggled)
+                {
+                    //Debug.Log("triggered" + trigger);
+                    isToggled = true;
+                    _LeftTriggerDown.Execute(playerController);
+                }
+            if (trigger < 0.001f)
+                if (isToggled)
+                {
+                        //Debug.Log(" not triggered" + trigger);
+                    isToggled = false;
+                    _LeftTriggerUp.Execute(playerController);
+                }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
                 _LeftTriggerDown.Execute(playerController);
-            }
-        if (Input.GetAxisRaw("LeftTrigger") == 0)
-            if (isToggled)
-            {
-                isToggled = false;
+            if (Input.GetKeyUp(KeyCode.LeftShift))
                 _LeftTriggerUp.Execute(playerController);
-            }
+            #endregion
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            _LeftTriggerDown.Execute(playerController);
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-            _LeftTriggerUp.Execute(playerController);
-        #endregion
+            #region Right Trigger
+            if (Input.GetAxis("RightTrigger") != 0)
+                _RightTrigger.Execute(playerController);
 
-        #region Right Trigger
-        if (Input.GetAxis("RightTrigger") != 0)
-            _RightTrigger.Execute(playerController);
+            if (Input.GetButtonDown("Back"))
+                _BackButton.Execute(playerController);
+            #endregion
 
-        if (Input.GetButtonDown("Back"))
-            _BackButton.Execute(playerController);
-        #endregion
+        }
 
         ////for debugging-- pause with p
         if (Input.GetKeyDown(KeyCode.Tab))

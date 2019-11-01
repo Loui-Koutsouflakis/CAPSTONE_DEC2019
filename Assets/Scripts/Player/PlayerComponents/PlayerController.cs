@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem pullParticle;
     ParticleSystem.EmissionModule pullParticleEmission;
 
+    [SerializeField]
+    SkinnedMeshRenderer[] lumiParts;
+    private int timesThrough =0;
 
 
     #region Enemy Stuff
@@ -53,15 +56,17 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         player.InitializePlayer();
+        player.SetDamagable(true);
         stateMachine = player.GetAnimator();
         tetherParticleEmission = tetherParticle.emission;
         tetherParticleEmission.enabled = false;
         pullParticleEmission = pullParticle.emission;
         pullParticleEmission.enabled = false;
 
-    }
+        lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
 
 
+    }   
 
     private void Start()
     {
@@ -75,11 +80,20 @@ public class PlayerController : MonoBehaviour
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
     }
 
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        StartCoroutine(DamageFlashOff());
+    //    }
+    //}
 
     public void ShowHud()
     {
         h_Manager.HudButtonDown();
     }
+
+    
 
     public void Jump()
     {
@@ -96,7 +110,7 @@ public class PlayerController : MonoBehaviour
             player.SetGrounded(false);
 
 
-            stateMachine.SetTrigger("Jump");
+            //stateMachine.SetTrigger("Jump");
             stateMachine.SetBool("Grounded", false);
 
             //Particle stuff from Tony
@@ -121,7 +135,7 @@ public class PlayerController : MonoBehaviour
             psRun.Stop();
             psJump.Stop();
             psJump.Play();
-            stateMachine.SetTrigger("Jump");
+            //stateMachine.SetTrigger("Jump");
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
@@ -157,8 +171,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Pull()
-    {
-        closestPullPoint.GetComponent<PullablePlatform>().MovePlatform();
+    {        
+        closestPullPoint.GetComponent<Interact>().InteractWithMe();
     }
 
 
@@ -192,8 +206,7 @@ public class PlayerController : MonoBehaviour
         //this would be the fall state, but since we don't yet have an air controller
         //player.SetMovementType("move");
     }
-
-
+    
     //man this is alot of jumping back and forth to do something simple lol
     public void Crouch()
     {
@@ -214,7 +227,10 @@ public class PlayerController : MonoBehaviour
 
     public void deCrouch()
     {
-        player.SetMovementType(MovementType.move);
+        if(player.playerCurrentMove == MovementType.crouch)
+        {
+            player.SetMovementType(MovementType.move);
+        }
         isCrouching = false;
         player.SetCrouching(isCrouching);
     }
@@ -232,9 +248,57 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == 10)//enemy layer
         {
             if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10)
-            player.SetHealth(-1);
+            {
+                if (player.GetDamagable())
+                {
+                    player.SetHealth(-1);
+                    h_Manager.HealthDown();
+                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3);
+                    StartCoroutine(DamageFlashOff());
+                    player.SetDamagable(false);
+                    if (player.GetHealth() <= 0)
+                    {
+                        //death animation
+                    }
+                }
+            }
+        }
+    }
+
+    IEnumerator DamageFlashOff()
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (SkinnedMeshRenderer skin in lumiParts)
+        {
+            skin.enabled = false;
+            //Vector4 color = skin.material.color;
+            //color = new Vector4(color.x, color.y, color.z, 0.5f);
+            //skin.material.color = color; 
         }
 
+        StartCoroutine(DamageFlashOn());
+    }
+
+    IEnumerator DamageFlashOn()
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (SkinnedMeshRenderer skin in lumiParts)
+        {
+            skin.enabled = true;
+            //Vector4 color = skin.material.color;
+            //color = new Vector4(color.x, color.y, color.z, 1.0f);
+            //skin.material.color = color;
+        }
+        timesThrough += 1;
+        if(timesThrough <= 5)
+        {
+            StartCoroutine(DamageFlashOff());
+        }
+        else
+        {
+            player.SetDamagable(true);
+            timesThrough = 0;
+        }
     }
 
     #region check ground functions
@@ -255,23 +319,37 @@ public class PlayerController : MonoBehaviour
                 {
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
-                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        if(footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
+                        {
+                            footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        }
                     }
+                    player.DisableControls();
+                    StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
                 }
 
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
-                    transform.parent = footHit.transform.parent;
+                    transform.parent = footHit.transform;
                     if(footHit.collider.GetComponent<Interact>() != null)
                     {
                         footHit.collider.GetComponent<Interact>().InteractWithMe();
                     }
                 }
+
                 if(footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
+                    player.GenericAddForce(transform.up, 5);
                 }
+
+                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                {
+                    footHit.collider.GetComponent<Interact>().InteractWithMe();                 
+                }
+
+
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.move);
@@ -298,23 +376,36 @@ public class PlayerController : MonoBehaviour
                 {
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
-                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
+                        {
+                            footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        }
                     }
+                    player.DisableControls();
+                    StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
                 }
 
                 if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
                 {
-                    transform.parent = footHit.transform.parent;
+                    transform.parent = footHit.transform;
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
                         footHit.collider.GetComponent<Interact>().InteractWithMe();
                     }
                 }
+
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
+                    player.GenericAddForce(transform.up, 5);
                 }
+
+                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                {
+                    footHit.collider.GetComponent<Interact>().InteractWithMe();
+                }
+
                 player.SetGrounded(true);
                 player.SetFlutter(true);
                 player.SetMovementType(MovementType.crouch);
@@ -337,6 +428,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    IEnumerator GroundPoundStop()
+    {
+        yield return new WaitForSeconds(1.1f);
+        player.EnableControls();
+    }
+
 
     //public bool isUnderWater()
     //{
@@ -579,14 +676,15 @@ public class PlayerController : MonoBehaviour
             {
                 closestPoint = null;
                 player.SetTetherPoint(null);
+                TurnOffParticle(true);
             }
 
             distancesToObjects.Clear();
             interactPoints.Clear();
 
         }
-        else
-            TurnOffParticle(true);
+        
+            
 
 
         if (pullableObjectsInSphere.Count > 0)
@@ -616,13 +714,14 @@ public class PlayerController : MonoBehaviour
             else
             {
                 closestPullPoint = null;
+                TurnOffParticle(false);
             }
 
             pullPoints.Clear();
             distanceToPullPoints.Clear();
         }
-        else
-            TurnOffParticle(false);
+        
+           
 
 
         //generic

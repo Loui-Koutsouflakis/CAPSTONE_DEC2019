@@ -30,24 +30,33 @@ public class PlayerAirMovement : PlayerVariables
     private bool wallDeadZone;
     public bool doubleJumpControl;
 
+    private bool wallRotate;
+
     private Vector3 wallNormal;
-
-
+   
     //rayCasts
     private RaycastHit faceHit;
+
+    private float horizontal;
+    private float vertical;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     private void OnEnable()
     {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
         //starts checking walls when ever the script is enabled
         StartCoroutine(WallWait());
         wallDeadZone = false;
-        doubleJumpControl = false; 
+        doubleJumpControl = false;
+        onWall = false;
+        wallRotate = false;
     }
 
     private void OnDisable()
@@ -61,7 +70,15 @@ public class PlayerAirMovement : PlayerVariables
             player.SetLongJump(false);
             player.SetDoubleJump(false);
             anim.SetFloat("YVelocity", 0);
-            //Debug.Log(rb.velocity);
+            anim.SetBool("GroundPound", false);
+            wallRotate = false;
+            //Debug.Log("script disabled");
+
+            //Debug.Log("onDisable");
+            //Debug.Log(horizontal);
+            //Debug.Log(vertical);
+            //Debug.Log(Input.GetAxis("VerticalJoy") + "joy");
+            //Debug.Log(Input.GetAxis("Vertical") + "vert");
         }
     }
     
@@ -69,9 +86,30 @@ public class PlayerAirMovement : PlayerVariables
     void FixedUpdate()
     {
         canFlutter = player.CanFlutter();
-        ControlInput();
+        if(player.GetControlsEnabled())
+        {
+            ControlInput();
+        }
+
+        if (wallRotate)
+        {
+            Debug.Log("rotating");
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, transform.right, 10 * Time.fixedDeltaTime, 0.0f));
+        }
     }
-           
+
+    private void Update()
+    {
+        horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+        
+    }
+
+    private void LateUpdate()
+    {
+        anim.SetBool("OnWall", onWall);
+    }
+
     private void ControlInput()
     {
 
@@ -89,7 +127,7 @@ public class PlayerAirMovement : PlayerVariables
             rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton"))
+        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton") && !player.GetHighJump() && !player.GetLongJump())
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -107,6 +145,12 @@ public class PlayerAirMovement : PlayerVariables
                     if (Vector3.Dot(forward, inputDir) < 0) // to prevent sticking to walls (and not slidining down) when input is in the direction of the wall
                     {
                         AirMovement();
+                    }
+                    
+                    player.transform.forward = -wallNormal;
+                    if(Mathf.Abs(horizontal) < deadZone && Mathf.Abs(vertical) < deadZone)
+                    {
+                        player.GenericAddForce(player.transform.forward, 0.5f);
                     }
                 }
                 else
@@ -147,8 +191,8 @@ public class PlayerAirMovement : PlayerVariables
         }
         else
         {
-            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
-            rb.AddForce(transform.forward * airForwardSpeed, ForceMode.Force);
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
+            rb.AddForce(player.transform.forward * airForwardSpeed, ForceMode.Force);
         }
     }
 
@@ -188,19 +232,22 @@ public class PlayerAirMovement : PlayerVariables
 
 
         if (onWall && Vector3.Dot(wallNormal, inputDir) > 0) //wall jump only if pressing away from the wall (as per brad's request) if we want when no dir is pressed add >=
-        {
+        {                   
+            anim.SetBool("WallJumpB", true);
+            
             //zero out velocity
             rb.velocity = Vector3.zero;
             // sets player looking away from wall (two ways to do it)         
-            player.transform.forward = wallNormal;
+            //player.transform.forward = wallNormal;
             //jump off the wall
-            rb.AddForce((transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            rb.AddForce((-player.transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            wallRotate = true;
 
             onWall = false;
             wallDeadZone = true;
             StartCoroutine(WallDeadZone());
             player.SetFlutter(true);
-            player.SetDoubleJump(false);
+            player.SetDoubleJump(false);            
         }
         else if (canFlutter)
         {
@@ -211,6 +258,8 @@ public class PlayerAirMovement : PlayerVariables
             rb.velocity = tempVelocity;
 
             anim.SetTrigger("DJump");
+
+            onWall = false;
 
             //to allow control for a brief period after double jump
             doubleJumpControl = true;
@@ -233,6 +282,23 @@ public class PlayerAirMovement : PlayerVariables
 
     public void GroundPound()
     {
+        Debug.Log("Start pound");
+        player.rb.isKinematic = true;
+        //player.rb.useGravity = false;
+        //player.rb.velocity = Vector3.zero;
+        StartCoroutine(GroundPoundFloat());
+        //player.rb.AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
+        
+        anim.SetBool("GroundPound", true);
+    }
+
+    IEnumerator GroundPoundFloat()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Debug.Log("start drop");
+        //Debug.Log("entered coroutine");
+        player.rb.isKinematic = false;
+        //player.rb.useGravity = true;
         player.rb.AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
     }
 
@@ -300,6 +366,8 @@ public class PlayerAirMovement : PlayerVariables
     {
         yield return new WaitForSeconds(0.3f);
         wallDeadZone = false;
+        wallRotate = false;
+        anim.SetBool("WallJumpB", false);
     }
 
     IEnumerator DoubleJumpControl()
