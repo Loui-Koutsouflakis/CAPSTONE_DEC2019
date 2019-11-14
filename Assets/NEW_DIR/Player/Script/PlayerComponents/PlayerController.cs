@@ -315,7 +315,7 @@ public class PlayerController : MonoBehaviour
     private readonly float groundCheckRate = 0.01f;
     private RaycastHit footHit;
 
-    public IEnumerator CheckGround()
+      public IEnumerator CheckGround()
     {        
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
@@ -324,6 +324,13 @@ public class PlayerController : MonoBehaviour
                 //GroundMe();
                 if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
                 {
+                    //to jump on enemies
+                    if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
+                    {
+                        StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
+                        if (!player.GetGroundPounding())//move this to the enemies side of things
+                            player.GenericAddForce(transform.up, 5);
+                    }
                     //for ground pounding checks
                     if (player.GetGroundPounding())
                     {
@@ -332,7 +339,7 @@ public class PlayerController : MonoBehaviour
                             if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
                             {
                                 footHit.collider.GetComponent<Interact>().InteractWithMe();
-                            }
+                            }            
                         }
                         player.DisableControls();
                         StartCoroutine(GroundPoundStop());
@@ -349,29 +356,20 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    //to jump on enemies
-                    if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
-                    {
-                        footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
-                        player.GenericAddForce(transform.up, 5);
-                    }
 
                     //to bounce off bouncy things
                     if(footHit.collider.gameObject.tag == "Bouncy")
                     {
-                        Vector3 tempV = player.rb.velocity;
-                        tempV.y = 0;
-                        player.rb.velocity = tempV;
                         //bounce higher if holding the jump button
                         if(Input.GetButton("AButton"))
                         {
-                            Debug.Log("jump");
-                            player.GenericAddForce(player.transform.up, 12);
+                            //Debug.Log("jump");
+                            player.GenericAddForce(player.transform.up, 15);
                         }
                         else
                         {
-                            Debug.Log("bounce");
-                            player.GenericAddForce(player.transform.up, 7);
+                            //Debug.Log("bounce");
+                            player.GenericAddForce(player.transform.up, 10);
                         }
                         player.SetBouncing(true);
                     }
