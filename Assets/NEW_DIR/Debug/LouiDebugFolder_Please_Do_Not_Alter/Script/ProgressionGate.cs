@@ -36,7 +36,7 @@ public class ProgressionGate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == playerTag)
+        if(other.gameObject.layer == 14)
         {
             if(HudManager.shardsCollected >= shardsNeeded && !open)
             {
@@ -64,7 +64,7 @@ public class ProgressionGate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!open && other.gameObject.tag == playerTag)
+        if (!open && other.gameObject.layer == 14)
         {
             showingShards = false;
 

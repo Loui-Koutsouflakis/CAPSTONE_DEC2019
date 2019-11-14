@@ -48,20 +48,20 @@ public class RollGolem : MonoBehaviour, IKillable
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            if (state == State.Vulnerable)
-            {
-                anim.SetTrigger("TakeDamage");
-                StopAllCoroutines();
-                StartCoroutine(CheckHit());
-            }
-            else if(state == State.SurfacingSpin)
-            {
-                StopAllCoroutines();
-                StartCoroutine(CheckHit());
-            }
-        }
+        //if(Input.GetKeyDown(KeyCode.T))
+        //{
+        //    if (state == State.Vulnerable)
+        //    {
+        //        anim.SetTrigger("TakeDamage");
+        //        StopAllCoroutines();
+        //        StartCoroutine(CheckHit());
+        //    }
+        //    else if(state == State.SurfacingSpin)
+        //    {
+        //        StopAllCoroutines();
+        //        StartCoroutine(CheckHit());
+        //    }
+        //}
     }
 
     void FixedUpdate()
@@ -330,7 +330,7 @@ public class RollGolem : MonoBehaviour, IKillable
         //}
     }
 
-    public IEnumerator CheckHit()
+    public IEnumerator CheckHit(bool x)
     {
         yield return new WaitForSeconds(0.01f);
 

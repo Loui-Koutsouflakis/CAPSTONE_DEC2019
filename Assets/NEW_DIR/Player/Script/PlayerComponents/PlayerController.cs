@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
+            anim.SetTrigger("GrappleJump");
             DetatchGrapple();
             player.GenericAddForce(transform.forward + transform.up, 3); //adds more force when jumping out of a swing
         }
@@ -178,19 +179,34 @@ public class PlayerController : MonoBehaviour
         }       
 
         player.isGrappling = true;
+        anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
+        
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
         playerIK.IK_Grapple();
     }
 
+    //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
+    //IEnumerator StartGrapple()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    player.ikGrapple = true;
+    //    playerIK.IK_Grapple();
+    //}
+
+    
+
     public void DetatchGrapple()
     {
+        anim.SetBool("Grapple", false);
+        
         player.GetGrappleComponent().DetatchGrapple();
         player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
-
+        
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
+        //player.ikGrapple = false;
     }
     
     //man this is alot of jumping back and forth to do something simple lol
@@ -316,7 +332,7 @@ public class PlayerController : MonoBehaviour
     private RaycastHit footHit;
 
     public IEnumerator CheckGround()
-    {        
+    {
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
@@ -324,6 +340,13 @@ public class PlayerController : MonoBehaviour
                 //GroundMe();
                 if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
                 {
+                    //to jump on enemies
+                    if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
+                    {
+                        StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
+                        if (!player.GetGroundPounding())//move this to the enemies side of things
+                            player.GenericAddForce(transform.up, 5);
+                    }
                     //for ground pounding checks
                     if (player.GetGroundPounding())
                     {
@@ -349,29 +372,20 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    //to jump on enemies
-                    if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
-                    {
-                        footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
-                        player.GenericAddForce(transform.up, 5);
-                    }
 
                     //to bounce off bouncy things
-                    if(footHit.collider.gameObject.tag == "Bouncy")
+                    if (footHit.collider.gameObject.tag == "Bouncy")
                     {
-                        Vector3 tempV = player.rb.velocity;
-                        tempV.y = 0;
-                        player.rb.velocity = tempV;
                         //bounce higher if holding the jump button
-                        if(Input.GetButton("AButton"))
+                        if (Input.GetButton("AButton"))
                         {
-                            Debug.Log("jump");
-                            player.GenericAddForce(player.transform.up, 12);
+                            //Debug.Log("jump");
+                            player.GenericAddForce(player.transform.up, 15);
                         }
                         else
                         {
-                            Debug.Log("bounce");
-                            player.GenericAddForce(player.transform.up, 7);
+                            //Debug.Log("bounce");
+                            player.GenericAddForce(player.transform.up, 10);
                         }
                         player.SetBouncing(true);
                     }
@@ -434,7 +448,7 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    
+
 
                 }
             }
@@ -446,7 +460,7 @@ public class PlayerController : MonoBehaviour
                 //    transform.parent = null;
                 //}
                 anim.SetBool("Grounded", false);
-                
+
                 //Debug.Log("not on ground");
                 if (player.playerCurrentMove == MovementType.grapple)
                 {
@@ -463,7 +477,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(groundCheckRate);
 
 
-        StartCoroutine(CheckGround());       
+        StartCoroutine(CheckGround());
     }
 
     //allows movement again after groundpouding
@@ -483,16 +497,16 @@ public class PlayerController : MonoBehaviour
             {
                 transform.parent = null;
             }
-        }        
+        }
         yield return new WaitForSecondsRealtime(0.6f);
-        
+
         StartCoroutine(PlatformCheck());
     }
     #endregion
 
     //Fall checks
     #region Fall Check
-    
+
     ///LUKE FALLING CHECK
     [SerializeField]
     bool isFalling;
