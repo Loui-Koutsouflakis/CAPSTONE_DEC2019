@@ -103,7 +103,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         }
     }
 
-    public IEnumerator CheckHit()
+    public IEnumerator CheckHit(bool x)
     {
         yield return 0;
     }
