@@ -37,6 +37,10 @@ public class SaveGameManager : MonoBehaviour
     int cameraInverted = 0;
     float cameraSensitivity;
     private PlayerCamera mainCamera;
+    int qualitySetting;
+    float cameraSmoothing;
+    float sliderButtonPostionX;
+    //
     
     private void Awake()
     {
@@ -53,7 +57,24 @@ public class SaveGameManager : MonoBehaviour
         //this script will need to run throughout the game
         DontDestroyOnLoad(gameObject);
 
-        cameraInverted = PlayerPrefs.GetInt("CameraInverted");
+        if(PlayerPrefs.GetInt("CameraInverted") != 0 && PlayerPrefs.GetInt("CameraInverted") != 1)
+        {
+            PlayerPrefs.SetInt("CameraInverted", 0);
+        }
+        else
+        {
+            cameraInverted = PlayerPrefs.GetInt("CameraInverted");
+        }
+
+        if (PlayerPrefs.GetFloat("CameraSmoothing") > -0.1)
+        {
+            cameraSmoothing = PlayerPrefs.GetFloat("CameraSmoothing");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("CameraSmoothing", 0.202f);
+        }
+        
         if(PlayerPrefs.GetFloat("CameraSensitivity") >= 1)
         {
             cameraSensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
@@ -63,6 +84,17 @@ public class SaveGameManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("CameraSensitivity", 1f);
         }
+
+        if(PlayerPrefs.GetInt("QualitySetting") > 0)
+        {
+            qualitySetting = PlayerPrefs.GetInt("QualitySetting");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("QualitySetting", 5);
+        }
+        SaveSettings();
+        LoadSettings();
     }
 
  
@@ -162,7 +194,7 @@ public class SaveGameManager : MonoBehaviour
         if (currentFile == 1)
         {
             //Checks if it has a key before it trys to load anything
-            if (PlayerPrefs.HasKey("CharacterPositionX_1"))
+            if (PlayerPrefs.HasKey("CheckpointPositionX_1"))
             {
                 float checkpointPositionX = PlayerPrefs.GetFloat("CheckpointPositionX_1");
                 float checkpointPositionY = PlayerPrefs.GetFloat("CheckpointPositionY_1");
@@ -181,7 +213,7 @@ public class SaveGameManager : MonoBehaviour
         if (currentFile == 2)
         {
             //Checks if it has a key before it trys to load anything
-            if (PlayerPrefs.HasKey("CharacterPositionX_2"))
+            if (PlayerPrefs.HasKey("CheckpointPositionX_2"))
             {
                 float checkpointPositionX = PlayerPrefs.GetFloat("CheckpointPositionX_2");
                 float checkpointPositionY = PlayerPrefs.GetFloat("CheckpointPositionY_2");
@@ -200,7 +232,7 @@ public class SaveGameManager : MonoBehaviour
         if (currentFile == 3)
         {
             //Checks if it has a key before it trys to load anything
-            if (PlayerPrefs.HasKey("CharacterPositionX_3"))
+            if (PlayerPrefs.HasKey("CheckpointPositionX_3"))
             {
                 float checkpointPositionX = PlayerPrefs.GetFloat("CheckpointPositionX_3");
                 float checkpointPositionY = PlayerPrefs.GetFloat("CheckpointPositionY_3");
@@ -220,29 +252,44 @@ public class SaveGameManager : MonoBehaviour
 
     public void SaveSettings()
     {
+        PlayerPrefs.SetInt("QualitySetting", qualitySetting);
         PlayerPrefs.SetInt("CameraInverted", cameraInverted);
         PlayerPrefs.SetFloat("CameraSensitivity", cameraSensitivity);
+        PlayerPrefs.SetFloat("CameraSmoothing", cameraSmoothing);
+      
 
+    }
+
+    public void SaveSliderPosition()
+    {
+        PlayerPrefs.SetFloat("SliderButtonPositionX", sliderButtonPostionX);
     }
 
     public void LoadSettings()
     {
-        if(PlayerPrefs.GetInt("CameraInverted") == 1)
+        if(mainCamera)
         {
-            mainCamera.invY = true;
-        }
-        else if(PlayerPrefs.GetInt("CameraInverted") == 0)
-        {
-            mainCamera.invY = false;
-        }
-        else
-        {
-            Debug.LogError("Camera Inverted Int Not set to either 1 or 0");
+            if(PlayerPrefs.GetInt("CameraInverted") == 1)
+            {
+                mainCamera.invY = true;
+            }
+            else if(PlayerPrefs.GetInt("CameraInverted") == 0)
+            {
+                mainCamera.invY = false;
+            }
+            else
+            {
+                Debug.LogError("Camera Inverted Int Not set to either 1 or 0");
+            }
+            mainCamera.sensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
+
+            mainCamera.rotationsmoothTime = PlayerPrefs.GetFloat("CameraSmoothing");
+
         }
 
-        Debug.Log(PlayerPrefs.GetInt("CameraInverted"));
 
-        mainCamera.sensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
+        QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualitySetting"), true);
+        
     }
 
     //Loads the scene from the saved scene in playerPrefs
@@ -265,7 +312,7 @@ public class SaveGameManager : MonoBehaviour
         }
 
         //Checks which file the scene should be loaded from
-        else if (currentFile == 2)
+        else if (currentFile == 3)
         {
             int savedSceneIndex = PlayerPrefs.GetInt("CurrentScene_2");
             SceneManager.LoadSceneAsync(savedSceneIndex);
@@ -448,5 +495,36 @@ public class SaveGameManager : MonoBehaviour
     public float getCameraInverted()
     {
         return PlayerPrefs.GetInt("CameraInverted");
+    }
+
+    public int GetQualitySetting()
+    {
+        return qualitySetting;
+    }
+
+    public void SetQualitySettings(int newQualitySetting)
+    {
+        qualitySetting = newQualitySetting;
+    }
+
+    public float GetCameraSmoothing()
+    {
+        return cameraSmoothing;
+    }
+
+    public void SetCameraSmoothing(float newSmoothingValue)
+    {
+        cameraSmoothing = newSmoothingValue;
+    }
+
+    public float GetSliderPosition()
+    {
+        return PlayerPrefs.GetFloat("SliderButtonPositionX"); ;
+    }
+
+    public void SetSliderPosition(float newPositionX)
+    {
+        sliderButtonPostionX = newPositionX;
+      
     }
 }
