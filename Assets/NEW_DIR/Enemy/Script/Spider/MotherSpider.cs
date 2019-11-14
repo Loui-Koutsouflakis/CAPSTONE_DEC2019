@@ -7,7 +7,6 @@ public class MotherSpider : MonoBehaviour, IKillable
 {
     #region variables
     public GameObject eggSackPrefab;
-    public Transform playerTransform;
     public Transform spinneret;
     public SpiderMotherAnimControls animController;
     public int hitPoints = 3;
@@ -16,6 +15,7 @@ public class MotherSpider : MonoBehaviour, IKillable
     public bool seesPlayer = false;
     public float meleeAttackRange = 5f;
 
+    private Transform playerTransform;
     private SpiderState currentState;
     private Vector3 locationSpawned;
     private Vector3 destination;
@@ -85,8 +85,11 @@ public class MotherSpider : MonoBehaviour, IKillable
                 break;
 
             case SpiderState.ChasePlayer:
-                if (navAgent.enabled == false) navAgent.enabled = true;
-                navAgent.SetDestination(playerTransform.position);
+                if (playerTransform != null)
+                {
+                    if (navAgent.enabled == false) navAgent.enabled = true;
+                    navAgent.SetDestination(playerTransform.position);
+                }
                 currentState = SpiderState.ChasePlayer;
 
                 break;

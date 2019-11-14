@@ -131,7 +131,7 @@ public class Spiderlings : MonoBehaviour, IKillable
 
         }
 
-        if (!stuckPlayer /*&& GetComponent<NavMeshAgent>().enabled*/)
+        if (!stuckPlayer && gameObject.activeSelf)
         {
             GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
             spiderlingAnimController.TrapPlayer(false);
