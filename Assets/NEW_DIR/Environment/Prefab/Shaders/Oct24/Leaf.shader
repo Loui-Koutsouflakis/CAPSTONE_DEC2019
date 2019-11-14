@@ -3,6 +3,7 @@
     Properties
     {
 		[Toggle] _UseVege("Vege Properties", Int) = 0
+		//==
 		_TopColor("Top Color", Color) = (1,1,1,1)
 		_BottomColor("Bottom Color", Color) = (1,1,1,1)
 		_GradThresh("Gradiant Threshold", Range(0,1)) = 0.5 //_TranslucentGain
@@ -19,14 +20,13 @@
 		_BladeWidthRandom("Random Width Variation", Range(0, 0.03)) = 0 // Random Variation
 
 		_WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
-		_WindDir("Wind Direction", Vector) = (0.05, 0.05, 0, 0)
+		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
 		_WindStrength("Wind Strength", Range(0.01, 1)) = 1
 
 		_TessellationUniform("Density", Range(1, 64)) = 1
-
 		//==
 		[Toggle] _UseToon("Toon Properties", Int) = 0
-
+		//==
 		_Color("Color", Color) = (1,1,1,1)
 
 		[HDR]
@@ -66,7 +66,7 @@
 	sampler2D _WindDistortionMap;
 	float4 _WindDistortionMap_ST;
 
-	float2 _WindDir;
+	float2 _WindFrequency;
 	float _WindStrength;
 
 	float4 _Color;
@@ -143,7 +143,7 @@
 		float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
 		float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BendRotationRandom * UNITY_PI * 0.5, float3(-1, 0, 0));
 
-		float2 uv = pos.xz * _WindDistortionMap_ST.xy + _WindDistortionMap_ST.zw + _WindDir * _Time.y; // Wind applied Here
+		float2 uv = pos.xz * _WindDistortionMap_ST.xy + _WindDistortionMap_ST.zw + _WindFrequency * _Time.y; // Wind applied Here
 		float2 windSample = (tex2Dlod(_WindDistortionMap, float4(uv, 0, 0)).xy * 2 - 1) * _WindStrength; // Put safety net there blades are still rendered if no wind
 		float3 wind = normalize(float3(windSample.x, windSample.y, 0));
 
