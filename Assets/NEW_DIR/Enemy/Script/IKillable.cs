@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IKillable
 {
-    IEnumerator CheckHit(bool x);
+    IEnumerator CheckHit();
 
     IEnumerator TakeDamage();
 
