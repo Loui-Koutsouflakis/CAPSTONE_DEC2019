@@ -149,6 +149,7 @@ public class PlayerClass : MonoBehaviour
         return attachedWebs;
     }
 
+    //public bool ikGrapple = false;
 
 
     //for when we get the friction from the surface we are on
