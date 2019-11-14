@@ -352,7 +352,7 @@ public class PlayerController : MonoBehaviour
                     //to jump on enemies
                     if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                     {
-                        footHit.collider.gameObject.GetComponent<IKillable>().CheckHit();
+                        footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(false); // added the false to make it work with updated Ikillable - Lilly
                         player.GenericAddForce(transform.up, 5);
                     }
 

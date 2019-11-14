@@ -54,12 +54,12 @@ public class RollGolem : MonoBehaviour, IKillable
             {
                 anim.SetTrigger("TakeDamage");
                 StopAllCoroutines();
-                StartCoroutine(CheckHit());
+                StartCoroutine(CheckHit(false)); // added by lilly to make it work with updated Ikillable
             }
             else if(state == State.SurfacingSpin)
             {
                 StopAllCoroutines();
-                StartCoroutine(CheckHit());
+                StartCoroutine(CheckHit(false)); // added by lilly to make it work with updated Ikillable
             }
         }
     }
@@ -330,7 +330,7 @@ public class RollGolem : MonoBehaviour, IKillable
         //}
     }
 
-    public IEnumerator CheckHit()
+    public IEnumerator CheckHit(bool x) // added bool to Ikillable by lilly to make it work with updated Ikillable
     {
         yield return new WaitForSeconds(0.01f);
 
