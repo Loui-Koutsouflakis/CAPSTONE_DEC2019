@@ -305,10 +305,10 @@ public class CPC_CameraPathInspector : Editor
         GUI.enabled = Application.isPlaying;
         GUILayout.BeginVertical("Box");
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button(testButtonContent))
-        {
-            t.PlayPath(time);
-        }
+        //if (GUILayout.Button(testButtonContent))
+        //{
+        //    t.PlayPath(time);
+        //}
 
         if (!t.IsPaused())
         {
@@ -323,10 +323,10 @@ public class CPC_CameraPathInspector : Editor
             t.ResumePath();
         }
 
-        if (GUILayout.Button(stopButtonContent))
-        {
-            t.StopPath();
-        }
+        //if (GUILayout.Button(stopButtonContent))
+        //{
+        //    t.StopPath();
+        //}
         GUI.enabled = true;
         EditorGUI.BeginChangeCheck();
         GUILayout.Label("Time (seconds)");
