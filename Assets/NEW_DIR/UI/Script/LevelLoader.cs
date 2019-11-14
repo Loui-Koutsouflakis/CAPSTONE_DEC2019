@@ -14,7 +14,6 @@ public class LevelLoader : MonoBehaviour {
     public void LoadLevel(int LevelIndex)
     {
         StartCoroutine(LoadAsynchronously(LevelIndex));
-        
     }
 
     //Where the funtcionality for loading/loadingScreen is
