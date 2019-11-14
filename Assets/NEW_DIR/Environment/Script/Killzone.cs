@@ -14,7 +14,7 @@ public class Killzone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == 14)
         {
             playerScript.gameObject.transform.position = spawnPoint;
             playerScript.rb.velocity = Vector3.zero;
