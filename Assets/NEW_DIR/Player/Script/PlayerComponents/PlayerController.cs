@@ -40,7 +40,11 @@ public class PlayerController : MonoBehaviour
     SkinnedMeshRenderer[] lumiParts;
     private int timesThrough = 0;
 
-    private RayCast_IK playerIK; 
+    private RayCast_IK playerIK;
+
+    //for testing parenting on boss level only
+    public bool bossLevel = false;
+
 
     #region Enemy Stuff
     public int spiderWebs = 0;
@@ -447,9 +451,6 @@ public class PlayerController : MonoBehaviour
                             jumpParticleIsPlaying = true;
                         }
                     }
-
-
-
                 }
             }
             else
@@ -493,7 +494,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
         {
-            if (transform.parent != null)
+            if (transform.parent != null & !bossLevel)
             {
                 transform.parent = null;
             }
