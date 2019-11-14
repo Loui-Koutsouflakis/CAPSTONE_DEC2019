@@ -33,7 +33,7 @@ public class PlayerVariables : MonoBehaviour
     public float wallJumpHorizontal = 5;
     public float testAirMax = 6f;
     public float doubleJumpMax = 4f;
-    public float longJumpMax = 50;
+    public float longJumpMax = 20;
     public float highJumpAirMax = 1;
 
     [Header("Crouch Movement")]
@@ -41,7 +41,7 @@ public class PlayerVariables : MonoBehaviour
     public float crouchMax = 6;
     public float crouchRotateSpeed = 120;
     public float longJumpUpForce = 4.8f; // upwards force.
-    public float longJumpForwardForce = 12; // forward force.
+    public float longJumpForwardForce = 9; // forward force.
     public float highJumpForce = 7.9f; // crouch jump upwards force.
 
     [Header("Grapple Movement")]

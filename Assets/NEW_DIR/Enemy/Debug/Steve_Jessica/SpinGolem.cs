@@ -123,7 +123,7 @@ public class SpinGolem : MonoBehaviour, IKillable
         isStepping = false;
     }
 
-    public IEnumerator CheckHit()
+    public IEnumerator CheckHit(bool x)
     {
         yield return new WaitForSeconds(0.1f);
         if (!hitByPlayer)
