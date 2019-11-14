@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
+            anim.SetTrigger("GrappleJump");
             DetatchGrapple();
             player.GenericAddForce(transform.forward + transform.up, 3); //adds more force when jumping out of a swing
         }
@@ -178,19 +179,34 @@ public class PlayerController : MonoBehaviour
         }       
 
         player.isGrappling = true;
+        anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
+        
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
         playerIK.IK_Grapple();
     }
 
+    //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
+    //IEnumerator StartGrapple()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    player.ikGrapple = true;
+    //    playerIK.IK_Grapple();
+    //}
+
+    
+
     public void DetatchGrapple()
     {
+        anim.SetBool("Grapple", false);
+        
         player.GetGrappleComponent().DetatchGrapple();
         player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
-
+        
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
+        //player.ikGrapple = false;
     }
     
     //man this is alot of jumping back and forth to do something simple lol
