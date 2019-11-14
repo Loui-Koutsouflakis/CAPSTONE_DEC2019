@@ -2,7 +2,7 @@ Shader "Capstone2019/Grass"
 {
     Properties
     {
-		[Toggle] _UseVege("Blade Properties", Int) = 0
+		[Toggle] _UseVege("Vege Properties", Int) = 0
 		//==
 		_TopColor("Top Color", Color) = (1,1,1,1)
 		_BottomColor("Bottom Color", Color) = (1,1,1,1)
@@ -20,7 +20,7 @@ Shader "Capstone2019/Grass"
 		_BladeWidthRandom("Random Width Variation", Range(0, 0.03)) = 0 // Random Variation
 
 		_WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
-		_WindFrequency("Wind Direction", Vector) = (0.05, 0.05, 0, 0)
+		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
 		_WindStrength("Wind Strength", Range(0.01, 1)) = 1
 
 		_TessellationUniform("Density", Range(1, 64)) = 1
