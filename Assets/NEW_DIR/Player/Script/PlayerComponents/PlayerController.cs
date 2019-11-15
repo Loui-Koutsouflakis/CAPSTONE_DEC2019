@@ -12,7 +12,11 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerClass player;
 
-    private HudManager h_Manager;        
+    private HudManager h_Manager;
+    public TransitionManager t_Manager;
+    public Transform teleportPsParent;
+    public ParticleSystem[] teleport;
+
     private Animator anim;
        
     public LayerMask p_Layer = 1 << 9;
@@ -285,6 +289,33 @@ public class PlayerController : MonoBehaviour
                         //death animation
                     }
                 }
+            }
+            else if (collision.gameObject.name == "TeleportNext")
+            {
+
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+
+                teleportPsParent.position = transform.position;
+
+                foreach (ParticleSystem ps in teleport)
+                {
+                    ps.Play();
+                }
+
+                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
+            }
+            else if (collision.gameObject.name == "TeleportPrev")
+            {
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
+
+                teleportPsParent.position = transform.position;
+
+                foreach (ParticleSystem ps in teleport)
+                {
+                    ps.Play();
+                }
+
+                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
             }
         }
     }
