@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
     [Range(1, 10)]
     public float sensitivity = 2.5f;
     float r_Sensitivity = 2.5f;
-    float r_RotationSmoothTime = 0.202f;
+    float r_RotationSmoothTime = 0.102f;
     [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
     [Range(0, 1)]
     public float rotationsmoothTime = 0.202f;
@@ -56,7 +56,7 @@ public class PlayerCamera : MonoBehaviour
     RaycastHit hit;
     RaycastHit wall;
     RaycastHit s_Ground;
-    float wallDist = 5;
+    float wallDist = 3;
     float wallCheckSmoothing = 20;
     bool enclosed = false;
     float cameraOffsetX = .2f;
@@ -173,7 +173,10 @@ public class PlayerCamera : MonoBehaviour
             // CamType = CameraType.Cinema;
             time = 0;
         }
-
+        if (enclosed)
+            r_Sensitivity = 0;
+        else
+            r_Sensitivity = 2.5f;
         //if (ShadowManager(Player))
         //    shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
 

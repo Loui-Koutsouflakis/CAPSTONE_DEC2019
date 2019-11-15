@@ -6,12 +6,13 @@ using UnityEngine;
 public class CameraPaths : MonoBehaviour
 {
     PlayerClass player;
+    public bool playOnStart = false;
     public bool active = false;
     public CPC_CameraPath path;
     public CPC_CameraPath[] paths;
     public float time = 10;
     public float stayTime;
-
+    bool hasPlayed = false;
     [Header("If the object is collection based")]
     [Tooltip("Crystal threshold")]
     public float c_Threshold;
@@ -27,6 +28,10 @@ public class CameraPaths : MonoBehaviour
         paths = FindObjectsOfType<CPC_CameraPath>();
         if (anims == null)
             Debug.Log("No big deal");
+        else
+            anims.Stop();
+        if (playOnStart)
+            active = true;
     }
 
     // Update is called once per frame
@@ -39,19 +44,40 @@ public class CameraPaths : MonoBehaviour
                 item.gameObject.SetActive(false);
             }
             path.gameObject.SetActive(true);
+            if (playOnStart)
+            {
+                if (anims != null)
+                    anims.Play();
+            }
             StartCoroutine(goTime());
         }
 
-        if (Vector3.Distance(player.gameObject.transform.position, transform.position) < 1 && this.gameObject.tag == "Obelisk")
-            if (Vector3.Distance(player.gameObject.transform.position, transform.position) < .2f)
+        //if (Vector3.Distance(player.gameObject.transform.position, transform.position) < 1f)
+        //{
+        //    if (player.GetShards() >= c_Threshold)
+        //    {
+        //        active = true;
+        //        if (anims != null)
+        //            anims.Play();
+        //    }
+        //}
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 14)
+        {
+            if (!hasPlayed)
             {
                 if (player.GetShards() >= c_Threshold)
                 {
                     active = true;
+                    hasPlayed = true;
                     if (anims != null)
                         anims.Play();
                 }
             }
+        }
     }
 
     IEnumerator goTime()
