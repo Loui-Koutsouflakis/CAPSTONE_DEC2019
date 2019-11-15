@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4786118699980226}
   - component: {fileID: 20539314722032298}
+  - component: {fileID: 4777716178381853034}
   - component: {fileID: 81983118311495474}
-  - component: {fileID: 1589051805634867346}
   - component: {fileID: 726697623}
   - component: {fileID: 726697624}
   m_Layer: 8
@@ -79,15 +79,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &81983118311495474
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122254834441266}
-  m_Enabled: 1
---- !u!114 &1589051805634867346
+--- !u!114 &4777716178381853034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,23 +88,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1122254834441266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 683538cd08fb70742928cf8036e7b90d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3146b6f80e04ec648ac4b70066710daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lockCursor: 0
   invY: 0
-  Player: {fileID: 0}
-  shadow: {fileID: 0}
-  main: {fileID: 20539314722032298}
-  aimer: {fileID: 0}
   sensitivity: 2.5
   rotationsmoothTime: 0.202
+  currentRotation: {x: 0, y: 0, z: 0}
+  dragonOffsetX: 0
+  dragonOffsetY: 0
+  dragonCamDist: 0
+  dragonPitch: 0
+  dragonRotationSmoothTime: 0
   CamType: 0
   DistIn2D: 5
   wallCamChoice: 0
   cameraOnePos: {fileID: 0}
   cameraTwoPos: {fileID: 0}
-  currentRotation: {x: 0, y: 0, z: 0}
+  s_Distance: 0
+  s_Magnitude: 0
+  s_Duration: 0
+  increasing: 1
+--- !u!81 &81983118311495474
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122254834441266}
+  m_Enabled: 1
 --- !u!114 &726697623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: df876905c80d0ea48bbf38e3c9c0cc0d, type: 2}
+  sharedProfile: {fileID: 0}
   isGlobal: 1
   blendDistance: 0
   weight: 1
