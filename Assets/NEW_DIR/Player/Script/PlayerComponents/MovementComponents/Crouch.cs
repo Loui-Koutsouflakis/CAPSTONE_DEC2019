@@ -102,6 +102,11 @@ public class Crouch : PlayerVariables
             //Debug.Log("high jump");
         }
 
+        if (player.transform.parent != null && !GetComponentInParent<PlayerController>().bossLevel)
+        {
+            player.transform.parent = null;
+        }
+
         //for jump bug fix
         player.SetGroundCheck(false);
         player.StartCoroutine(player.GroundCheckStop());

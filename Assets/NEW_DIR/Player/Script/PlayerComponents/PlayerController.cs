@@ -380,8 +380,9 @@ public class PlayerController : MonoBehaviour
                     if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                     {
                         StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                        if (!player.GetGroundPounding())//move this to the enemies side of things
-                            player.GenericAddForce(transform.up, 5);
+                        Debug.Log("Hitting Spider");
+                        //if (!player.GetGroundPounding())//move this to the enemies side of things
+                        //    player.GenericAddForce(transform.up, 5);
                     }
                     //for ground pounding checks
                     if (player.GetGroundPounding())

@@ -135,8 +135,8 @@ public class PlayerGroundMovement : PlayerVariables
         rb.velocity /= 2;
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-       
-        if (player.transform.parent != null)
+
+        if (player.transform.parent != null && !GetComponentInParent<PlayerController>().bossLevel)
         {
             player.transform.parent = null;
         }

@@ -187,6 +187,7 @@ public class Spiderlings : MonoBehaviour, IKillable
 
     public IEnumerator CheckHit(bool x)
     {
+        Debug.Log("this is working");
         if(x) StartCoroutine(Die());
         else StartCoroutine(TakeDamage());
         yield return 0;
