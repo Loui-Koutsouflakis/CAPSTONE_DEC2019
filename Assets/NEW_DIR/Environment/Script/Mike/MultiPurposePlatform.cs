@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Mike's Scripts/MultiPurposePlatform", 17)]
-
+//[ExecuteInEditMode]
 public class MultiPurposePlatform : MonoBehaviour
 {
     //Platform Types
@@ -43,7 +43,6 @@ public class MultiPurposePlatform : MonoBehaviour
 
     // Movement variables   
     Vector3 startPosition;//Return Point for linear movement
-    [SerializeField]
     Vector3 desiredPosition;//Final Destination for linear movement
     Vector3 target;//Target Destination for linear movement 
     Vector3 desiredAxis;// Holds Chosen Axis Of Spin
@@ -254,18 +253,18 @@ public class MultiPurposePlatform : MonoBehaviour
         switch (type)
         {
             case PlatformType.Linear:                               
-                transform.position = startPosition;
                 desiredPosition.Set(transform.position.x + xDistance, transform.position.y + yDistance, transform.position.z + zDistance);
+                transform.position = startPosition;
                 numeratorOfMovement = 0.0f;
                 break;
             case PlatformType.Radial:                              
-                transform.position = startPosition;
                 desiredPosition.Set(transform.position.x + xDistance, transform.position.y + yDistance, transform.position.z + zDistance);
+                transform.position = startPosition;
                 numeratorOfMovement = 0.0f;
                 break;
             case PlatformType.Spinning:
-                transform.position = startPosition;
                 desiredPosition.Set(startPosition.x + xDistance, startPosition.y + yDistance, startPosition.z + zDistance);
+                transform.position = startPosition;
                 numeratorOfMovement = 0.0f;
                 break;
         }
