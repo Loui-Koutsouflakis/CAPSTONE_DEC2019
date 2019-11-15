@@ -63,6 +63,10 @@ public class CameraPaths : MonoBehaviour
         //}
     }
 
+    public void StartMeUp()
+    {
+        active = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 14)

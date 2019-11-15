@@ -287,6 +287,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        
     }
 
     //damage flash on/off are repeating coroutines that turn off/on mesh
