@@ -318,6 +318,7 @@ public class PlayerController : MonoBehaviour
                 gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
             }
         }
+        
     }
 
     //damage flash on/off are repeating coroutines that turn off/on mesh

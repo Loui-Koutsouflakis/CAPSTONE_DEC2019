@@ -95,7 +95,7 @@ public class ControlsNavigationManager : UIManager
         currentCameraSmoothingValue = saveGameManager.GetCameraSmoothing();
 
 
-        if(saveGameManager.getCameraInverted() == 0)
+        if (saveGameManager.getCameraInverted() == 0)
         {
             invertButton1.SetActive(false);
             invertButton2.SetActive(false);
@@ -106,18 +106,18 @@ public class ControlsNavigationManager : UIManager
             invertButton2.SetActive(true);
         }
 
-        
+
 
         verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
         if (canInteractWithButtons)
         {
-            if(currentCameraSmoothingValue < 0.202)
+            if (currentCameraSmoothingValue < 0.202)
             {
                 cameraSmoothingButton = 2;
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
             }
-            else if(currentCameraSmoothingValue < 0.609)
+            else if (currentCameraSmoothingValue < 0.609)
             {
                 cameraSmoothingButton = 3;
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
@@ -128,21 +128,109 @@ public class ControlsNavigationManager : UIManager
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
             }
 
-            
+
 
 
             for (int i = 0; i < MenuItems.Length; i++)
             {
 
-                if(selected == 1)
+                if (selected == 2)
                 {
-                    if(horizontalInput > 0.1)
+                    if (horizontalInput > 0.9f && recieveInput == true && canInteractWithButtons)
                     {
-                        
+                        StartCoroutine("InputBufferAdd");
+                    }
+                    else if (verticalInput > 0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 1;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                        StartCoroutine(TraversalDelay(0.3f));
+                    }
+                    else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 5;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                    }
+
+                }
+
+                if (selected == 4)
+                {
+                    if (horizontalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        StartCoroutine("InputBufferSubract");
+                    }
+                    else if (verticalInput > 0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 1;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                        StartCoroutine(TraversalDelay(0.3f));
+                    }
+                    else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 5;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                    }
+
+                }
+
+                if (selected == 3)
+                {
+                    if (horizontalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        StartCoroutine("InputBufferSubract");
+                    }
+                    else if (horizontalInput > 0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        StartCoroutine("InputBufferAdd");
+                    }
+                    else if (verticalInput > 0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 1;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                        StartCoroutine(TraversalDelay(0.3f));
+                    }
+                    else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    {
+                        selected = 5;
+                        if (GameObject.FindGameObjectWithTag("AudioManager"))
+                        {
+                            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
+                            audioManager.PlaySound("Navigate");
+                        }
+                    }
+
+                }
+
+                if (selected == 1)
+                {
+                    if (horizontalInput > 0.1)
+                    {
+
                         IncreaseSlider();
                         CalculateSensitivityValue();
                     }
-                    else if(horizontalInput < -0.1)
+                    else if (horizontalInput < -0.1)
                     {
                         DecreaseSlider();
                         CalculateSensitivityValue();
@@ -165,7 +253,7 @@ public class ControlsNavigationManager : UIManager
 
                     //buttons[i].Name();
                 }
-                else if(selected != i && i != cameraSmoothingButton)
+                else if (selected != i && i != cameraSmoothingButton)
                 {
                     MenuItems[i].gameObject.GetComponent<Renderer>().material = whenNotSelected;
                     //buttons[i].selected = false;
@@ -222,7 +310,7 @@ public class ControlsNavigationManager : UIManager
     private IEnumerator SliderButtonEnable(float delay)
     {
 
-        
+
         yield return new WaitForSeconds(delay);
         sliderButton.SetActive(true);
 
@@ -254,9 +342,9 @@ public class ControlsNavigationManager : UIManager
 
     void IncreaseSlider()
     {
-        if(sliderButton.transform.position.x <= sliderMax.position.x)
+        if (sliderButton.transform.position.x <= sliderMax.position.x)
         {
-            sliderButton.transform.position += new Vector3(horizontalInput * rateOfSlider , 0,0 ) * Time.deltaTime;
+            sliderButton.transform.position += new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
         }
     }
 
@@ -274,7 +362,7 @@ public class ControlsNavigationManager : UIManager
         currentValueForSlider = -sliderMin.position.x + sliderButton.transform.position.x;
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
         sensitivity = sliderPercentDecimal * 10;
-        if(sensitivity < 1)
+        if (sensitivity < 1)
         {
             sensitivity = 1;
         }
@@ -282,6 +370,16 @@ public class ControlsNavigationManager : UIManager
         saveGameManager.SaveSettings();
         saveGameManager.SetSliderPosition(sliderButton.transform.position.x);
         saveGameManager.SaveSliderPosition();
+
+    }
+
+
+    private IEnumerator TraversalDelay(float delay)
+    {
+
+        canInteractWithButtons = false;
+        yield return new WaitForSeconds(delay);
+        canInteractWithButtons = true;
 
     }
 
