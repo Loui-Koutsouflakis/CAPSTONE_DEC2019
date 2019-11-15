@@ -10,6 +10,7 @@ public class CameraPaths : MonoBehaviour
     public CPC_CameraPath path;
     public CPC_CameraPath[] paths;
     public float time = 10;
+    public float stayTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +41,6 @@ public class CameraPaths : MonoBehaviour
     {
         active = false;
         yield return new WaitForEndOfFrame();
-        path.PlayPath(time);
+        path.PlayPath(time,stayTime);
     }
 }

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public bool GameIsPaused;
 
-    bool IsDead = false;
+    //bool IsDead = false;
 
     public GameObject pauseMenuUI;
 
@@ -24,18 +24,24 @@ public class GameManager : MonoBehaviour
 
     private MainMenuAudioManager audioManager;
 
-    public Button[] pauseMenuButtons;
-    [SerializeField]
-    int selected = 0;
+    public Animator pauseAnimController;
 
-    public float delay;
-    public float navigationDelay;
-    
-    float timeSincePaused;
-    
-    float verticalInput;
+    private PauseMenuNavigationManager pauseNavigationManager;
 
-    bool recieveInput;
+    public GameObject pauseCamera;
+
+   // public Button[] pauseMenuButtons;
+    
+   // int selected = 0;
+
+    //public float delay;
+    //public float navigationDelay;
+    
+   // float timeSincePaused;
+    
+   // float verticalInput;
+
+   // bool recieveInput;
 
 
 
@@ -67,30 +73,30 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
     }
 
-    void UpdateSelected(int number)
-    {
-        if(number > 0)
-        { 
-        if (selected < pauseMenuButtons.Length)
-            selected++;
-        else
-            selected = 0;
-        }
+    //void UpdateSelected(int number)
+    //{
+    //    if(number > 0)
+    //    { 
+    //    if (selected < pauseMenuButtons.Length)
+    //        selected++;
+    //    else
+    //        selected = 0;
+    //    }
 
-        else
-        { 
-             if (selected > 0)
-            selected--;
-        else
-            selected = 0;
-        }
-    }
+    //    else
+    //    { 
+    //         if (selected > 0)
+    //        selected--;
+    //    else
+    //        selected = 0;
+    //    }
+    //}
 
     // Update is called once per frame
     void Update()
     {
         
-        ChangeQuality();
+        //ChangeQuality();
 
         //LoseHealth();
 
@@ -109,50 +115,59 @@ public class GameManager : MonoBehaviour
         //{
         //    Quit();
         //}
+
         //Unpauses the game
-        if(GameIsPaused)
-        {
-            pauseMenuButtons[selected].Select();
-            verticalInput = 0;
-            verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical") * 1000;
+        //if(GameIsPaused)
+        //{
+        //    pauseMenuButtons[selected].Select();
+        //    verticalInput = 0;
+        //    verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical") * 1000;
 
           
 
-            if (verticalInput < -0.9f && selected < pauseMenuButtons.Length - 1 && recieveInput)
-            {
-                Debug.Log("Error");
-                UpdateSelected(1);
+        //    if (verticalInput < -0.9f && selected < pauseMenuButtons.Length - 1 && recieveInput)
+        //    {
+        //        Debug.Log("Error");
+        //        UpdateSelected(1);
 
-                StartCoroutine(InputBufferAdd());
-            }
-            else if (verticalInput > 0.9f && selected > 0 && recieveInput)
-            {
-                Debug.Log("Error");
-                UpdateSelected(-1);
+        //        StartCoroutine(InputBufferAdd());
+        //    }
+        //    else if (verticalInput > 0.9f && selected > 0 && recieveInput)
+        //    {
+        //        Debug.Log("Error");
+        //        UpdateSelected(-1);
 
-                StartCoroutine(InputBufferSubtract());
+        //        StartCoroutine(InputBufferSubtract());
 
-            }
+        //    }
 
-            if (Input.GetButtonDown("AButton"))
-            {
-                pauseMenuButtons[selected].onClick.Invoke();
-            }
-        }
+        //    if (Input.GetButtonDown("AButton"))
+        //    {
+        //        pauseMenuButtons[selected].onClick.Invoke();
+        //    }
+        //}
 
         if (Input.GetKeyDown(KeyCode.P) && GameIsPaused || Input.GetButtonDown("Start") && GameIsPaused)
         {
+            
             if (GameObject.FindGameObjectWithTag("AudioManager"))
             {
                 audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
                 audioManager.PlaySound("UnPause");
                 
             }
-            Resume();
+
+            StartCoroutine(PauseMenuAnimDelay());
+            if(GameObject.FindObjectOfType<PauseMenuNavigationManager>())
+            {
+                pauseNavigationManager = GameObject.FindObjectOfType<PauseMenuNavigationManager>().GetComponent<PauseMenuNavigationManager>();
+                pauseNavigationManager.SetSelected(0);
+            }
         }
         //Pauses the Game
         else if (Input.GetKeyDown(KeyCode.P) && !GameIsPaused || Input.GetButtonDown("Start") && !GameIsPaused)
         {
+            pauseCamera.SetActive(true);
             if (GameObject.FindGameObjectWithTag("AudioManager"))
             {
                 audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
@@ -180,6 +195,7 @@ public class GameManager : MonoBehaviour
     //Placeholder for quitting the application 
     public void Quit()
     {
+        Time.timeScale = 1;
         Debug.Log("Game is Quitting...");
         Application.Quit();
 
@@ -187,29 +203,29 @@ public class GameManager : MonoBehaviour
 
 
     //simply changes the quality based on unitys standerds of Low, Medium and High quality
-    public void ChangeQuality()
-    {
-        switch (Input.inputString)
-        {
-            case "1":
-                QualitySettings.SetQualityLevel(0, true);
-                Debug.Log("Quality set to Low");
-                break;
+    //public void ChangeQuality()
+    //{
+    //    switch (Input.inputString)
+    //    {
+    //        case "1":
+    //            QualitySettings.SetQualityLevel(0, true);
+    //            Debug.Log("Quality set to Low");
+    //            break;
 
 
-            case "2":
-                QualitySettings.SetQualityLevel(2, true);
-                Debug.Log("Quality set to Medium");
-                break;
+    //        case "2":
+    //            QualitySettings.SetQualityLevel(2, true);
+    //            Debug.Log("Quality set to Medium");
+    //            break;
 
-            case "3":
-                QualitySettings.SetQualityLevel(3, true);
-                Debug.Log("Quality set to High");
-                break;
+    //        case "3":
+    //            QualitySettings.SetQualityLevel(3, true);
+    //            Debug.Log("Quality set to High");
+    //            break;
 
 
-        }
-    }
+    //    }
+    //}
 
     //Controls the muting of sound in the scene
     //public void MuteSound()
@@ -235,9 +251,9 @@ public class GameManager : MonoBehaviour
         player.paused = true;
         Time.timeScale = 0.0001f;
         GameIsPaused = true;
-        timeSincePaused = 0;
-        recieveInput = true;
-        selected = 0;
+        //timeSincePaused = 0;
+        //recieveInput = true;
+        //selected = 0;
 
     }
     //Resumes timescale and dissables the Pause menu
@@ -247,18 +263,18 @@ public class GameManager : MonoBehaviour
         //UIElements.SetActive(true);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        
-        StartCoroutine(InputDelay(delay));
+        player.paused = false;
+
     }
 
     //Placeholder way for me to test health loss
-    public void LoseHealth()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            PlayerHealth--;
-        }
-    }
+    //public void LoseHealth()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.X))
+    //    {
+    //        PlayerHealth--;
+    //    }
+    //}
 
     //Controlls the number of hearts on screen based on player health
     //public void HealthBar()
@@ -296,7 +312,7 @@ public class GameManager : MonoBehaviour
     public void Death()
     {
         Debug.Log("You Died");
-        Time.timeScale = 1f;
+        Time.timeScale = 0.0001f;
     }
 
     public void GoToMenu()
@@ -305,30 +321,36 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    private IEnumerator InputDelay(float time)
+    //private IEnumerator InputDelay(float time)
+    //{
+    //    yield return new WaitForSeconds(time);
+    //    player.GetComponent<PlayerController>().paused = false;
+    //}
+
+    //private IEnumerator InputBufferAdd()
+    //{
+    //    recieveInput = false;
+    //    //selected++;
+    //    yield return new WaitForSeconds(navigationDelay * Time.timeScale);
+    //    recieveInput = true;
+    //}
+
+    //private IEnumerator InputBufferSubtract()
+    //{
+    //    recieveInput = false;
+    //   // selected--;
+    //    yield return new WaitForSeconds(navigationDelay * Time.timeScale);
+    //    recieveInput = true;
+    //}
+
+
+
+    private IEnumerator PauseMenuAnimDelay()
     {
-        yield return new WaitForSeconds(time);
-        player.GetComponent<PlayerController>().paused = false;
+        pauseAnimController.SetTrigger("PauseClose");
+        yield return new WaitForSeconds(1.4f * Time.timeScale);
+        pauseCamera.SetActive(false);
+        Resume();
     }
-
-    private IEnumerator InputBufferAdd()
-    {
-        recieveInput = false;
-        //selected++;
-        yield return new WaitForSeconds(navigationDelay * Time.timeScale);
-        recieveInput = true;
-    }
-
-    private IEnumerator InputBufferSubtract()
-    {
-        recieveInput = false;
-       // selected--;
-        yield return new WaitForSeconds(navigationDelay * Time.timeScale);
-        recieveInput = true;
-    }
-
-
-
-
 
 }

@@ -101,15 +101,15 @@ public class CPC_CameraPath : MonoBehaviour
             if (index.curveTypePosition == CPC_ECurveType.Linear) index.positionCurve = AnimationCurve.Linear(0, 0, 1, 1);
         }
 
-        if (playOnAwake)
-            PlayPath(playOnAwakeTime);
+        //if (playOnAwake)
+        //    PlayPath(playOnAwakeTime, );
     }
 
     /// <summary>
     /// Plays the path
     /// </summary>
     /// <param name="time">The time in seconds how long the camera takes for the entire path</param>
-    public void PlayPath(float time)
+    public void PlayPath(float time, float t)
     {
         if (time <= 0) time = 0.001f;
         paused = false;
@@ -117,21 +117,27 @@ public class CPC_CameraPath : MonoBehaviour
         if (playing)
             cam.SwitchToCinema(PlayerCamera.CameraType.Cinema);
         StopAllCoroutines();
-        StartCoroutine(FollowPath(time));
+        StartCoroutine(FollowPath(time,t));
     }
 
     /// <summary>
     /// Stops the path
     /// </summary>
-    public void StopPath()
+    public void StopPath(float t)
     {
         playing = false;
         paused = false;
-        if(!playing)
-            cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
-        StopAllCoroutines();
+        if (!playing)
+            StartCoroutine(waitForTime(t));
+          
     }
 
+    IEnumerator waitForTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+        cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
+        StopAllCoroutines();
+    }
     /// <summary>
     /// Allows to change the time variable specified in PlayPath(float time) on the fly
     /// </summary>
@@ -226,7 +232,7 @@ public class CPC_CameraPath : MonoBehaviour
             selectedCamera.transform.rotation = Quaternion.LookRotation((target.transform.position - selectedCamera.transform.position).normalized);
     }
 
-    IEnumerator FollowPath(float time)
+    IEnumerator FollowPath(float time, float t)
     {
         UpdateTimeInSeconds(time);
         currentWaypointIndex = 0;
@@ -250,7 +256,7 @@ public class CPC_CameraPath : MonoBehaviour
             if (currentWaypointIndex == points.Count - 1 && !looped) break;
             if (currentWaypointIndex == points.Count && afterLoop == CPC_EAfterLoop.Continue) currentWaypointIndex = 0;
         }
-        StopPath();
+        StopPath(t);
     }
 
     int GetNextIndex(int index)

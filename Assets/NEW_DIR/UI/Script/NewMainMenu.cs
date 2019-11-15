@@ -95,11 +95,11 @@ public class NewMainMenu : UIManager
             
             }
 
-            if(verticalInput > 0.9f && selected > 0 && recieveInput == true)
+            if(verticalInput > 0.9f && selected > 0 && recieveInput == true && canInteractWithButtons)
             {
                 StartCoroutine("InputBufferSubract");
             }
-            else if(verticalInput < -0.9f && selected < MenuItems.Length -1 && recieveInput == true)
+            else if(verticalInput < -0.9f && selected < MenuItems.Length -1 && recieveInput == true && canInteractWithButtons)
             {
                 StartCoroutine("InputBufferAdd");
             }
@@ -146,5 +146,9 @@ public class NewMainMenu : UIManager
         canInteractWithButtons = newBool;
     }
 
+    public void SetSelected(int newSelected)
+    {
+        selected = newSelected;
+    }
 
 }

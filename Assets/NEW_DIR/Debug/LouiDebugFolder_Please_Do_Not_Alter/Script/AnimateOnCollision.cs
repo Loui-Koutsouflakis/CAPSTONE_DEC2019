@@ -30,8 +30,9 @@ public class AnimateOnCollision : MonoBehaviour
     {
         if (useTrigger)
         {
-            if (other.gameObject.name == kbodyName)
+            if (other.gameObject.layer == 14)
             {
+                Debug.Log("hit player");
                 animator.SetTrigger(triggerName);
             }
             else if (usePlayerLayer && other.gameObject.layer == 9)
