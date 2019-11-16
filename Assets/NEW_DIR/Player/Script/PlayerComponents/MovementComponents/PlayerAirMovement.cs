@@ -261,7 +261,7 @@ public class PlayerAirMovement : PlayerVariables
             player.SetDoubleJump(true);
         }
 
-        if (player.transform.parent != null)
+        if (player.transform.parent != null && !GetComponentInParent<PlayerController>().bossLevel)
         {
             player.transform.parent = null;
         }

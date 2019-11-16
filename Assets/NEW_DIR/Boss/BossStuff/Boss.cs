@@ -14,11 +14,10 @@ public class Boss : MonoBehaviour
 
     private bool thrustActive;
     private bool returning;
-    private bool steering;
+    public bool steering;
     private int health = 2;
     private float thrustForce = 12f; //24
     private Vector3 steerDirection;
-
     private readonly float steerThreshold = 0.12f;
     private readonly float followDelay = 0.5f;
     private readonly float rotationLerpRate = 6f;

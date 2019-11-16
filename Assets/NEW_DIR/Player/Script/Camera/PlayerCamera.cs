@@ -80,12 +80,14 @@ public class PlayerCamera : MonoBehaviour
     float camWallTime = 1f;
     #endregion
     #region DragonCamera
+    public Boss dragon;
     [Header("Dragon Camera Settings")]
     public float dragonOffsetX;
     public float dragonOffsetY;
     public float dragonCamDist;
     public float dragonPitch;
     public float dragonRotationSmoothTime;
+    public float dragonSensitivity;
     #endregion
     #region Field of View and Zoom Function Smoothing
     [Header("Camera Field of View")]
@@ -147,7 +149,10 @@ public class PlayerCamera : MonoBehaviour
             main = Camera.main;
         if (!p_RB)
             p_RB = Player.GetComponent<Rigidbody>();
-
+        if (!dragon)
+            dragon = FindObjectOfType<Boss>();
+        else
+            Debug.Log("dont worry about it");
     }
     void Start()
     {
@@ -186,6 +191,10 @@ public class PlayerCamera : MonoBehaviour
             {
                 resetCamera(0.0f);
             }
+        }
+        if (dragon != null)//most of this will be moved to another script, (Player functionality to the grapple trigger)
+        {
+            SteeringTheDragon();
         }
     }
     private void LateUpdate()
@@ -281,10 +290,11 @@ public class PlayerCamera : MonoBehaviour
     //baseline version untested on actual scene or asset****************
     void DragonCam()
     {
-        yaw += Input.GetAxis("HorizontalJoy") * sensitivity + Input.GetAxis("Horizontal") * sensitivity;
+        yaw += Input.GetAxis("HorizontalJoy") * dragonSensitivity + Input.GetAxis("Horizontal") * dragonSensitivity;
+        //Add clamp for dragon rotation, must not exceed 45 degrees in either direction of the dragons nose
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(dragonPitch, yaw), ref smoothingVelocity, dragonRotationSmoothTime);
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * dragonOffsetX) + (transform.up * -dragonOffsetY)) * dragonCamDist;
+        transform.position = dragon.gameObject.transform.position - (transform.forward - (transform.right * dragonOffsetX) + (transform.up * -dragonOffsetY)) * dragonCamDist;
     }
 
     public void SwitchToCinema(CameraType which)
@@ -386,6 +396,23 @@ public class PlayerCamera : MonoBehaviour
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw, currentRotation.z -= mag * Time.deltaTime), ref smoothingVelocity, rotationsmoothTime);
 
         CamMovement3D();
+    }
+
+    public void SteeringTheDragon()
+    {
+
+        if (dragon.steering == true)
+        {
+            CamType = CameraType.Dragon;
+            Player.GetComponent<PlayerClass>().DisableControls();
+            p_RB.isKinematic = true;
+        }
+        else
+        {
+            CamType = CameraType.Orbit;
+            Player.GetComponent<PlayerClass>().EnableControls();
+            p_RB.isKinematic = false;
+        }
     }
 
     #region  AreaChecks
