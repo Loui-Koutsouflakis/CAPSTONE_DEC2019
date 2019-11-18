@@ -281,7 +281,7 @@ public class PlayerController : MonoBehaviour
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
+                    //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     if (player.GetHealth() <= 0)
@@ -380,8 +380,8 @@ public class PlayerController : MonoBehaviour
                 {
                     StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
                     //Debug.Log("Hitting Spider");
-                    if (!player.GetGroundPounding())//move this to the enemies side of things
-                        player.GenericAddForce(transform.up, 5);
+                    //if (!player.GetGroundPounding())//move this to the enemies side of things
+                        //player.GenericAddForce(transform.up, 5);
                 }
                 //for ground pounding checks
                 if (player.GetGroundPounding())

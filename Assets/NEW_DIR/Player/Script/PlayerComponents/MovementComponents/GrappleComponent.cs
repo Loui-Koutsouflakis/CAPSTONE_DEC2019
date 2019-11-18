@@ -17,11 +17,16 @@ public class GrappleComponent : PlayerVariables
 
     //[Range(20, 90)]
     //private float maxAngle = 60;
+
+
     
     //for tether location in relation to player
     private Vector3 tetherDirection;
     private float tetherLength;
-    private float angleToTether;    
+    private float angleToTether;
+
+    //for animations
+    private float swingDirection;
 
     //attaches to the available tetherpoint
     public void Grapple()
@@ -95,6 +100,11 @@ public class GrappleComponent : PlayerVariables
         //        rb.AddForce(-transform.right * 0.5f, ForceMode.Force);
         //    }
         //}
+
+        swingDirection = Vector3.Dot(player.transform.forward, player.rb.velocity);
+        anim.SetFloat("SwingDir", swingDirection);
+        Debug.Log(swingDirection);
+
     }
 
     //speed up the character on seperate input input
@@ -112,6 +122,8 @@ public class GrappleComponent : PlayerVariables
 
         Debug.Log("grapple detached");
         player.isGrappling = false;
+        anim.SetBool("Grapple", false);
+        player.debugLine.GetComponent<LineRenderer>().enabled = false;
 
         rb.mass = 1;
         rb.AddForce(rb.velocity.normalized * launchSpeed, ForceMode.Impulse);
