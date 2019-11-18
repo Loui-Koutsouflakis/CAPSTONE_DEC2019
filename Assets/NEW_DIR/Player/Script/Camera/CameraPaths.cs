@@ -65,7 +65,11 @@ public class CameraPaths : MonoBehaviour
 
     public void StartMeUp()
     {
-        active = true;
+        if (!hasPlayed)
+        {
+            active = true;
+            hasPlayed = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
