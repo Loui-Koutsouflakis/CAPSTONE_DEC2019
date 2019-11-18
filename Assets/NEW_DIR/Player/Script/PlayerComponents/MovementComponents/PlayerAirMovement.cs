@@ -74,6 +74,15 @@ public class PlayerAirMovement : PlayerVariables
             anim.SetFloat("YVelocity", 0);
             anim.SetBool("GroundPound", false);
             wallRotate = false;
+            ledgeHoping = false;
+
+            if (ledgeHoping)
+            {
+                ledgeHoping = false;
+                player.EnableControls();
+                anim.SetBool("LedgeGrab", false);
+            }
+
         }
     }
     
@@ -290,6 +299,8 @@ public class PlayerAirMovement : PlayerVariables
         player.rb.AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
     }
 
+
+    private bool ledgeHoping = false;
     public IEnumerator CheckWall()
     {
         //top of head boxcast
@@ -327,9 +338,18 @@ public class PlayerAirMovement : PlayerVariables
             onWall = false;
             //call function to move player up on top of platform if we want
         }
-        else if (toeCast && midCast && !topOfHead)
-        {
+        else if (midCast && !topOfHead)
+        {            
             onWall = false;
+            if (!ledgeHoping)
+            {
+                player.rb.velocity = Vector3.zero;
+                player.rb.isKinematic = true;
+                player.DisableControls();
+                anim.SetBool("LedgeGrab", true);
+                StartCoroutine(LedgeHopStart());
+                
+            }
             //ledge grab if we have it
         }
         else
@@ -340,6 +360,26 @@ public class PlayerAirMovement : PlayerVariables
         yield return new WaitForSecondsRealtime(wallCheckRate);
 
         StartCoroutine(CheckWall());
+    }
+
+    IEnumerator LedgeHopStart()
+    {
+        yield return new WaitForSeconds(0.3f);
+        player.rb.isKinematic = false;
+        player.GenericAddForce(transform.up, 3);
+        StartCoroutine(LedgeHopFinish());
+        //for jump bug fix
+        player.SetGroundCheck(false);
+        player.StartCoroutine(player.GroundCheckStop());
+    }
+    IEnumerator LedgeHopFinish()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Debug.Log("forward force");
+        ledgeHoping = false;
+        player.GenericAddForce(transform.forward, 3);
+        player.EnableControls();
+        anim.SetBool("LedgeGrab", false);
     }
 
     //wait for time after air controller is initially enabled to prevent sticking to wall initially if next to wall
