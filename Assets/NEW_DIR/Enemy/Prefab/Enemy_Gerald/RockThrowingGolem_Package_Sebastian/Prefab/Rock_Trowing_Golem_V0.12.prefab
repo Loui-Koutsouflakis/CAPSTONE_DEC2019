@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2172898961932291457}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Bicep_Mid_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3266553112209737494}
-  m_Layer: 0
+  - component: {fileID: 5014663148535590969}
+  m_Layer: 10
   m_Name: JNT_Spine_Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +62,19 @@ Transform:
   m_Father: {fileID: 3029187691670099959}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -19.249311, y: -85.2665, z: -1.5637074}
+--- !u!135 &5014663148535590969
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235463019534815252}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.03
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &377966336797845426
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2401958726026895297}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Foot_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7862624585052077989}
   - component: {fileID: 2461459039724359558}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Forearm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1535595994537379597}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Thigh_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4793978409769989880}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Hip_Root_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2944818133166300178}
   - component: {fileID: 2719118374086256074}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_ShoulderPlate_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1479127020479169682}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_A_Tip_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1155587614020227520}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -396,7 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688961194705414009}
   - component: {fileID: 657846142360286926}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Thigh_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7026261852775227655}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Bicep_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3563947990997161610}
   - component: {fileID: 8325314969497462607}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,7 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6252140225657094414}
   - component: {fileID: 4286523885780687599}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_ShoulderJoint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412754152669445944}
   - component: {fileID: 5250567968777706627}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5422501479717741709}
   - component: {fileID: 5714658276914841120}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -870,7 +884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7525147003273771104}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_A_Tip_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -900,7 +914,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5853787777438412581}
-  m_Layer: 0
+  - component: {fileID: 6551455357520174308}
+  m_Layer: 10
   m_Name: JNT_Hand_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -922,6 +937,20 @@ Transform:
   m_Father: {fileID: 5071753715550183629}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -63.241974, y: 0, z: -90}
+--- !u!136 &6551455357520174308
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913528683048638517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.025552185
+  m_Height: 0.08594053
+  m_Direction: 1
+  m_Center: {x: 3.8642944e-10, y: 0.04814658, z: -0.0014026732}
 --- !u!1 &1970214033585359606
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,9 +960,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3029187691670099959}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Spine_Neck
-  m_TagString: Untagged
+  m_TagString: EnemyWeakSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -962,7 +991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5141707163000145663}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LynxTale_Enemy_GiantRockGolem_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1040,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5966961922896169652}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_B_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,7 +1071,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3368205087246513129}
-  m_Layer: 0
+  - component: {fileID: 884619486152955906}
+  m_Layer: 10
   m_Name: JNT_Hand_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1063,6 +1093,20 @@ Transform:
   m_Father: {fileID: 4640428019350825453}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -65.69815, y: 180, z: 90}
+--- !u!136 &884619486152955906
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2359262841555361485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.025552185
+  m_Height: 0.08594053
+  m_Direction: 1
+  m_Center: {x: 3.8642944e-10, y: 0.04814658, z: -0.0014026732}
 --- !u!1 &2432817503534248206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2068603462709284277}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Knee_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1103,7 +1147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4780339063944192050}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_C_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2849232051056941848}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Hip_Root_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1165,7 +1209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7272071326911867886}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Spine_Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1199,7 +1243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6703576130668582226}
   - component: {fileID: 7955656167431283943}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Thigh_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1285,7 +1329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6923123354224582032}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Spine_Mid_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1318,7 +1362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7795665341528799994}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CTRL_BASE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1349,7 +1393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5071753715550183629}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Wrist_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1380,7 +1424,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1730225925314130844}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LynxTale_Enemy_Gerald_Reveal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1413,7 +1457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1423861554031326976}
   - component: {fileID: 795745506956836720}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1498,7 +1542,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4986664053433927499}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Shoulder_Root_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1531,7 +1575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9083391756174835898}
   - component: {fileID: 7663852896012573664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Knee_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1618,7 +1662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7804497407678412973}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_A_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1650,7 +1694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6298478738206222356}
   - component: {fileID: 4775860943799006360}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Bicep_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1735,7 +1779,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2611210905761863681}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_ShoulderPlate_Tip_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1765,7 +1809,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7641917164750320909}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_A_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1796,7 +1840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144409343020780641}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_C_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1829,7 +1873,7 @@ GameObject:
   - component: {fileID: 16714057088858114}
   - component: {fileID: 6200250918139199372}
   - component: {fileID: 1558963082155450595}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Fist_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1929,7 +1973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3827681205701264470}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_B_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1960,7 +2004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6244561020728665025}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Shoulder_Root_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1992,7 +2036,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2216878523320703418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Elbow_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2023,7 +2067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1168692780123338193}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Forearm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2054,7 +2098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4241755346710932714}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LynxTale_Enemy_GiantRockGolem_Controlers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2086,7 +2130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265594607731361475}
   - component: {fileID: 8022448852299217315}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Knee_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2172,7 +2216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 616466023747449036}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Spine_Mid_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2205,10 +2249,12 @@ GameObject:
   - component: {fileID: 4966292501864046936}
   - component: {fileID: 1155587612468883277}
   - component: {fileID: 7595306459844785379}
-  - component: {fileID: 7233936488791859060}
-  m_Layer: 0
-  m_Name: Rock_Trowing_Golem_V0.7
-  m_TagString: Untagged
+  - component: {fileID: 8464583555922830146}
+  - component: {fileID: 1353811912}
+  - component: {fileID: 1353811911}
+  m_Layer: 10
+  m_Name: Rock_Trowing_Golem_V0.12
+  m_TagString: EnemyWeakSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2241,9 +2287,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7595306459844785379}
+  health: 1
   RockSpawnPosition: {fileID: 1155587614020227520}
-  RockProjectileObject: {fileID: 0}
-  RockSpeed: 15
+  RockProjectileObject: {fileID: 1572271439813403503, guid: bd22a3779bb4d494dbdf1cbceb5e39d4,
+    type: 3}
+  RockSpeed: 20
   middle: {fileID: 0}
   size: {x: 15, y: 0, z: 15}
 --- !u!95 &7595306459844785379
@@ -2265,28 +2313,49 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!195 &7233936488791859060
-NavMeshAgent:
+--- !u!114 &8464583555922830146
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4966292501864048294}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 3
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 4
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 2
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2f05e92c3b144f4480b28c8102d5f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 4966292501864046936}
+--- !u!54 &1353811912
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966292501864048294}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!136 &1353811911
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966292501864048294}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 1.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6780803, z: 0}
 --- !u!1 &4979009654127533310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,7 +2365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2050135561075313320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_C_Tip_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2326,7 +2395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4640428019350825453}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Wrist_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2357,7 +2426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3986013579227706487}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_ShoulderPlate_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2388,7 +2457,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5544832067184124419}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_B_Tip_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2418,7 +2487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2407154147218845675}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Elbow_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2450,7 +2519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5891812808800022320}
   - component: {fileID: 2009281952576836197}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_ShoulderPlate_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2532,7 +2601,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2250712633753096275}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Thigh_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2563,7 +2632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5621862963518338960}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2594,7 +2663,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8736127237034872063}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Knee_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2625,7 +2694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2955327242634678305}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_B_Tip_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2655,7 +2724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2862523317258425559}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_ShoulderPlate_Tip_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2685,7 +2754,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924077011012923720}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Toe_C_Tip_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2717,7 +2786,7 @@ GameObject:
   - component: {fileID: 8145026511355416209}
   - component: {fileID: 8250999728394431439}
   - component: {fileID: 5750424471911303251}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Fist_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2818,7 +2887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042067830793080493}
   - component: {fileID: 1043272670985803860}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Forearm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2905,7 +2974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1074865182833214178}
   - component: {fileID: 4930215159372896779}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2990,7 +3059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3039205670986532259}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Bicep_Mid_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3022,7 +3091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2873618339819992338}
   - component: {fileID: 7808510658491368279}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Bicep_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3108,7 +3177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3704980945497848531}
   - component: {fileID: 1072573026452766367}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_SjoulkderJoint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3194,7 +3263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4157981263446162753}
   - component: {fileID: 1099310349985142936}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockGolem_Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3279,7 +3348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865401410380158844}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_ShoulderPlate_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3310,7 +3379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9147768966783429880}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Foot_Base_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3343,7 +3412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4180745634294325498}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Forearm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3374,7 +3443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3488827223712826862}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CTRL_HIPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3405,7 +3474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865288897769089453}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JNT_Bicep_Base_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
