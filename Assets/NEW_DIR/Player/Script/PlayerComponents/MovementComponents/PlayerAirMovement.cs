@@ -9,7 +9,7 @@ public class PlayerAirMovement : PlayerVariables
 {
     //wall check
     private bool onWall;
-    private float wallCheckRate = 0.1f;
+    private float wallCheckRate = 0.05f;
       
     //for ground pound
     private float DropForce = 20;
@@ -218,12 +218,24 @@ public class PlayerAirMovement : PlayerVariables
             airMax = testAirMax;
         }
 
+
+        //horizontal clamp
         Vector3 horizontalVelocity = rb.velocity;
         horizontalVelocity.y = 0;
        
         horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, airMax) * horizontalVelocity.normalized;
-       
+              
         rb.velocity = horizontalVelocity + rb.velocity.y * Vector3.up;
+
+        //vertical clamp
+        Vector3 verticalVelocity = rb.velocity;
+        verticalVelocity.x = 0;
+        verticalVelocity.z = 0;
+        verticalVelocity = Mathf.Max(verticalVelocity.magnitude, -10) * verticalVelocity.normalized;
+
+        rb.velocity = verticalVelocity + rb.velocity.x * Vector3.right + rb.velocity.z * Vector3.forward;
+
+        Debug.Log(rb.velocity);
     }
 
     public void Jump()
@@ -347,8 +359,9 @@ public class PlayerAirMovement : PlayerVariables
                 player.rb.isKinematic = true;
                 player.DisableControls();
                 anim.SetBool("LedgeGrab", true);
+                Debug.Log("triggered");
                 StartCoroutine(LedgeHopStart());
-                
+                ledgeHoping = true;
             }
             //ledge grab if we have it
         }
@@ -364,9 +377,9 @@ public class PlayerAirMovement : PlayerVariables
 
     IEnumerator LedgeHopStart()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         player.rb.isKinematic = false;
-        player.GenericAddForce(transform.up, 3);
+        player.GenericAddForce(transform.up, 5.5f);
         StartCoroutine(LedgeHopFinish());
         //for jump bug fix
         player.SetGroundCheck(false);
@@ -374,10 +387,10 @@ public class PlayerAirMovement : PlayerVariables
     }
     IEnumerator LedgeHopFinish()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         Debug.Log("forward force");
         ledgeHoping = false;
-        player.GenericAddForce(transform.forward, 3);
+        player.GenericAddForce(transform.forward, 3.5f);
         player.EnableControls();
         anim.SetBool("LedgeGrab", false);
     }
