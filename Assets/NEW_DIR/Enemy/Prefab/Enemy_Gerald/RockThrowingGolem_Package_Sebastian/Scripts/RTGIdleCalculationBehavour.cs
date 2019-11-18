@@ -12,6 +12,15 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
     public float MiddleRangeMax, MiddleRangeMin;
     public float ShortRangeMax, ShortRangeMin;
 
+    // Cliff and Wall checker
+    public LayerMask Layer;
+    public LayerMask GroundLayer;
+    public float PlusY; // 1
+    public float FirstRayLength; // 5
+    public float SecondRayLength; // 2
+    public Vector3 EndPoint;
+    public Vector3 AI;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,6 +29,7 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
         animator.SetBool("IsInChargeRange", false);
         animator.SetBool("IsInMeleeRange", false);
         animator.SetBool("IsTired", false);
+        animator.SetBool("Ground", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,6 +39,32 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
         Vector3 TargetRotation = new Vector3(PlayerPosition.position.x, animator.transform.position.y, PlayerPosition.position.z);
         var r = Quaternion.LookRotation(TargetRotation - animator.transform.position);
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
+
+        // Cliff and Wall
+        RaycastHit firstHit;
+        AI = new Vector3(animator.transform.position.x, animator.transform.position.y + PlusY, animator.transform.position.z);
+        if (Physics.Raycast(AI, animator.transform.TransformDirection(Vector3.forward), out firstHit, FirstRayLength, Layer))
+        {
+            animator.SetBool("ThereIsAWall", true);
+            Debug.Log(firstHit.collider);
+        }
+        else
+        {
+            animator.SetBool("ThereIsAWall", false);
+        }
+        Debug.DrawRay(AI, animator.transform.TransformDirection(Vector3.forward) * firstHit.distance, Color.red);
+
+        RaycastHit secondHit;
+        EndPoint = AI + animator.transform.TransformDirection(Vector3.forward) * FirstRayLength;
+        if (Physics.Raycast(EndPoint, Vector3.down, out secondHit, SecondRayLength, GroundLayer))
+        {
+            animator.SetBool("Ground", true);
+        }
+        else
+        {
+            animator.SetBool("Ground", false);
+        }
+        Debug.DrawRay(EndPoint, Vector3.down * secondHit.distance, Color.red);
 
         DistanceCheckAI = Vector3.Distance(animator.transform.position, PlayerPosition.position);
         
