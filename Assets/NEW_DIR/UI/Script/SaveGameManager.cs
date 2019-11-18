@@ -331,6 +331,7 @@ public class SaveGameManager : MonoBehaviour
             //Sets the found player to the player variable
             player = GameObject.FindGameObjectWithTag("Player");
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
+            LoadSettings();
 
             //Checks whether or not it is loading from a file or not;
             if (!loadingFromContinue)
@@ -344,7 +345,7 @@ public class SaveGameManager : MonoBehaviour
                 //Save the game
                 Save();
 
-                LoadSettings();
+                
                 
                 
             }
@@ -355,8 +356,8 @@ public class SaveGameManager : MonoBehaviour
                 
                 //Sets the condition to load from continue to false;
                 loadingFromContinue = false;
+               
 
-                LoadSettings();
             }
 
         }

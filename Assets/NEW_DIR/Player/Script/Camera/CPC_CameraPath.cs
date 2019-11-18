@@ -74,6 +74,8 @@ public class CPC_CameraPath : MonoBehaviour
     private bool paused = false;
     private bool playing = false;
 
+    PlayerClass player;
+
     void Start ()
     {
         if(!cam)
@@ -81,8 +83,10 @@ public class CPC_CameraPath : MonoBehaviour
         if (Camera.main == null) { Debug.LogError("There is no main camera in the scene!"); }
 	    if (useMainCamera)
 	        selectedCamera = Camera.main;
-	    else if (selectedCamera == null)
-	    {
+        if (!player)
+            player = FindObjectOfType<PlayerClass>();
+        else if (selectedCamera == null)
+        {
             selectedCamera = Camera.main;
             Debug.LogError("No camera selected for following path, defaulting to main camera");
         }
@@ -116,6 +120,7 @@ public class CPC_CameraPath : MonoBehaviour
         playing = true;
         if (playing)
             cam.SwitchToCinema(PlayerCamera.CameraType.Cinema);
+        player.DisableControls();
         StopAllCoroutines();
         StartCoroutine(FollowPath(time,t));
     }
@@ -135,6 +140,7 @@ public class CPC_CameraPath : MonoBehaviour
     IEnumerator waitForTime(float t)
     {
         yield return new WaitForSeconds(t);
+        player.EnableControls();
         cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
         StopAllCoroutines();
     }

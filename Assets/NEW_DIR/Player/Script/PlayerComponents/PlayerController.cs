@@ -12,7 +12,11 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerClass player;
 
-    private HudManager h_Manager;        
+    private HudManager h_Manager;
+    public TransitionManager t_Manager;
+    public Transform teleportPsParent;
+    public ParticleSystem[] teleport;
+
     private Animator anim;
        
     public LayerMask p_Layer = 1 << 9;
@@ -286,7 +290,35 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else if (collision.gameObject.name == "TeleportNext")
+            {
+
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+
+                teleportPsParent.position = transform.position;
+
+                foreach (ParticleSystem ps in teleport)
+                {
+                    ps.Play();
+                }
+
+                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
+            }
+            else if (collision.gameObject.name == "TeleportPrev")
+            {
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
+
+                teleportPsParent.position = transform.position;
+
+                foreach (ParticleSystem ps in teleport)
+                {
+                    ps.Play();
+                }
+
+                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
+            }
         }
+        
     }
 
     //damage flash on/off are repeating coroutines that turn off/on mesh
@@ -348,8 +380,9 @@ public class PlayerController : MonoBehaviour
                     if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                     {
                         StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                        if (!player.GetGroundPounding())//move this to the enemies side of things
-                            player.GenericAddForce(transform.up, 5);
+                        Debug.Log("Hitting Spider");
+                        //if (!player.GetGroundPounding())//move this to the enemies side of things
+                        //    player.GenericAddForce(transform.up, 5);
                     }
                     //for ground pounding checks
                     if (player.GetGroundPounding())

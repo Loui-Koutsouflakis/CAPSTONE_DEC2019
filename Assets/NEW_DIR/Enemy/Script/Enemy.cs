@@ -53,9 +53,9 @@ public class Enemy : MonoBehaviour
 
             case EnemyType.Tod:
 
-                GetComponent<SpiderMother>().enabled = true;
-                GetComponent<SpiderMother>().SetSpawnLocation(transform.position);
-                GetComponent<SpiderMother>().SetDestination("Wonder");
+                //GetComponent<SpiderMother>().enabled = true;
+                //GetComponent<SpiderMother>().SetSpawnLocation(transform.position);
+                //GetComponent<SpiderMother>().SetDestination("Wonder");
                 hitPoints = 3;
                 break;
         }
