@@ -366,6 +366,8 @@ public class PlayerController : MonoBehaviour
     private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
     private readonly float groundCheckRate = 0.01f;
     private RaycastHit footHit;
+    //to prevent multiple hits
+    private bool landed = false;
 
     public IEnumerator CheckGround()
     {
@@ -373,45 +375,44 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
-                //GroundMe();
-                if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
+                //to jump on enemies
+                if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
-                    //to jump on enemies
-                    if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
+                    StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
+                    //Debug.Log("Hitting Spider");
+                    if (!player.GetGroundPounding())//move this to the enemies side of things
+                        player.GenericAddForce(transform.up, 5);
+                }
+                //for ground pounding checks
+                if (player.GetGroundPounding())
+                {
+                    if (footHit.collider.GetComponent<Interact>() != null)
                     {
-                        StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                        Debug.Log("Hitting Spider");
-                        //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        //    player.GenericAddForce(transform.up, 5);
-                    }
-                    //for ground pounding checks
-                    if (player.GetGroundPounding())
-                    {
-                        if (footHit.collider.GetComponent<Interact>() != null)
-                        {
-                            if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
-                            {
-                                footHit.collider.GetComponent<Interact>().InteractWithMe();
-                            }
-                        }
-                        player.DisableControls();
-                        StartCoroutine(GroundPoundStop());
-                        player.SetGroundPounding(false);
-                    }
-
-                    //to parent to moving platforms
-                    if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
-                    {
-                        transform.parent = footHit.transform;
-                        if (footHit.collider.GetComponent<Interact>() != null)
+                        if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
                         {
                             footHit.collider.GetComponent<Interact>().InteractWithMe();
                         }
                     }
+                    player.DisableControls();
+                    StartCoroutine(GroundPoundStop());
+                    player.SetGroundPounding(false);
+                }
+
+                //to parent to moving platforms
+                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
+                {
+                    transform.parent = footHit.transform;
+                    if (footHit.collider.GetComponent<Interact>() != null)
+                    {
+                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                    }
+                }
 
 
-                    //to bounce off bouncy things
-                    if (footHit.collider.gameObject.tag == "Bouncy")
+                //to bounce off bouncy things
+                if (footHit.collider.gameObject.tag == "Bouncy")
+                {
+                    if (!landed)
                     {
                         //bounce higher if holding the jump button
                         if (Input.GetButton("AButton"))
@@ -425,64 +426,66 @@ public class PlayerController : MonoBehaviour
                             player.GenericAddForce(player.transform.up, 10);
                         }
                         player.SetBouncing(true);
+                        landed = true;
+                        StartCoroutine(LandedSwitch());
+                    }
+                }
+
+                //walk on triggers
+                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                {
+                    footHit.collider.GetComponent<Interact>().InteractWithMe();
+                }
+
+
+                if (player.GetBouncing())
+                {
+                    anim.SetBool("Grounded", false);
+                    anim.SetTrigger("Jump");
+                    player.SetGrounded(false);
+                }
+                //probably need to put below in an else
+                if (footHit.collider.gameObject != null && !isCrouching)
+                {
+                    player.SetGrounded(true);
+                    player.SetFlutter(true);
+                    player.SetMovementType(MovementType.move);
+                    anim.SetBool("Grounded", true);
+                    //stateMachine.SetTrigger("GroundTrigger");                
+                    if (player.playerCurrentMove == MovementType.move)
+                    {
+                        psRun.Play();
+                    }
+                    else
+                    {
+                        psRun.Stop();
+                    }
+                    if (!jumpParticleIsPlaying)
+                    {
+                        psJump.Play();
+                        jumpParticleIsPlaying = true;
                     }
 
-                    //walk on triggers
-                    if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                }
+                else if (footHit.collider.gameObject != null && isCrouching)
+                {
+                    player.SetGrounded(true);
+                    player.SetFlutter(true);
+                    player.SetMovementType(MovementType.crouch);
+                    anim.SetBool("Grounded", true);
+                    //stateMachine.SetBool("Crouching", true);
+                    if (player.playerCurrentMove == MovementType.move)
                     {
-                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                        psRun.Play();
                     }
-
-
-                    if (player.GetBouncing())
+                    else
                     {
-                        anim.SetBool("Grounded", false);
-                        anim.SetTrigger("Jump");
-                        player.SetGrounded(false);
+                        psRun.Stop();
                     }
-                    //probably need to put below in an else
-                    if (footHit.collider.gameObject != null && !isCrouching)
+                    if (!jumpParticleIsPlaying)
                     {
-                        player.SetGrounded(true);
-                        player.SetFlutter(true);
-                        player.SetMovementType(MovementType.move);
-                        anim.SetBool("Grounded", true);
-                        //stateMachine.SetTrigger("GroundTrigger");                
-                        if (player.playerCurrentMove == MovementType.move)
-                        {
-                            psRun.Play();
-                        }
-                        else
-                        {
-                            psRun.Stop();
-                        }
-                        if (!jumpParticleIsPlaying)
-                        {
-                            psJump.Play();
-                            jumpParticleIsPlaying = true;
-                        }
-
-                    }
-                    else if (footHit.collider.gameObject != null && isCrouching)
-                    {
-                        player.SetGrounded(true);
-                        player.SetFlutter(true);
-                        player.SetMovementType(MovementType.crouch);
-                        anim.SetBool("Grounded", true);
-                        //stateMachine.SetBool("Crouching", true);
-                        if (player.playerCurrentMove == MovementType.move)
-                        {
-                            psRun.Play();
-                        }
-                        else
-                        {
-                            psRun.Stop();
-                        }
-                        if (!jumpParticleIsPlaying)
-                        {
-                            psJump.Play();
-                            jumpParticleIsPlaying = true;
-                        }
+                        psJump.Play();
+                        jumpParticleIsPlaying = true;
                     }
                 }
             }
@@ -535,6 +538,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.6f);
 
         StartCoroutine(PlatformCheck());
+    }
+
+    public IEnumerator LandedSwitch()
+    {
+        yield return new WaitForSeconds(1);
+        landed = false;
     }
     #endregion
 

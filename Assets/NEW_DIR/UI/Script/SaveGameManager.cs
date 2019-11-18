@@ -82,7 +82,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("CameraSensitivity", 1f);
+            cameraSensitivity = 1;
         }
 
         if(PlayerPrefs.GetInt("QualitySetting") > 0)

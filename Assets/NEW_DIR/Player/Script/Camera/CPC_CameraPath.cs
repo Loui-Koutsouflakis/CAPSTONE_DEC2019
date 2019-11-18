@@ -121,6 +121,7 @@ public class CPC_CameraPath : MonoBehaviour
         if (playing)
             cam.SwitchToCinema(PlayerCamera.CameraType.Cinema);
         player.DisableControls();
+        player.rb.isKinematic = true;
         StopAllCoroutines();
         StartCoroutine(FollowPath(time,t));
     }
@@ -141,6 +142,7 @@ public class CPC_CameraPath : MonoBehaviour
     {
         yield return new WaitForSeconds(t);
         player.EnableControls();
+        player.rb.isKinematic = false;
         cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
         StopAllCoroutines();
     }
