@@ -235,7 +235,7 @@ public class PlayerAirMovement : PlayerVariables
 
         rb.velocity = verticalVelocity + rb.velocity.x * Vector3.right + rb.velocity.z * Vector3.forward;
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
     }
 
     public void Jump()
