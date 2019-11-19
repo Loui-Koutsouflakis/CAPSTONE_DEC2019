@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.55948764, g: 0.7242776, b: 0.8301639, a: 1}
+  m_IndirectSpecularColor: {r: 0.55949086, g: 0.7242812, b: 0.8301667, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3374,32 +3374,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Lumi_Teleport
       objectReference: {fileID: 0}
-    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: simulationSpeed
       value: 5
@@ -3458,6 +3438,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043707, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -7995,11 +7995,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForwardGate
       objectReference: {fileID: 0}
-    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6122957370378499269, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8125,6 +8120,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1262038718868608141, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: playOnAwake
@@ -8150,7 +8150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &921619059
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12595,11 +12595,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Lumi
       objectReference: {fileID: 0}
-    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: h_Manager
-      value: 
-      objectReference: {fileID: 1438052700}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12655,11 +12650,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: teleport.Array.size
@@ -12690,6 +12680,16 @@ PrefabInstance:
       propertyPath: teleport.Array.data[2]
       value: 
       objectReference: {fileID: 32176881}
+    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: h_Manager
+      value: 
+      objectReference: {fileID: 1438052700}
+    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 928916471, guid: 78753204a4a79ae46b2caa80d63f02b9, type: 3}
       propertyPath: m_TagString
       value: Player
@@ -15851,32 +15851,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Lumi_Teleport
       objectReference: {fileID: 0}
-    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: simulationSpeed
       value: 5
@@ -15935,6 +15915,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043707, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}

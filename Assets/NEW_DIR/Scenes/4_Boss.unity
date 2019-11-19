@@ -881,17 +881,10 @@ PrefabInstance:
       value: PS_Lumi_Teleport
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: playOnAwake
@@ -902,7 +895,6 @@ PrefabInstance:
       propertyPath: simulationSpeed
       value: 5
       objectReference: {fileID: 0}
-
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -957,6 +949,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -2815,7 +2812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &604517144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3087,11 +3084,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 20539314722032298, guid: ed0f424436d4a7748b4172bb67a9e0a5,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 1572631
-      objectReference: {fileID: 0}
     - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: Player
@@ -3141,6 +3133,11 @@ PrefabInstance:
         type: 3}
       propertyPath: dragonSensitivity
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 20539314722032298, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1572631
       objectReference: {fileID: 0}
     - target: {fileID: 726697623, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_Enabled
@@ -6629,52 +6626,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Lumi
       objectReference: {fileID: 0}
-
-    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: teleport.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: t_Manager
-      value: 
-      objectReference: {fileID: 483355711}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: teleportPsParent
-      value: 
-      objectReference: {fileID: 653392167}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: teleport.Array.data[0]
-      value: 
-      objectReference: {fileID: 2102399522}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: teleport.Array.data[1]
-      value: 
-      objectReference: {fileID: 78482101}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: teleport.Array.data[2]
-      value: 
-      objectReference: {fileID: 399031854}
-    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: bossLevel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: h_Manager
-      value: 
-      objectReference: {fileID: 254295484}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6730,10 +6681,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: teleport.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
@@ -6769,6 +6720,51 @@ PrefabInstance:
         type: 3}
       propertyPath: bossLevel
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: t_Manager
+      value: 
+      objectReference: {fileID: 483355711}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: teleportPsParent
+      value: 
+      objectReference: {fileID: 653392167}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: teleport.Array.data[0]
+      value: 
+      objectReference: {fileID: 2102399522}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: teleport.Array.data[1]
+      value: 
+      objectReference: {fileID: 78482101}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: teleport.Array.data[2]
+      value: 
+      objectReference: {fileID: 399031854}
+    - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: bossLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: h_Manager
+      value: 
+      objectReference: {fileID: 254295484}
+    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183584982080446775, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78753204a4a79ae46b2caa80d63f02b9, type: 3}
