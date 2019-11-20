@@ -71,22 +71,22 @@ public class CameraPaths : MonoBehaviour
             hasPlayed = true;
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 14)
-        {
-            if (!hasPlayed)
-            {
-                if (player.GetShards() >= c_Threshold)
-                {
-                    active = true;
-                    hasPlayed = true;
-                    if (anims != null)
-                        anims.Play();
-                }
-            }
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == 14)
+    //    {
+    //        if (!hasPlayed)
+    //        {
+    //            if (player.GetShards() >= c_Threshold)
+    //            {
+    //                active = true;
+    //                hasPlayed = true;
+    //                if (anims != null)
+    //                    anims.Play();
+    //            }
+    //        }
+    //    }
+    //}
 
     IEnumerator goTime()
     {

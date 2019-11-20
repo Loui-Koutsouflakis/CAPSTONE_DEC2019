@@ -23,6 +23,7 @@ public class Icicles : MonoBehaviour
     //Distance variables
     private float distanceToPlayer;
     private readonly float thresholdDistance = 20.0f;
+    private Vector3 sinkDistance = new Vector3(0.0f, -2.0f, 0.0f);
 
     private void Awake()
     {
@@ -73,5 +74,10 @@ public class Icicles : MonoBehaviour
 
             this.enabled = false;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        animator.SetBool("Grounded", true);
     }
 }

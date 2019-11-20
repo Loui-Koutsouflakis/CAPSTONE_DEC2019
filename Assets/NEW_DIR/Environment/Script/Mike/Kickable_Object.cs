@@ -48,11 +48,12 @@ public class Kickable_Object : MonoBehaviour
 
     private void OnTriggerEnter(Collider o)
     {
-        if(o.gameObject.tag == "Player")
+        if(o.gameObject.layer == 14)
         {
             //if(Vector3.Angle(o.transform.forward, transform.forward) >= 90)
             //{
-            Vector3 kickVector = (o.transform.position - transform.position).normalized;
+            rb.velocity = new Vector3 (0, 0, 0);
+            Vector3 kickVector = (transform.position - o.transform.position).normalized;
                 rb.AddForce((kickVector * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
             //}
             //else
