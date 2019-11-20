@@ -334,11 +334,12 @@ public class PlayerAirMovement : PlayerVariables
         RaycastHit hit;
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        Vector3 midRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
+        Vector3 midRaycastHalf = new Vector3(0.1f, 0.2f, 0.1f);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
-   
+        bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, transform.forward, Quaternion.identity, 0.25f, player.airMask );
+
         //if all three
         if (toeCast && midCast && topOfHead)
         {
@@ -350,7 +351,7 @@ public class PlayerAirMovement : PlayerVariables
             onWall = false;
             //call function to move player up on top of platform if we want
         }
-        else if (midCast && !topOfHead)
+        else if (midBoxCast && !topOfHead)
         {            
             onWall = false;
             if (!ledgeHoping)

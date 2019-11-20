@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     if (player.GetHealth() <= 0)
                     {
-                        //death animation
+                        player.Death();
                     }
                 }
             }
@@ -363,14 +363,19 @@ public class PlayerController : MonoBehaviour
     //Ground checks
     #region check ground functions
 
-    private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
+    private readonly Vector3 halves = new Vector3(0.125f, 0.25f, 0.125f);
     private readonly float groundCheckRate = 0.01f;
     private RaycastHit footHit;
     //to prevent multiple hits
     private bool landed = false;
 
+    //for sliding down slopes that are too steep
     private bool sliding = false;
+    
+    //for additional fix for sticking problem on some edges with mesh colliders
     private float antiStickTimer = 0;
+    
+    //for coyote time
     private float gracePeriod;
 
     public IEnumerator CheckGround()
