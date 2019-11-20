@@ -7,9 +7,15 @@ using UnityEngine;
 public class IceBall : MonoBehaviour
 {
     private Animator animator;
+    private IceBaricade iceBaricade;
 
     private enum Stage { one, two, three }
     private Stage index = Stage.one;
+
+    private void Awake()
+    {
+        iceBaricade = FindObjectOfType<IceBaricade>();
+    }
 
     private void Start()
     {
@@ -35,5 +41,10 @@ public class IceBall : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void GoToBaricade()
+    {
+        iceBaricade.PlayBreak();
     }
 }
