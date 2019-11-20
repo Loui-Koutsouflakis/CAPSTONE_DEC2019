@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [AddComponentMenu("Camera/Camera Path", 1)]
 public class CameraPaths : MonoBehaviour
@@ -73,7 +74,7 @@ public class CameraPaths : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 14)
+        if (other.gameObject.layer == 14 && SceneManager.GetActiveScene().buildIndex != 3)
         {
             if (!hasPlayed)
             {
