@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
         
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
-        playerIK.IK_Grapple();
+        //playerIK.IK_Grapple();
     }
 
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     if (player.GetHealth() <= 0)
                     {
-                        //death animation
+                        player.Death();
                     }
                 }
             }
@@ -363,11 +363,20 @@ public class PlayerController : MonoBehaviour
     //Ground checks
     #region check ground functions
 
-    private readonly Vector3 halves = new Vector3(0.25f, 0.25f, 0.25f);
+    private readonly Vector3 halves = new Vector3(0.125f, 0.25f, 0.125f);
     private readonly float groundCheckRate = 0.01f;
     private RaycastHit footHit;
     //to prevent multiple hits
     private bool landed = false;
+
+    //for sliding down slopes that are too steep
+    private bool sliding = false;
+    
+    //for additional fix for sticking problem on some edges with mesh colliders
+    private float antiStickTimer = 0;
+    
+    //for coyote time
+    private float gracePeriod;
 
     public IEnumerator CheckGround()
     {
@@ -375,6 +384,28 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
+                antiStickTimer = 0;
+
+                //disable controls and slide off of steep surfaces
+                Vector3 groundAngle = Vector3.Cross(footHit.normal, Vector3.down);
+                Vector3 groundSlopeDirection = Vector3.Cross(groundAngle, footHit.normal);
+
+                if(Vector3.Angle(footHit.normal, Vector3.up) >= 45)
+                {
+                    player.DisableControls();
+                    Debug.Log("sliding");
+                    player.GenericAddForce(groundSlopeDirection, 0.5f);
+                    sliding = true;
+                }
+                else
+                {
+                    player.EnableControls();
+                    sliding = false;
+                }
+
+                gracePeriod = 0;
+
+
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
@@ -491,23 +522,41 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                player.SetGrounded(false);
-                //if(transform.parent != null)
-                //{
-                //    transform.parent = null;
-                //}
-                anim.SetBool("Grounded", false);
-
-                //Debug.Log("not on ground");
-                if (player.playerCurrentMove == MovementType.grapple)
+                if(sliding)
                 {
-
+                    player.EnableControls();
+                    sliding = false;
                 }
-                else
+                
+                //additional check to prevent sticking on walls
+                antiStickTimer += 1;
+                if(antiStickTimer * groundCheckRate > 10)
                 {
-                    player.SetMovementType(MovementType.air);
+                    player.transform.position -= transform.forward;
+                    antiStickTimer = 0;
                 }
-                //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
+
+                gracePeriod += 1;
+                if (gracePeriod * groundCheckRate >= 0.1f)
+                {
+                    player.SetGrounded(false);
+                    //if(transform.parent != null)
+                    //{
+                    //    transform.parent = null;
+                    //}
+                    anim.SetBool("Grounded", false);
+
+                    //Debug.Log("not on ground");
+                    if (player.playerCurrentMove == MovementType.grapple)
+                    {
+
+                    }
+                    else
+                    {
+                        player.SetMovementType(MovementType.air);
+                    }
+                    //this is an issue for the fall trigger. We can't put it here since it'll as of now conflict with the Grapple Trigger
+                }
             }
         }
 

@@ -664,7 +664,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 6.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2183584982713282291
 MonoBehaviour:
@@ -1704,6 +1704,11 @@ PrefabInstance:
     - target: {fileID: 3476449271470147370, guid: 4013b63f3ee48ba4394082698068df71,
         type: 3}
       propertyPath: NoiseModule.separateAxes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476449271470147370, guid: 4013b63f3ee48ba4394082698068df71,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5449381341621753858, guid: 4013b63f3ee48ba4394082698068df71,

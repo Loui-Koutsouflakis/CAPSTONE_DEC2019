@@ -111,6 +111,12 @@ public class PlayerClass : MonoBehaviour
         health += healthChange;
     }
 
+    public void Death()
+    {
+        //DisableControls(); bring this back once we have a proper reset 
+        anim.SetTrigger("Death");
+    }
+
     public int shards;
     private int healthShards;
 
