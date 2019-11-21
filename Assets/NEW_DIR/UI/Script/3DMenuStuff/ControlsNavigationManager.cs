@@ -38,6 +38,8 @@ public class ControlsNavigationManager : UIManager
     float sliderPercentDecimal;
     float sensitivity;
 
+    private GameManager gameManager;
+
 
     void Awake()
     {
@@ -51,18 +53,22 @@ public class ControlsNavigationManager : UIManager
 
     private void OnEnable()
     {
+        
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         StartCoroutine(SliderButtonEnable(0.9f));
-        if(saveGameManager.GetSliderPosition() < sliderMin.position.x)
-        {
-            sliderButton.transform.position = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.position.y, sliderButton.transform.position.z);
-        }
-        else
-        {
-            
-            saveGameManager.SetSliderPosition(sliderButton.transform.position.x);
-            saveGameManager.SaveSliderPosition();
-        }
+      
+
+            if(saveGameManager.GetSliderPosition() < sliderMin.localPosition.x)
+            {
+                sliderButton.transform.localPosition = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
+            }
+            else
+            {
+                saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
+                saveGameManager.SaveSliderPosition();
+            }
+        
+       
     }
 
     
@@ -90,12 +96,12 @@ public class ControlsNavigationManager : UIManager
 
     void Update()
     {
-        Debug.Log(saveGameManager.getCameraSensitivity());
+        //Debug.Log(saveGameManager.getCameraSensitivity());
 
         currentCameraSmoothingValue = saveGameManager.GetCameraSmoothing();
 
 
-        if (saveGameManager.getCameraInverted() == 0)
+        if(saveGameManager.getCameraInverted() == 0)
         {
             invertButton1.SetActive(false);
             invertButton2.SetActive(false);
@@ -108,16 +114,40 @@ public class ControlsNavigationManager : UIManager
 
 
 
-        verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-        horizontalInput = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+        if (Time.timeScale < 1)
+        {
+            verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
+        }
+
+        if (Time.timeScale < 1)
+        {
+            horizontalInput = Input.GetAxisRaw("HorizontalJoy") + Input.GetAxisRaw("Horizontal");
+        }
+        else
+        {
+            horizontalInput = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
+
+        }
+        
         if (canInteractWithButtons)
         {
-            if (currentCameraSmoothingValue < 0.202)
+            if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                selected = 5;
+                buttons[5].Execute(UIManager.singleton);
+            }
+
+            if(currentCameraSmoothingValue < 0.202)
             {
                 cameraSmoothingButton = 2;
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
             }
-            else if (currentCameraSmoothingValue < 0.609)
+            else if(currentCameraSmoothingValue < 0.609)
             {
                 cameraSmoothingButton = 3;
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
@@ -128,19 +158,19 @@ public class ControlsNavigationManager : UIManager
                 MenuItems[cameraSmoothingButton].gameObject.GetComponent<Renderer>().material = currentSelectedSmoothing;
             }
 
-
+            
 
 
             for (int i = 0; i < MenuItems.Length; i++)
             {
 
-                if (selected == 2)
+                if(selected == 2)
                 {
                     if (horizontalInput > 0.9f && recieveInput == true && canInteractWithButtons)
                     {
                         StartCoroutine("InputBufferAdd");
                     }
-                    else if (verticalInput > 0.9f && recieveInput == true && canInteractWithButtons)
+                    else if(verticalInput > 0.9f && recieveInput == true && canInteractWithButtons)
                     {
                         selected = 1;
                         if (GameObject.FindGameObjectWithTag("AudioManager"))
@@ -150,7 +180,7 @@ public class ControlsNavigationManager : UIManager
                         }
                         StartCoroutine(TraversalDelay(0.3f));
                     }
-                    else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
+                    else if(verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
                     {
                         selected = 5;
                         if (GameObject.FindGameObjectWithTag("AudioManager"))
@@ -159,7 +189,7 @@ public class ControlsNavigationManager : UIManager
                             audioManager.PlaySound("Navigate");
                         }
                     }
-
+                    
                 }
 
                 if (selected == 4)
@@ -224,13 +254,13 @@ public class ControlsNavigationManager : UIManager
 
                 if (selected == 1)
                 {
-                    if (horizontalInput > 0.1)
+                    if(horizontalInput > 0.1)
                     {
-
+                        
                         IncreaseSlider();
                         CalculateSensitivityValue();
                     }
-                    else if (horizontalInput < -0.1)
+                    else if(horizontalInput < -0.1)
                     {
                         DecreaseSlider();
                         CalculateSensitivityValue();
@@ -253,7 +283,7 @@ public class ControlsNavigationManager : UIManager
 
                     //buttons[i].Name();
                 }
-                else if (selected != i && i != cameraSmoothingButton)
+                else if(selected != i && i != cameraSmoothingButton)
                 {
                     MenuItems[i].gameObject.GetComponent<Renderer>().material = whenNotSelected;
                     //buttons[i].selected = false;
@@ -281,7 +311,7 @@ public class ControlsNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -294,7 +324,7 @@ public class ControlsNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -302,7 +332,7 @@ public class ControlsNavigationManager : UIManager
     {
 
         canInteractWithButtons = false;
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         canInteractWithButtons = true;
 
     }
@@ -310,8 +340,8 @@ public class ControlsNavigationManager : UIManager
     private IEnumerator SliderButtonEnable(float delay)
     {
 
-
-        yield return new WaitForSeconds(delay);
+        
+        yield return new WaitForSeconds(delay * Time.timeScale);
         sliderButton.SetActive(true);
 
     }
@@ -326,25 +356,12 @@ public class ControlsNavigationManager : UIManager
         selected = newSelected;
     }
 
-    //public void InvertToggle()
-    //{
-    //    if(invertButton1.activeInHierarchy)
-    //    {
-    //        invertButton1.SetActive(false);
-    //        invertButton2.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        invertButton1.SetActive(true);
-    //        invertButton2.SetActive(true);
-    //    }
-    //}
-
+ 
     void IncreaseSlider()
     {
-        if (sliderButton.transform.position.x <= sliderMax.position.x)
+        if(sliderButton.transform.position.x <= sliderMax.position.x)
         {
-            sliderButton.transform.position += new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
+            sliderButton.transform.position += new Vector3(horizontalInput * rateOfSlider , 0,0 ) * Time.deltaTime;
         }
     }
 
@@ -358,18 +375,35 @@ public class ControlsNavigationManager : UIManager
 
     void CalculateSensitivityValue()
     {
-        maxValueForSlider = -sliderMin.position.x + sliderMax.position.x;
-        currentValueForSlider = -sliderMin.position.x + sliderButton.transform.position.x;
+        Debug.Log(saveGameManager.getCameraSensitivity() + " Saved Sensitivity");
+
+        maxValueForSlider = Mathf.Abs(sliderMin.localPosition.x) + Mathf.Abs(sliderMax.localPosition.x);
+        
+        Debug.Log(maxValueForSlider + " Max Value For Slider");
+        currentValueForSlider = (sliderButton.transform.localPosition.x - (sliderMin.localPosition.x));
+        Debug.Log(currentValueForSlider + " Current Value Of Slider");
+
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
-        sensitivity = sliderPercentDecimal * 10;
+
+        sensitivity = sliderPercentDecimal * -10;
+        Debug.Log(sensitivity + " Calculated Sensiivity");
+
+
         if (sensitivity < 1)
         {
             sensitivity = 1;
         }
+        else if(sensitivity > 10)
+        {
+            sensitivity = 10;
+        }
+
         saveGameManager.setCameraSensitivity(sensitivity);
         saveGameManager.SaveSettings();
-        saveGameManager.SetSliderPosition(sliderButton.transform.position.x);
+        
+        saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
         saveGameManager.SaveSliderPosition();
+       
 
     }
 
@@ -382,6 +416,5 @@ public class ControlsNavigationManager : UIManager
         canInteractWithButtons = true;
 
     }
-
 
 }

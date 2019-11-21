@@ -5,8 +5,8 @@ using UnityEngine;
 public class PauseMenuNavigationManager : UIManager
 {
 
-    public GameObject[] MenuItems = new GameObject[3];
-    MenuButtons[] buttons = new MenuButtons[3];
+    public GameObject[] MenuItems = new GameObject[4];
+    MenuButtons[] buttons = new MenuButtons[4];
     [SerializeField]
     int selected = 0;
     public Material whenSelected;
@@ -52,9 +52,10 @@ public class PauseMenuNavigationManager : UIManager
         buttons[0] = MenuItems[0].GetComponent<Button_PauseMenuResume>();
         MenuItems[1].AddComponent<Button_PauseMenuMainMenu>();
         buttons[1] = MenuItems[1].GetComponent<Button_PauseMenuMainMenu>();
-        MenuItems[2].AddComponent<Button_PauseMenuQuit>();
-        buttons[2] = MenuItems[2].GetComponent<Button_PauseMenuQuit>();
-
+        MenuItems[2].AddComponent<Button_PauseMenuSettings>();
+        buttons[2] = MenuItems[2].GetComponent<Button_PauseMenuSettings>();
+        MenuItems[3].AddComponent<Button_PauseMenuQuit>();
+        buttons[3] = MenuItems[3].GetComponent<Button_PauseMenuQuit>();
 
 
 
@@ -68,7 +69,10 @@ public class PauseMenuNavigationManager : UIManager
 
 
 
-        verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical") * 1000; 
+        verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical"); 
+
+        
+
         if (canInteractWithButtons)
         {
 
@@ -100,10 +104,12 @@ public class PauseMenuNavigationManager : UIManager
             if (verticalInput > 0.9f && selected > 0 && recieveInput == true && canInteractWithButtons)
             {
                 StartCoroutine("InputBufferSubract");
+                
             }
             else if (verticalInput < -0.9f && selected < MenuItems.Length - 1 && recieveInput == true && canInteractWithButtons)
             {
                 StartCoroutine("InputBufferAdd");
+                
             }
         }
     }
@@ -138,7 +144,7 @@ public class PauseMenuNavigationManager : UIManager
     {
 
         canInteractWithButtons = false;
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         canInteractWithButtons = true;
 
     }
@@ -151,5 +157,10 @@ public class PauseMenuNavigationManager : UIManager
     public void SetSelected(int newSelected)
     {
         selected = newSelected;
+    }
+
+    public bool GetCanInteractWithButtons()
+    {
+        return canInteractWithButtons;
     }
 }

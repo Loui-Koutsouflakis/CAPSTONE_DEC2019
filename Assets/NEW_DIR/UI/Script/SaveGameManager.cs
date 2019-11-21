@@ -17,7 +17,7 @@ public class SaveGameManager : MonoBehaviour
     public bool loadingFromContinue;
 
     //Refrence to the player
-    public GameObject player;
+    private PlayerClass player;
 
     //An int to figure out which file/set of playerprefs are being used
     public int currentFile = 1;
@@ -40,7 +40,8 @@ public class SaveGameManager : MonoBehaviour
     int qualitySetting;
     float cameraSmoothing;
     float sliderButtonPostionX;
-    //
+   
+    
     
     private void Awake()
     {
@@ -59,7 +60,7 @@ public class SaveGameManager : MonoBehaviour
 
         if(PlayerPrefs.GetInt("CameraInverted") != 0 && PlayerPrefs.GetInt("CameraInverted") != 1)
         {
-            PlayerPrefs.SetInt("CameraInverted", 0);
+            cameraInverted = 0;
         }
         else
         {
@@ -72,10 +73,10 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("CameraSmoothing", 0.202f);
+            cameraSmoothing = 0.202f;
         }
         
-        if(PlayerPrefs.GetFloat("CameraSensitivity") >= 1)
+        if(PlayerPrefs.GetFloat("CameraSensitivity") >= 1 && PlayerPrefs.GetFloat("CameraSensitivity") <= 10)
         {
             cameraSensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
 
@@ -91,8 +92,9 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetInt("QualitySetting", 5);
+            qualitySetting = 5;
         }
+
         SaveSettings();
         LoadSettings();
     }
@@ -119,6 +121,7 @@ public class SaveGameManager : MonoBehaviour
         //Checks which file it should save to
         if(currentFile == 1)
         {
+            Debug.Log("Hi world");
             //Gets the player position and stores it
             Vector3 checkpointPosition = currentCheckpoint.position;
             PlayerPrefs.SetFloat("CheckpointPositionX_1", checkpointPosition.x);
@@ -190,9 +193,11 @@ public class SaveGameManager : MonoBehaviour
     //Loads data from playerPrefs
     public void Load()
     {
+        Debug.Log("You Enterd Load Function");
         //Checks which file it should load from
         if (currentFile == 1)
         {
+            Debug.Log("You Enterd File");
             //Checks if it has a key before it trys to load anything
             if (PlayerPrefs.HasKey("CheckpointPositionX_1"))
             {
@@ -265,6 +270,8 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("SliderButtonPositionX", sliderButtonPostionX);
     }
 
+   
+
     public void LoadSettings()
     {
         if(mainCamera)
@@ -329,15 +336,14 @@ public class SaveGameManager : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera"))
         {
             //Sets the found player to the player variable
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
-            LoadSettings();
 
             //Checks whether or not it is loading from a file or not;
             if (!loadingFromContinue)
             {
                 //Sets the beginning variable to the beginning object in the scene
-                beginning = GameObject.FindGameObjectWithTag("Beginning").transform;
+                beginning = player.transform;
                 
                 //Sets current checkpoint to the beginning
                 currentCheckpoint = beginning;
@@ -345,7 +351,7 @@ public class SaveGameManager : MonoBehaviour
                 //Save the game
                 Save();
 
-                
+                LoadSettings();
                 
                 
             }
@@ -356,8 +362,8 @@ public class SaveGameManager : MonoBehaviour
                 
                 //Sets the condition to load from continue to false;
                 loadingFromContinue = false;
-               
 
+                LoadSettings();
             }
 
         }
@@ -447,19 +453,24 @@ public class SaveGameManager : MonoBehaviour
     //Public function to increase small shards
     public void increaseSmallShards(int amountOfShards)
     {
-        smallShards += amountOfShards;
+        smallShards = amountOfShards;
     }
 
     //Public function to increase big shards
     public void increaseBigShards(int amountOfShards)
     {
-        bigShards += amountOfShards;
+        bigShards = amountOfShards;
     }
 
     //Public function to increase crystals
     public void increaseCrystals(int amountOfCrystals)
     {
-        smallShards += amountOfCrystals;
+        smallShards = amountOfCrystals;
+    }
+
+    public int GetShards()
+    {
+        return PlayerPrefs.GetInt("SmallShards_1");
     }
 
     //Public function to update current checkpoint
@@ -528,4 +539,6 @@ public class SaveGameManager : MonoBehaviour
         sliderButtonPostionX = newPositionX;
       
     }
+
+   
 }

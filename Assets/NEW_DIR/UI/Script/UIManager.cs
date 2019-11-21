@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public Animator audioMenuAnimator;
     public Animator controlsMenuAnimator;
     public Animator pauseMenuAnimator;
+    public Animator GameOverMenuAnimator;
 
     //Control the different buttons
     [Header("Menu Navigation")]
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
     public AudioNavigationManager audioButtonController;
     public ControlsNavigationManager controlsButtonController;
     public PauseMenuNavigationManager pauseButtonController;
+    public GameOverMenuNavigationManager gameOverButtonController;
 
 
     //The Game Objects that have the scrolls
@@ -35,6 +37,8 @@ public class UIManager : MonoBehaviour
     public GameObject videoScrollObject;
     public GameObject audioScrollObject;
     public GameObject controlsScrollObject;
+    public GameObject pauseMenuScrollObject;
+    public GameObject gameOverScrollObject;
     
 
     //The Game Objects That Hold The Button Controller Scripts
@@ -220,8 +224,33 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void PauseSettingsButton()
+    {
+        pauseMenuAnimator.SetTrigger("PauseClose");
+        StartCoroutine(AnimationDelayPauseMenuSettings(animDelay));
+    }
 
-    //Gets
+    public void PauseSettingsBackButton()
+    {
+        settingsMenuAnimator.SetTrigger("SettingsClose");
+        StartCoroutine(AnimationDelayPauseMenuSettingsBack(animDelay));
+    }
+
+    //GameOver Menu Functions
+    public void GameOverRetry()
+    {
+        GameOverMenuAnimator.SetTrigger("GameOverClose");
+        StartCoroutine(AnimationDelayGameOverRetry(animDelay));
+    }
+    public void GameOverMainMenu()
+    {
+        GameOverMenuAnimator.SetTrigger("GameOverClose");
+        StartCoroutine(AnimationDelayGameOverMainMenu(animDelay));
+    }
+
+
+
+
     public static UIManager singleton;
 
     private void Awake()
@@ -234,7 +263,7 @@ public class UIManager : MonoBehaviour
     {
 
         MainMenuButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.loading = true;
         LoadLevel.LoadLevel(1);
@@ -245,7 +274,7 @@ public class UIManager : MonoBehaviour
     {
 
         MainMenuButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager.loading = true;
         saveGameManager.loadingFromContinue = true;
         LoadLevel.LoadLevel(PlayerPrefs.GetInt("CurrentScene_1"));
@@ -256,9 +285,9 @@ public class UIManager : MonoBehaviour
     {
        
         MainMenuButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         settingsButtonController.SetCanInteractWithButtons(true);
         mainMenuScrollObject.SetActive(false);
 
@@ -269,7 +298,7 @@ public class UIManager : MonoBehaviour
     {
 
         MainMenuButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         Application.Quit();
 
     }
@@ -278,9 +307,9 @@ public class UIManager : MonoBehaviour
     {
 
         settingsButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         mainMenuScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
        
         MainMenuButtonController.SetCanInteractWithButtons(true);
         settingsScrollObject.SetActive(false);
@@ -292,9 +321,9 @@ public class UIManager : MonoBehaviour
     {
 
         videoButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         
         settingsButtonController.SetCanInteractWithButtons(true);
         videoScrollObject.SetActive(false);
@@ -306,9 +335,9 @@ public class UIManager : MonoBehaviour
     {
 
         settingsButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         videoScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         videoButtonController.SetSelected(3);
         videoButtonController.SetCanInteractWithButtons(true);
         settingsScrollObject.SetActive(false);
@@ -321,9 +350,9 @@ public class UIManager : MonoBehaviour
     {
 
         settingsButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         audioScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         audioButtonController.SetCanInteractWithButtons(true);
         settingsScrollObject.SetActive(false);
 
@@ -334,9 +363,9 @@ public class UIManager : MonoBehaviour
     {
 
         audioButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
       
         settingsButtonController.SetCanInteractWithButtons(true);
         audioScrollObject.SetActive(false);
@@ -348,9 +377,9 @@ public class UIManager : MonoBehaviour
     {
 
         settingsButtonController.SetCanInteractWithButtons(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         controlsScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         controlsButtonController.SetCanInteractWithButtons(true);
         settingsScrollObject.SetActive(false);
 
@@ -362,9 +391,9 @@ public class UIManager : MonoBehaviour
 
         controlsButtonController.SetCanInteractWithButtons(false);
         controlsButtonController.sliderButton.SetActive(false);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         
         settingsButtonController.SetCanInteractWithButtons(true);
         controlsScrollObject.SetActive(false);
@@ -417,9 +446,60 @@ public class UIManager : MonoBehaviour
 
     }
 
+    private IEnumerator AnimationDelayPauseMenuSettings(float delay)
+    {
+
+        pauseButtonController.SetCanInteractWithButtons(false);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        settingsScrollObject.SetActive(true);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        settingsButtonController.SetCanInteractWithButtons(true);
+        pauseMenuScrollObject.SetActive(false);
 
 
+    }
 
+    private IEnumerator AnimationDelayPauseMenuSettingsBack(float delay)
+    {
+
+        settingsButtonController.SetCanInteractWithButtons(false);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        pauseMenuScrollObject.SetActive(true);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        pauseButtonController.SetCanInteractWithButtons(true);
+        settingsScrollObject.SetActive(false);
+
+
+    }
+
+    private IEnumerator AnimationDelayGameOverRetry(float delay)
+    {
+        
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+        gameOverButtonController.SetCanInteractWithButtons(false);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        gameOverScrollObject.SetActive(false);
+        gameManager.ResetTimeAndCamera();
+        gameManager.GetPlayer().EnableControls();
+        gameManager.GetPlayer().SetHealth(3);
+        gameManager.GetPlayer().GetHManager().HealthFull();
+        gameManager.GetPlayer().UnDeath();
+        saveGameManager.Load();
+        
+        //gameManager.GetPlayer().SetShards(saveGameManager.GetShards());
+
+    }
+
+
+    private IEnumerator AnimationDelayGameOverMainMenu(float delay)
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameOverButtonController.SetCanInteractWithButtons(false);
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        gameManager.GoToMenu();
+        
+    }
 }
 
 public class MenuButtons : MonoBehaviour
@@ -580,4 +660,32 @@ public class Button_ControlsVeteran : MenuButtons
     public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.ControlsVeteranButton(); }
+}
+
+public class Button_PauseMenuSettings : MenuButtons
+{
+    public override void Name() { }
+
+    public override void Execute(UIManager uiManager_m) { uiManager_m.PauseSettingsButton(); }
+}
+
+public class Button_PauseMenuSettingsBack : MenuButtons
+{
+    public override void Name() { }
+
+    public override void Execute(UIManager uiManager_m) { uiManager_m.PauseSettingsBackButton(); }
+}
+
+public class Button_GameOverMenuRetry : MenuButtons
+{
+    public override void Name() { }
+
+    public override void Execute(UIManager uiManager_m) { uiManager_m.GameOverRetry(); }
+}
+
+public class Button_GameOverMenuMainMenu : MenuButtons
+{
+    public override void Name() { }
+
+    public override void Execute(UIManager uiManager_m) { uiManager_m.GameOverMainMenu(); }
 }

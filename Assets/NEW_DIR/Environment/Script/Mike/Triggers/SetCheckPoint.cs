@@ -10,7 +10,6 @@ public class SetCheckPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<SaveGameManager>().GetComponent<SaveGameManager>();        
 
     }
 
@@ -24,7 +23,10 @@ public class SetCheckPoint : MonoBehaviour
     {
         if(other.gameObject.layer == 14)
         {
-            manager.updateCheckpoint(other.gameObject.transform); 
+            manager = FindObjectOfType<SaveGameManager>().GetComponent<SaveGameManager>();        
+            //manager.increaseSmallShards(player.GetShards());
+            manager.updateCheckpoint(other.gameObject.transform);
+            Debug.Log("Trigger Works");
         }
     }
 }

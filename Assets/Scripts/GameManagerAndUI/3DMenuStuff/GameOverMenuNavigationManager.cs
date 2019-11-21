@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioNavigationManager : UIManager
+public class GameOverMenuNavigationManager : UIManager
 {
 
-    public GameObject[] MenuItems = new GameObject[1];
-    MenuButtons[] buttons = new MenuButtons[1];
+    public GameObject[] MenuItems = new GameObject[2];
+    MenuButtons[] buttons = new MenuButtons[2];
     [SerializeField]
     int selected = 0;
     public Material whenSelected;
@@ -43,9 +43,10 @@ public class AudioNavigationManager : UIManager
     {
 
 
-        MenuItems[0].AddComponent<Button_AudioBack>();
-        buttons[0] = MenuItems[0].GetComponent<Button_AudioBack>();
-
+        MenuItems[0].AddComponent<Button_GameOverMenuRetry>();
+        buttons[0] = MenuItems[0].GetComponent<Button_GameOverMenuRetry>();
+        MenuItems[1].AddComponent<Button_GameOverMenuMainMenu>();
+        buttons[1] = MenuItems[1].GetComponent<Button_GameOverMenuMainMenu>();
 
 
 
@@ -59,22 +60,13 @@ public class AudioNavigationManager : UIManager
 
 
 
-        if (Time.timeScale < 1)
-        {
-            verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical");
-        }
-        else
-        {
-            verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
-
-        }
+       
+        verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical");
+        
+     
         if (canInteractWithButtons)
         {
-            if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
-            {
-                selected = 0;
-                buttons[0].Execute(UIManager.singleton);
-            }
+           
 
             for (int i = 0; i < MenuItems.Length; i++)
             {
@@ -160,5 +152,3 @@ public class AudioNavigationManager : UIManager
     }
 
 }
-
-

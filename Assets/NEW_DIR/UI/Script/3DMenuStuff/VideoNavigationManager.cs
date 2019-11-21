@@ -65,14 +65,28 @@ public class VideoNavigationManager : UIManager
     void Update()
     {
 
-
         currentQualitySetting = saveGameManager.GetQualitySetting();
 
 
 
-        verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
+
+        if (Time.timeScale < 1)
+        {
+            verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
+        }
         if (canInteractWithButtons)
         {
+            if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                selected = 3;
+                buttons[3].Execute(UIManager.singleton);
+            }
             if(currentQualitySetting == 5)
             {
                 MenuItems[0].gameObject.GetComponent<Renderer>().material = currentSelectedQuality;
@@ -138,7 +152,7 @@ public class VideoNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -151,7 +165,7 @@ public class VideoNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -159,7 +173,7 @@ public class VideoNavigationManager : UIManager
     {
 
         canInteractWithButtons = false;
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         canInteractWithButtons = true;
 
     }
