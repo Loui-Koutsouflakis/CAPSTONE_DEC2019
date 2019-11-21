@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.Y) && pauseMenuUI.activeInHierarchy == false && GameIsPaused == false) 
         {
             Death();
         }
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
             }
         }
         //Pauses the Game
-        else if (Input.GetKeyDown(KeyCode.P) && !GameIsPaused || Input.GetButtonDown("Start") && !GameIsPaused)
+        else if (Input.GetKeyDown(KeyCode.P) && !GameIsPaused && gameOverMenuUI.activeInHierarchy == false || Input.GetButtonDown("Start") && !GameIsPaused && gameOverMenuUI.activeInHierarchy == false)
         {
             pauseCamera.SetActive(true);
             if (GameObject.FindGameObjectWithTag("AudioManager"))

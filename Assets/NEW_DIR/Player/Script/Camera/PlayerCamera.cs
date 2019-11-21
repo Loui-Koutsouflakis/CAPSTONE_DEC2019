@@ -252,7 +252,7 @@ public class PlayerCamera : MonoBehaviour
         //else
         //{
 
-            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
             yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
         //}
         YAxis = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
