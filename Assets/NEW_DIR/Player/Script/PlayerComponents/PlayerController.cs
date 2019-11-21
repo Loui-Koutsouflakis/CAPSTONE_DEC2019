@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         p_Layer = ~p_Layer;
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
+        player.SetLastKnownPos(player.transform.position);
     }
 
     #region Inputs
@@ -284,10 +285,10 @@ public class PlayerController : MonoBehaviour
                     //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
-                    if (player.GetHealth() <= 0)
-                    {
-                        player.Death();
-                    }
+                    //if (player.GetHealth() <= 0)
+                    //{
+                    //    //player.Death();
+                    //}
                 }
             }
             else if (collision.gameObject.name == "TeleportNext")
@@ -374,6 +375,9 @@ public class PlayerController : MonoBehaviour
     
     //for additional fix for sticking problem on some edges with mesh colliders
     private float antiStickTimer = 0;
+
+    //for reset after falling into pits
+    private float positionTimer = 0;
     
     //for coyote time
     private float gracePeriod;
@@ -397,13 +401,22 @@ public class PlayerController : MonoBehaviour
                     player.GenericAddForce(groundSlopeDirection, 0.5f);
                     sliding = true;
                 }
-                else
-                {
+                else if(sliding == true)
+                {                    
                     player.EnableControls();
                     sliding = false;
                 }
 
                 gracePeriod = 0;
+
+                positionTimer += 1;
+                //when falling into a pit will return to the last known position
+                if(positionTimer * groundCheckRate >= 1)
+                {
+                    player.SetLastKnownPos(player.transform.position);
+                    //Debug.Log("position set");
+                    positionTimer = 0;
+                }
 
 
                 //to jump on enemies
@@ -535,6 +548,8 @@ public class PlayerController : MonoBehaviour
                     player.transform.position -= transform.forward;
                     antiStickTimer = 0;
                 }
+
+                positionTimer = 0;
 
                 gracePeriod += 1;
                 if (gracePeriod * groundCheckRate >= 0.1f)
