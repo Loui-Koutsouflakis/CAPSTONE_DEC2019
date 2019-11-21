@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
+    public GameObject gameOverMenuUI;
+
     bool isMuted = false;
 
     public int PlayerHealth;
 
-    PlayerController player;
+    PlayerClass player;
 
     private MainMenuAudioManager audioManager;
 
@@ -30,18 +32,25 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseCamera;
 
-   // public Button[] pauseMenuButtons;
-    
-   // int selected = 0;
+
+    public Animator gameOverAnimController;
+
+    private GameOverMenuNavigationManager gameOverNavigationManager;
+
+    public GameObject GameOverCamera;
+
+    // public Button[] pauseMenuButtons;
+
+    // int selected = 0;
 
     //public float delay;
     //public float navigationDelay;
-    
-   // float timeSincePaused;
-    
-   // float verticalInput;
 
-   // bool recieveInput;
+    // float timeSincePaused;
+
+    // float verticalInput;
+
+    // bool recieveInput;
 
 
 
@@ -70,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerClass>();
     }
 
     //void UpdateSelected(int number)
@@ -95,7 +104,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //ChangeQuality();
 
         //LoseHealth();
@@ -123,7 +132,7 @@ public class GameManager : MonoBehaviour
         //    verticalInput = 0;
         //    verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical") * 1000;
 
-          
+
 
         //    if (verticalInput < -0.9f && selected < pauseMenuButtons.Length - 1 && recieveInput)
         //    {
@@ -146,8 +155,20 @@ public class GameManager : MonoBehaviour
         //        pauseMenuButtons[selected].onClick.Invoke();
         //    }
         //}
+        if (GameObject.FindObjectOfType<PauseMenuNavigationManager>())
+        {
+            pauseNavigationManager = GameObject.FindObjectOfType<PauseMenuNavigationManager>().GetComponent<PauseMenuNavigationManager>();
+            Debug.Log(pauseNavigationManager.GetCanInteractWithButtons()); 
 
-        if (Input.GetKeyDown(KeyCode.P) && GameIsPaused || Input.GetButtonDown("Start") && GameIsPaused)
+        }
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            Death();
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.P) && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true || Input.GetButtonDown("Start") && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true)
         {
             
             if (GameObject.FindGameObjectWithTag("AudioManager"))
@@ -248,7 +269,7 @@ public class GameManager : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         //UIElements.SetActive(false);
-        player.paused = true;
+        player.DisableControls();
         Time.timeScale = 0.0001f;
         GameIsPaused = true;
         //timeSincePaused = 0;
@@ -263,7 +284,7 @@ public class GameManager : MonoBehaviour
         //UIElements.SetActive(true);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        player.paused = false;
+        player.EnableControls();
 
     }
 
@@ -311,14 +332,25 @@ public class GameManager : MonoBehaviour
     //Placeholder for death 
     public void Death()
     {
-        Debug.Log("You Died");
+        GameOverCamera.SetActive(true);
+        gameOverMenuUI.SetActive(true);
+        gameOverNavigationManager = GameObject.FindObjectOfType<GameOverMenuNavigationManager>().GetComponent<GameOverMenuNavigationManager>();
+        gameOverNavigationManager.SetCanInteractWithButtons(true);
+        player.DisableControls();
         Time.timeScale = 0.0001f;
     }
 
     public void GoToMenu()
     {
         Time.timeScale = 1f;
+        player.EnableControls();
         SceneManager.LoadScene(0);
+    }
+
+    public void ResetTimeAndCamera()
+    {
+        Time.timeScale = 1;
+        GameOverCamera.SetActive(false);
     }
 
     //private IEnumerator InputDelay(float time)
@@ -353,4 +385,8 @@ public class GameManager : MonoBehaviour
         Resume();
     }
 
+    public PlayerClass GetPlayer()
+    {
+        return player;
+    }
 }

@@ -135,6 +135,11 @@ public class PlayerClass : MonoBehaviour
         StartCoroutine(DeathDelay());
     }
 
+    public void UnDeath()
+    {
+        anim.SetTrigger("UnDeath");
+    }
+
     private Vector3 lastKnownPos;
 
     public Vector3 GetLastKnownPos()

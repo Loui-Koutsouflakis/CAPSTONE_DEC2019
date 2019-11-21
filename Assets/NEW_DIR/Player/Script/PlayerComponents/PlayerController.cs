@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
         
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
-        //playerIK.IK_Grapple();
+        playerIK.IK_Grapple();
     }
 
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play

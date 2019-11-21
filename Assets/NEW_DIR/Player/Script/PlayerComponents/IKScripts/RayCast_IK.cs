@@ -1,4 +1,5 @@
-﻿
+﻿//to turn off grappling, go to line 197 of player controller
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,15 @@ using RootMotion.FinalIK;
 
 public class RayCast_IK : MonoBehaviour
 {
+    [Header("Grapple IK On/Off")]
+    public bool toggleGrapple = true;
 
 
+    [Header("Read only attached grapple point")]
+   public Transform grapplePoint;
 
     FullBodyBipedIK fBIK;
-    public BipedIK playerIK;
+    BipedIK bPIK;
 
 
     //Rotation of Target Transform should be: 
@@ -18,24 +23,28 @@ public class RayCast_IK : MonoBehaviour
     //RHand x: 0, y: 150, z:320
     //LHand x: -10, y:90, Z:-140
 
+    [Header("IK Targets --- found IKTargets in Lumi prefab")]
     public Transform rightHandTarget;
     public Transform leftHandTarget;
     public Transform leftLegTarget;
     public Transform rightLegTarget;
 
-    public Transform grapplePoint;
+   
 
-
+    [Header ("IK weights")]
     public float bipediIKWeigh = 0.2f;
     public float fBIKWeigh = 0.1f;
+    public float fBIKWeighEase = 0.5f;
+
 
 
     LineRenderer rope;
 
-    public List<Vector3> allRopeSections = new List<Vector3>();
 
-
+    [Header ("Lumi_IKRigged goes in here")]
     public GameObject player;
+
+    [Header ("Rope Lerp values")]
     public float smoothTime;
     public float ikVelocity;
 
@@ -52,7 +61,9 @@ public class RayCast_IK : MonoBehaviour
     RaycastHit lWall;
     RaycastHit rWall;
     LayerMask p_LayerMask = 1 << 9;
-    public float wallDist;
+
+  
+     float wallDist;
     //Strings to change limb direction == "rHand", "lHand", "rFoot", "lFoot"
 
 
@@ -63,14 +74,15 @@ public class RayCast_IK : MonoBehaviour
         fBIK = GetComponent<FullBodyBipedIK>();
         fBIK.solver.IKPositionWeight = 0;
 
+        bPIK = GetComponent<BipedIK>();
         smoothTime = 5f;
         ikVelocity = 0;
         rb = GetComponentInParent<Rigidbody>();
         pc = GetComponentInParent<PlayerClass>();
         rope = pc.debugLine;
 
-        playerIK.solvers.rightHand.target = rightHandTarget;
-        playerIK.solvers.leftHand.target = leftHandTarget;
+        bPIK.solvers.rightHand.target = rightHandTarget;
+        bPIK.solvers.leftHand.target = leftHandTarget;
         p_LayerMask = ~p_LayerMask;
     }
 
@@ -111,7 +123,7 @@ public class RayCast_IK : MonoBehaviour
 
     #endregion
 
-
+   
 
     //simple function to turn off the individual IK limb
     void ReturnHand(IKSolverLimb limb)
@@ -128,8 +140,8 @@ public class RayCast_IK : MonoBehaviour
     //if you want both turned off
     public void ReturnBothHands()
     {
-        ReturnHand(playerIK.solvers.rightHand);
-        ReturnHand(playerIK.solvers.leftHand);
+        ReturnHand(bPIK.solvers.rightHand);
+        ReturnHand(bPIK.solvers.leftHand);
 
     }
 
@@ -143,28 +155,28 @@ public class RayCast_IK : MonoBehaviour
         rightHandTarget.position = tetherPoint.position;
 
 
-
-        fBIK.solver.IKPositionWeight = 0.5f;
-        fBIK.solver.rightHandEffector.target = rightHandTarget;
-        fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
-        fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
-        fBIK.solver.rightArmChain.pull = 0.5f;
+       
 
 
+        StartCoroutine(StartGrapCoroutine(0, toggleGrapple));
 
-
-
-        rope.enabled = true;
-
+      
 
     }
 
+
+    public void EnableRope()
+    {
+        rope.enabled = true;
+
+        Debug.Log("Rope Enabled");
+    }
 
 
     public void IK_EndGrapple()
     {
         rope.enabled = false;
-        playerIK.solvers.rightHand.SetIKPositionWeight(0);
+        bPIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
         StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
 
@@ -191,6 +203,48 @@ public class RayCast_IK : MonoBehaviour
 
     }
 
+    IEnumerator StartGrapCoroutine(float weight, bool gt)
+    {
+        if (gt == false)
+            yield break; 
+
+
+        while (fBIK.solver.IKPositionWeight < fBIKWeighEase)
+        {
+            if (pc.playerCurrentMove != MovementType.grapple)
+            {
+                yield break;
+            }
+
+
+            weight += 0.001f;
+            fBIK.solver.IKPositionWeight = weight;
+            fBIK.solver.rightHandEffector.positionWeight = weight;
+            yield return null;
+        }
+
+
+        GrappleUpdate(toggleGrapple);
+
+    }
+
+    //this is an easy way of turning on and off the IKGRappling system
+    void GrappleUpdate(bool gt)
+    {
+        if (gt == false)
+            return;
+
+        fBIK.solver.IKPositionWeight = 0.5f;
+        fBIK.solver.rightHandEffector.target = rightHandTarget;
+        fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
+        fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
+        fBIK.solver.rightArmChain.pull = 0.5f;
+
+    }
+
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -204,16 +258,16 @@ public class RayCast_IK : MonoBehaviour
             if (isInCloseF() && rb.velocity.magnitude > 2f)
             {
                 rightHandTarget.position = wall.point + player.transform.right / 5 + new Vector3(0, 0.3f, 0);
-                float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-                playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
-                playerIK.solvers.rightHand.SetIKRotationWeight(0.5f);
+                float rlimbWeight = Mathf.SmoothDamp(bPIK.solvers.rightHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
+                bPIK.solvers.rightHand.SetIKPositionWeight(0.8f);
+                bPIK.solvers.rightHand.SetIKRotationWeight(0.5f);
 
 
                 leftHandTarget.position = wall.point - player.transform.right / 5 - new Vector3(0, -0.3f, 0);
                 //float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.9f, ref ikVelocity, smoothTime * Time.deltaTime);
-                playerIK.solvers.leftHand.SetIKRotationWeight(0.5f);
+                bPIK.solvers.leftHand.SetIKRotationWeight(0.5f);
 
-                playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
+                bPIK.solvers.leftHand.SetIKPositionWeight(0.8f);
 
 
             }
@@ -230,11 +284,11 @@ public class RayCast_IK : MonoBehaviour
 
                     //leftHandTarget.rotation = ReturnRotation(lWall);
 
-                    float llimbWeight = Mathf.SmoothDamp(playerIK.solvers.leftHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
+                    float llimbWeight = Mathf.SmoothDamp(bPIK.solvers.leftHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
 
-                    playerIK.solvers.leftHand.SetIKPositionWeight(llimbWeight);
-                    playerIK.solvers.leftHand.SetIKRotationWeight(1);
-                    if (playerIK.solvers.leftHand.GetIKPositionWeight() > 0.7)
+                    bPIK.solvers.leftHand.SetIKPositionWeight(llimbWeight);
+                    bPIK.solvers.leftHand.SetIKRotationWeight(1);
+                    if (bPIK.solvers.leftHand.GetIKPositionWeight() > 0.7)
                         ikVelocity = 0;
                     //playerIK.solvers.leftHand.SetIKPositionWeight(0.8f);
 
@@ -244,11 +298,11 @@ public class RayCast_IK : MonoBehaviour
                 if (!isInCloseF() && isInCloseR())
                 {
                     rightHandTarget.position = rWall.point + new Vector3(0, 0.25f, 0);
-                    float rlimbWeight = Mathf.SmoothDamp(playerIK.solvers.rightHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
-                    playerIK.solvers.rightHand.SetIKPositionWeight(rlimbWeight);
-                    playerIK.solvers.rightHand.SetIKRotationWeight(1);
+                    float rlimbWeight = Mathf.SmoothDamp(bPIK.solvers.rightHand.GetIKPositionWeight(), 0.8f, ref ikVelocity, smoothTime * Time.deltaTime);
+                    bPIK.solvers.rightHand.SetIKPositionWeight(rlimbWeight);
+                    bPIK.solvers.rightHand.SetIKRotationWeight(1);
 
-                    if (playerIK.solvers.rightHand.GetIKPositionWeight() > 0.7)
+                    if (bPIK.solvers.rightHand.GetIKPositionWeight() > 0.7)
                         ikVelocity = 0;
 
                     // playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
@@ -269,17 +323,18 @@ public class RayCast_IK : MonoBehaviour
             {
 
                 rightHandTarget.position = pc.attachedGrapplePoint.position;
-                rope.SetPosition(0, tetherPoint.position);
-                rope.SetPosition(1, grapplePoint.position);
-                rope.startWidth = 0.1f;
-                rope.endWidth = 0.1f;
 
 
-                fBIK.solver.IKPositionWeight = 0.5f;
-                fBIK.solver.rightHandEffector.target = rightHandTarget;
-                fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
-                fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
-                fBIK.solver.rightArmChain.pull = 0.5f;
+                if (rope.enabled)
+                {
+                    rope.SetPosition(0, tetherPoint.position);
+                    rope.SetPosition(1, grapplePoint.position);
+                    rope.startWidth = 0.1f;
+                    rope.endWidth = 0.1f;
+                }
+
+
+                GrappleUpdate(toggleGrapple); 
 
 
 
@@ -294,10 +349,10 @@ public class RayCast_IK : MonoBehaviour
         if (!isInCloseF())
         {
             if (!isInCloseR())
-                ReturnHand(playerIK.solvers.rightHand);
+                ReturnHand(bPIK.solvers.rightHand);
 
             if (!isInCloseL())
-                ReturnHand(playerIK.solvers.leftHand);
+                ReturnHand(bPIK.solvers.leftHand);
 
         }
 

@@ -36,7 +36,7 @@ public class SettingsNavigationManager : UIManager
 
     private void OnEnable()
     {
-        
+        InitilizeButtons();
     }
 
     void InitilizeButtons()
@@ -49,8 +49,17 @@ public class SettingsNavigationManager : UIManager
         buttons[1] = MenuItems[1].GetComponent<Button_Audio>();
         MenuItems[2].AddComponent<Button_Controls>();
         buttons[2] = MenuItems[2].GetComponent<Button_Controls>();
-        MenuItems[3].AddComponent<Button_SettingsBack>();
-        buttons[3] = MenuItems[3].GetComponent<Button_SettingsBack>();
+        if(Time.timeScale < 1)
+        {
+            MenuItems[3].AddComponent<Button_PauseMenuSettingsBack>();
+            buttons[3] = MenuItems[3].GetComponent<Button_PauseMenuSettingsBack>();
+        }
+        else
+        {
+            MenuItems[3].AddComponent<Button_SettingsBack>();
+            buttons[3] = MenuItems[3].GetComponent<Button_SettingsBack>();
+
+        }
 
 
 
@@ -61,13 +70,24 @@ public class SettingsNavigationManager : UIManager
     void Update()
     {
 
+        
 
+        if(Time.timeScale < 1)
+        {
+             verticalInput = Input.GetAxisRaw("VerticalJoy") + Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+             verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
 
-
-
-        verticalInput = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+        }
         if (canInteractWithButtons)
         {
+            if(Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                selected = 3;
+                buttons[3].Execute(UIManager.singleton);
+            }
 
             for (int i = 0; i < MenuItems.Length; i++)
             {
@@ -96,11 +116,17 @@ public class SettingsNavigationManager : UIManager
 
             if (verticalInput > 0.9f && selected > 0 && recieveInput == true && canInteractWithButtons)
             {
+               
+
                 StartCoroutine("InputBufferSubract");
+                verticalInput = 0;
             }
             else if (verticalInput < -0.9f && selected < MenuItems.Length - 1 && recieveInput == true && canInteractWithButtons)
             {
+                
+
                 StartCoroutine("InputBufferAdd");
+                verticalInput = 0;
             }
         }
     }
@@ -114,7 +140,7 @@ public class SettingsNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -127,7 +153,7 @@ public class SettingsNavigationManager : UIManager
             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
             audioManager.PlaySound("Navigate");
         }
-        yield return new WaitForSeconds(bufferTime);
+        yield return new WaitForSeconds(bufferTime * Time.timeScale);
         recieveInput = true;
     }
 
@@ -135,7 +161,7 @@ public class SettingsNavigationManager : UIManager
     {
 
         canInteractWithButtons = false;
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay * Time.timeScale);
         canInteractWithButtons = true;
 
     }

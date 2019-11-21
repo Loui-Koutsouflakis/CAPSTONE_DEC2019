@@ -47,7 +47,6 @@ public class GrappleComponent : PlayerVariables
         tetherLength = tetherDirection.magnitude;
         angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
 
-        player.debugLine.GetComponent<LineRenderer>().enabled = true;
     }
 
     private void OnDisable()
@@ -103,7 +102,7 @@ public class GrappleComponent : PlayerVariables
 
         swingDirection = Vector3.Dot(player.transform.forward, player.rb.velocity);
         anim.SetFloat("SwingDir", swingDirection);
-        Debug.Log(swingDirection);
+        //Debug.Log(swingDirection);
 
     }
 
