@@ -8,13 +8,17 @@ public class RollGolem : MonoBehaviour, IKillable
     public Animator anim;
     public Transform playerTf;
     public MeshCollider wheelCol;
-    public BoxCollider standCol;
+    public MeshCollider spinCollider;
+    public SphereCollider headColVulnerable;
+    public SphereCollider headColSpin;
     public BoxCollider[] handColliders;
     public State state;
     public Transform child;
     public ParticleSystem[] groundScrapePs;
     public ParticleSystem[] groundSpillPs;
-    
+
+    public float playerHeightOffset = 0.85f;
+
     int health = 2;
     readonly int raycastLayerMask = 0;
     bool seesPlayer;
@@ -22,19 +26,25 @@ public class RollGolem : MonoBehaviour, IKillable
     bool canReverse;
     float viewRadius = 32f;
     readonly float rollSpeed = 23f;
-    //readonly float forwardForce = 12.6f;
-    readonly float groundCheckDistance = 1.6f;
-    readonly float wallCheckDistance = 4f;
+    readonly float groundCheckDistance = 0.2f;
+    readonly float wallCheckDistance = 3f;
     Vector3 direction;
     Vector3 localBurrowSpot = new Vector3(0f, -5f, 0f);
     Vector3 downward;
-    //readonly Vector3 angularForward = new Vector3(16f, 0f, 0f);
-    //readonly Vector3 angularRight = new Vector3(0f, 0f, -16f);
-    RaycastHit wallHit;
-    RaycastHit groundHit;
+    Vector3 forwardOffset;
+    Vector3 groundOffset;
+    RaycastHit[] wallHit;
+    RaycastHit[] groundHit;
+    Coroutine bounceOffRoutine;
+    Coroutine digRoutine;
 
     const string rollUpAnimTrig = "RollUp";
     const string startDigAnimTrig = "StartDig";
+    const string takeDamageAnimTrig = "TakeDamage";
+    const string crashAnimTrig = "Crash";
+    const string readjustAnimTrig = "Readjust";
+    const string enemyWeakSpotTag = "EnemyWeakSpot";
+    const string enemyTag = "Enemy";
 
     [Header("RENDER DEBUG")]
     public SkinnedMeshRenderer[] rends;
@@ -44,29 +54,31 @@ public class RollGolem : MonoBehaviour, IKillable
     private void Start()
     {
         canReverse = true;
+
+        wallHit = new RaycastHit[9];
+        groundHit = new RaycastHit[9];
     }
 
-    private void Update()
-    {
-        //if(Input.GetKeyDown(KeyCode.T))
-        //{
-        //    if (state == State.Vulnerable)
-        //    {
-        //        anim.SetTrigger("TakeDamage");
-        //        StopAllCoroutines();
-        //        StartCoroutine(CheckHit());
-        //    }
-        //    else if(state == State.SurfacingSpin)
-        //    {
-        //        StopAllCoroutines();
-        //        StartCoroutine(CheckHit());
-        //    }
-        //}
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.T))
+    //    {
+    //        if (state == State.Vulnerable)
+    //        {
+    //            anim.SetTrigger(takeDamageAnimTrig);
+    //            StopAllCoroutines();
+    //            StartCoroutine(CheckHit());
+    //        }
+    //        else if(state == State.SurfacingSpin)
+    //        {
+    //            StopAllCoroutines();
+    //            StartCoroutine(CheckHit());
+    //        }
+    //    }
+    //}
 
     void FixedUpdate()
     {
-
         switch (state)
         {
             case State.Idle:
@@ -74,77 +86,100 @@ public class RollGolem : MonoBehaviour, IKillable
                 {
                     StartCoroutine(RollUpSequence());
                 }
+
+                //CheckGround();
+
                 break;
             case State.Balling:
                 direction = (playerTf.position - transform.position).normalized;
                 direction.y = 0f;
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction, Vector3.up), 12f * Time.fixedDeltaTime);
+                
+                //CheckGround();
+
                 break;
             case State.Rolling:
 
                 transform.position += transform.forward * rollSpeed * Time.fixedDeltaTime;
 
-                //rb.AddForce(direction * forwardForce);
-                //rb.angularVelocity += direction.z * Vector3.right * 16f * Time.fixedDeltaTime;
-
-                Physics.Raycast(transform.position + (Vector3.down * 0.3f), Vector3.down, out groundHit, groundCheckDistance);
-                Physics.Raycast(transform.position, transform.forward, out wallHit, wallCheckDistance);
-                
-                //if (groundHit.collider == null && canBounceOff)
-                //{
-                //    Debug.Log("<color=red>POOP</color>");
-                //    StartCoroutine(BounceOffSequence(false));
-                //}
-                //else 
-                if (wallHit.collider != null && wallHit.collider.tag != "Enemy")
+                for (int i = 0; i < wallHit.Length; i++)
                 {
-                    StartCoroutine(BounceOffSequence(true));
-                    //rb.velocity = Vector3.zero;
-                    //rb.angularVelocity = Vector3.zero;
-                }
-
-                if(groundHit.collider == null /*&& canReverse*/)
-                {
-                    if(downward.y == 0f)
+                    switch(i)
                     {
-                        foreach (ParticleSystem ps in groundScrapePs)
-                        {
-                            ps.Stop();
-                        }
+                        case 1:
+                            forwardOffset.x = 0.3f;
+                            groundOffset.x = 1f;
+                            break;
+                        case 2:
+                            forwardOffset.x = -0.3f;
+                            groundOffset.x = -1f;
+                            break;
+                        case 3:
+                            forwardOffset.y = 1f;
+                            groundOffset.z = 1f;
+                            break;
+                        case 4:
+                            //forwardOffset.y = -0.1f;
+                            groundOffset.z = -1f;
+                            break;
+                        case 5:
+                            forwardOffset.x = 0.3f;
+                            forwardOffset.y = 1f;
+                            groundOffset.x = 1f;
+                            groundOffset.z = 1f;
+                            break;
+                        case 6:
+                            forwardOffset.x = -0.3f;
+                            forwardOffset.y = 1f;
+                            groundOffset.x = -1f;
+                            groundOffset.z = 1f;
+                            break;
+                        case 7:
+                            forwardOffset.x = 0.3f;
+                            //forwardOffset.y = -0.1f;
+                            groundOffset.x = 1f;
+                            groundOffset.z = -1f;
+                            break;
+                        case 8:
+                            forwardOffset.x = -0.3f;
+                            //forwardOffset.y = -0.1f;
+                            groundOffset.x = -1f;
+                            groundOffset.z = -1f;
+                            break;
+                    }
+                    
+                    Physics.Raycast(transform.position, transform.forward + forwardOffset, out wallHit[i], wallCheckDistance);
+
+                    if (wallHit[i].collider != null && (wallHit[i].collider.gameObject.layer == 14 || wallHit[i].collider.gameObject.layer == 15))
+                    {
+                        Debug.Log("RollGolem Raycast hit #: " + i + " against " + wallHit[i].collider.gameObject.name);
+
+                        bounceOffRoutine = StartCoroutine(BounceOffSequence(true));
                     }
 
-                    downward += Physics.gravity * Time.fixedDeltaTime;
-                    transform.position += downward * Time.fixedDeltaTime;
-
-                    //Debug.Log("<color=red>POOP</color>");
-                    //transform.Rotate(0f, 180f, 0f);
-                    //StartCoroutine(ReverseBuffer());
-                }
-                else if(downward.y != 0f)
-                {
-                    downward.y = 0f;
-
-                    foreach(ParticleSystem ps in groundScrapePs)
-                    {
-                        ps.Play();
-                    }
+                    
                 }
 
-                break;
-            case State.BounceOff:
-                break;
-            case State.Vulnerable:
-                break;
-            case State.TakingDamage:
+                CheckGround();
+
                 break;
             case State.Burrowing:
                 child.localPosition = Vector3.Lerp(child.localPosition, localBurrowSpot, 2.8f * Time.fixedDeltaTime);
                 break;
             case State.Underground:
-                transform.position = Vector3.Lerp(transform.position, new Vector3(playerTf.position.x, transform.position.y, playerTf.position.z), 3.6f * Time.deltaTime);
+                if(playerTf.position.y < transform.position.y + playerHeightOffset)
+                {
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTf.position.x, playerTf.position.y - playerHeightOffset, playerTf.position.z), 3.6f * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTf.position.x, transform.position.y, playerTf.position.z), 3.6f * Time.deltaTime);
+                }
+
                 break;
             case State.SurfacingSpin:
                 child.localPosition = Vector3.Lerp(child.localPosition, Vector3.zero, 2f * Time.fixedDeltaTime);
+                //transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, playerTf.position.y - playerHeightOffset, transform.position.z), 3.6f * Time.deltaTime);
                 break;
             case State.Dying:
                 dissolveStrength = Mathf.Lerp(dissolveStrength, 1, dissolveLerp * Time.fixedDeltaTime);
@@ -157,7 +192,46 @@ public class RollGolem : MonoBehaviour, IKillable
                 direction = (playerTf.position - transform.position).normalized;
                 direction.y = 0f;
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction, Vector3.up), 12f * Time.fixedDeltaTime);
+
+                //CheckGround();
+
                 break;
+
+            case State.Vulnerable:
+                //CheckGround();
+                break;
+        }
+    }
+
+    public void CheckGround()
+    {
+        for (int i = 0; i < wallHit.Length; i++)
+        {
+            Physics.Raycast(transform.position + (Vector3.down * 0.3f), Vector3.down, out groundHit[i], groundCheckDistance);
+
+            if (groundHit[i].collider == null /*&& canReverse*/)
+            {
+                if (downward.y == 0f)
+                {
+                    foreach (ParticleSystem ps in groundScrapePs)
+                    {
+                        ps.Stop();
+                    }
+                }
+
+                downward += (Physics.gravity / 9f) * Time.fixedDeltaTime;
+                transform.position += (downward / 9f) * Time.fixedDeltaTime;
+
+            }
+            else if (downward.y != 0f)
+            {
+                downward.y = 0f;
+
+                foreach (ParticleSystem ps in groundScrapePs)
+                {
+                    ps.Play();
+                }
+            }
         }
     }
 
@@ -168,50 +242,30 @@ public class RollGolem : MonoBehaviour, IKillable
         switch (state)
         {
             case State.Idle:
-                //Debug.Log("RollGolem: Idle");
                 rb.isKinematic = true;
                 break;
             case State.Balling:
-                //Debug.Log("RollGolem: Balling");
+
                 //anim.SetTrigger("RollUp");
                 
                 break;
             case State.Rolling:
-                //Debug.Log("RollGolem: Rolling");
                 canBounceOff = true;
-                //rb.isKinematic = false;
-                standCol.enabled = false;
+                headColVulnerable.enabled = false;
                 wheelCol.enabled = true;
                 break;
             case State.BounceOff:
-                //Debug.Log("RollGolem: BounceOff");
-                //rb.isKinematic = false;
-                //rb.useGravity = true;
-                //rb.velocity = Vector3.zero;
-                //rb.angularVelocity = Vector3.zero;
-                //rb.AddForce((-direction + Vector3.up) * 10f, ForceMode.Impulse);
                 canBounceOff = false;
-                anim.SetTrigger("Crash");
+                anim.SetTrigger(crashAnimTrig);
                 break;
             case State.Vulnerable:
-                //Debug.Log("RollGolem: Vulnerable");
-                //foreach (SkinnedMeshRenderer mr in rends)
-                //{
-                //    mr.material = vulnerableMat;
-                //}
-                standCol.enabled = true;
+                headColVulnerable.enabled = true;
                 break;
             case State.TakingDamage:
-                //Debug.Log("RollGolem: TakingDamage");
-                //foreach (SkinnedMeshRenderer mr in rends)
-                //{
-                //    mr.material = hurtMat;
-                    
-                //}
                 break;
             case State.Burrowing:
-                //Debug.Log("RollGolem: Burrowing");
-                anim.SetTrigger("StartDig");
+
+                anim.SetTrigger(startDigAnimTrig);
                 rb.isKinematic = true;
                 rb.useGravity = false;
 
@@ -220,19 +274,13 @@ public class RollGolem : MonoBehaviour, IKillable
                     ps.Play();
                 }
 
-                //foreach (SkinnedMeshRenderer mr in rends)
-                //{
-                //    mr.material = burrowingMat;
-                //}
                 break;
-            case State.Underground:
-                //Debug.Log("RollGolem: Underground");
-                break;
-            case State.SurfacingSpin:
-                //Debug.Log("RollGolem: SurfacingSpin");
-                break;
+            //case State.Underground:
+                //break;
+            //case State.SurfacingSpin:
+                //break;
             case State.Dying:
-                //Debug.Log("RollGolem: Dying");
+
                 foreach(SkinnedMeshRenderer smr in rends)
                 {
                     smr.receiveShadows = false;
@@ -244,30 +292,19 @@ public class RollGolem : MonoBehaviour, IKillable
                     ps.Stop();
                 }
 
-                foreach(BoxCollider col in handColliders)
-                {
-                    col.enabled = false;
-                }
+                //foreach(BoxCollider col in handColliders)
+                //{
+                //    col.enabled = false;
+                //}
 
                 wheelCol.enabled = false;
-                standCol.enabled = false;
+                headColVulnerable.enabled = false;
 
                 anim.enabled = false;
                 break;
 
             case State.ReadjustingToRoll:
-                //Debug.Log("ReadjustingToRoll");
-                //foreach (SkinnedMeshRenderer mr in rends)
-                //{
-                //    mr.material = readjustMat;
-                //}
-                anim.SetTrigger("Readjust");
-                break;
-            case State.ReadjustingToSpin:
-                //foreach (SkinnedMeshRenderer mr in rends)
-                //{
-                //    mr.material = readjustMat;
-                //}
+                anim.SetTrigger(readjustAnimTrig);
                 break;
             case State.Dead:
                 foreach(SkinnedMeshRenderer smr in rends)
@@ -280,14 +317,23 @@ public class RollGolem : MonoBehaviour, IKillable
 
     public IEnumerator RollUpSequence()
     {
-        anim.SetTrigger("RollUp");
+        wheelCol.enabled = true;
+        anim.SetTrigger(rollUpAnimTrig);
         SwitchState(State.Balling);
         yield return new WaitForSeconds(2.2f);
+        
         SwitchState(State.Rolling);
     }
 
     public IEnumerator ReadjustSequence()
     {
+        foreach (BoxCollider col in handColliders)
+        {
+            col.enabled = false;
+        }
+
+        wheelCol.enabled = true;
+
         SwitchState(State.ReadjustingToRoll);
         yield return new WaitForSeconds(0.75f);
         SwitchState(State.Balling);
@@ -298,68 +344,77 @@ public class RollGolem : MonoBehaviour, IKillable
 
     public IEnumerator DigSequence()
     {
+        headColVulnerable.enabled = false;
+        spinCollider.enabled = true;
+
         SwitchState(State.Burrowing);
         yield return new WaitForSeconds(2f);
         SwitchState(State.Underground);
         yield return new WaitForSeconds(3f);
         SwitchState(State.SurfacingSpin);
+        headColSpin.enabled = true;
         yield return new WaitForSeconds(5f);
+        headColSpin.enabled = false;
         StartCoroutine(DigSequence());
     }
 
     public IEnumerator BounceOffSequence(bool isWallBounce)
     {
-        //Debug.Log("BounceOffSequence");
+        canBounceOff = false;
+        SwitchState(State.BounceOff);
 
-        //if(isWallBounce)
-        //{
-            canBounceOff = false;
-            SwitchState(State.BounceOff);
-            yield return new WaitForSeconds(1.2f);
-            SwitchState(State.Vulnerable);
-            yield return new WaitForSeconds(4f);
-            StartCoroutine(ReadjustSequence());
-            
+        foreach (BoxCollider col in handColliders)
+        {
+            col.enabled = true;
+        }
 
-        //}
-        //else
-        //{
-        //    canBounceOff = false;
-        //    yield return new WaitForSeconds(1.5f);
-        //    canBounceOff = true;
-        //}
+        yield return new WaitForSeconds(1.2f);
+        wheelCol.enabled = false;
+        headColVulnerable.enabled = true;
+        SwitchState(State.Vulnerable);
+        yield return new WaitForSeconds(4f);
+        StartCoroutine(ReadjustSequence());
     }
 
-    public IEnumerator CheckHit(bool x)
+    public IEnumerator CheckHit(bool isGroundPound)
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return 0f;
 
         if(state == State.Vulnerable)
         {
+            StopCoroutine("BounceOffSequence");
+            StopCoroutine(bounceOffRoutine);
             StartCoroutine(TakeDamage());
         }
         else if(state == State.Burrowing || state == State.SurfacingSpin)
         {
+            StopCoroutine("DigSequence");
+            StopCoroutine(digRoutine);
             StartCoroutine(Die());
         }
     }
 
     public IEnumerator TakeDamage()
     {
-        SwitchState(State.TakingDamage);
+        foreach (BoxCollider col in handColliders)
+        {
+            col.enabled = false;
+        }
 
-        //foreach (SkinnedMeshRenderer mr in rends)
-        //{
-        //    mr.material = hurtMat;
-        //}
+        spinCollider.enabled = true;
+
+        SwitchState(State.TakingDamage);
 
         yield return new WaitForSeconds(2f);
 
-        StartCoroutine(DigSequence());
+        digRoutine = StartCoroutine(DigSequence());
     }
 
     public IEnumerator Die()
     {
+        spinCollider.enabled = false;
+        headColSpin.enabled = false;
+
         SwitchState(State.Dying);
         yield return new WaitForSeconds(2f);
         SwitchState(State.Dead);
