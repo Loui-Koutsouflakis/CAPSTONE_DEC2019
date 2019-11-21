@@ -178,6 +178,7 @@ public class ControlsNavigationManager : UIManager
                             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
                             audioManager.PlaySound("Navigate");
                         }
+                        canInteractWithButtons = false;
                         StartCoroutine(TraversalDelay(0.3f));
                     }
                     else if(verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
@@ -206,6 +207,7 @@ public class ControlsNavigationManager : UIManager
                             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
                             audioManager.PlaySound("Navigate");
                         }
+                        canInteractWithButtons = false;
                         StartCoroutine(TraversalDelay(0.3f));
                     }
                     else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
@@ -238,6 +240,7 @@ public class ControlsNavigationManager : UIManager
                             audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
                             audioManager.PlaySound("Navigate");
                         }
+                        canInteractWithButtons = false;
                         StartCoroutine(TraversalDelay(0.3f));
                     }
                     else if (verticalInput < -0.9f && recieveInput == true && canInteractWithButtons)
@@ -385,7 +388,8 @@ public class ControlsNavigationManager : UIManager
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
-        sensitivity = sliderPercentDecimal * -10;
+        sensitivity = Mathf.Ceil(sliderPercentDecimal * -10);
+       
         Debug.Log(sensitivity + " Calculated Sensiivity");
 
 
@@ -403,6 +407,7 @@ public class ControlsNavigationManager : UIManager
         
         saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
         saveGameManager.SaveSliderPosition();
+        saveGameManager.LoadSettings();
        
 
     }
@@ -411,8 +416,8 @@ public class ControlsNavigationManager : UIManager
     private IEnumerator TraversalDelay(float delay)
     {
 
-        canInteractWithButtons = false;
-        yield return new WaitForSeconds(delay);
+        
+        yield return new WaitForSeconds(delay * Time.timeScale);
         canInteractWithButtons = true;
 
     }
