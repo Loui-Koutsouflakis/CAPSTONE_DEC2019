@@ -282,7 +282,7 @@ public class PlayerController : MonoBehaviour
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
+                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     //if (player.GetHealth() <= 0)
@@ -418,14 +418,13 @@ public class PlayerController : MonoBehaviour
                     positionTimer = 0;
                 }
 
-
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     StartCoroutine(footHit.collider.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
                     //Debug.Log("Hitting Spider");
                     //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        //player.GenericAddForce(transform.up, 5);
+                    player.GenericAddForce(transform.up, 5); //bounce off enemies
                 }
                 //for ground pounding checks
                 if (player.GetGroundPounding())
@@ -540,17 +539,25 @@ public class PlayerController : MonoBehaviour
                     player.EnableControls();
                     sliding = false;
                 }
-                
-                //additional check to prevent sticking on walls
-                antiStickTimer += 1;
-                if(antiStickTimer * groundCheckRate > 10)
+
+                //additional check to prevent sticking on walls                
+                if(Mathf.Abs(player.rb.velocity.y) < 0.2f)
                 {
-                    player.transform.position -= transform.forward;
+                    antiStickTimer += 1;
+                    if (antiStickTimer * groundCheckRate > 3)
+                    {
+                        player.transform.position -= transform.forward;
+                        antiStickTimer = 0;
+                    }
+                }
+                else
+                {
                     antiStickTimer = 0;
                 }
 
                 positionTimer = 0;
 
+                //to allow player to jump for a very slight time after running off a ledge
                 gracePeriod += 1;
                 if (gracePeriod * groundCheckRate >= 0.1f)
                 {
