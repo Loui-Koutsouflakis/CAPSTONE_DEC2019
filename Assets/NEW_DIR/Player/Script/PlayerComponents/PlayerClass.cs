@@ -38,6 +38,8 @@ public class PlayerClass : MonoBehaviour
         return h_Manager;
     }
 
+    private GameManager gameManager;
+
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all
     //in an array playerMovementArray, which makes things simpler to cycle through using the SetMovementType() function
 
@@ -109,12 +111,40 @@ public class PlayerClass : MonoBehaviour
     public void SetHealth(int healthChange)
     {
         health += healthChange;
+        if (health <= 0) 
+        {
+            Death();            
+        }
+    }
+
+    IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(2);
+        EnableControls();
+        Debug.Log("enabled");
+        gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+        gameManager.Death();
     }
 
     public void Death()
     {
         //DisableControls(); bring this back once we have a proper reset 
         anim.SetTrigger("Death");
+        DisableControls();
+        Debug.Log("disabled");
+        StartCoroutine(DeathDelay());
+    }
+
+    private Vector3 lastKnownPos;
+
+    public Vector3 GetLastKnownPos()
+    {
+        return lastKnownPos;
+    }
+
+    public void SetLastKnownPos(Vector3 value)
+    {
+        lastKnownPos = value;
     }
 
     public int shards;
