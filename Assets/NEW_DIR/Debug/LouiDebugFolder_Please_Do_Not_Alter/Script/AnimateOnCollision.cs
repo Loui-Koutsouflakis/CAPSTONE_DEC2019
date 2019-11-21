@@ -19,7 +19,7 @@ public class AnimateOnCollision : MonoBehaviour
             {
                 animator.SetTrigger(triggerName);
             }
-            else if(usePlayerLayer && collision.gameObject.layer == 9)
+            else if(usePlayerLayer && collision.gameObject.layer == 14)
             {
                 animator.SetTrigger(triggerName);
             }
