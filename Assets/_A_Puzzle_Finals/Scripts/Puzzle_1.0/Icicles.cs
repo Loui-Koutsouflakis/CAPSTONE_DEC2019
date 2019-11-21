@@ -25,6 +25,9 @@ public class Icicles : MonoBehaviour
     private readonly float thresholdDistance = 20.0f;
     private Vector3 sinkDistance = new Vector3(0.0f, -2.0f, 0.0f);
 
+    //CleanUp
+    private float timer = 1.0f;
+
     private void Awake()
     {
         if(icicleSize == IcicleIdetifier.small)
@@ -78,6 +81,13 @@ public class Icicles : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        animator.SetBool("Grounded", true);
+        animator.SetBool("Smash", true);
+    }
+
+    private IEnumerator CleanUp()
+    {
+        yield return new WaitForSecondsRealtime(timer);
+
+        gameObject.SetActive(false);
     }
 }
