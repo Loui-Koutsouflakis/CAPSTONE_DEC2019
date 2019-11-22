@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
     [Range(1, 10)]
     public float sensitivity = 2.5f;
     float r_Sensitivity = 1f;
-    float r_RotationSmoothTime = .1f;
+    float r_RotationSmoothTime = .202f;
     [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
     [Range(0, 1)]
     public float rotationsmoothTime = 0.202f;
@@ -244,17 +244,17 @@ public class PlayerCamera : MonoBehaviour
     //Basic Camera Movements, Orbit around player and joystick control, as well as player offset
     void CamMovement3D()
     {
-        if (p_RB.velocity.magnitude > 0.5f)
-        {
-            yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
-        }
-        else
-        {
+        //if (p_RB.velocity.magnitude > 0.5f)
+        //{
+        //    yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        //    currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
+        //}
+        //else
+        //{
 
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
             yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        }
+        //}
         YAxis = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
         pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);

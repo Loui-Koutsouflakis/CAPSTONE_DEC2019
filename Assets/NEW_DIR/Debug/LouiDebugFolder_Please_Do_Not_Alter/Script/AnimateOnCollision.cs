@@ -51,7 +51,7 @@ public class AnimateOnCollision : MonoBehaviour
                 animator.SetTrigger(triggerName);
             }
 
-            CheckPickups();
+            //CheckPickups();
         
         }
     }
@@ -71,7 +71,7 @@ public class AnimateOnCollision : MonoBehaviour
             }
         }
 
-        CheckPickups();
+        //CheckPickups();
 
     }
 
