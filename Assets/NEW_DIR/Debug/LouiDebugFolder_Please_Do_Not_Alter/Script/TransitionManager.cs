@@ -8,8 +8,8 @@ public class TransitionManager : MonoBehaviour
 {
     [SerializeField]
     private Image fader;
-    private bool fadeIn;
-    private bool fadeOut;
+    public bool fadeIn;
+    public bool fadeOut;
     private float fadeInTime = 1.5f;
     private float fadeOutTime = 2.5f;
     private Color deltaFadeIn = new Color(0f, 0f, 0f, 1f);

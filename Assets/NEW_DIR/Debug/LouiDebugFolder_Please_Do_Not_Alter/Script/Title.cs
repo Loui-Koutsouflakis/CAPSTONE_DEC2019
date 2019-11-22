@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
@@ -8,9 +9,14 @@ public class Title : MonoBehaviour
     private GameObject mainMenu;
     [SerializeField]
     private Animator cinematicAnim;
+    [SerializeField]
+    private Image faderImage;
+    [SerializeField]
+    private TransitionManager transitionManager;
 
     private bool canStart;
-    private float cinematicLength = 13f;
+    private bool opening;
+    private float cinematicLength = 8.8f;
 
 
     private void Start()
@@ -20,16 +26,38 @@ public class Title : MonoBehaviour
 
     private void Update()
     {
-        if(canStart && (Input.GetButtonDown("Start") || Input.GetButtonDown("AButton") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+        if(Input.GetButtonDown("Start") || Input.GetButtonDown("AButton") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
-            StartCoroutine(OpenMenu());
+            if (canStart)
+            {
+                StartCoroutine(OpenMenu());
+            }
+            else if(opening)
+            {
+                StartCoroutine(SkipOpening());
+            }
         }
     }
 
     public IEnumerator OpeningSequence()
     {
+        opening = true;
         yield return new WaitForSeconds(cinematicLength);
+        opening = false;
         canStart = true;
+    }
+
+    public IEnumerator SkipOpening()
+    {
+        opening = false;
+        canStart = false;
+        transitionManager.StopAllCoroutines();
+        transitionManager.fadeIn = false;
+        transitionManager.fadeOut = false;
+        faderImage.color = Color.black;
+        StartCoroutine(OpenMenu());
+        yield return new WaitForSeconds(0.3f);
+        faderImage.color = Color.clear;
     }
 
     public IEnumerator OpenMenu()
@@ -38,6 +66,5 @@ public class Title : MonoBehaviour
         cinematicAnim.SetTrigger("MenuIn");
         yield return new WaitForSeconds(0.15f);
         mainMenu.SetActive(true);
-        gameObject.SetActive(false);
     }
 }

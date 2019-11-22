@@ -10,14 +10,22 @@ public class LouiDebugLevel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            SceneManager.LoadScene(1);
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SceneManager.LoadScene(1);
+            }
 
-        if(Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            SceneManager.LoadScene(2);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SceneManager.LoadScene(2);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SceneManager.LoadScene(3);
+            }
         }
     }
 }
