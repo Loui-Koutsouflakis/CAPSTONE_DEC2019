@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(CheckGround());
+        StartCoroutine(FrontCheck());
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
         StartCoroutine(PlatformCheck());
@@ -382,6 +383,31 @@ public class PlayerController : MonoBehaviour
     //for coyote time
     private float gracePeriod;
 
+
+    public IEnumerator FrontCheck()
+    {
+        RaycastHit frontHit;
+        //mid raycast
+        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
+        Vector3 midRaycastHalf = new Vector3(0.1f, 0.2f, 0.1f);
+
+        //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out frontHit, 0.5f * transform.localScale.z + 0.1f);
+
+        if(midCast)
+        {
+            player.SetRunningIntoWall(true);
+            player.frontCheckNormal = frontHit.normal;
+        }
+        else
+        {
+            player.SetRunningIntoWall(false);
+        }
+
+        yield return new WaitForSeconds(groundCheckRate);
+        StartCoroutine(FrontCheck());
+        
+    }
     public IEnumerator CheckGround()
     {
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
@@ -458,17 +484,19 @@ public class PlayerController : MonoBehaviour
                     if (!landed)
                     {
                         //bounce higher if holding the jump button
-                        if (Input.GetButton("AButton"))
-                        {
-                            //Debug.Log("jump");
-                            player.GenericAddForce(player.transform.up, 15);
-                        }
-                        else
-                        {
-                            //Debug.Log("bounce");
-                            player.GenericAddForce(player.transform.up, 10);
-                        }
+                        //if (Input.GetButton("AButton"))
+                        //{
+                        //    //Debug.Log("jump");
+                        //    player.GenericAddForce(player.transform.up, 15);
+                        //}
+                        //else
+                        //{
+                        //    //Debug.Log("bounce");
+                        //    player.GenericAddForce(player.transform.up, 10);
+                        //}
+                        player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
+                        player.GenericAddForce(player.transform.up, 15);
                         landed = true;
                         StartCoroutine(LandedSwitch());
                     }
@@ -544,7 +572,7 @@ public class PlayerController : MonoBehaviour
                 if(Mathf.Abs(player.rb.velocity.y) < 0.2f)
                 {
                     antiStickTimer += 1;
-                    if (antiStickTimer * groundCheckRate > 3)
+                    if (antiStickTimer * groundCheckRate > 1.5f)
                     {
                         player.transform.position -= transform.forward;
                         antiStickTimer = 0;
@@ -613,7 +641,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator LandedSwitch()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         landed = false;
     }
     #endregion
