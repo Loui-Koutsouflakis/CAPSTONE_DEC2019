@@ -26,7 +26,7 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("Adjusts camera movement sensitivity.")]
     [Range(1, 10)]
     public float sensitivity = 2.5f;
-    float r_Sensitivity = 1f;
+    float r_Sensitivity = .1f;
     float r_RotationSmoothTime = .202f;
     [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
     [Range(0, 1)]
@@ -52,7 +52,8 @@ public class PlayerCamera : MonoBehaviour
     [Header("CameraRayCast")]
     Camera main;
     GameObject aimer;
-    int p_LayerMask = 1 << 9;
+   // int p_LayerMask = 1 << 9;
+    public LayerMask IgnoreMask;
     RaycastHit hit;
     RaycastHit wall;
     RaycastHit s_Ground;
@@ -157,7 +158,7 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         pitchMinMax = new Vector2(-20, 75);
-        p_LayerMask = ~p_LayerMask;
+        //p_LayerMask = ~p_LayerMask;
         CamType = CameraType.Orbit;
         wallCamChoice = WallCamChoice.Front;
 
@@ -244,21 +245,21 @@ public class PlayerCamera : MonoBehaviour
     //Basic Camera Movements, Orbit around player and joystick control, as well as player offset
     void CamMovement3D()
     {
-        //if (p_RB.velocity.magnitude > 0.5f)
-        //{
-        //    yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        //    currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
-        //}
-        //else
-        //{
-
-            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
-            yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        //}
         YAxis = Input.GetAxis("CamY") * sensitivity + Input.GetAxis("MouseY") * sensitivity;
         pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
+        if (p_RB.velocity.magnitude > 0.5f)
+        {
+            yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
+        }
+        else
+        {
+            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
+            yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        }
+  
         transform.eulerAngles = currentRotation;
         transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
     }
@@ -329,7 +330,7 @@ public class PlayerCamera : MonoBehaviour
     //Checks cameras distance from the player and adjusts accordingly
     float CameraRaycast(float x)
     {
-        if (Physics.Raycast(aimer.transform.position, main.transform.position - aimer.transform.position, out hit, x, p_LayerMask))
+        if (Physics.Raycast(aimer.transform.position, main.transform.position - aimer.transform.position, out hit, x, IgnoreMask))
             return hit.distance - 0.2f;
         else
             return x;
@@ -429,7 +430,7 @@ public class PlayerCamera : MonoBehaviour
     public bool AreaChecks(Vector3 d)
     {
         Vector3 vectorToSearch = d;
-        return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
+        return Physics.Linecast(lineStart, vectorToSearch, out wall, IgnoreMask);
     }
 
     //places a shadow beneath the player
@@ -437,7 +438,7 @@ public class PlayerCamera : MonoBehaviour
     {
         Vector3 lineStart = x.transform.position;
         Vector3 vectorToSearch = new Vector3(lineStart.x, lineStart.y - 100, lineStart.z);
-        return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, p_LayerMask);
+        return Physics.Linecast(lineStart, vectorToSearch, out s_Ground, IgnoreMask);
     }
     #endregion
 
