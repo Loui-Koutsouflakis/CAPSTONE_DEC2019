@@ -64,6 +64,7 @@ public class AnimateOnCollision : MonoBehaviour
             {
                 Debug.Log("hit player");
                 animator.SetTrigger(triggerName);
+                CheckPickups();
             }
             else if (usePlayerLayer && other.gameObject.layer == 9)
             {
@@ -71,7 +72,6 @@ public class AnimateOnCollision : MonoBehaviour
             }
         }
 
-        //CheckPickups();
 
     }
 
