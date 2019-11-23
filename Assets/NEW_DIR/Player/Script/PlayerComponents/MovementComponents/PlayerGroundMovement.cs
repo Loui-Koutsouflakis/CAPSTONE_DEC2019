@@ -67,9 +67,13 @@ public class PlayerGroundMovement : PlayerVariables
             else 
                 Movement(slowWalk);
         }
-        else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone)
+        else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone && Mathf.Abs(player.rb.velocity.y) < 0.1f)
         {
-            Decel();
+            //if (!player.GetBouncing())
+            //{
+                Decel();
+                //Debug.Log("decel");
+            //}
         }
 
         //idle waiting animation (for testing move into above function when working)
@@ -104,7 +108,7 @@ public class PlayerGroundMovement : PlayerVariables
 
         player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, rotateSpeed * Time.fixedDeltaTime, 0.0f));
         //adds force to the player
-        rb.AddForce(player.transform.forward * speed, ForceMode.Force);
+        player.rb.AddForce(player.transform.forward * speed, ForceMode.Force);
 
         Friction();
     }    
@@ -112,29 +116,29 @@ public class PlayerGroundMovement : PlayerVariables
     //clamps the velocity
     void ApplyVelocityCutoff()
     {
-        Vector3 horizontalVelocity = rb.velocity;
+        Vector3 horizontalVelocity = player.rb.velocity;
         horizontalVelocity.y = 0;
         
         horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax) * horizontalVelocity.normalized;
        
-        rb.velocity = horizontalVelocity + rb.velocity.y * Vector3.up;
+        player.rb.velocity = horizontalVelocity + player.rb.velocity.y * Vector3.up;
     }
 
     void Friction()
     {
         float friction = player.GetFriction() * rb.mass * Physics.gravity.magnitude;
         Vector3 groundNormal = player.GetFootHit().normal;
-        Vector3 normalComponentofVelocity = Vector3.Dot(rb.velocity, groundNormal) * groundNormal;
-        Vector3 parallelComponentofVelocity = rb.velocity - normalComponentofVelocity;
-        rb.AddForce(-friction * parallelComponentofVelocity);
+        Vector3 normalComponentofVelocity = Vector3.Dot(player.rb.velocity, groundNormal) * groundNormal;
+        Vector3 parallelComponentofVelocity = player.rb.velocity - normalComponentofVelocity;
+        player.rb.AddForce(-friction * parallelComponentofVelocity);
     }
     
     public void Jump()
     {
         //Debug.Log("Normal Jump");
-        rb.velocity /= 2;
+        player.rb.velocity /= 2;
 
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        player.rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         if (player.transform.parent != null && !GetComponentInParent<PlayerController>().bossLevel)
         {
@@ -155,16 +159,16 @@ public class PlayerGroundMovement : PlayerVariables
             deadJoy = true;
         }
 
-        if (rb.velocity.magnitude > 1f && player.IsGrounded())
+        if (player.rb.velocity.magnitude > 1f && player.IsGrounded())
         {
-            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelFactor);
+            player.rb.velocity = Vector3.Lerp(player.rb.velocity, Vector3.zero, decelFactor);
         }
     }
        
     //for animator
     public void setSpeed()
     {
-        moveSpeed = rb.velocity.magnitude / walkMax;
+        moveSpeed = player.rb.velocity.magnitude / walkMax;
         anim.SetFloat("Speed", moveSpeed);
     }
 

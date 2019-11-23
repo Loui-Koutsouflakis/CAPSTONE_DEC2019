@@ -152,6 +152,20 @@ public class PlayerClass : MonoBehaviour
         lastKnownPos = value;
     }
 
+    private bool runningIntoWall;
+
+    public void SetRunningIntoWall(bool x)
+    {
+        runningIntoWall = x;
+    }
+
+    public bool GetRunningIntoWall()
+    {
+        return runningIntoWall;
+    }
+
+    public Vector3 frontCheckNormal;
+
     public int shards;
     private int healthShards;
 

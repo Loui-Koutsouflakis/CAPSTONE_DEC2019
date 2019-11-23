@@ -114,14 +114,14 @@ public class Crouch : PlayerVariables
 
     public void HighJump() // will apply force upwards similar to the hight of the double jump.
     {
-        rb.AddForce(transform.up * highJumpForce, ForceMode.Impulse);
+        rb.AddForce(player.transform.up * highJumpForce, ForceMode.Impulse);
         player.SetHighJump(true);
     }
 
     public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
     {
         rb.velocity = Vector3.zero;
-        rb.AddForce(transform.up * longJumpUpForce + transform.forward * longJumpForwardForce, ForceMode.Impulse);
+        rb.AddForce(player.transform.up * longJumpUpForce + player.transform.forward * longJumpForwardForce, ForceMode.Impulse);
         player.SetLongJump(true);
     }
 

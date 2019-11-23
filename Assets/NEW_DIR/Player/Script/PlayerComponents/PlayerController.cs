@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(CheckGround());
+        StartCoroutine(FrontCheck());
         StartCoroutine(CheckSphere());
         StartCoroutine(FallCheck());
         StartCoroutine(PlatformCheck());
@@ -282,7 +283,7 @@ public class PlayerController : MonoBehaviour
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
+                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     //if (player.GetHealth() <= 0)
@@ -382,6 +383,31 @@ public class PlayerController : MonoBehaviour
     //for coyote time
     private float gracePeriod;
 
+
+    public IEnumerator FrontCheck()
+    {
+        RaycastHit frontHit;
+        //mid raycast
+        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
+        Vector3 midRaycastHalf = new Vector3(0.1f, 0.2f, 0.1f);
+
+        //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
+        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out frontHit, 0.5f * transform.localScale.z + 0.1f);
+
+        if(midCast)
+        {
+            player.SetRunningIntoWall(true);
+            player.frontCheckNormal = frontHit.normal;
+        }
+        else
+        {
+            player.SetRunningIntoWall(false);
+        }
+
+        yield return new WaitForSeconds(groundCheckRate);
+        StartCoroutine(FrontCheck());
+        
+    }
     public IEnumerator CheckGround()
     {
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
@@ -418,14 +444,13 @@ public class PlayerController : MonoBehaviour
                     positionTimer = 0;
                 }
 
-
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
                     StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
                     //Debug.Log("Hitting Spider");
                     //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        //player.GenericAddForce(transform.up, 5);
+                    player.GenericAddForce(transform.up, 5); //bounce off enemies
                 }
                 //for ground pounding checks
                 if (player.GetGroundPounding())
@@ -459,17 +484,19 @@ public class PlayerController : MonoBehaviour
                     if (!landed)
                     {
                         //bounce higher if holding the jump button
-                        if (Input.GetButton("AButton"))
-                        {
-                            //Debug.Log("jump");
-                            player.GenericAddForce(player.transform.up, 15);
-                        }
-                        else
-                        {
-                            //Debug.Log("bounce");
-                            player.GenericAddForce(player.transform.up, 10);
-                        }
+                        //if (Input.GetButton("AButton"))
+                        //{
+                        //    //Debug.Log("jump");
+                        //    player.GenericAddForce(player.transform.up, 15);
+                        //}
+                        //else
+                        //{
+                        //    //Debug.Log("bounce");
+                        //    player.GenericAddForce(player.transform.up, 10);
+                        //}
+                        player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
+                        player.GenericAddForce(player.transform.up, 15);
                         landed = true;
                         StartCoroutine(LandedSwitch());
                     }
@@ -540,17 +567,25 @@ public class PlayerController : MonoBehaviour
                     player.EnableControls();
                     sliding = false;
                 }
-                
-                //additional check to prevent sticking on walls
-                antiStickTimer += 1;
-                if(antiStickTimer * groundCheckRate > 10)
+
+                //additional check to prevent sticking on walls                
+                if(Mathf.Abs(player.rb.velocity.y) < 0.2f)
                 {
-                    player.transform.position -= transform.forward;
+                    antiStickTimer += 1;
+                    if (antiStickTimer * groundCheckRate > 1.5f)
+                    {
+                        player.transform.position -= transform.forward;
+                        antiStickTimer = 0;
+                    }
+                }
+                else
+                {
                     antiStickTimer = 0;
                 }
 
                 positionTimer = 0;
 
+                //to allow player to jump for a very slight time after running off a ledge
                 gracePeriod += 1;
                 if (gracePeriod * groundCheckRate >= 0.1f)
                 {
@@ -606,7 +641,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator LandedSwitch()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         landed = false;
     }
     #endregion

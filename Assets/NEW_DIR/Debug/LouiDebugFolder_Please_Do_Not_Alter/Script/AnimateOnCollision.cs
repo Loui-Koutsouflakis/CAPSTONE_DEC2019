@@ -9,7 +9,34 @@ public class AnimateOnCollision : MonoBehaviour
     public bool useTrigger;
     public bool usePlayerLayer;
 
+
+    [Header("Hidden Pickups")]
+    [SerializeField]
+    private bool hasPickups;
+    [SerializeField]
+    private GameObject[] hiddenPickups;
+    private Animator[] pickupAnims;
+    const string showPickupsAnimName = "ShowPickups";
+
     const string kbodyName = "KBody";
+
+    private void Awake()
+    {
+        if(hasPickups)
+        {
+            foreach(GameObject go in hiddenPickups)
+            {
+                go.SetActive(false);
+            }
+
+            pickupAnims = new Animator[hiddenPickups.Length];
+
+            for(int i = 0; i < hiddenPickups.Length; i++)
+            {
+                pickupAnims[i] = hiddenPickups[i].GetComponent<Animator>();
+            }
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -23,6 +50,9 @@ public class AnimateOnCollision : MonoBehaviour
             {
                 animator.SetTrigger(triggerName);
             }
+
+            //CheckPickups();
+        
         }
     }
 
@@ -38,6 +68,23 @@ public class AnimateOnCollision : MonoBehaviour
             else if (usePlayerLayer && other.gameObject.layer == 9)
             {
                 animator.SetTrigger(triggerName);
+            }
+        }
+
+        //CheckPickups();
+
+    }
+
+    public void CheckPickups()
+    {
+        if(hasPickups)
+        {
+            for(int i = 0; i < hiddenPickups.Length; i++) 
+            { 
+                hiddenPickups[i].SetActive(true);
+                hiddenPickups[i].transform.LookAt(hiddenPickups[i].transform.position + new Vector3(Random.Range(0f, 359f), 0f, Random.Range(0f, 359f)));
+                pickupAnims[i].SetTrigger(showPickupsAnimName);
+                // give exit time to this animation and allow it to transition back to its spinning/floating
             }
         }
     }

@@ -116,22 +116,22 @@ public class PlayerAirMovement : PlayerVariables
     private void ControlInput()
     {
         //will slide a slower speed down wall
-        if(onWall && rb.velocity.y <= 0)
+        if(onWall && player.rb.velocity.y <= 0)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (wallMultiplier - 1) * Time.fixedDeltaTime;
+            player.rb.velocity += Vector3.up * Physics.gravity.y * (wallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if(rb.velocity.y < -peakTime && rb.velocity.y > peakTime)
+        else if(player.rb.velocity.y < -peakTime && rb.velocity.y > peakTime)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (peakHeightMultiplier - 1) * Time.fixedDeltaTime;
+            player.rb.velocity += Vector3.up * Physics.gravity.y * (peakHeightMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if (rb.velocity.y < peakTime)
+        else if (player.rb.velocity.y < peakTime)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
+            player.rb.velocity += Vector3.up * Physics.gravity.y * EaseIn(fallMultiplier/fallTime) * Time.fixedDeltaTime;
         }
         //player will fall faster on way down
-        else if (rb.velocity.y > peakTime && !Input.GetButton("AButton") && !player.GetHighJump() && !player.GetLongJump())
+        else if (player.rb.velocity.y > peakTime && !Input.GetButton("AButton") && !player.GetHighJump() && !player.GetLongJump())
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
+            player.rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
 
         Vector3 forward = transform.forward;
@@ -177,23 +177,35 @@ public class PlayerAirMovement : PlayerVariables
         cammyFront.y = 0;
         cammyRight.Normalize();
         cammyFront.Normalize();
-
+        
         //rotates the direction the character is facing to the correct direction based on camera
         //air script is different than the ground movement, as the character moves slower in the air and does NOT rotate to face camera forward instead will shift from side to side
 
         //following two lines are what we's use if we wanted to rotate character
         //player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
         //rb.AddForce(transform.forward * Mathf.Abs(vertical) * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
-        
-        //adds force to the player
-        if (!doubleJumpControl)
+
+
+        if (player.GetRunningIntoWall() && Vector3.Dot(cammyFront * vertical * airForwardSpeed + cammyRight * horizontal, player.frontCheckNormal) < 0)
         {
-            rb.AddForce(cammy.transform.forward * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+
         }
         else
         {
-            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
-            rb.AddForce(player.transform.forward * airForwardSpeed, ForceMode.Force);
+            //adds force to the player
+            if (!doubleJumpControl)
+            {
+                player.rb.AddForce(cammyFront * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, ForceMode.Force);
+                //Debug.DrawLine(player.transform.position, player.transform.position + cammyFront * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed, Color.black, 1);
+                //Debug.Log(cammyFront * vertical * airForwardSpeed + cammyRight * horizontal * airSideSpeed);
+            }
+            else
+            {
+                player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, airRotateSpeed * Time.fixedDeltaTime, 0.0f));
+                player.rb.AddForce(player.transform.forward * airForwardSpeed, ForceMode.Force);
+                //Debug.Log(player.transform.forward);
+                //Debug.Log(player.rb.velocity);
+            }
         }
     }
 
@@ -220,20 +232,20 @@ public class PlayerAirMovement : PlayerVariables
 
 
         //horizontal clamp
-        Vector3 horizontalVelocity = rb.velocity;
+        Vector3 horizontalVelocity = player.rb.velocity;
         horizontalVelocity.y = 0;
        
         horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, airMax) * horizontalVelocity.normalized;
               
-        rb.velocity = horizontalVelocity + rb.velocity.y * Vector3.up;
+        player.rb.velocity = horizontalVelocity + player.rb.velocity.y * Vector3.up;
 
         //vertical clamp
-        Vector3 verticalVelocity = rb.velocity;
+        Vector3 verticalVelocity = player.rb.velocity;
         verticalVelocity.x = 0;
         verticalVelocity.z = 0;
         verticalVelocity = Mathf.Max(verticalVelocity.magnitude, -10) * verticalVelocity.normalized;
 
-        rb.velocity = verticalVelocity + rb.velocity.x * Vector3.right + rb.velocity.z * Vector3.forward;
+        player.rb.velocity = verticalVelocity + player.rb.velocity.x * Vector3.right + player.rb.velocity.z * Vector3.forward;
 
         //Debug.Log(rb.velocity);
     }
@@ -249,9 +261,9 @@ public class PlayerAirMovement : PlayerVariables
             anim.SetBool("WallJumpB", true);
             
             //zero out velocity
-            rb.velocity = Vector3.zero;
+            player.rb.velocity = Vector3.zero;
             //jump off the wall
-            rb.AddForce((-player.transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            player.rb.AddForce((-player.transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
             //sets player looking away from wall (two ways to do it)         
             wallRotate = true;
 
@@ -265,9 +277,9 @@ public class PlayerAirMovement : PlayerVariables
         {
             //Debug.Log("Flutter Jump");
             //zero out velocity at start of flutter jump to prevent to much height
-            Vector3 tempVelocity = rb.velocity;
+            Vector3 tempVelocity = player.rb.velocity;
             tempVelocity.y = 0;
-            rb.velocity = tempVelocity;
+            player.rb.velocity = tempVelocity;
 
             anim.SetTrigger("DJump");
 
@@ -277,7 +289,7 @@ public class PlayerAirMovement : PlayerVariables
             doubleJumpControl = true;
             StartCoroutine(DoubleJumpControl());
 
-            rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
+            player.rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
             player.SetDoubleJump(true);
         }
@@ -341,32 +353,32 @@ public class PlayerAirMovement : PlayerVariables
         bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, transform.forward, Quaternion.identity, 0.25f, player.airMask );
 
         //if all three
-        if (toeCast && midCast && topOfHead)
+        if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
         {
             onWall = true;
             wallNormal = hit.normal;
         }
-        else if (toeCast && !midCast && !topOfHead)
-        {
-            onWall = false;
-            //call function to move player up on top of platform if we want
-        }
-        else if (midBoxCast && !topOfHead)
-        {            
-            onWall = false;
-            if (!ledgeHoping)
-            {
-                player.rb.velocity = Vector3.zero;
-                player.rb.isKinematic = true;
-                player.DisableControls();
-                anim.SetBool("LedgeGrab", true);
-                Debug.Log("triggered");
-                StartCoroutine(LedgeHopStart());
-                ledgeHoping = true;
-            }
-            //ledge grab if we have it
-        }
-        else
+        //else if (toeCast && !midCast && !topOfHead)
+        //{
+        //    onWall = false;
+        //    //call function to move player up on top of platform if we want
+        //}
+        //else if (midBoxCast && !topOfHead)
+        //{            
+        //    onWall = false;
+        //    if (!ledgeHoping)
+        //    {
+        //        player.rb.velocity = Vector3.zero;
+        //        player.rb.isKinematic = true;
+        //        player.DisableControls();
+        //        anim.SetBool("LedgeGrab", true);
+        //        Debug.Log("triggered");
+        //        StartCoroutine(LedgeHopStart());
+        //        ledgeHoping = true;
+        //    }
+        //    //ledge grab if we have it
+        //}
+        else if(!toeCast || !midCast || !topOfHead)
         {
             onWall = false;
         }
