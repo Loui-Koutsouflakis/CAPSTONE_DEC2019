@@ -33,11 +33,14 @@ public class Collectible_Spin : MonoBehaviour
     HudManager hud;
     [SerializeField]
     PlayerClass player;
+
+    Animator anim;
     #endregion
     void Awake()
     {
         myPS = GetComponentInChildren<ParticleSystem>();
         yStart = transform.position.y;
+        anim = GetComponentInParent<Animator>();
         //collectionPool = GameObject.FindGameObjectWithTag("CollectionPool").transform;
         hud = GameObject.FindObjectOfType<HudManager>();
         player = FindObjectOfType<PlayerClass>();
@@ -52,7 +55,7 @@ public class Collectible_Spin : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)//Pool them later
     {
-        if (c.gameObject.layer == 14)
+        if (c.gameObject.layer == 14 && anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation"))
         {
             hud.ShardsUp();
             player.SetShards(1);
