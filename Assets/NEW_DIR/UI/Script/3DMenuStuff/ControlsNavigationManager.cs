@@ -49,6 +49,10 @@ public class ControlsNavigationManager : UIManager
     private void Start()
     {
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+        if (sliderButton.transform.localPosition.x > sliderMin.transform.localPosition.x || sliderButton.transform.localPosition.x < sliderMax.transform.localPosition.x)
+        {
+            sliderButton.transform.localPosition = new Vector3(0, sliderButton.transform.position.y, sliderButton.transform.position.z);
+        }
     }
 
     private void OnEnable()
