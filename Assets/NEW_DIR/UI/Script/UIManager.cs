@@ -131,6 +131,7 @@ public class UIManager : MonoBehaviour
 
     public void ControlsBackButton()
     {
+        saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         StartCoroutine(AnimationDelayControlsBack(animDelay));
         saveGameManager.LoadSettings();
         controlsMenuAnimator.SetTrigger("ControlsClose");
