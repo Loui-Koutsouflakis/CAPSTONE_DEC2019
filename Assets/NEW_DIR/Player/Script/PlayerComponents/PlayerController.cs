@@ -448,6 +448,19 @@ public class PlayerController : MonoBehaviour
                     positionTimer = 0;
                 }
 
+                //will activiate on landing only once, for particles and/or sfx
+                if (!player.IsGrounded())
+                {
+                    if (!jumpParticleIsPlaying)
+                    {
+                        psJump.Play();
+                        jumpParticleIsPlaying = true;
+                    }
+
+                    player.GetSoundManager().PlayOneShotByName("Landing");
+                }
+
+
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
@@ -529,19 +542,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetBool("Grounded", false);
                     anim.SetTrigger("Jump");
                     player.SetGrounded(false);
-                }
-
-                //will activiate on landing only once
-                if(!player.IsGrounded())
-                {
-                    if (!jumpParticleIsPlaying)
-                    {
-                        psJump.Play();
-                        jumpParticleIsPlaying = true;
-                    }
-
-                    player.GetSoundManager().PlayOneShotByName("Landing");
-                }
+                }               
 
                 //probably need to put below in an else
                 if (footHit.collider.gameObject != null && !isCrouching)
