@@ -249,16 +249,16 @@ public class PlayerCamera : MonoBehaviour
         pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
-        if (p_RB.velocity.magnitude > 0.5f)
-        {
-            yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
-        }
-        else
-        {
+        //if (p_RB.velocity.magnitude > 0.5f)
+        //{
+        //    yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        //    currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
+        //}
+        //else
+        //{
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
             yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        }
+       // }
   
         transform.eulerAngles = currentRotation;
         transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
