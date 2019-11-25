@@ -281,7 +281,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
-            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage when  
+            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
@@ -466,6 +466,16 @@ public class PlayerController : MonoBehaviour
                             footHit.collider.GetComponent<Interact>().InteractWithMe();
                         }
                     }
+
+                    //to kill spiderlings within groundpound radius
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5))
+                    {
+                        if(thing.gameObject.GetComponent<Spiderlings>() || thing.gameObject.GetComponent<MotherSpider>())
+                        {
+                            thing.GetComponent<IKillable>().CheckHit(player.GetGroundPounding());
+                        }
+                    }
+
                     player.DisableControls();
                     StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
