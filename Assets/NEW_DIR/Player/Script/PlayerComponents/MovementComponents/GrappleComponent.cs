@@ -47,6 +47,10 @@ public class GrappleComponent : PlayerVariables
         tetherLength = tetherDirection.magnitude;
         angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
 
+        player.rb.velocity = Vector3.zero;
+        Vector3 initForceDir = Vector3.Cross(player.transform.right, tetherDirection);
+        rb.AddForce(initForceDir.normalized * 8, ForceMode.Impulse);
+
     }
 
     private void OnDisable()

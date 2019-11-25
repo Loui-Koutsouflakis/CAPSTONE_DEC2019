@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] teleport;
 
     private Animator anim;
-       
-    public LayerMask p_Layer = 1 << 9;
+
+
+    public LayerMask p_Layer; //= 1 << 9;
     
     //annoying temporary check until we slay the beast that is the grappleComponent tether bool
     bool isTethered = false;
@@ -587,7 +588,7 @@ public class PlayerController : MonoBehaviour
 
                 //to allow player to jump for a very slight time after running off a ledge
                 gracePeriod += 1;
-                if (gracePeriod * groundCheckRate >= 0.1f)
+                if (gracePeriod * groundCheckRate >= 0.15f)
                 {
                     player.SetGrounded(false);
                     //if(transform.parent != null)
