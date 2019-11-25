@@ -90,6 +90,7 @@ public class AnimateOnCollision : MonoBehaviour
             for (int i = 0; i < hiddenPickups.Length; i++) 
             { 
                 hiddenPickups[i].SetActive(true);
+                pickupAnims[i].SetBool("hasPickups", hasPickups);
                 hiddenPickups[i].transform.LookAt(hiddenPickups[i].transform.position + new Vector3(Random.Range(0f, 359f), 0f, Random.Range(0f, 359f)));
                 pickupAnims[i].SetTrigger(showPickupsAnimName);
                 // give exit time to this animation and allow it to transition back to its spinning/floating
