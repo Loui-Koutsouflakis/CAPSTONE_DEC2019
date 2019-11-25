@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioNavigationManager : UIManager
 {
@@ -22,7 +23,7 @@ public class AudioNavigationManager : UIManager
     bool canInteractWithButtons;
     public MainMenuAudioManager audioManager;
 
-    public GameObject[] sliderButtons = new GameObject[3];
+    public GameObject[] sliderButtons;
 
     float maxValueForSlider;
     float currentValueForSlider;
@@ -31,8 +32,10 @@ public class AudioNavigationManager : UIManager
     public Transform sliderMax;
     float audioValue;
     public float rateOfSlider;
-
-
+    public AudioSource Music;
+    private AudioSource[] allAudioSources;
+    private float masterVolumePercent;
+    private AudioHandler audioHandler;
     void Awake()
     {
         InitilizeButtons();
@@ -45,7 +48,22 @@ public class AudioNavigationManager : UIManager
 
     private void OnEnable()
     {
+        audioHandler = FindObjectOfType<AudioHandler>().GetComponent<AudioHandler>();
 
+        for (int i = 0; i < sliderButtons.Length; i++)
+        {
+           
+
+            if (sliderButtons[i].transform.localPosition.x > sliderMin.transform.localPosition.x || sliderButtons[i].transform.localPosition.x < sliderMax.transform.localPosition.x)
+            {
+                sliderButtons[i].transform.localPosition = new Vector3(0, sliderButtons[i].transform.position.y, sliderButtons[i].transform.position.z);
+            }
+        }
+
+        StartCoroutine( SliderButtonEnable(0.9f, sliderButtons[0]));
+        Debug.Log("It Passed Enable");
+        StartCoroutine(SliderButtonEnable(0.9f, sliderButtons[1]));
+        StartCoroutine(SliderButtonEnable(0.9f, sliderButtons[2]));
     }
 
     void InitilizeButtons()
@@ -96,13 +114,13 @@ public class AudioNavigationManager : UIManager
                 if (horizontalInput > 0.1)
                 {
 
+                    Music.volume = CalculateAudioValue(sliderButtons[0]) * CalculateMasterVolumePercent(sliderButtons[2]);
                     IncreaseSlider(sliderButtons[0]);
-                    CalculateAudioValue(sliderButtons[0]);
                 }
                 else if (horizontalInput < -0.1)
                 {
                     DecreaseSlider(sliderButtons[0]);
-                    CalculateAudioValue(sliderButtons[0]);
+                    Music.volume = CalculateAudioValue(sliderButtons[0]) * CalculateMasterVolumePercent(sliderButtons[2]);
 
                 }
             }
@@ -127,12 +145,19 @@ public class AudioNavigationManager : UIManager
                 {
 
                     IncreaseSlider(sliderButtons[2]);
-                    CalculateAudioValue(sliderButtons[2]);
+                    for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
+                    {
+                        audioHandler.allAudioSources[i].volume = CalculateAudioValue(sliderButtons[2]);
+                    }
+                    
                 }
                 else if (horizontalInput < -0.1)
                 {
                     DecreaseSlider(sliderButtons[2]);
-                    CalculateAudioValue(sliderButtons[2]);
+                    for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
+                    {
+                        audioHandler.allAudioSources[i].volume = CalculateAudioValue(sliderButtons[2]);
+                    }
 
                 }
             }
@@ -180,6 +205,11 @@ public class AudioNavigationManager : UIManager
                 StartCoroutine("InputBufferAdd");
                 verticalInput = 0;
             }
+
+            Debug.Log(sliderButtons[0].transform.localPosition.x + " Buttons Transform");
+            Debug.Log(sliderMin.transform.localPosition.x + " Min Transform");
+            Debug.Log(sliderMax.transform.localPosition.x + " Max Transform");
+            
         }
     }
 
@@ -218,6 +248,15 @@ public class AudioNavigationManager : UIManager
 
     }
 
+    private IEnumerator SliderButtonEnable(float delay, GameObject sliderButton)
+    {
+
+
+        Debug.Log("Made It Through");
+        yield return new WaitForSeconds(delay * Time.timeScale);
+        sliderButton.SetActive(true);
+    }
+
     public void SetCanInteractWithButtons(bool newBool)
     {
         canInteractWithButtons = newBool;
@@ -230,21 +269,21 @@ public class AudioNavigationManager : UIManager
 
     void IncreaseSlider(GameObject sliderButton)
     {
-        if (sliderButton.transform.localPosition.x <= sliderMax.localPosition.x)
+        if (-sliderButton.transform.localPosition.x <= sliderMin.localPosition.x)
         {
-            sliderButton.transform.localPosition += new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
+            sliderButton.transform.localPosition -= new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
         }
     }
 
     void DecreaseSlider(GameObject sliderButton)
     {
-        if (sliderButton.transform.localPosition.x >= sliderMin.localPosition.x)
+        if (-sliderButton.transform.localPosition.x >= sliderMax.localPosition.x)
         {
-            sliderButton.transform.localPosition += new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
+            sliderButton.transform.localPosition -= new Vector3(horizontalInput * rateOfSlider, 0, 0) * Time.deltaTime;
         }
     }
 
-    void CalculateAudioValue(GameObject sliderButton)
+    float CalculateAudioValue(GameObject sliderButton)
     {
     
 
@@ -256,7 +295,8 @@ public class AudioNavigationManager : UIManager
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
-        audioValue = Mathf.Ceil(sliderPercentDecimal * -100);
+        audioValue = (sliderPercentDecimal * -1);
+
 
         Debug.Log(audioValue + " Calculated Audio Level");
 
@@ -265,17 +305,32 @@ public class AudioNavigationManager : UIManager
         {
             audioValue = 0;
         }
-        else if (audioValue > 100)
+        else if (audioValue > 1)
         {
-            audioValue = 100;
+            audioValue = 1;
         }
+
+        return audioValue;
 
       
 
 
     }
 
+    private float CalculateMasterVolumePercent(GameObject sliderButton)
+    {
+        maxValueForSlider = Mathf.Abs(sliderMin.localPosition.x) + Mathf.Abs(sliderMax.localPosition.x);
 
+        Debug.Log(maxValueForSlider + " Max Value For Slider");
+        currentValueForSlider = (sliderButton.transform.localPosition.x - (sliderMin.localPosition.x));
+        Debug.Log(currentValueForSlider + " Current Value Of Slider");
+
+        sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
+
+        return sliderPercentDecimal;
+    }
+
+    
 }
 
 

@@ -38,6 +38,7 @@ public class ControlsNavigationManager : UIManager
     float sliderPercentDecimal;
     float sensitivity;
 
+
     private GameManager gameManager;
 
 
@@ -392,7 +393,7 @@ public class ControlsNavigationManager : UIManager
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
-        sensitivity = Mathf.Ceil(sliderPercentDecimal * -10);
+        sensitivity = Mathf.Ceil(sliderPercentDecimal * -5);
        
         Debug.Log(sensitivity + " Calculated Sensiivity");
 
@@ -401,9 +402,9 @@ public class ControlsNavigationManager : UIManager
         {
             sensitivity = 1;
         }
-        else if(sensitivity > 10)
+        else if(sensitivity > 5)
         {
-            sensitivity = 10;
+            sensitivity = 5;
         }
 
         saveGameManager.setCameraSensitivity(sensitivity);

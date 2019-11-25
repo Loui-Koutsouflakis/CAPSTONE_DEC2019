@@ -74,7 +74,8 @@ public class MainMenuAudioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Use this to call any sound
-        //PlaySound("SoundName");
+        
     }   
+
+
 }
