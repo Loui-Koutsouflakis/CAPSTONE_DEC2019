@@ -190,8 +190,8 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("to far");
             return;
-        }       
-
+        }
+        player.GetSoundManager().PlayOneShotByName("GrappleThrow");
         player.isGrappling = true;
         anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
@@ -508,6 +508,7 @@ public class PlayerController : MonoBehaviour
                         //    //Debug.Log("bounce");
                         //    player.GenericAddForce(player.transform.up, 10);
                         //}
+                        player.GetSoundManager().PlayOneShotByName("Bounce");
                         player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
                         player.GenericAddForce(player.transform.up, 15);
@@ -529,6 +530,19 @@ public class PlayerController : MonoBehaviour
                     anim.SetTrigger("Jump");
                     player.SetGrounded(false);
                 }
+
+                //will activiate on landing only once
+                if(!player.IsGrounded())
+                {
+                    if (!jumpParticleIsPlaying)
+                    {
+                        psJump.Play();
+                        jumpParticleIsPlaying = true;
+                    }
+
+                    player.GetSoundManager().PlayOneShotByName("Landing");
+                }
+
                 //probably need to put below in an else
                 if (footHit.collider.gameObject != null && !isCrouching)
                 {
@@ -545,11 +559,11 @@ public class PlayerController : MonoBehaviour
                     {
                         psRun.Stop();
                     }
-                    if (!jumpParticleIsPlaying)
-                    {
-                        psJump.Play();
-                        jumpParticleIsPlaying = true;
-                    }
+                    //if (!jumpParticleIsPlaying)
+                    //{
+                    //    psJump.Play();
+                    //    jumpParticleIsPlaying = true;
+                    //}
 
                 }
                 else if (footHit.collider.gameObject != null && isCrouching)
@@ -567,12 +581,12 @@ public class PlayerController : MonoBehaviour
                     {
                         psRun.Stop();
                     }
-                    if (!jumpParticleIsPlaying)
-                    {
-                        psJump.Play();
-                        jumpParticleIsPlaying = true;
-                    }
-                }
+                    //if (!jumpParticleIsPlaying)
+                    //{
+                    //    psJump.Play();
+                    //    jumpParticleIsPlaying = true;
+                    //}
+                }                
             }
             else
             {
@@ -596,6 +610,9 @@ public class PlayerController : MonoBehaviour
                 {
                     antiStickTimer = 0;
                 }
+
+
+                psRun.Stop();
 
                 positionTimer = 0;
 
