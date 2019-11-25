@@ -38,6 +38,18 @@ public class PlayerClass : MonoBehaviour
         return h_Manager;
     }
 
+    private HandleSfx SoundManager;
+
+    public void SetSoundManager(HandleSfx manager)
+    {
+        SoundManager = manager;
+    }
+
+    public HandleSfx GetSoundManager()
+    {
+        return SoundManager;
+    }
+
     private GameManager gameManager;
 
     //this is where I put the player movement scripts. They're nested in game objects, which I did so that I could keep them all

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] teleport;
 
     private Animator anim;
-
+    private HandleSfx SoundManager;
 
     public LayerMask p_Layer; //= 1 << 9;
     
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public bool bossLevel = false;
 
 
+
     #region Enemy Stuff
     public int spiderWebs = 0;
     public bool paused = false;
@@ -73,6 +74,8 @@ public class PlayerController : MonoBehaviour
         pullParticleEmission.enabled = false;
         playerIK = GetComponentInChildren<RayCast_IK>();
         lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
+        SoundManager = GetComponent<HandleSfx>();
+        player.SetSoundManager(SoundManager);
     }   
 
     private void Start()
