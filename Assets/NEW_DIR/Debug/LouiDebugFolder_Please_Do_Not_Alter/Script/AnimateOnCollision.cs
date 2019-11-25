@@ -8,7 +8,8 @@ public class AnimateOnCollision : MonoBehaviour
     public string triggerName;
     public bool useTrigger;
     public bool usePlayerLayer;
-
+    bool hasPlayed = false;
+    private HandleSfx sfx;
 
     [Header("Hidden Pickups")]
     [SerializeField]
@@ -36,6 +37,7 @@ public class AnimateOnCollision : MonoBehaviour
                 pickupAnims[i] = hiddenPickups[i].GetComponent<Animator>();
             }
         }
+            sfx = GetComponent<HandleSfx>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -49,6 +51,7 @@ public class AnimateOnCollision : MonoBehaviour
             else if(usePlayerLayer && collision.gameObject.layer == 14)
             {
                 animator.SetTrigger(triggerName);
+                //sfx.PlayOneShotByName("Wiggle");
             }
 
             //CheckPickups();
@@ -79,7 +82,12 @@ public class AnimateOnCollision : MonoBehaviour
     {
         if(hasPickups)
         {
-            for(int i = 0; i < hiddenPickups.Length; i++) 
+            if (!hasPlayed)
+            {
+                sfx.PlayOneShotByName("Pop");
+                hasPlayed = true;
+            }
+            for (int i = 0; i < hiddenPickups.Length; i++) 
             { 
                 hiddenPickups[i].SetActive(true);
                 hiddenPickups[i].transform.LookAt(hiddenPickups[i].transform.position + new Vector3(Random.Range(0f, 359f), 0f, Random.Range(0f, 359f)));

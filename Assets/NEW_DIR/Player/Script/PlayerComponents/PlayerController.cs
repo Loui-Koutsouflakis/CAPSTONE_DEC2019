@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] teleport;
 
     private Animator anim;
-
+    private HandleSfx SoundManager;
 
     public LayerMask p_Layer; //= 1 << 9;
     
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public bool bossLevel = false;
 
 
+
     #region Enemy Stuff
     public int spiderWebs = 0;
     public bool paused = false;
@@ -73,6 +74,8 @@ public class PlayerController : MonoBehaviour
         pullParticleEmission.enabled = false;
         playerIK = GetComponentInChildren<RayCast_IK>();
         lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
+        SoundManager = GetComponent<HandleSfx>();
+        player.SetSoundManager(SoundManager);
     }   
 
     private void Start()
@@ -187,8 +190,8 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("to far");
             return;
-        }       
-
+        }
+        player.GetSoundManager().PlayOneShotByName("GrappleThrow");
         player.isGrappling = true;
         anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
@@ -278,7 +281,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
-            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage when  
+            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
@@ -445,6 +448,19 @@ public class PlayerController : MonoBehaviour
                     positionTimer = 0;
                 }
 
+                //will activiate on landing only once, for particles and/or sfx
+                if (!player.IsGrounded())
+                {
+                    if (!jumpParticleIsPlaying)
+                    {
+                        psJump.Play();
+                        jumpParticleIsPlaying = true;
+                    }
+
+                    player.GetSoundManager().PlayOneShotByName("Landing");
+                }
+
+
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
@@ -463,6 +479,16 @@ public class PlayerController : MonoBehaviour
                             footHit.collider.GetComponent<Interact>().InteractWithMe();
                         }
                     }
+
+                    //to kill spiderlings within groundpound radius
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5))
+                    {
+                        if(thing.gameObject.GetComponent<Spiderlings>() || thing.gameObject.GetComponent<MotherSpider>())
+                        {
+                            thing.GetComponent<IKillable>().CheckHit(player.GetGroundPounding());
+                        }
+                    }
+
                     player.DisableControls();
                     StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
@@ -495,6 +521,7 @@ public class PlayerController : MonoBehaviour
                         //    //Debug.Log("bounce");
                         //    player.GenericAddForce(player.transform.up, 10);
                         //}
+                        player.GetSoundManager().PlayOneShotByName("Bounce");
                         player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
                         player.GenericAddForce(player.transform.up, 15);
@@ -515,7 +542,8 @@ public class PlayerController : MonoBehaviour
                     anim.SetBool("Grounded", false);
                     anim.SetTrigger("Jump");
                     player.SetGrounded(false);
-                }
+                }               
+
                 //probably need to put below in an else
                 if (footHit.collider.gameObject != null && !isCrouching)
                 {
@@ -532,11 +560,11 @@ public class PlayerController : MonoBehaviour
                     {
                         psRun.Stop();
                     }
-                    if (!jumpParticleIsPlaying)
-                    {
-                        psJump.Play();
-                        jumpParticleIsPlaying = true;
-                    }
+                    //if (!jumpParticleIsPlaying)
+                    //{
+                    //    psJump.Play();
+                    //    jumpParticleIsPlaying = true;
+                    //}
 
                 }
                 else if (footHit.collider.gameObject != null && isCrouching)
@@ -554,12 +582,12 @@ public class PlayerController : MonoBehaviour
                     {
                         psRun.Stop();
                     }
-                    if (!jumpParticleIsPlaying)
-                    {
-                        psJump.Play();
-                        jumpParticleIsPlaying = true;
-                    }
-                }
+                    //if (!jumpParticleIsPlaying)
+                    //{
+                    //    psJump.Play();
+                    //    jumpParticleIsPlaying = true;
+                    //}
+                }                
             }
             else
             {
@@ -583,6 +611,9 @@ public class PlayerController : MonoBehaviour
                 {
                     antiStickTimer = 0;
                 }
+
+
+                psRun.Stop();
 
                 positionTimer = 0;
 

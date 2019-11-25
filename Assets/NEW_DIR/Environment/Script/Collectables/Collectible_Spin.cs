@@ -33,6 +33,7 @@ public class Collectible_Spin : MonoBehaviour
     HudManager hud;
     [SerializeField]
     PlayerClass player;
+    HandleSfx sfx;
 
     Animator anim;
     #endregion
@@ -44,6 +45,7 @@ public class Collectible_Spin : MonoBehaviour
         //collectionPool = GameObject.FindGameObjectWithTag("CollectionPool").transform;
         hud = GameObject.FindObjectOfType<HudManager>();
         player = FindObjectOfType<PlayerClass>();
+        sfx = GetComponent<HandleSfx>();
     }
 
     // Update is called once per frame
@@ -57,6 +59,7 @@ public class Collectible_Spin : MonoBehaviour
     {
         if (c.gameObject.layer == 14 && anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation"))
         {
+            sfx.PlayOneShotByName("Collect");
             hud.ShardsUp();
             player.SetShards(1);
             Destroy(this.gameObject);
