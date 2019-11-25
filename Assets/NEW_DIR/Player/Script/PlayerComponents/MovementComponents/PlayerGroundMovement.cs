@@ -67,7 +67,7 @@ public class PlayerGroundMovement : PlayerVariables
             else 
                 Movement(slowWalk);
         }
-        else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone && Mathf.Abs(player.rb.velocity.y) < 0.1f)
+        else if (horizontal <= deadZone && horizontal >= -deadZone && vertical <= deadZone && vertical >= -deadZone && Mathf.Abs(player.rb.velocity.y) < 1.0f)
         {
             //if (!player.GetBouncing())
             //{
