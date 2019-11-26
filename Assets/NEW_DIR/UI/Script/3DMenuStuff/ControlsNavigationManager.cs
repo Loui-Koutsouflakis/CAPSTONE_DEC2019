@@ -38,6 +38,7 @@ public class ControlsNavigationManager : UIManager
     float sliderPercentDecimal;
     float sensitivity;
 
+
     private GameManager gameManager;
 
 
@@ -49,6 +50,10 @@ public class ControlsNavigationManager : UIManager
     private void Start()
     {
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+        if (sliderButton.transform.localPosition.x > sliderMin.transform.localPosition.x || sliderButton.transform.localPosition.x < sliderMax.transform.localPosition.x)
+        {
+            sliderButton.transform.localPosition = new Vector3(0, sliderButton.transform.position.y, sliderButton.transform.position.z);
+        }
     }
 
     private void OnEnable()
@@ -388,7 +393,7 @@ public class ControlsNavigationManager : UIManager
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
-        sensitivity = Mathf.Ceil(sliderPercentDecimal * -10);
+        sensitivity = Mathf.Ceil(sliderPercentDecimal * -5);
        
         Debug.Log(sensitivity + " Calculated Sensiivity");
 
@@ -397,9 +402,9 @@ public class ControlsNavigationManager : UIManager
         {
             sensitivity = 1;
         }
-        else if(sensitivity > 10)
+        else if(sensitivity > 5)
         {
-            sensitivity = 10;
+            sensitivity = 5;
         }
 
         saveGameManager.setCameraSensitivity(sensitivity);
