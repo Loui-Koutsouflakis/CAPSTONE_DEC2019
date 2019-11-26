@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_RedWood_Trunks
-  m_Shader: {fileID: 4800000, guid: 34aaa3af85fac33449183c30468442f1, type: 3}
-  m_ShaderKeywords: _USEOUTLINE_ON _USETOON_ON
+  m_Shader: {fileID: 4800000, guid: bac4d7ebafce0b8488ff8bc3ceca25f3, type: 3}
+  m_ShaderKeywords: _USETOON_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -35,12 +35,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 2800000, guid: 6bbb7b979ac71704b9ccd1fea1b1064b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 375d1e5a68bbb6149b6676c733dfe33d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexD:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -77,30 +85,37 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _NormalMapIntensity: 1.96
     - _ObjYScale: 0
     - _OcclusionStrength: 1
+    - _OutlineExtrusion: 0
+    - _OutlineStrength: 0.1
     - _OutlineWidth: 0.05
     - _Parallax: 0.02
     - _RimAmount: 1
     - _RimThreshold: 0
     - _RotationSpeed: 0
+    - _SRef: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Strength: 1
     - _UVSec: 0
+    - _UseDissolve: 0
     - _UseEmission: 0
     - _UseNormalMap: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
     - _UseSnow: 0
     - _UseToon: 1
     - _ZWrite: 1
     m_Colors:
-    - _AmbientColor: {r: 0.1509434, g: 0.1245995, b: 0.1245995, a: 1}
+    - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.23584908, g: 0.11469272, b: 0.06786223, a: 1}
+    - _ColorD: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0.18867922, g: 0.16464932, b: 0.16464932, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

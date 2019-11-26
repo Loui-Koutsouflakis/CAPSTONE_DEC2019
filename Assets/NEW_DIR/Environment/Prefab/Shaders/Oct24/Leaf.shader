@@ -255,6 +255,7 @@
 				float4 pos : SV_POSITION;
 				float3 viewDir : TEXCOORD0;
 				float3 worldNormal : NORMAL;
+				SHADOW_COORDS(2)
 			};
 
 			v2fT vertT(appdataT v)
@@ -266,6 +267,7 @@
 				o.worldNormal = normal;
 				o.viewDir = WorldSpaceViewDir(v.vertex);
 
+				TRANSFER_SHADOW(o);
 				return o;
 			}
 
@@ -276,7 +278,9 @@
 				float3 normal = normalize(i.worldNormal);
 				float NdotL = dot(_WorldSpaceLightPos0, normal);
 
-				float lightIntensity = smoothstep(0, 0.01, NdotL);
+				float shadow = SHADOW_ATTENUATION(i);
+
+				float lightIntensity = smoothstep(0, 0.01, NdotL * shadow);
 				float4 light = lightIntensity * _LightColor0;
 
 				float3 viewDir = normalize(i.viewDir);
@@ -298,7 +302,8 @@
 			}
 			ENDCG
 		}
+		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
-    FallBack "Capstone2019/ToonV3.31" // Create Basic Texture Fallback (with Cell shader)
+    FallBack "Capstone2019/ToonV3.34" // Create Basic Texture Fallback (with Cell shader)
 	CustomEditor "VegeGUI"
 }

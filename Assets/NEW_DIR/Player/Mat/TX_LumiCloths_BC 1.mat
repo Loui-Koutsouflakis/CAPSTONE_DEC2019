@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TX_LumiCloths_BC 1
-  m_Shader: {fileID: 4800000, guid: 34aaa3af85fac33449183c30468442f1, type: 3}
-  m_ShaderKeywords: _USENORMALMAP_ON _USEOUTLINE_ON _USETOON_ON
+  m_Shader: {fileID: 4800000, guid: bac4d7ebafce0b8488ff8bc3ceca25f3, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -35,12 +35,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 2800000, guid: 6bbb7b979ac71704b9ccd1fea1b1064b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: f715e2c8b09fbed439bc4f3b21d73b06, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexD:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -77,29 +85,36 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _NormalMapIntensity: 2
     - _ObjYScale: 0
     - _OcclusionStrength: 1
+    - _OutlineExtrusion: 0
+    - _OutlineStrength: 0.1
     - _OutlineWidth: 0.001
     - _Parallax: 0.02
     - _RimAmount: 0.608
     - _RimThreshold: 0.838
     - _RotationSpeed: 0
+    - _SRef: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Strength: 1
     - _UVSec: 0
+    - _UseDissolve: 0
     - _UseEmission: 0
-    - _UseNormalMap: 1
-    - _UseOutline: 1
+    - _UseNormalMap: 0
+    - _UseOutline: 0
     - _UseSnow: 0
-    - _UseToon: 1
+    - _UseToon: 0
     - _ZWrite: 1
     m_Colors:
     - _AmbientColor: {r: 0.8773585, g: 0.7821734, b: 0.7821734, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorD: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
