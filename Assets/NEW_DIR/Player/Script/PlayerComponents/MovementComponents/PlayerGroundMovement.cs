@@ -119,7 +119,7 @@ public class PlayerGroundMovement : PlayerVariables
         Vector3 horizontalVelocity = player.rb.velocity;
         horizontalVelocity.y = 0;
         
-        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax) * horizontalVelocity.normalized;
+        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax - (0.1f * player.GetAttachedWebs())) * horizontalVelocity.normalized; //max speed reduced when being webbed by spiders
        
         player.rb.velocity = horizontalVelocity + player.rb.velocity.y * Vector3.up;
     }

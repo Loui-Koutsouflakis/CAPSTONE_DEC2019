@@ -480,12 +480,12 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    //to kill spiderlings within groundpound radius
-                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5))
+                    //to kill spiderlings within groundpound radius 
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, is there a better way of doing this during gameplay?
                     {
                         if(thing.gameObject.GetComponent<Spiderlings>() || thing.gameObject.GetComponent<MotherSpider>())
                         {
-                            thing.GetComponent<IKillable>().CheckHit(player.GetGroundPounding());
+                            StartCoroutine(this.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding()));
                         }
                     }
 
