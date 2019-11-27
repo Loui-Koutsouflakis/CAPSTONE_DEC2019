@@ -103,20 +103,23 @@ public class PlayerController : MonoBehaviour
         //jump executed depend on the current movement component
         if (player.playerCurrentMove == MovementType.move)
         {
-            player.GetMoveComponent().Jump();
-            //set movement type to air
-            player.SetMovementType(MovementType.air);
-            //sets grounded to false outside of
-            player.SetGrounded(false);
+            if (!sliding)//to prevent being able to jump out steep slopes
+            {
+                player.GetMoveComponent().Jump();
+                //set movement type to air
+                player.SetMovementType(MovementType.air);
+                //sets grounded to false outside of
+                player.SetGrounded(false);
 
-            //stateMachine.SetTrigger("Jump");
-            anim.SetBool("Grounded", false);
+                //stateMachine.SetTrigger("Jump");
+                anim.SetBool("Grounded", false);
 
-            //Particle stuff from Tony
-            psRun.Stop();
-            psJump.Stop();
-            psJump.Play();
-            jumpParticleIsPlaying = false;
+                //Particle stuff from Tony
+                psRun.Stop();
+                psJump.Stop();
+                psJump.Play();
+                jumpParticleIsPlaying = false;
+            }
         }
         else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
@@ -287,6 +290,7 @@ public class PlayerController : MonoBehaviour
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
+                    anim.SetTrigger("Damaged");
                     player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
@@ -296,6 +300,7 @@ public class PlayerController : MonoBehaviour
                     //}
                 }
             }
+            //level end triggers
             else if (collision.gameObject.name == "TeleportNext")
             {
 
@@ -426,9 +431,10 @@ public class PlayerController : MonoBehaviour
 
                 if(Vector3.Angle(footHit.normal, Vector3.up) >= 45)
                 {
-                    player.DisableControls();
+                    //player.DisableControls(); disable controls causes some problems so taking it out for now
                     Debug.Log("sliding");
-                    player.GenericAddForce(groundSlopeDirection, 0.5f);
+                    //player.GenericAddForce(groundSlopeDirection, 0.5f);
+                    player.rb.AddForce(groundSlopeDirection.normalized * 10, ForceMode.Force);
                     sliding = true;
                 }
                 else if(sliding == true)

@@ -190,13 +190,13 @@ public class PlayerClass : MonoBehaviour
         shards += value;
         //if we want to do a health up by collecting shards
         //if not then will cabb the set health on the collect script when collecting a healing item
-        healthShards = shards;
-        if(healthShards >= 20 && health < 3)
-        {
-            SetHealth(1);
-            h_Manager.HealthUp();
-            healthShards = 0;
-        }        
+        //healthShards = shards;
+        //if(healthShards >= 20 && health < 3)
+        //{
+        //    SetHealth(1);
+        //    h_Manager.HealthUp();
+        //    healthShards = 0;
+        //}        
     }
 
     private float attachedWebs;

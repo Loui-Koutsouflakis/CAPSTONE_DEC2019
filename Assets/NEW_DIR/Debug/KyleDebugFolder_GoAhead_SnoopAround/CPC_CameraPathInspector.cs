@@ -50,6 +50,7 @@ public class CPC_CameraPathInspector : Editor
     private GUIContent unchainedContent = new GUIContent("o─x─o", "Toggles if the handles of the specified waypoint should be chained (mirrored) or not");
     private GUIContent replaceAllPositionContent = new GUIContent("Replace all position lerps", "Replaces curve types (and curves when set to \"Custom\") of all the waypoint position lerp types with the specified values");
     private GUIContent replaceAllRotationContent = new GUIContent("Replace all rotation lerps", "Replaces curve types (and curves when set to \"Custom\") of all the waypoint rotation lerp types with the specified values");
+    private GUIContent AddTimer = new GUIContent("Add Time", "Adds timer to the camera");
 
     //Serialized Properties
     private SerializedObject serializedObjectTarget;
@@ -66,6 +67,8 @@ public class CPC_CameraPathInspector : Editor
     private SerializedProperty loopedProperty;
     private SerializedProperty alwaysShowProperty;
     private SerializedProperty afterLoopProperty;
+    private SerializedProperty hasTime;
+    private SerializedProperty timer;
 
     private int selectedIndex = -1;
 
@@ -165,10 +168,12 @@ public class CPC_CameraPathInspector : Editor
         visualFrustumProperty = serializedObjectTarget.FindProperty("visual.frustrumColor");
         visualHandleProperty = serializedObjectTarget.FindProperty("visual.handleColor");
         loopedProperty = serializedObjectTarget.FindProperty("looped");
+        hasTime = serializedObjectTarget.FindProperty("hasTIme");
         alwaysShowProperty = serializedObjectTarget.FindProperty("alwaysShow");
         afterLoopProperty = serializedObjectTarget.FindProperty("afterLoop");
         playOnAwakeProperty = serializedObjectTarget.FindProperty("playOnAwake");
         playOnAwakeTimeProperty = serializedObjectTarget.FindProperty("playOnAwakeTime");
+        timer = serializedObjectTarget.FindProperty("m_Timer");
     }
 
     void SetupReorderableList()
@@ -257,6 +262,11 @@ public class CPC_CameraPathInspector : Editor
                 SceneView.lastActiveSceneView.Repaint();
             }
             rect.y += rect.height + 2;
+            if(GUI.Button(rect, AddTimer))
+            {
+                pointReorderableList.index = index;
+                selectedIndex = index;
+            }
             if (GUI.Button(rect, relocateContent))
             {
                 Undo.RecordObject(t, "Relocated waypoint");
@@ -391,6 +401,14 @@ public class CPC_CameraPathInspector : Editor
         GUI.enabled = playOnAwakeProperty.boolValue;
         GUILayout.Label("Time: ", GUILayout.Width(Screen.width / 4f));
         playOnAwakeTimeProperty.floatValue = EditorGUILayout.FloatField(playOnAwakeTimeProperty.floatValue);
+        GUI.enabled = true;
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        hasTime.boolValue = GUILayout.Toggle(hasTime.boolValue, "Has Time", GUILayout.Width(Screen.width / 3f));
+        GUI.enabled = hasTime.boolValue;
+        GUILayout.Label("Camera Timer: ", GUILayout.Width(Screen.width / 4f));
+        timer.floatValue = EditorGUILayout.FloatField(timer.floatValue);
         GUI.enabled = true;
         GUILayout.EndHorizontal();
     }

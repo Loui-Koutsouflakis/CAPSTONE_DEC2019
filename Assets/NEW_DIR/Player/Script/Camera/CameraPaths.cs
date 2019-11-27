@@ -10,6 +10,9 @@ public class CameraPaths : MonoBehaviour
     public bool playOnStart = false;
     public bool active = false;
     public CPC_CameraPath path;
+    public bool hasEndCam = false;
+    public CPC_CameraPath endCam;
+    public float endCamStayTime;
     public CPC_CameraPath[] paths;
     public float time = 10;
     public float stayTime;
@@ -93,6 +96,8 @@ public class CameraPaths : MonoBehaviour
     {
         active = false;
         yield return new WaitForEndOfFrame();
-        path.PlayPath(time,stayTime);
+        if (hasEndCam) path.PlayPath(time, stayTime, endCamStayTime,endCam);
+        else
+        path.PlayPath(time,stayTime, endCamStayTime, null);
     }
 }
