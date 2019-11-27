@@ -86,7 +86,10 @@ public class GrappleComponent : PlayerVariables
         tetherDirection = attachedTetherPoint.transform.position - transform.position;
         angleToTether = Vector3.Angle(tetherDirection.normalized, attachedTetherPoint.transform.up);
         //Debug.Log(angleToTether);
-        
+
+
+        Debug.Log("Tether direction normalized " + tetherDirection.normalized);
+
         ApplyVelocityCutoff();
 
         //trying to further minimize swinging around point 

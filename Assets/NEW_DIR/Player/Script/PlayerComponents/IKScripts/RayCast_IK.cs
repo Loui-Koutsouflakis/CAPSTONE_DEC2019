@@ -18,6 +18,9 @@ public class RayCast_IK : MonoBehaviour
     BipedIK bPIK;
 
 
+    public ANIMATION_CURVE_TEST act; 
+
+
     //Rotation of Target Transform should be: 
 
     //RHand x: 0, y: 150, z:320
@@ -71,6 +74,10 @@ public class RayCast_IK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (act != null)
+        act.hook.SetActive(false);
+        
+
         fBIK = GetComponent<FullBodyBipedIK>();
         fBIK.solver.IKPositionWeight = 0;
 
@@ -169,6 +176,24 @@ public class RayCast_IK : MonoBehaviour
     {
         rope.enabled = true;
 
+        if (act != null)
+        { 
+
+         act.posOne = grapplePoint;
+       
+        act.posTwo = rightHandTarget;
+
+        act.hook.SetActive(true);
+
+        act.hook.transform.rotation = grapplePoint.transform.rotation;
+
+         act.AnimateHook();
+
+        }
+        rope.SetPosition(0, act.hook.transform.position);
+       
+        rope.SetPosition(1, grapplePoint.position);
+
         Debug.Log("Rope Enabled");
     }
 
@@ -176,6 +201,8 @@ public class RayCast_IK : MonoBehaviour
     public void IK_EndGrapple()
     {
         rope.enabled = false;
+        if (act != null)
+        act.hook.SetActive(false);
         bPIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
         StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
@@ -327,7 +354,7 @@ public class RayCast_IK : MonoBehaviour
 
                 if (rope.enabled)
                 {
-                    rope.SetPosition(0, tetherPoint.position);
+                    rope.SetPosition(0, act.hook.transform.position);
                     rope.SetPosition(1, grapplePoint.position);
                     rope.startWidth = 0.1f;
                     rope.endWidth = 0.1f;
