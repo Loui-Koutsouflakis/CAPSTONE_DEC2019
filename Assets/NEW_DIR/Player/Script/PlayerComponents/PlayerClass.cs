@@ -139,7 +139,7 @@ public class PlayerClass : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         EnableControls();
-        Debug.Log("enabled");
+        //Debug.Log("enabled");
         gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
         gameManager.Death();
     }
@@ -149,7 +149,7 @@ public class PlayerClass : MonoBehaviour
         //DisableControls(); bring this back once we have a proper reset 
         anim.SetTrigger("Death");
         DisableControls();
-        Debug.Log("disabled");
+        //Debug.Log("disabled");
         StartCoroutine(DeathDelay());
     }
 

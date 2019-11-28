@@ -381,7 +381,7 @@ public class PlayerAirMovement : PlayerVariables
                 player.rb.isKinematic = true;
                 player.DisableControls();
                 anim.SetBool("LedgeGrab", true);
-                Debug.Log("triggered");
+                //Debug.Log("triggered");
                 StartCoroutine(LedgeHopStart());
                 ledgeHoping = true;
                 canLedgeGrab = false;
@@ -412,7 +412,7 @@ public class PlayerAirMovement : PlayerVariables
     IEnumerator LedgeHopFinish()
     {
         yield return new WaitForSeconds(0.15f);
-        Debug.Log("forward force");
+        //Debug.Log("forward force");
         ledgeHoping = false;
         player.GenericAddForce(transform.forward, 3.5f);
         player.EnableControls();

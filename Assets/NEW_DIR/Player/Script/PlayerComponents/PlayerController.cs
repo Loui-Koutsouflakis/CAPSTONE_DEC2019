@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
         Vector3 tetherVector = player.tetherPoint.transform.position - player.transform.position;
         Vector3 tetherProjection = Vector3.ProjectOnPlane(tetherVector, player.transform.up);
         float angleBetween = Vector3.Angle(player.transform.forward, tetherProjection);
-        Debug.DrawLine(transform.position, transform.position + tetherProjection.normalized * 10, Color.black, 10);
+        //Debug.DrawLine(transform.position, transform.position + tetherProjection.normalized * 10, Color.black, 10);
         //Debug.Log(angleBetween);
         if(angleBetween > 45)
         {
@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
                 float angleBetween = Vector3.Angle(player.transform.forward, tetherProjection);
                 if (angleBetween > 45 && angleBetween < 135)
                 {
-                    Debug.Log(angleBetween);
+                    //Debug.Log(angleBetween);
                     player.GetGrappleComponent().SpeedUp();
                 }
             }            
@@ -285,7 +285,17 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == 10)//enemy layer
         {
             RaycastHit footCheck;
-            Physics.BoxCast(transform.position, new Vector3(0.25f, 0.5f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
+            Physics.BoxCast(transform.position, new Vector3(0.25f, 0.25f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
+            Debug.Log(footCheck.collider);
+            if(footCheck.collider != null)
+            {
+                Debug.Log(footCheck.collider.gameObject.layer);
+            }
+            else if(footCheck.collider == null)
+            {
+                Debug.Log("no collider");
+            }
+            
             
             if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
@@ -307,7 +317,12 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-            }            
+                if(collision.gameObject.GetComponent<StackableEnemy>())
+                {
+                    collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
+                }
+            }
+            
         }
         //once we have level hazards
         //else if(collision.gameObject.layer == )
@@ -418,6 +433,8 @@ public class PlayerController : MonoBehaviour
     //for coyote time
     private float gracePeriod;
 
+    private bool dontStop;
+
 
     public IEnumerator FrontCheck()
     {
@@ -449,6 +466,18 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
+
+                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                {
+                    Debug.Log("hit stackable enemy");
+                    if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    {
+                        Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
+                        dontStop = true;
+                        StartCoroutine(RestartStop());
+                    }
+                }
+
                 antiStickTimer = 0;
 
                 //disable controls and slide off of steep surfaces
@@ -458,7 +487,7 @@ public class PlayerController : MonoBehaviour
                 if(Vector3.Angle(footHit.normal, Vector3.up) >= 45)
                 {
                     //player.DisableControls(); disable controls causes some problems so taking it out for now
-                    Debug.Log("sliding");
+                    //Debug.Log("sliding");
                     //player.GenericAddForce(groundSlopeDirection, 0.5f);
                     player.rb.AddForce(groundSlopeDirection.normalized * 10, ForceMode.Force);
                     sliding = true;
@@ -479,7 +508,7 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("position set");
                     positionTimer = 0;
                 }
-
+                
                 //will activiate on landing only once, for particles and/or sfx
                 if (!player.IsGrounded())
                 {
@@ -494,18 +523,22 @@ public class PlayerController : MonoBehaviour
 
 
                 //to jump on enemies
-                if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
+                if (footHit.collider.gameObject.tag == "EnemyWeakSpot" && !footHit.collider.isTrigger)
                 {
                     if (!landed)
                     {
                         StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                                                                                                                                    //Debug.Log("Hitting Spider");
-                                                                                                                                    //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        player.DisableControls();
-                        StartCoroutine(EnableControls());
-                        player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
-                        landed = true;
-                        StartCoroutine(LandedSwitch());
+                        //if (footHit.collider.gameObject.GetComponent<StackableEnemy>().backpack.ChildCount > 0)
+                        //{keep going } start short coroutine to turn off hitting stackable 
+                        //else
+                        if(!dontStop)
+                        {
+                            player.DisableControls();
+                            StartCoroutine(EnableControls());
+                            player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
+                            landed = true;
+                            StartCoroutine(LandedSwitch());
+                        }                                            
                     }
                 }
                 //for ground pounding checks
@@ -520,7 +553,7 @@ public class PlayerController : MonoBehaviour
                     }
 
                     //to kill spiderlings within groundpound radius 
-                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, is there a better way of doing this during gameplay?
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, we should do this a better way during gameplay
                     {
                         if (thing.gameObject.GetComponent<Spiderlings>() || (thing.gameObject.GetComponent<MotherSpider>() && thing == thing.GetComponent<BoxCollider>()))
                         {
@@ -528,9 +561,13 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    player.DisableControls();
-                    StartCoroutine(GroundPoundStop());
-                    player.SetGroundPounding(false);
+                    //dont do this if stackable enemy
+                    if (!dontStop)
+                    {
+                        player.DisableControls();
+                        StartCoroutine(GroundPoundStop());
+                        player.SetGroundPounding(false);
+                    }
                 }
 
                 //to parent to moving platforms
@@ -583,50 +620,54 @@ public class PlayerController : MonoBehaviour
                     player.SetGrounded(false);
                 }               
 
-                //probably need to put below in an else
-                if (footHit.collider.gameObject != null && !isCrouching)
+                //dont do this if hitting stackable object
+                if(!dontStop)
                 {
-                    player.SetGrounded(true);
-                    player.SetFlutter(true);
-                    player.SetMovementType(MovementType.move);
-                    anim.SetBool("Grounded", true);
-                    //stateMachine.SetTrigger("GroundTrigger");                
-                    if (player.playerCurrentMove == MovementType.move)
+                    if (footHit.collider.gameObject != null && !isCrouching)
                     {
-                        psRun.Play();
-                    }
-                    else
-                    {
-                        psRun.Stop();
-                    }
-                    //if (!jumpParticleIsPlaying)
-                    //{
-                    //    psJump.Play();
-                    //    jumpParticleIsPlaying = true;
-                    //}
+                        player.SetGrounded(true);
+                        player.SetFlutter(true);
+                        player.SetMovementType(MovementType.move);
+                        anim.SetBool("Grounded", true);
+                        //stateMachine.SetTrigger("GroundTrigger");                
+                        if (player.playerCurrentMove == MovementType.move)
+                        {
+                            psRun.Play();
+                        }
+                        else
+                        {
+                            psRun.Stop();
+                        }
+                        //if (!jumpParticleIsPlaying)
+                        //{
+                        //    psJump.Play();
+                        //    jumpParticleIsPlaying = true;
+                        //}
 
+                    }
+                    else if (footHit.collider.gameObject != null && isCrouching)
+                    {
+                        player.SetGrounded(true);
+                        player.SetFlutter(true);
+                        player.SetMovementType(MovementType.crouch);
+                        anim.SetBool("Grounded", true);
+                        //stateMachine.SetBool("Crouching", true);
+                        if (player.playerCurrentMove == MovementType.move)
+                        {
+                            psRun.Play();
+                        }
+                        else
+                        {
+                            psRun.Stop();
+                        }
+                        //if (!jumpParticleIsPlaying)
+                        //{
+                        //    psJump.Play();
+                        //    jumpParticleIsPlaying = true;
+                        //}
+                    }
                 }
-                else if (footHit.collider.gameObject != null && isCrouching)
-                {
-                    player.SetGrounded(true);
-                    player.SetFlutter(true);
-                    player.SetMovementType(MovementType.crouch);
-                    anim.SetBool("Grounded", true);
-                    //stateMachine.SetBool("Crouching", true);
-                    if (player.playerCurrentMove == MovementType.move)
-                    {
-                        psRun.Play();
-                    }
-                    else
-                    {
-                        psRun.Stop();
-                    }
-                    //if (!jumpParticleIsPlaying)
-                    //{
-                    //    psJump.Play();
-                    //    jumpParticleIsPlaying = true;
-                    //}
-                }                
+                              
             }
             else
             {
@@ -692,6 +733,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.1f);
         player.EnableControls();
+    }
+
+    IEnumerator RestartStop()
+    {
+        yield return new WaitForSeconds(0.5f);
+        dontStop = false;
     }
 
     //breaks parenting if was on moving platform, needed a longer time to prevent jittering
@@ -763,7 +810,7 @@ public class PlayerController : MonoBehaviour
                 if (anim.GetFloat("YVelocity") < 0)
                 {                   
                     anim.SetTrigger("Land");
-                    Debug.Log("landing");
+                    //Debug.Log("landing");
                 }
             }
         }
