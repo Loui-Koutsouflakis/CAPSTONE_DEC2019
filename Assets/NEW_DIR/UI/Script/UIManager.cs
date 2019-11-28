@@ -69,18 +69,18 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No Data To Load");
+                
                 
             }
         }
-        Debug.Log("Continue");
+        
 
     }
 
     public void Setting()
     {
         
-        Debug.Log("Settings");
+        
         StartCoroutine(AnimationDelaySettings(animDelay));
         mainMenuAnimator.SetTrigger("Close");
        
@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
     {
         mainMenuAnimator.SetTrigger("Close");
         
-        Debug.Log("Quit");
+      
         StartCoroutine(AnimationDelayQuit(animDelay));
 
     }
@@ -149,7 +149,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0f);
         saveGameManager.SaveSettings();
-        Debug.Log(saveGameManager.GetCameraSmoothing());
+       
     }
 
     public void ControlsStandardButton()
@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0.202f);
         saveGameManager.SaveSettings();
-        Debug.Log(saveGameManager.GetCameraSmoothing());
+       
     }
 
     public void ControlsVeteranButton()
@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0.609f);
         saveGameManager.SaveSettings();
-        Debug.Log(saveGameManager.GetCameraSmoothing());
+       
     }
 
     public void VideoButton()
@@ -180,7 +180,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(5, true);
         saveGameManager.SetQualitySettings(5);
         saveGameManager.SaveSettings();
-        Debug.Log("Set To High");
+       
 
     }
 
@@ -190,7 +190,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(3, true);
         saveGameManager.SetQualitySettings(3);
         saveGameManager.SaveSettings();
-        Debug.Log("Set To Medium");
+       
 
     }
 
@@ -200,7 +200,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(1, true);
         saveGameManager.SetQualitySettings(1);
         saveGameManager.SaveSettings();
-        Debug.Log("Set To Low");
+       
 
     }
 
@@ -519,28 +519,28 @@ public class MenuButtons : MonoBehaviour
 
 public class Button_StartGame : MenuButtons
 {
-    public override void Name() { Debug.Log("Start"); }
+    public override void Name() {  }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.StartGame(); }
 }
 
 public class Button_Continue : MenuButtons
 {
-    public override void Name() { Debug.Log("Continue"); }
+    public override void Name() {  }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.Continue(); }
 }
 
 public class Button_Settings : MenuButtons
 {
-   public override void Name() { Debug.Log("Settings"); }
+   public override void Name() {  }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.Setting(); }
 }
 
 public class Button_QuitGame : MenuButtons
 {
-    public override void Name() { Debug.Log("Quit"); }
+    public override void Name() {  }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.QuitGame(); }
 }

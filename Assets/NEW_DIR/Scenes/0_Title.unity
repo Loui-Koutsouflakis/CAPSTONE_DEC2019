@@ -480,7 +480,7 @@ GameObject:
   - component: {fileID: 437588983}
   m_Layer: 0
   m_Name: MusicSource
-  m_TagString: Untagged
+  m_TagString: MusicSource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36419,7 +36419,6 @@ MonoBehaviour:
   sliderMin: {fileID: 1719736021}
   sliderMax: {fileID: 1979137361}
   rateOfSlider: 25
-  Music: {fileID: 437588983}
 --- !u!4 &6099516131675650233
 Transform:
   m_ObjectHideFlags: 0
@@ -38982,6 +38981,7 @@ GameObject:
   - component: {fileID: 6445411919863929860}
   - component: {fileID: 6445411919863929861}
   - component: {fileID: 6445411919863929862}
+  - component: {fileID: 6445411919863929867}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: AudioManager
@@ -38989,6 +38989,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6445411919863929867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6445411919863929866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad62ba7e46c4ec4cb23197975e5f1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allAudioSources: []
 --- !u!4 &6445411920086506572
 Transform:
   m_ObjectHideFlags: 0

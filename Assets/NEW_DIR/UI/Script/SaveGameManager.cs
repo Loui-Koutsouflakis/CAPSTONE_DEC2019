@@ -40,6 +40,16 @@ public class SaveGameManager : MonoBehaviour
     int qualitySetting;
     float cameraSmoothing;
     float sliderButtonPostionX;
+
+    float masterSoundVolume;
+    float MusicSoundVolume;
+    float dialogueSoundVolume;
+    AudioHandler audioHandler;
+    float masterVolumePercent;
+
+    float musicSliderPositionX;
+    float masterSliderPositionX;
+    float dialogueSliderPositionX;
    
     
     
@@ -93,6 +103,43 @@ public class SaveGameManager : MonoBehaviour
         else
         {
             qualitySetting = 5;
+        }
+
+
+        if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
+        {
+            masterSoundVolume = PlayerPrefs.GetFloat("MasterSoundVolume");
+        }
+        else
+        {
+            masterSoundVolume = 0.5f;
+        }
+
+        if(PlayerPrefs.GetFloat("MusicSoundVolume") >= 0 && PlayerPrefs.GetFloat("MusicSoundVolume") <= 1)
+        {
+            MusicSoundVolume = PlayerPrefs.GetFloat("MusicSoundVolume");
+        }
+        else
+        {
+            MusicSoundVolume = 0.5f;
+        }
+
+        if(PlayerPrefs.GetFloat("DialogueSoundVolume") >= 0 && PlayerPrefs.GetFloat("DialogueSoundVolume") <= 1)
+        {
+            dialogueSoundVolume = PlayerPrefs.GetFloat("DialogueSoundVolume");
+        }
+        else
+        {
+            dialogueSoundVolume = 0.5f;
+        }
+
+        if(PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
+        {
+            masterVolumePercent = PlayerPrefs.GetFloat("MasterVolumePercent");
+        }
+        else
+        {
+            masterVolumePercent = 0.5f;
         }
 
         SaveSettings();
@@ -261,6 +308,10 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.SetInt("CameraInverted", cameraInverted);
         PlayerPrefs.SetFloat("CameraSensitivity", cameraSensitivity);
         PlayerPrefs.SetFloat("CameraSmoothing", cameraSmoothing);
+        PlayerPrefs.SetFloat("MasterSoundVolume", masterSoundVolume);
+        PlayerPrefs.SetFloat("MusicSoundVolume", MusicSoundVolume);
+        PlayerPrefs.SetFloat("DialogueSoundVolume", dialogueSoundVolume);
+        PlayerPrefs.SetFloat("MasterVolumePercent", masterVolumePercent);
       
 
     }
@@ -268,6 +319,13 @@ public class SaveGameManager : MonoBehaviour
     public void SaveSliderPosition()
     {
         PlayerPrefs.SetFloat("SliderButtonPositionX", sliderButtonPostionX);
+    }
+
+    public void SaveAudioSliderPositions()
+    {
+        PlayerPrefs.SetFloat("MusicSliderPositionX", musicSliderPositionX);
+        PlayerPrefs.SetFloat("MasterSliderPositionX", masterSliderPositionX);
+        PlayerPrefs.SetFloat("DialogueSliderPositionX", dialogueSliderPositionX);
     }
 
    
@@ -292,6 +350,15 @@ public class SaveGameManager : MonoBehaviour
 
             mainCamera.rotationsmoothTime = PlayerPrefs.GetFloat("CameraSmoothing");
 
+        }
+
+        if(audioHandler)
+        {
+            for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
+            {
+                audioHandler.allAudioSources[i].volume = PlayerPrefs.GetFloat("MasterSoundVolume");
+            }
+            audioHandler.GetMusicSouce().volume = PlayerPrefs.GetFloat("MusicSoundVolume");
         }
 
 
@@ -333,11 +400,13 @@ public class SaveGameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Finds if the player is in the scene
-        if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera"))
+        if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera") && GameObject.FindGameObjectWithTag("AudioManager"))
         {
             //Sets the found player to the player variable
             player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
+            audioHandler = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioHandler>();
+
 
             //Checks whether or not it is loading from a file or not;
             if (!loadingFromContinue)
@@ -365,7 +434,7 @@ public class SaveGameManager : MonoBehaviour
 
                 LoadSettings();
             }
-
+                LoadSettings();
         }
     }
 
@@ -540,5 +609,82 @@ public class SaveGameManager : MonoBehaviour
       
     }
 
-   
+    public float GetMasterVolume()
+    {
+        return PlayerPrefs.GetFloat("MasterSoundVolume");
+    }
+
+    public float GetMusicVolume()
+    {
+        return PlayerPrefs.GetFloat("MusicSoundVolume");
+    }
+
+    public float GetDialogueVolume()
+    {
+        return PlayerPrefs.GetFloat("DialogueSoundVolume");
+    }
+
+    public void SetMasterVolume(float newFloat)
+    {
+        masterSoundVolume = newFloat;
+        SaveSettings();
+    }
+    public void SetMusicVolume(float newFloat)
+    {
+        MusicSoundVolume = newFloat;
+        SaveSettings();
+    }
+
+    public void SetDialogueVolume(float newFloat)
+    {
+        dialogueSoundVolume = newFloat;
+        SaveSettings();
+    }
+
+    public float GetMasterVolumePercent()
+    {
+        return PlayerPrefs.GetFloat("MasterVolumePercent");
+    }
+
+    public void SetMasterPercent(float newFloat)
+    {
+        masterVolumePercent = newFloat;
+        SaveSettings();
+    }
+
+
+    public void SetMusicSliderPosition(float newPosition)
+    {
+        musicSliderPositionX = newPosition;
+        SaveAudioSliderPositions();
+    }
+
+    public void SetMasterSliderPosition(float newPosition)
+    {
+        masterSliderPositionX = newPosition;
+        SaveAudioSliderPositions();
+    }
+
+    public void SetDialogueSliderPosition(float newPosition)
+    {
+        dialogueSliderPositionX = newPosition;
+        SaveAudioSliderPositions();
+    }
+
+    public float GetMusicSliderPosition()
+    {
+        return PlayerPrefs.GetFloat("MusicSliderPositionX");
+    }
+
+    public float GetMasterSliderPosition()
+    {
+        return PlayerPrefs.GetFloat("MasterSliderPositionX");
+    }
+
+    public float GetDialogueSliderPosition()
+    {
+        return PlayerPrefs.GetFloat("DialogueSliderPositionX");
+    }
+
+
 }

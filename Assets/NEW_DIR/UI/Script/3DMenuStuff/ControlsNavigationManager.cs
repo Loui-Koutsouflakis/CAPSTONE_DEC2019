@@ -41,7 +41,7 @@ public class ControlsNavigationManager : UIManager
 
     private GameManager gameManager;
 
-
+    
     void Awake()
     {
         InitilizeButtons();
@@ -50,9 +50,16 @@ public class ControlsNavigationManager : UIManager
     private void Start()
     {
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
-        if (sliderButton.transform.localPosition.x > sliderMin.transform.localPosition.x || sliderButton.transform.localPosition.x < sliderMax.transform.localPosition.x)
+        
+
+        if (saveGameManager.GetSliderPosition() < sliderMin.localPosition.x)
         {
-            sliderButton.transform.localPosition = new Vector3(0, sliderButton.transform.position.y, sliderButton.transform.position.z);
+            sliderButton.transform.localPosition = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
+        }
+        else
+        {
+            saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
+            saveGameManager.SaveSliderPosition();
         }
     }
 
