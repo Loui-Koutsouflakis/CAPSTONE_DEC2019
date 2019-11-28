@@ -88,7 +88,7 @@ public class GrappleComponent : PlayerVariables
         //Debug.Log(angleToTether);
 
 
-        Debug.Log("Tether direction normalized " + tetherDirection.normalized);
+        //Debug.Log("Tether direction normalized " + tetherDirection.normalized);
 
         ApplyVelocityCutoff();
 

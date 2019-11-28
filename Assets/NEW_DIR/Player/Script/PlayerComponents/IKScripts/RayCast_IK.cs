@@ -17,10 +17,11 @@ public class RayCast_IK : MonoBehaviour
     FullBodyBipedIK fBIK;
     BipedIK bPIK;
 
+    [Header("Grapple Hook Animation Curve---Found under Lumi's right hand")]
+    public GrappleAnimationCurve grapAnimCurve;
 
-    public ANIMATION_CURVE_TEST act; 
-
-
+    [Header("Rope Width")]
+    public float ropeWidth = 0.05f; 
     //Rotation of Target Transform should be: 
 
     //RHand x: 0, y: 150, z:320
@@ -74,8 +75,8 @@ public class RayCast_IK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (act != null)
-        act.hook.SetActive(false);
+        if (grapAnimCurve != null)
+        grapAnimCurve.hook.SetActive(false);
         
 
         fBIK = GetComponent<FullBodyBipedIK>();
@@ -176,21 +177,22 @@ public class RayCast_IK : MonoBehaviour
     {
         rope.enabled = true;
 
-        if (act != null)
+        if (grapAnimCurve != null)
         { 
 
-         act.posOne = grapplePoint;
+        grapAnimCurve.throwPosition = grapplePoint;
        
-        act.posTwo = rightHandTarget;
+        grapAnimCurve.setHookPoint(rightHandTarget);
+            grapAnimCurve.DetatchHook(true);
 
-        act.hook.SetActive(true);
+        grapAnimCurve.hook.SetActive(true);
 
-        act.hook.transform.rotation = grapplePoint.transform.rotation;
+       // grapAnimCurve.hook.transform.rotation = grapplePoint.transform.rotation;
 
-         act.AnimateHook();
+         grapAnimCurve.AnimateHook();
 
         }
-        rope.SetPosition(0, act.hook.transform.position);
+        rope.SetPosition(0, grapAnimCurve.hook.transform.position);
        
         rope.SetPosition(1, grapplePoint.position);
 
@@ -201,8 +203,8 @@ public class RayCast_IK : MonoBehaviour
     public void IK_EndGrapple()
     {
         rope.enabled = false;
-        if (act != null)
-        act.hook.SetActive(false);
+        if (grapAnimCurve != null)
+        grapAnimCurve.hook.SetActive(false);
         bPIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
         StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
@@ -354,10 +356,16 @@ public class RayCast_IK : MonoBehaviour
 
                 if (rope.enabled)
                 {
-                    rope.SetPosition(0, act.hook.transform.position);
+                    rope.SetPosition(0, grapAnimCurve.hook.transform.position);
                     rope.SetPosition(1, grapplePoint.position);
-                    rope.startWidth = 0.1f;
-                    rope.endWidth = 0.1f;
+                    rope.startWidth = ropeWidth;
+                    rope.endWidth = ropeWidth;
+
+                    Vector3 ropeVec = rope.GetPosition(0) - rope.GetPosition(1);
+                    float ropeDistance = ropeVec.magnitude;
+
+                    rope.material.SetTextureScale("_MainTex", new Vector2(ropeWidth, ropeDistance));
+
                 }
 
 
