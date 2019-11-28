@@ -284,14 +284,22 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
-            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
+            RaycastHit footCheck;
+            Physics.BoxCast(transform.position, new Vector3(0.25f, 0.5f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
+            
+            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    anim.SetTrigger("Damaged");
-                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+                    if (player.GetHealth() > 0)
+                    {
+                        anim.SetTrigger("Damaged");
+                    }
+                    player.DisableControls();
+                    StartCoroutine(EnableControls());
+                    player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     //if (player.GetHealth() <= 0)
@@ -307,11 +315,13 @@ public class PlayerController : MonoBehaviour
         //player.SetHealth(-1); //reduces health on player class
         //h_Manager.HealthDown(); //reduces health on hud
         //anim.SetTrigger("Damaged");
-        //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
-        //StartCoroutine(DamageFlashOff());
-        //player.SetDamagable(false); //provides a brief period of invulnerability
-        //}
-        //level end triggers
+        //player.DisableControls();
+        //StartCoroutine(EnableControls());
+            //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+            //StartCoroutine(DamageFlashOff());
+            //player.SetDamagable(false); //provides a brief period of invulnerability
+            //}
+            //level end triggers
         else if (collision.gameObject.name == "TeleportNext")
         {
 
@@ -378,6 +388,12 @@ public class PlayerController : MonoBehaviour
             player.SetDamagable(true);
             timesThrough = 0;
         }
+    }
+
+    IEnumerator EnableControls()
+    {
+        yield return new WaitForSeconds(0.5f);
+        player.EnableControls();
     }
     #endregion
 
@@ -485,7 +501,9 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
                                                                                                                                     //Debug.Log("Hitting Spider");
                                                                                                                                     //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        player.GenericAddForce(footHit.collider.gameObject.transform.position - player.transform.position, 5); //bounce off enemies
+                        player.DisableControls();
+                        StartCoroutine(EnableControls());
+                        player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
                         landed = true;
                         StartCoroutine(LandedSwitch());
                     }
