@@ -17,7 +17,7 @@ public class CreateMovingPlatform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag =="Player")
+        if (other.tag == "Player")
         {
             cameraPaths.StartMeUp();
             movingPlatform.SetActive(true);
