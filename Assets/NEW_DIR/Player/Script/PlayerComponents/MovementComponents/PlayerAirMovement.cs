@@ -56,8 +56,6 @@ public class PlayerAirMovement : PlayerVariables
             doubleJumpControl = true;
             StartCoroutine(DoubleJumpControl());
         }
-
-
     }
 
     private void OnDisable()

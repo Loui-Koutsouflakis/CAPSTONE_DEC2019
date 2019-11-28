@@ -123,6 +123,11 @@ public class PlayerClass : MonoBehaviour
     public void SetHealth(int healthChange)
     {
         health += healthChange;
+        if(health > 3)
+        {
+            health = 3;
+        }
+
         if (health <= 0) 
         {
             Death();            
