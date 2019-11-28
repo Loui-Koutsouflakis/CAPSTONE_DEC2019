@@ -24,7 +24,7 @@ public class Sound
 
     public void Play()
     {
-        source.volume = volume;
+        
         source.pitch = pitch;
         source.Play();
     }
