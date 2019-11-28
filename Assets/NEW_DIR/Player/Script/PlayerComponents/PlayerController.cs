@@ -284,7 +284,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
-            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
+            RaycastHit footCheck;
+            Physics.BoxCast(transform.position, halves, Vector3.down, out footCheck, Quaternion.identity, halves.y, p_Layer);
+            
+            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
