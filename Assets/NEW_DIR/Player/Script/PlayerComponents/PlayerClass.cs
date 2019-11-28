@@ -128,6 +128,7 @@ public class PlayerClass : MonoBehaviour
             health = 3;
         }
 
+        //anim.SetInteger("Health", health);
         if (health <= 0) 
         {
             Death();            
