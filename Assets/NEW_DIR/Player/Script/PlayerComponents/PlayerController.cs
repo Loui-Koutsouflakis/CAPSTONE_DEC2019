@@ -307,12 +307,12 @@ public class PlayerController : MonoBehaviour
         //once we have level hazards
         //else if(collision.gameObject.layer == )
         //{
-        //player.SetHealth(-1); //reduces health on player class
-        //h_Manager.HealthDown(); //reduces health on hud
-        //anim.SetTrigger("Damaged");
-        //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
-        //StartCoroutine(DamageFlashOff());
-        //player.SetDamagable(false); //provides a brief period of invulnerability
+            //player.SetHealth(-1); //reduces health on player class
+            //h_Manager.HealthDown(); //reduces health on hud
+            //anim.SetTrigger("Damaged");
+            //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+            //StartCoroutine(DamageFlashOff());
+            //player.SetDamagable(false); //provides a brief period of invulnerability
         //}
         //level end triggers
         else if (collision.gameObject.name == "TeleportNext")
