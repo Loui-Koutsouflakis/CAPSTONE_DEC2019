@@ -64,13 +64,14 @@ public class CPC_CameraPath : MonoBehaviour
     public List<CPC_Point> points = new List<CPC_Point>();
     public CPC_Visual visual;
     public bool looped = false;
+    public bool hasTIme = false;
+    public float m_Timer;
     public bool alwaysShow = true;
     public CPC_EAfterLoop afterLoop = CPC_EAfterLoop.Continue;
 
     private int currentWaypointIndex;
     private float currentTimeInWaypoint;
     private float timePerSegment;
-
     private bool paused = false;
     private bool playing = false;
 
@@ -113,7 +114,7 @@ public class CPC_CameraPath : MonoBehaviour
     /// Plays the path
     /// </summary>
     /// <param name="time">The time in seconds how long the camera takes for the entire path</param>
-    public void PlayPath(float time, float t)
+    public void PlayPath(float time, float t, float ET ,CPC_CameraPath endCam)
     {
         if (time <= 0) time = 0.001f;
         paused = false;
@@ -123,28 +124,40 @@ public class CPC_CameraPath : MonoBehaviour
         player.DisableControls();
         player.rb.isKinematic = true;
         StopAllCoroutines();
-        StartCoroutine(FollowPath(time,t));
+        StartCoroutine(FollowPath(time,t, ET,endCam));
     }
 
     /// <summary>
     /// Stops the path
     /// </summary>
-    public void StopPath(float t)
+    public void StopPath(float t, float ET,CPC_CameraPath endCam)
     {
         playing = false;
         paused = false;
-        if (!playing)
-            StartCoroutine(waitForTime(t));
-          
+        if (!playing) 
+            StartCoroutine(waitForTime(t, ET,endCam)); 
     }
-
-    IEnumerator waitForTime(float t)
+    IEnumerator waitForTime(float t, float ET,CPC_CameraPath endCam)
     {
-        yield return new WaitForSeconds(t);
-        player.EnableControls();
-        player.rb.isKinematic = false;
-        cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
-        StopAllCoroutines();
+        if (endCam == null)
+        {
+            yield return new WaitForSeconds(t);
+            player.EnableControls();
+            player.rb.isKinematic = false;
+            cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
+            StopAllCoroutines();
+        }
+        else
+        {
+            yield return new WaitForSeconds(t);
+            cam.transform.rotation = endCam.transform.rotation;
+            cam.transform.position = endCam.transform.position;
+            yield return new WaitForSeconds(ET);
+            player.EnableControls();
+            player.rb.isKinematic = false;
+            cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
+            StopAllCoroutines();
+        }
     }
     /// <summary>
     /// Allows to change the time variable specified in PlayPath(float time) on the fly
@@ -152,6 +165,8 @@ public class CPC_CameraPath : MonoBehaviour
     /// <param name="seconds">New time in seconds for entire path</param>
     public void UpdateTimeInSeconds(float seconds)
     {
+        if (hasTIme) timePerSegment = seconds;
+        else
         timePerSegment = seconds / ((looped) ? points.Count : points.Count - 1);
     }
 
@@ -240,31 +255,60 @@ public class CPC_CameraPath : MonoBehaviour
             selectedCamera.transform.rotation = Quaternion.LookRotation((target.transform.position - selectedCamera.transform.position).normalized);
     }
 
-    IEnumerator FollowPath(float time, float t)
+    IEnumerator FollowPath(float time, float t, float ET,CPC_CameraPath endCam)
     {
-        UpdateTimeInSeconds(time);
-        currentWaypointIndex = 0;
-        while (currentWaypointIndex < points.Count)
+        if (!hasTIme)
         {
-            currentTimeInWaypoint = 0;
-            while (currentTimeInWaypoint < 1)
+            UpdateTimeInSeconds(time);
+            currentWaypointIndex = 0;
+            while (currentWaypointIndex < points.Count)
             {
-                if (!paused)
+                currentTimeInWaypoint = 0;
+                while (currentTimeInWaypoint < 1)
                 {
-                    currentTimeInWaypoint += Time.deltaTime / timePerSegment;
-                    selectedCamera.transform.position = GetBezierPosition(currentWaypointIndex, currentTimeInWaypoint);
-                    if (!lookAtTarget)
-                        selectedCamera.transform.rotation = GetLerpRotation(currentWaypointIndex, currentTimeInWaypoint);
-                    else
-                        selectedCamera.transform.rotation = Quaternion.LookRotation((target.transform.position - selectedCamera.transform.position).normalized);
+                    if (!paused)
+                    {
+                        currentTimeInWaypoint += Time.deltaTime / timePerSegment;
+                        selectedCamera.transform.position = GetBezierPosition(currentWaypointIndex, currentTimeInWaypoint);
+                        if (!lookAtTarget)
+                            selectedCamera.transform.rotation = GetLerpRotation(currentWaypointIndex, currentTimeInWaypoint);
+                        else
+                            selectedCamera.transform.rotation = Quaternion.LookRotation((target.transform.position - selectedCamera.transform.position).normalized);
+                    }
+                    yield return 0;
                 }
-                yield return 0;
+                ++currentWaypointIndex;
+                if (currentWaypointIndex == points.Count - 1 && !looped) break;
+                if (currentWaypointIndex == points.Count && afterLoop == CPC_EAfterLoop.Continue) currentWaypointIndex = 0;
             }
-            ++currentWaypointIndex;
-            if (currentWaypointIndex == points.Count - 1 && !looped) break;
-            if (currentWaypointIndex == points.Count && afterLoop == CPC_EAfterLoop.Continue) currentWaypointIndex = 0;
+            StopPath(t,ET,endCam);
         }
-        StopPath(t);
+        else
+        {
+            UpdateTimeInSeconds(m_Timer);
+            currentWaypointIndex = 0;
+            while (currentWaypointIndex < points.Count)
+            {
+                currentTimeInWaypoint = 0;
+                while (currentTimeInWaypoint < 1)
+                {
+                    if (!paused)
+                    {
+                        currentTimeInWaypoint += Time.deltaTime / timePerSegment;
+                        selectedCamera.transform.position = GetBezierPosition(currentWaypointIndex, currentTimeInWaypoint);
+                        if (!lookAtTarget)
+                            selectedCamera.transform.rotation = GetLerpRotation(currentWaypointIndex, currentTimeInWaypoint);
+                        else
+                            selectedCamera.transform.rotation = Quaternion.LookRotation((target.transform.position - selectedCamera.transform.position).normalized);
+                    }
+                    yield return 0;
+                }
+                ++currentWaypointIndex;
+                if (currentWaypointIndex == points.Count - 1 && !looped) break;
+                if (currentWaypointIndex == points.Count && afterLoop == CPC_EAfterLoop.Continue) currentWaypointIndex = 0;
+            }
+            StopPath(t, ET,endCam);
+        }
     }
 
     int GetNextIndex(int index)
@@ -276,20 +320,40 @@ public class CPC_CameraPath : MonoBehaviour
 
     Vector3 GetBezierPosition(int pointIndex, float time)
     {
-        float t = points[pointIndex].positionCurve.Evaluate(time);
-        int nextIndex = GetNextIndex(pointIndex);
-        return
-            Vector3.Lerp(
+        if (!hasTIme)
+        {
+            float t = points[pointIndex].positionCurve.Evaluate(time);
+            int nextIndex = GetNextIndex(pointIndex);
+            return
                 Vector3.Lerp(
-                    Vector3.Lerp(points[pointIndex].position,
-                        points[pointIndex].position + points[pointIndex].handlenext, t),
-                    Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
-                        points[nextIndex].position + points[nextIndex].handleprev, t), t),
+                    Vector3.Lerp(
+                        Vector3.Lerp(points[pointIndex].position,
+                            points[pointIndex].position + points[pointIndex].handlenext, t),
+                        Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
+                            points[nextIndex].position + points[nextIndex].handleprev, t), t),
+                    Vector3.Lerp(
+                        Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
+                            points[nextIndex].position + points[nextIndex].handleprev, t),
+                        Vector3.Lerp(points[nextIndex].position + points[nextIndex].handleprev,
+                            points[nextIndex].position, t), t), t);
+        }
+        else
+        {
+            float t = points[pointIndex].positionCurve.Evaluate(time);
+            int nextIndex = GetNextIndex(pointIndex);
+            return
                 Vector3.Lerp(
-                    Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
-                        points[nextIndex].position + points[nextIndex].handleprev, t),
-                    Vector3.Lerp(points[nextIndex].position + points[nextIndex].handleprev,
-                        points[nextIndex].position, t), t), t);
+                    Vector3.Lerp(
+                        Vector3.Lerp(points[pointIndex].position,
+                            points[pointIndex].position + points[pointIndex].handlenext, t),
+                        Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
+                            points[nextIndex].position + points[nextIndex].handleprev, t), t),
+                    Vector3.Lerp(
+                        Vector3.Lerp(points[pointIndex].position + points[pointIndex].handlenext,
+                            points[nextIndex].position + points[nextIndex].handleprev, t),
+                        Vector3.Lerp(points[nextIndex].position + points[nextIndex].handleprev,
+                            points[nextIndex].position, t), t), t);
+        }
     }
 
     private Quaternion GetLerpRotation(int pointIndex, float time)

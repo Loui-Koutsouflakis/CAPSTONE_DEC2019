@@ -56,8 +56,6 @@ public class PlayerAirMovement : PlayerVariables
             doubleJumpControl = true;
             StartCoroutine(DoubleJumpControl());
         }
-
-
     }
 
     private void OnDisable()
@@ -316,7 +314,7 @@ public class PlayerAirMovement : PlayerVariables
 
     IEnumerator GroundPoundFloat()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("start drop");
         player.rb.isKinematic = false;
         player.EnableControls();

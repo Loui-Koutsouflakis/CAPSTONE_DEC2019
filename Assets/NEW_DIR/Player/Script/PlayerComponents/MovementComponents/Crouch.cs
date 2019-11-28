@@ -101,6 +101,8 @@ public class Crouch : PlayerVariables
             HighJump();
             //Debug.Log("high jump");
         }
+        player.StartCoroutine(player.GroundCheckStop());
+        
 
         if (player.transform.parent != null && !GetComponentInParent<PlayerController>().bossLevel)
         {
@@ -116,6 +118,7 @@ public class Crouch : PlayerVariables
     {
         rb.AddForce(player.transform.up * highJumpForce, ForceMode.Impulse);
         player.SetHighJump(true);
+        anim.SetBool("Grounded", false);
     }
 
     public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
@@ -123,6 +126,7 @@ public class Crouch : PlayerVariables
         rb.velocity = Vector3.zero;
         rb.AddForce(player.transform.up * longJumpUpForce + player.transform.forward * longJumpForwardForce, ForceMode.Impulse);
         player.SetLongJump(true);
+        anim.SetBool("Grounded", false);
     }
 
     public void Movement()

@@ -103,20 +103,23 @@ public class PlayerController : MonoBehaviour
         //jump executed depend on the current movement component
         if (player.playerCurrentMove == MovementType.move)
         {
-            player.GetMoveComponent().Jump();
-            //set movement type to air
-            player.SetMovementType(MovementType.air);
-            //sets grounded to false outside of
-            player.SetGrounded(false);
+            if (!sliding)//to prevent being able to jump out steep slopes
+            {
+                player.GetMoveComponent().Jump();
+                //set movement type to air
+                player.SetMovementType(MovementType.air);
+                //sets grounded to false outside of
+                player.SetGrounded(false);
 
-            //stateMachine.SetTrigger("Jump");
-            anim.SetBool("Grounded", false);
+                //stateMachine.SetTrigger("Jump");
+                anim.SetBool("Grounded", false);
 
-            //Particle stuff from Tony
-            psRun.Stop();
-            psJump.Stop();
-            psJump.Play();
-            jumpParticleIsPlaying = false;
+                //Particle stuff from Tony
+                psRun.Stop();
+                psJump.Stop();
+                psJump.Play();
+                jumpParticleIsPlaying = false;
+            }
         }
         else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
         {
@@ -287,7 +290,8 @@ public class PlayerController : MonoBehaviour
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 3); //knocks player away from enemy
+                    anim.SetTrigger("Damaged");
+                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     //if (player.GetHealth() <= 0)
@@ -295,36 +299,47 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-            }
-            else if (collision.gameObject.name == "TeleportNext")
-            {
-
-                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
-
-                teleportPsParent.position = transform.position;
-
-                foreach (ParticleSystem ps in teleport)
-                {
-                    ps.Play();
-                }
-
-                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
-            }
-            else if (collision.gameObject.name == "TeleportPrev")
-            {
-                t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
-
-                teleportPsParent.position = transform.position;
-
-                foreach (ParticleSystem ps in teleport)
-                {
-                    ps.Play();
-                }
-
-                gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
-            }
+            }            
         }
-        
+        //once we have level hazards
+        //else if(collision.gameObject.layer == )
+        //{
+        //player.SetHealth(-1); //reduces health on player class
+        //h_Manager.HealthDown(); //reduces health on hud
+        //anim.SetTrigger("Damaged");
+        //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+        //StartCoroutine(DamageFlashOff());
+        //player.SetDamagable(false); //provides a brief period of invulnerability
+        //}
+        //level end triggers
+        else if (collision.gameObject.name == "TeleportNext")
+        {
+
+            t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+
+            teleportPsParent.position = transform.position;
+
+            foreach (ParticleSystem ps in teleport)
+            {
+                ps.Play();
+            }
+
+            gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
+        }
+        else if (collision.gameObject.name == "TeleportPrev")
+        {
+            t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
+
+            teleportPsParent.position = transform.position;
+
+            foreach (ParticleSystem ps in teleport)
+            {
+                ps.Play();
+            }
+
+            gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
+        }
+
     }
 
     //damage flash on/off are repeating coroutines that turn off/on mesh
@@ -426,9 +441,10 @@ public class PlayerController : MonoBehaviour
 
                 if(Vector3.Angle(footHit.normal, Vector3.up) >= 45)
                 {
-                    player.DisableControls();
+                    //player.DisableControls(); disable controls causes some problems so taking it out for now
                     Debug.Log("sliding");
-                    player.GenericAddForce(groundSlopeDirection, 0.5f);
+                    //player.GenericAddForce(groundSlopeDirection, 0.5f);
+                    player.rb.AddForce(groundSlopeDirection.normalized * 10, ForceMode.Force);
                     sliding = true;
                 }
                 else if(sliding == true)
@@ -464,10 +480,15 @@ public class PlayerController : MonoBehaviour
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
                 {
-                    StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                    //Debug.Log("Hitting Spider");
-                    //if (!player.GetGroundPounding())//move this to the enemies side of things
-                    player.GenericAddForce(transform.up, 5); //bounce off enemies
+                    if (!landed)
+                    {
+                        StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
+                                                                                                                                    //Debug.Log("Hitting Spider");
+                                                                                                                                    //if (!player.GetGroundPounding())//move this to the enemies side of things
+                        player.GenericAddForce(footHit.collider.gameObject.transform.position - player.transform.position, 5); //bounce off enemies
+                        landed = true;
+                        StartCoroutine(LandedSwitch());
+                    }
                 }
                 //for ground pounding checks
                 if (player.GetGroundPounding())
@@ -480,12 +501,12 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    //to kill spiderlings within groundpound radius
-                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5))
+                    //to kill spiderlings within groundpound radius 
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, is there a better way of doing this during gameplay?
                     {
-                        if(thing.gameObject.GetComponent<Spiderlings>() || thing.gameObject.GetComponent<MotherSpider>())
+                        if (thing.gameObject.GetComponent<Spiderlings>() || (thing.gameObject.GetComponent<MotherSpider>() && thing == thing.GetComponent<BoxCollider>()))
                         {
-                            thing.GetComponent<IKillable>().CheckHit(player.GetGroundPounding());
+                            StartCoroutine(this.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding()));
                         }
                     }
 

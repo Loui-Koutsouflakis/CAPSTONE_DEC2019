@@ -119,7 +119,7 @@ public class PlayerGroundMovement : PlayerVariables
         Vector3 horizontalVelocity = player.rb.velocity;
         horizontalVelocity.y = 0;
         
-        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax) * horizontalVelocity.normalized;
+        horizontalVelocity = Mathf.Min(horizontalVelocity.magnitude, walkMax - (walkMax * Mathf.Min(0.2f * player.GetAttachedWebs(), 0.9f))) * horizontalVelocity.normalized; //max speed reduced when being webbed by spiders
        
         player.rb.velocity = horizontalVelocity + player.rb.velocity.y * Vector3.up;
     }
@@ -169,7 +169,14 @@ public class PlayerGroundMovement : PlayerVariables
     public void setSpeed()
     {
         moveSpeed = player.rb.velocity.magnitude / walkMax;
-        anim.SetFloat("Speed", moveSpeed);
+        if(Vector3.Dot(player.rb.velocity, player.gameObject.transform.forward) > 1)
+        {
+            anim.SetFloat("Speed", moveSpeed);
+        }
+        else
+        {
+            anim.SetFloat("Speed", 0);
+        }
     }
 
     public void setRotate()
