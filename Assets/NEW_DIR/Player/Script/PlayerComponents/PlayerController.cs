@@ -280,21 +280,23 @@ public class PlayerController : MonoBehaviour
     //ability for player to take damage
     #region Player Damage
     //only using collision ckecks for taking damage from enemies
+
+    private Vector3 tempVel;
     private void OnCollisionEnter(Collision collision) //to take damage from hitting enemy
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
             RaycastHit footCheck;
             Physics.BoxCast(transform.position, new Vector3(0.25f, 0.25f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
-            Debug.Log(footCheck.collider);
-            if(footCheck.collider != null)
-            {
-                Debug.Log(footCheck.collider.gameObject.layer);
-            }
-            else if(footCheck.collider == null)
-            {
-                Debug.Log("no collider");
-            }
+            //Debug.Log(footCheck.collider);
+            //if(footCheck.collider != null)
+            //{
+            //    Debug.Log(footCheck.collider.gameObject.layer);
+            //}
+            //else if(footCheck.collider == null)
+            //{
+            //    Debug.Log("no collider");
+            //}
             
             
             if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
@@ -321,6 +323,10 @@ public class PlayerController : MonoBehaviour
                 {
                     collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
                 }
+            }
+            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackableEnemy>())
+            {
+                tempVel = player.rb.velocity;
             }
             
         }
@@ -467,15 +473,15 @@ public class PlayerController : MonoBehaviour
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
 
-                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
                 {
                     Debug.Log("hit stackable enemy");
-                    if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
-                    {
-                        Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
+                    //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    //{
+                        //Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
                         dontStop = true;
                         StartCoroutine(RestartStop());
-                    }
+                    //}
                 }
 
                 antiStickTimer = 0;
@@ -538,7 +544,12 @@ public class PlayerController : MonoBehaviour
                             player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
                             landed = true;
                             StartCoroutine(LandedSwitch());
-                        }                                            
+                        }
+                        else 
+                        {
+                            player.rb.velocity = tempVel;
+                            Debug.Log("smash");
+                        }
                     }
                 }
                 //for ground pounding checks
@@ -567,6 +578,11 @@ public class PlayerController : MonoBehaviour
                         player.DisableControls();
                         StartCoroutine(GroundPoundStop());
                         player.SetGroundPounding(false);
+                    }
+                    else
+                    {
+                        player.rb.velocity = tempVel;
+                        Debug.Log("smash");
                     }
                 }
 
@@ -667,7 +683,12 @@ public class PlayerController : MonoBehaviour
                         //}
                     }
                 }
-                              
+                else
+                {
+                    player.rb.velocity = tempVel;
+                    Debug.Log("smash");
+                }
+
             }
             else
             {
@@ -737,7 +758,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator RestartStop()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         dontStop = false;
     }
 
