@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ANIMATION_CURVE_TEST : MonoBehaviour
+public class GrappleAnimationCurve : MonoBehaviour
 {
 
-    public Transform posOne;
-    public Transform posTwo;
+   public Transform throwPosition;
+
+
+    Vector3 startPosition; 
+
+    public Transform parent; 
 
     public GameObject hook;
 
@@ -14,12 +18,15 @@ public class ANIMATION_CURVE_TEST : MonoBehaviour
     public AnimationCurve animCurve; 
     public AnimationClip animClip;
     float startTime = 0;
+
     float startValueY;
     float startValueZ;
     float startValueX;
 
 
-    float endTime = 1f;
+    float endTime = 0.2f;
+
+    public Vector3 endValueVector; 
     float endValueY; 
     float endValueZ;
     float endValueX;
@@ -32,32 +39,52 @@ public class ANIMATION_CURVE_TEST : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hook = this.gameObject; 
-       
+        hook = this.gameObject;
 
+        if(parent != null)
+        startPosition = parent.transform.position; 
 
+    }
+
+    public void setHookPoint(Transform hP)
+    {
+
+        endValueVector = hP.position;
+
+    }
+
+    public void DetatchHook(bool value)
+    {
+        if(value)
+        hook.transform.parent = null;
+
+        else
+        {
+            hook.transform.parent = parent;
+            transform.position = startPosition; 
+        }
     }
 
     public void AnimateHook()
     {
-        transform.position = posOne.position;
+        transform.position = throwPosition.position;
 
-        startValueY = posOne.transform.position.y;
-        endValueY = posTwo.transform.position.y;
+        startValueY = throwPosition.transform.position.y;
+        endValueY = endValueVector.y;
 
         AnimationCurve curveY = AnimationCurve.EaseInOut(startTime, startValueY, endTime, endValueY);
         string relativeObjectName = string.Empty; // Means the object holding the animator component
         animClip.SetCurve(relativeObjectName, typeof(Transform), "localPosition.y", curveY);
 
 
-        startValueZ = posOne.transform.position.z;
-        endValueZ = posTwo.transform.position.z;
+        startValueZ = throwPosition.transform.position.z;
+        endValueZ = endValueVector.z;
 
         AnimationCurve curveZ = AnimationCurve.EaseInOut(startTime, startValueZ, endTime, endValueZ);
         animClip.SetCurve(relativeObjectName, typeof(Transform), "localPosition.z", curveZ);
 
-        startValueX = posOne.transform.position.x;
-        endValueX = posTwo.transform.position.x;
+        startValueX = throwPosition.transform.position.x;
+        endValueX = endValueVector.x;
 
         AnimationCurve curveX = AnimationCurve.EaseInOut(startTime, startValueX, endTime, endValueX);
         animClip.SetCurve(relativeObjectName, typeof(Transform), "localPosition.x", curveX);
