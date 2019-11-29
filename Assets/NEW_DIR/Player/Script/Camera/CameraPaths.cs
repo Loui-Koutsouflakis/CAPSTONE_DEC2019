@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 [AddComponentMenu("Camera/Camera Path", 1)]
 public class CameraPaths : MonoBehaviour
 {
-    PlayerClass player;
     public bool playOnStart = false;
     public bool active = false;
     public CPC_CameraPath path;
@@ -30,7 +29,6 @@ public class CameraPaths : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerClass>();
         paths = FindObjectsOfType<CPC_CameraPath>();
         if (anims == null)
             Debug.Log("No big deal");
@@ -82,7 +80,7 @@ public class CameraPaths : MonoBehaviour
         {
             if (!hasPlayed)
             {
-                if (player.GetShards() >= c_Threshold)
+                if (HudManager.shardsCollected >= c_Threshold)
                 {
                     active = true;
                     hasPlayed = true;
