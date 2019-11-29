@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5305023625431928693}
   - component: {fileID: 7222314153536093949}
   - component: {fileID: 9138644813143300904}
+  - component: {fileID: 4665565911839426117}
   m_Layer: 10
   m_Name: P_StackEnemy
   m_TagString: EnemyWeakSpot
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  type: 0
+  type: 1
   catHead: {fileID: 1094103212146067085}
   catMid: {fileID: 2547188859640722141}
   catBase: {fileID: 2123347139210105929}
@@ -129,7 +130,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2656624167307102910}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 1
   m_Height: 1
   m_Direction: 1
@@ -150,6 +151,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &4665565911839426117
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2656624167307102910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3912701888051333032
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +175,7 @@ GameObject:
   - component: {fileID: 8571740454401670580}
   m_Layer: 10
   m_Name: BackPack
-  m_TagString: Untagged
+  m_TagString: EnemyWeakSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -257,6 +271,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
       propertyPath: offsetInput
@@ -270,7 +289,7 @@ PrefabInstance:
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
       propertyPath: bColSizeY
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
@@ -280,7 +299,7 @@ PrefabInstance:
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
       propertyPath: bColCentY
-      value: 0.125
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
@@ -306,6 +325,21 @@ PrefabInstance:
         type: 3}
       propertyPath: navAgentRadiusInput
       value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: cColSizeX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: cColSizeY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: cColSizeZ
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d967e3f30a532fc4791522efa073fe26, type: 3}
@@ -347,7 +381,7 @@ PrefabInstance:
     - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: bColSizeY
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
@@ -357,7 +391,7 @@ PrefabInstance:
     - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: bColCentY
-      value: 0.125
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
@@ -383,6 +417,21 @@ PrefabInstance:
         type: 3}
       propertyPath: navAgentRadiusInput
       value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: cColSizeX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: cColSizeY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: cColSizeZ
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7437173471615053215, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
@@ -468,6 +517,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
       objectReference: {fileID: 0}
     - target: {fileID: 6705418496981052344, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
@@ -599,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
       propertyPath: bColSizeY
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
@@ -609,7 +663,7 @@ PrefabInstance:
     - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
       propertyPath: bColCentY
-      value: 0.125
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
@@ -635,6 +689,21 @@ PrefabInstance:
         type: 3}
       propertyPath: navAgentRadiusInput
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: cColSizeX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: cColSizeY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: cColSizeZ
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1496681988083497792, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
@@ -706,6 +775,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: 6391965579539705266, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
       propertyPath: m_Layer
@@ -751,7 +825,7 @@ PrefabInstance:
     - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
       propertyPath: bColSizeY
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
@@ -761,7 +835,7 @@ PrefabInstance:
     - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
       propertyPath: bColCentY
-      value: 0.125
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
@@ -787,6 +861,21 @@ PrefabInstance:
         type: 3}
       propertyPath: navAgentRadiusInput
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: cColSizeX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: cColSizeY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: cColSizeZ
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5208207321560302067, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
@@ -857,6 +946,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5604c0dad459248a8919e0dae8bbc7, type: 3}

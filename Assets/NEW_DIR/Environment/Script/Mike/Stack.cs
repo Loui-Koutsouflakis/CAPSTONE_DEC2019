@@ -19,6 +19,8 @@ public struct Info
     public float capColliderHeight;
     public float capColliderRadius;
 
+    public Vector3 cColliderSize;
+
     // NavMesh Info    
     public float navMeshAgentHeight;
     public float navMeshAgentRadius;
@@ -64,6 +66,14 @@ public class Stack : MonoBehaviour
     [SerializeField, Range(0.0f, 10)]
     float capColRadiusInput = 0.0f;
 
+    // Box Collider Size Input
+    [SerializeField, Range(0.0f, 10), Header("Box Collider Size Input")]
+    float cColSizeX = 0.0f;
+    [SerializeField, Range(0.0f, 10)]
+    float cColSizeY = 0.0f;
+    [SerializeField, Range(0.0f, 10)]
+    float cColSizeZ = 0.0f;
+
     // NavMesh Collider Input
     [SerializeField, Range(0.0f, 10)]
     float navAgentHeightInput = 0.0f;
@@ -84,6 +94,7 @@ public class Stack : MonoBehaviour
         info.capColliderCenter = new Vector3(capColCentX, capColCentY, capColCentZ);
         info.capColliderHeight = capColHeightInput;
         info.capColliderRadius = capColRadiusInput;
+        info.cColliderSize = new Vector3(cColSizeX, cColSizeY, cColSizeZ);
 
         info.navMeshAgentHeight = navAgentHeightInput;
         info.navMeshAgentRadius = navAgentRadiusInput;

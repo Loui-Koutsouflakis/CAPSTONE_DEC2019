@@ -33,11 +33,16 @@ public class StackableEnemy : MonoBehaviour, IKillable
     [SerializeField]
     BoxCollider bCollider;
     [SerializeField]
-    CapsuleCollider cCollider;
+    //CapsuleCollider cCollider;
+    BoxCollider cCollider;
     [SerializeField]
     Transform playerRef;
     [SerializeField]
     Transform backPack;//Drag and Drop emptyobject centered on Object.
+    public Transform GetBackPack()
+    {
+        return backPack;
+    }
 
     [SerializeField]
     Rigidbody rb;
@@ -118,8 +123,19 @@ public class StackableEnemy : MonoBehaviour, IKillable
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
-        bCollider = GetComponent<BoxCollider>();
-        cCollider = GetComponent<CapsuleCollider>();
+        BoxCollider[] temp = GetComponents<BoxCollider>();
+        foreach (BoxCollider box in temp)
+        {
+            if (box.isTrigger)
+            {
+                bCollider = box;
+            }
+            else
+                cCollider = box;
+        }
+        //if(temp[0].isTrigger)
+        //bCollider = GetComponent<BoxCollider>();
+        //cCollider = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
         playerRef = GameObject.FindGameObjectWithTag("Player").transform;
         GenStackRank();
@@ -275,7 +291,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
 
 
         yield return new WaitForSeconds(t);
-        Debug.Log("Idle wait finished");
+        //Debug.Log("Idle wait finished");
         notMoving = true;
         SetEnemyStatus(StackableEnemyStatus.Move);
        
@@ -296,9 +312,12 @@ public class StackableEnemy : MonoBehaviour, IKillable
     IEnumerator DeathAnimation(float t)
     {
         // Insert Death Animation trigger here
-
+        bCollider.enabled = false;
+        cCollider.enabled = false;
+        //navAgent.enabled = false;
         yield return new WaitForSeconds(t);
         transform.gameObject.SetActive(false);
+
     }
 
     IEnumerator StackingAnimationJump(float t)
@@ -514,8 +533,9 @@ public class StackableEnemy : MonoBehaviour, IKillable
         bCollider.size = stack.GetModelInfo().boxColliderSize;
 
         cCollider.center = stack.GetModelInfo().capColliderCenter;
-        cCollider.height = stack.GetModelInfo().capColliderHeight;
-        cCollider.radius = stack.GetModelInfo().capColliderRadius;
+        //cCollider.height = stack.GetModelInfo().capColliderHeight;
+        //cCollider.radius = stack.GetModelInfo().capColliderRadius;
+        cCollider.size = stack.GetModelInfo().cColliderSize;
 
         navAgent.height = stack.GetModelInfo().navMeshAgentHeight;
         navAgent.radius = stack.GetModelInfo().navMeshAgentRadius;
@@ -637,28 +657,48 @@ public class StackableEnemy : MonoBehaviour, IKillable
 
         if (!isGroundPound)
         {
-            if (backPack.childCount > 0)
+            if(transform.parent != null)
             {
-                backPack.GetChild(backPack.childCount - 1).GetComponent<StackableEnemy>().SetDead();
-                backPack.GetChild(backPack.childCount - 1).transform.parent = null;                
-                if (backPack.childCount > 0)
+                if (transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
                 {
-                    backPack.GetChild(backPack.childCount - 1).GetComponent<StackableEnemy>().SetActiveStack();
+                    if (transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    {
+                        transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetActiveStack();
+                    }
+                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetDead();
+                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).transform.parent = null;                
+                    SetActiveStack();
                 }
-                SetActiveStack();
+                else
+                {
+                    SetDead();                
+                }
             }
             else
             {
-                SetDead();                
+                SetDead();
             }
         }
         else
         {
-            foreach (var child in backPack)
+            if (isAPassenger)
             {
-                GetComponent<StackableEnemy>().SetDead();
+                for (int i = 0; i < transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount; i++)
+                {
+                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(i).GetComponent<StackableEnemy>().SetDead();
+                }
+                transform.parent.parent.GetComponent<StackableEnemy>().SetDead();
             }
-            SetDead();
+            else
+            {
+                SetDead();
+            }
+
+            //foreach (Transform child in transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack())
+            //{
+            //    child.gameObject.GetComponent<StackableEnemy>().SetDead();
+            //}
+            //SetDead();
         }
     }
             //StartCoroutine(Die());
