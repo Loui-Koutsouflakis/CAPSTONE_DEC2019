@@ -93,12 +93,12 @@ public class CameraPaths : MonoBehaviour
 
     IEnumerator goTime()
     {
-        active = false;
         if (hasParticles)
         {
             StartCoroutine(StopParticles(3));
         }
         yield return new WaitForEndOfFrame();
+        active = false;
         if (hasEndCam) path.PlayPath(time, stayTime, endCamStayTime,endCam);
         else
         path.PlayPath(time,stayTime, endCamStayTime, null);

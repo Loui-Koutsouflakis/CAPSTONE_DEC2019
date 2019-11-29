@@ -106,7 +106,17 @@ public class SaveGameManager : MonoBehaviour
         }
 
 
-        if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
+        //if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
+        //{
+        //    masterSoundVolume = PlayerPrefs.GetFloat("MasterSoundVolume");
+        //}
+        //else
+        //{
+        //    masterSoundVolume = 0.5f;
+        //}
+
+
+        if (PlayerPrefs.HasKey("MasterSoundVolume"))
         {
             masterSoundVolume = PlayerPrefs.GetFloat("MasterSoundVolume");
         }
@@ -115,7 +125,7 @@ public class SaveGameManager : MonoBehaviour
             masterSoundVolume = 0.5f;
         }
 
-        if(PlayerPrefs.GetFloat("MusicSoundVolume") >= 0 && PlayerPrefs.GetFloat("MusicSoundVolume") <= 1)
+        if (PlayerPrefs.HasKey("MusicSoundVolume"))
         {
             MusicSoundVolume = PlayerPrefs.GetFloat("MusicSoundVolume");
         }
@@ -124,7 +134,7 @@ public class SaveGameManager : MonoBehaviour
             MusicSoundVolume = 0.5f;
         }
 
-        if(PlayerPrefs.GetFloat("DialogueSoundVolume") >= 0 && PlayerPrefs.GetFloat("DialogueSoundVolume") <= 1)
+        if(PlayerPrefs.HasKey("DialogueSoundVolume"))
         {
             dialogueSoundVolume = PlayerPrefs.GetFloat("DialogueSoundVolume");
         }
@@ -455,6 +465,10 @@ public class SaveGameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha8))
         {
             ClearSavedFiles();
+            PlayerPrefs.DeleteKey("MasterSoundVolume");
+            PlayerPrefs.DeleteKey("MusicSoundVolume");
+            PlayerPrefs.DeleteKey("DialogueSoundVolume");
+            
         }
     }
 
