@@ -11,8 +11,9 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     public Animator animator;
 
     // Misc
-    public int health = 1;
-    private Vector3 imp = new Vector3(0, 15, 0);
+    public int health;
+    
+    public Collider Weakpoint;
 
     // Rock Throwing Portion
     public Transform RockSpawnPosition;
@@ -22,6 +23,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     public float RockSpeed;
     private Transform Player;
     private GameObject Rock;
+    public Collider LeftHand, RightHand;
 
     // Lead Target Calculation Requirements
     private Vector3 AITarget;
@@ -32,7 +34,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Find New Sleep Position
     [Tooltip("Use an Empty GameObject to mark the middle of his return area. Make sure it is level with the ground.")]
     public Transform middle;
-    [Tooltip("Set the size of x and z to whatever you deem necessary, but KEEP y ZERO !!")]
+    [Tooltip("Set the size of x and z to whatever you deem necessary, but KEEP Y ZERO !!")]
     public Vector3 size;
     //private float WalkSpeed = 1;
     private Vector3 center;
@@ -46,6 +48,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerRigidBody = Player.GetComponent<Rigidbody>();
         center = new Vector3(middle.position.x, middle.position.y, middle.position.z);
+        //Weakpoint.enabled = false;
     }
 
     // Update is called once per frame
@@ -121,6 +124,26 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         Rock.GetComponent<Collider>().enabled = true;
     }
 
+    public void ActivateHandCol()
+    {
+        LeftHand.enabled = true;
+        RightHand.enabled = true;
+    }
+    public void DeactivateHandCol()
+    {
+        LeftHand.enabled = false;
+        RightHand.enabled = false;
+    }
+
+    public void ActivateWeakPoint()
+    {
+        Weakpoint.enabled = true;
+    }
+    public void DeactivateWeakPoint()
+    {
+        Weakpoint.enabled = false;
+    }
+
     Vector3 CalculateLead() // Calucates how far it has to shoot ahead to hit the player.
     {
         Vector3 V = PlayerRigidBody.velocity;
@@ -145,7 +168,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     public IEnumerator CheckHit(bool x)
     {
-        Player.GetComponent<Rigidbody>().AddForce(imp, ForceMode.Impulse);
+        
         Debug.Log("Has been hit!!");
         if(health > 0)
         {
@@ -160,12 +183,11 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     public IEnumerator TakeDamage()
     {
-        health -= health;
+        health -= 1;
         yield return new WaitForSeconds(1f);
     }
     public IEnumerator Die()
     {
-
         gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
     }

@@ -18,7 +18,8 @@ public class RockThrowingGolemThrowBehavour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        var r = Quaternion.LookRotation(PlayerPosition.position - animator.transform.position);
+        Vector3 TargetRotation = new Vector3(PlayerPosition.position.x, animator.transform.position.y, PlayerPosition.position.z);
+        var r = Quaternion.LookRotation(TargetRotation - animator.transform.position);
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
     }
 
