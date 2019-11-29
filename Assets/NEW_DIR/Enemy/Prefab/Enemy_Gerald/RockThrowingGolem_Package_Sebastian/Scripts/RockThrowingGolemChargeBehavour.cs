@@ -22,8 +22,6 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Layer = LayerMask.GetMask("Environment");
-        GroundLayer = LayerMask.GetMask("Environment");
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         AttackTarget = new Vector3(PlayerPosition.position.x, animator.transform.position.y, PlayerPosition.position.z);
     }
@@ -32,15 +30,10 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Layer = ~Layer; // collide with everything ecept the selected layer.
-        
+
         var r = Quaternion.LookRotation(AttackTarget - animator.transform.position);
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
         //animator.transform.position = Vector3.MoveTowards(animator.transform.position, AttackTarget, ChargeSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(animator.transform.position, AttackTarget) < 3)
-        {
-            animator.SetBool("IsTired", true);
-        }
 
         // Cliff and Wall
         RaycastHit firstHit;
@@ -57,14 +50,22 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         EndPoint = AI + animator.transform.TransformDirection(Vector3.forward) * FirstRayLength;
         if (Physics.Raycast(EndPoint, Vector3.down, out secondHit, SecondRayLength, GroundLayer))
         {
+            animator.SetBool("Ground", true);
             //Debug.Log("ground");
         }
         else
         {
-            animator.SetBool("ThereIsWall", true);
+            animator.SetBool("ThereIsAWall", true);
+            animator.SetBool("Ground", false);
             //Debug.Log("AIR");
         }
         Debug.DrawRay(EndPoint, Vector3.down * secondHit.distance, Color.red);
+
+        if (Vector3.Distance(animator.transform.position, AttackTarget) < 1)
+        {
+            animator.SetBool("IsTired", true);
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
