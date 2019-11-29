@@ -354,16 +354,11 @@ public class SaveGameManager : MonoBehaviour
 
         if(audioHandler)
         {
-            for (int i = 0; i < audioHandler.allMenuAudioSources.Length; i++)
+            for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
             {
-                audioHandler.allMenuAudioSources[i].volume = PlayerPrefs.GetFloat("MasterSoundVolume");
+                audioHandler.allAudioSources[i].volume = PlayerPrefs.GetFloat("MasterSoundVolume");
             }
-
-            if(audioHandler.GetMusicSouce() != null)
-            {
-                audioHandler.GetMusicSouce().volume = PlayerPrefs.GetFloat("MusicSoundVolume");
-
-            }
+            audioHandler.GetMusicSouce().volume = PlayerPrefs.GetFloat("MusicSoundVolume");
         }
 
 

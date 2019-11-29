@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 public class AudioHandler : MonoBehaviour
 {
 
-    public AudioSource[] allMenuAudioSources;
     public AudioSource[] allAudioSources;
-    AudioSource[] sources;
     private SaveGameManager saveGameManager;
     private AudioSource musicSource;
     private AudioSource dialogueSource;
@@ -25,9 +23,9 @@ public class AudioHandler : MonoBehaviour
         }
         GetAllAudioSources();
 
-        for (int i = 0; i < allMenuAudioSources.Length; i++)
+        for (int i = 0; i < allAudioSources.Length; i++)
         {
-            allMenuAudioSources[i].volume = saveGameManager.GetMasterVolume();
+            allAudioSources[i].volume = saveGameManager.GetMasterVolume();
         }
         if(GameObject.FindGameObjectWithTag("MusicSource"))
         {
@@ -56,7 +54,6 @@ public class AudioHandler : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("On Level Load Works");
         GetAllAudioSources();
 
         if (GameObject.FindGameObjectWithTag("MusicSource"))
@@ -64,22 +61,16 @@ public class AudioHandler : MonoBehaviour
             musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
             musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
         }
-        else
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
-        }
     }
 
     public void GetAllAudioSources()
     {
-        allMenuAudioSources = GetComponents<AudioSource>();
-        sources = FindObjectsOfType<AudioSource>();
-        allAudioSources = new AudioSource[sources.Length];
-        for (int i = 0; i < allAudioSources.Length; i++)
-        {
-            allAudioSources[i] = sources[i].GetComponent<AudioSource>();
-        }
+        allAudioSources = GetComponents<AudioSource>();//FindObjectsOfType<AudioSource>();
+        //allAudioSources = new AudioSource[AudioSourcesInScene.Length];
+        //for (int i = 0; i < AudioSourcesInScene.Length; i++)
+        //{
+        //    allAudioSources[i] = AudioSourcesInScene[i].GetComponent<AudioSource>();
+        //}
 
     }
 
