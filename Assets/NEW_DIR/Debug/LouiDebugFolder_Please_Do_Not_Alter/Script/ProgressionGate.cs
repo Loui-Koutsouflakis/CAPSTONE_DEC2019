@@ -48,7 +48,8 @@ public class ProgressionGate : MonoBehaviour
                     ps.Play();
                 }
 
-                teleportCollider.enabled = true;
+                StartCoroutine(EnableTeleporter());
+                //teleportCollider.enabled = true;
             }
             else if(!open)
             {
@@ -73,5 +74,11 @@ public class ProgressionGate : MonoBehaviour
                 ps.Stop();
             }
         }
+    }
+
+    IEnumerator EnableTeleporter()
+    {
+        yield return new WaitForSeconds(2);
+        teleportCollider.enabled = true;
     }
 }
