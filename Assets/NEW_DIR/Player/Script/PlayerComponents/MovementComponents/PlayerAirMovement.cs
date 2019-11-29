@@ -137,8 +137,8 @@ public class PlayerAirMovement : PlayerVariables
             player.rb.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.fixedDeltaTime;
         }
 
-        Vector3 forward = transform.forward;
-        Vector3 inputDir = transform.forward * vertical + transform.right * horizontal;
+        Vector3 forward = player.transform.forward;
+        Vector3 inputDir = player.transform.forward * vertical + player.transform.right * horizontal;
 
         //if move input then move if no input stop
         if (horizontal > deadZone || horizontal < -deadZone || vertical > deadZone || vertical < -deadZone)
@@ -266,7 +266,7 @@ public class PlayerAirMovement : PlayerVariables
             //zero out velocity
             player.rb.velocity = Vector3.zero;
             //jump off the wall
-            player.rb.AddForce((-player.transform.forward * wallJumpHorizontal) + (transform.up * wallJumpVertical), ForceMode.Impulse);
+            player.rb.AddForce((-player.transform.forward * wallJumpHorizontal) + (player.transform.up * wallJumpVertical), ForceMode.Impulse);
             //sets player looking away from wall (two ways to do it)         
             wallRotate = true;
 
@@ -292,7 +292,7 @@ public class PlayerAirMovement : PlayerVariables
             doubleJumpControl = true;
             StartCoroutine(DoubleJumpControl());
 
-            player.rb.AddForce(transform.up * doubleJumpForce, ForceMode.Impulse);
+            player.rb.AddForce(player.transform.up * doubleJumpForce, ForceMode.Impulse);
             player.SetFlutter(false);
             player.SetDoubleJump(true);
         }
@@ -323,7 +323,7 @@ public class PlayerAirMovement : PlayerVariables
         Debug.Log("start drop");
         player.rb.isKinematic = false;
         player.EnableControls();
-        player.rb.AddForce(transform.up * -DropForce, ForceMode.Impulse); // Force Down
+        player.rb.AddForce(player.transform.up * -DropForce, ForceMode.Impulse); // Force Down
     }
 
     IEnumerator LedgeGrabEnable()
@@ -337,29 +337,29 @@ public class PlayerAirMovement : PlayerVariables
     public IEnumerator CheckWall()
     {
         //top of head boxcast
-        Vector3 topRaycastLocation = new Vector3(transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
+        Vector3 topRaycastLocation = new Vector3(player.transform.position.x, transform.position.y + 0.5f * transform.localScale.y - 0.1f, transform.position.z);
         Vector3 topRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
         //euler in box cast currently checks all around player would need to change if only want it in the front
         //bool topOfHead = Physics.BoxCast(topRaycastLocation, topRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         //distance checks slighly in front of player, may want ot change depending on play testing
-        bool topOfHead = Physics.Raycast(topRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        bool topOfHead = Physics.Raycast(topRaycastLocation, player.transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
         //toe  raycast
-        Vector3 toeRaycastLocation = new Vector3(transform.position.x, transform.position.y - 0.5f * transform.localScale.y + 0.1f, transform.position.z);
+        Vector3 toeRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y - 0.5f * transform.localScale.y + 0.1f, player.transform.position.z);
         Vector3 toeRaycastHalf = new Vector3(0.5f * transform.localScale.x, 0.1f, 0.5f * transform.localScale.z);
 
         //bool toeCast = Physics.BoxCast(toeRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-        bool toeCast = Physics.Raycast(toeRaycastLocation, transform.forward, 0.5f * transform.localScale.z + 0.1f);
+        bool toeCast = Physics.Raycast(toeRaycastLocation, player.transform.forward, 0.5f * transform.localScale.z + 0.1f);
        
         RaycastHit hit;
         //mid raycast
-        Vector3 midRaycastLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 midRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
         Vector3 midRaycastHalf = new Vector3(0.1f, 0.2f, 0.1f);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
-        bool midCast = Physics.Raycast(midRaycastLocation, transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
-        bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, transform.forward, Quaternion.identity, 0.25f, player.airMask );
+        bool midCast = Physics.Raycast(midRaycastLocation, player.transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
+        bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, player.transform.forward, Quaternion.identity, 0.25f, player.airMask );
 
         //if all three
         if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
@@ -403,7 +403,7 @@ public class PlayerAirMovement : PlayerVariables
     {
         yield return new WaitForSeconds(0.3f);
         player.rb.isKinematic = false;
-        player.GenericAddForce(transform.up, 5.5f);
+        player.GenericAddForce(player.transform.up, 5.5f);
         StartCoroutine(LedgeHopFinish());
         //for jump bug fix
         player.SetGroundCheck(false);
@@ -414,7 +414,7 @@ public class PlayerAirMovement : PlayerVariables
         yield return new WaitForSeconds(0.15f);
         //Debug.Log("forward force");
         ledgeHoping = false;
-        player.GenericAddForce(transform.forward, 3.5f);
+        player.GenericAddForce(player.transform.forward, 3.5f);
         player.EnableControls();
         anim.SetBool("LedgeGrab", false);
     }

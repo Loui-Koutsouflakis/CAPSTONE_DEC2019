@@ -5,7 +5,7 @@ using UnityEngine;
 public class trigger_Animation : MonoBehaviour
 {
     public CameraPaths camTrigger;
-    Animator anim;
+    public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,7 @@ public class trigger_Animation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(camTrigger.active)
         {
             anim.SetTrigger("Go");
