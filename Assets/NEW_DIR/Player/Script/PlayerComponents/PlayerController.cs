@@ -280,11 +280,27 @@ public class PlayerController : MonoBehaviour
     //ability for player to take damage
     #region Player Damage
     //only using collision ckecks for taking damage from enemies
+
+    private Vector3 tempVel;
     private void OnCollisionEnter(Collision collision) //to take damage from hitting enemy
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
             if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
+            RaycastHit footCheck;
+            Physics.BoxCast(transform.position, new Vector3(0.25f, 0.25f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
+            //Debug.Log(footCheck.collider);
+            //if(footCheck.collider != null)
+            //{
+            //    Debug.Log(footCheck.collider.gameObject.layer);
+            //}
+            //else if(footCheck.collider == null)
+            //{
+            //    Debug.Log("no collider");
+            //}
+            
+            
+            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
@@ -299,7 +315,16 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-            }            
+                if(collision.gameObject.GetComponent<StackableEnemy>())
+                {
+                    collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
+                }
+            }
+            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackableEnemy>())
+            {
+                tempVel = player.rb.velocity;
+            }
+           
         }
         //once we have level hazards
         //else if(collision.gameObject.layer == )
@@ -433,6 +458,17 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
+
+                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                {
+                    Debug.Log("hit stackable enemy");
+                    //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    //{
+                        //Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
+                        dontStop = true;
+                        StartCoroutine(RestartStop());
+                    //}
+                }
                 antiStickTimer = 0;
 
                 //disable controls and slide off of steep surfaces
@@ -483,11 +519,27 @@ public class PlayerController : MonoBehaviour
                     if (!landed)
                     {
                         StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                                                                                                                                    //Debug.Log("Hitting Spider");
-                                                                                                                                    //if (!player.GetGroundPounding())//move this to the enemies side of things
                         player.GenericAddForce(footHit.collider.gameObject.transform.position - player.transform.position, 5); //bounce off enemies
                         landed = true;
                         StartCoroutine(LandedSwitch());
+
+                        //if (footHit.collider.gameObject.GetComponent<StackableEnemy>().backpack.ChildCount > 0)
+                        //{keep going } start short coroutine to turn off hitting stackable 
+                        //else
+                        if(!dontStop)
+                        {
+                            player.DisableControls();
+                            StartCoroutine(EnableControls());
+                            player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
+                            landed = true;
+                            StartCoroutine(LandedSwitch());
+                        }
+                        else 
+                        {
+                            player.rb.velocity = tempVel;
+                            Debug.Log("smash");
+                        }
+
                     }
                 }
                 //for ground pounding checks
@@ -513,6 +565,19 @@ public class PlayerController : MonoBehaviour
                     player.DisableControls();
                     StartCoroutine(GroundPoundStop());
                     player.SetGroundPounding(false);
+
+                    //dont do this if stackable enemy
+                    if (!dontStop)
+                    {
+                        player.DisableControls();
+                        StartCoroutine(GroundPoundStop());
+                        player.SetGroundPounding(false);
+                    }
+                    else
+                    {
+                        player.rb.velocity = tempVel;
+                        Debug.Log("smash");
+                    }
                 }
 
                 //to parent to moving platforms
@@ -609,6 +674,12 @@ public class PlayerController : MonoBehaviour
                     //    jumpParticleIsPlaying = true;
                     //}
                 }                
+                else
+                {
+                    player.rb.velocity = tempVel;
+                    Debug.Log("smash");
+                }
+
             }
             else
             {
@@ -674,6 +745,13 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.1f);
         player.EnableControls();
+    }
+
+
+    IEnumerator RestartStop()
+    {
+        yield return new WaitForSeconds(0.2f);
+        dontStop = false;
     }
 
     //breaks parenting if was on moving platform, needed a longer time to prevent jittering
