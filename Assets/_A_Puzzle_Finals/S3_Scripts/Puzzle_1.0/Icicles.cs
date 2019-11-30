@@ -87,6 +87,8 @@ public class Icicles : MonoBehaviour
 
         source.time = 0.5f;
         source.Play();
+
+        StartCoroutine(CleanUp());
     }
 
     private IEnumerator CleanUp()
