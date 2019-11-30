@@ -110,6 +110,13 @@ public class CPC_CameraPath : MonoBehaviour
         //    PlayPath(playOnAwakeTime, );
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("AButton"))
+        {
+            currentWaypointIndex = points.Count-1;
+        }
+    }
     /// <summary>
     /// Plays the path
     /// </summary>
@@ -261,6 +268,7 @@ public class CPC_CameraPath : MonoBehaviour
         {
             UpdateTimeInSeconds(time);
             currentWaypointIndex = 0;
+         
             while (currentWaypointIndex < points.Count)
             {
                 currentTimeInWaypoint = 0;
