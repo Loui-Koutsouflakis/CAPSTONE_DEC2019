@@ -18,7 +18,7 @@ public class WJSection : MonoBehaviour
 
     private void OnTriggerStay(Collider c)
     {
-        if (c.gameObject.layer == 14)
+        if (c.gameObject.layer == 14 && !Camera.cinema_Playing)
         {
             Camera.SwitchToCinema(PlayerCamera.CameraType.SideScroll);
             Camera.wallCamChoice = wallCamChoice;

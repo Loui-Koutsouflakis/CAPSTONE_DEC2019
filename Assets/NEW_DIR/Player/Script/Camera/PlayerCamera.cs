@@ -26,7 +26,7 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("Adjusts camera movement sensitivity.")]
     [Range(1, 10)]
     public float sensitivity = 2.5f;
-    float r_Sensitivity = .5f;
+    float r_Sensitivity = 2f;
     float sr_Sensitivity;
     float r_RotationSmoothTime = .202f;
     [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
@@ -120,6 +120,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField]
     [Tooltip("Choose what direction to set the 2D camera.")]
     public WallCamChoice wallCamChoice;
+    public bool cinema_Playing = false;
     #endregion
     [Header("Cinematics")]
     [Tooltip("Cinematic camera One.")]
@@ -183,7 +184,7 @@ public class PlayerCamera : MonoBehaviour
             time = 0;
         }
         if (enclosed)
-            r_Sensitivity = 0;
+            r_Sensitivity = 0.5f;
         else
             r_Sensitivity = sr_Sensitivity;
         //if (ShadowManager(Player))
@@ -230,7 +231,7 @@ public class PlayerCamera : MonoBehaviour
                 CamMovement2D(wallCamChoice);
                 break;
             case CameraType.Cinema:
-                //TravelToCinematic(cameraOnePos, 3);
+               
                 break;
             case CameraType.Shake:
                 time += Time.deltaTime;
@@ -273,19 +274,19 @@ public class PlayerCamera : MonoBehaviour
         switch (x)
         {
             case WallCamChoice.Front:
-                transform.eulerAngles = new Vector3(25, 0, 0);
+                transform.eulerAngles = new Vector3(15, 0, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Back:
-                transform.eulerAngles = new Vector3(25, 180, 0);
+                transform.eulerAngles = new Vector3(15, 180, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Left:
-                transform.eulerAngles = new Vector3(25, 90, 0);
+                transform.eulerAngles = new Vector3(15, 90, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Right:
-                transform.eulerAngles = new Vector3(25, -90, 0);
+                transform.eulerAngles = new Vector3(15, -90, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
         }

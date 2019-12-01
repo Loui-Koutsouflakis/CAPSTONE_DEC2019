@@ -71,6 +71,7 @@ public class CameraPaths : MonoBehaviour
         if (!hasPlayed)
         {
             active = true;
+            
             hasPlayed = true;
         }
     }
