@@ -26,7 +26,8 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("Adjusts camera movement sensitivity.")]
     [Range(1, 10)]
     public float sensitivity = 2.5f;
-    float r_Sensitivity = .1f;
+    float r_Sensitivity = .5f;
+    float sr_Sensitivity;
     float r_RotationSmoothTime = .202f;
     [Tooltip("Adjusts how quickly the camera moves acording to user input.")]
     [Range(0, 1)]
@@ -111,13 +112,14 @@ public class PlayerCamera : MonoBehaviour
     #region 2D sideScroll
     [Header("2D Platforming")]
     [Tooltip("The cameras follow speed when in 2D Mode.")]
-    float c_Lerp = 0.5f;
+    public float c_Lerp;
     [Tooltip("How far away the camera is when in 2D Mode.")]
-    public float DistIn2D = 5;
+    public float DistIn2D;
+    public float Height2D;
     public enum WallCamChoice { Back, Left, Front, Right }
     [SerializeField]
     [Tooltip("Choose what direction to set the 2D camera.")]
-    WallCamChoice wallCamChoice;
+    public WallCamChoice wallCamChoice;
     #endregion
     [Header("Cinematics")]
     [Tooltip("Cinematic camera One.")]
@@ -137,6 +139,7 @@ public class PlayerCamera : MonoBehaviour
     public bool increasing = true;
     #endregion
     float time = 0;
+
 
     private void Awake()
     {
@@ -158,8 +161,8 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         pitchMinMax = new Vector2(-20, 75);
-        //p_LayerMask = ~p_LayerMask;
         CamType = CameraType.Orbit;
+        sr_Sensitivity = r_Sensitivity;
         wallCamChoice = WallCamChoice.Front;
 
         if (lockCursor)
@@ -182,7 +185,7 @@ public class PlayerCamera : MonoBehaviour
         if (enclosed)
             r_Sensitivity = 0;
         else
-            r_Sensitivity = 2.5f;
+            r_Sensitivity = sr_Sensitivity;
         //if (ShadowManager(Player))
         //    shadow.transform.position = new Vector3(s_Ground.point.x, s_Ground.point.y + 0.02f, s_Ground.point.z);
 
@@ -249,17 +252,17 @@ public class PlayerCamera : MonoBehaviour
         pitch = (invY) ? pitch += YAxis : pitch -= YAxis;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
-        //if (p_RB.velocity.magnitude > 0.5f)
-        //{
-        //    yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-        //    currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
-        //}
-        //else
-        //{
+        if (p_RB.velocity.magnitude > 0.5f)
+        {
+            yaw += Input.GetAxis("HorizontalJoy") * r_Sensitivity + Input.GetAxis("Horizontal") * r_Sensitivity + Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, r_RotationSmoothTime);
+        }
+        else
+        {
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
             yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
-       // }
-  
+        }
+
         transform.eulerAngles = currentRotation;
         transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
     }
@@ -270,20 +273,20 @@ public class PlayerCamera : MonoBehaviour
         switch (x)
         {
             case WallCamChoice.Front:
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * DistIn2D, ref smoothingVelocity, c_Lerp);
+                transform.eulerAngles = new Vector3(25, 0, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Back:
-                transform.eulerAngles = new Vector3(0, 180, 0);
-                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * DistIn2D, ref smoothingVelocity, c_Lerp);
+                transform.eulerAngles = new Vector3(25, 180, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Left:
-                transform.eulerAngles = new Vector3(0, 90, 0);
-                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * DistIn2D, ref smoothingVelocity, c_Lerp);
+                transform.eulerAngles = new Vector3(25, 90, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Right:
-                transform.eulerAngles = new Vector3(0, -90, 0);
-                transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position - transform.forward * DistIn2D, ref smoothingVelocity, c_Lerp);
+                transform.eulerAngles = new Vector3(25, -90, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
         }
     }
