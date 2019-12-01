@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.5594886, g: 0.72428, b: 0.8301647, a: 1}
+  m_IndirectSpecularColor: {r: 0.55948764, g: 0.7242776, b: 0.8301639, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1018,6 +1018,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &156032050
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1327,6 +1329,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &176686730
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1592,6 +1596,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &220411913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6663,6 +6669,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &243938170
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7477,7 +7485,7 @@ Transform:
   - {fileID: 1338832849}
   - {fileID: 464761816}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &323797370 stripped
 Transform:
@@ -7544,6 +7552,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &331302760
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7826,7 +7836,7 @@ PrefabInstance:
     - target: {fileID: 9208131035387412501, guid: 9c4882c3808b88f4787de82b88c65e32,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9208131035387412501, guid: 9c4882c3808b88f4787de82b88c65e32,
         type: 3}
@@ -7925,7 +7935,7 @@ PrefabInstance:
     - target: {fileID: 8013623613265672390, guid: 809541eec5d9a47489001946729130c4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8013623613265672390, guid: 809541eec5d9a47489001946729130c4,
         type: 3}
@@ -7989,6 +7999,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &339855055
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8005,6 +8017,95 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &340808587
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 959840102725722367, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_Name
+      value: BackwardGate
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.882843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -18.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 32.62105
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7147148
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69941604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -91.240005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254019988395053804, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066032616416592119, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: m_Name
+      value: TeleportPrevious
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066032616416592108, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: t_Manager
+      value: 
+      objectReference: {fileID: 1160830324}
+    - target: {fileID: 8066032616416592108, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 174591596}
+    - target: {fileID: 8066032616416592108, guid: 71755d78173b96c449845c5c61163e7e,
+        type: 3}
+      propertyPath: teleportPsParent
+      value: 
+      objectReference: {fileID: 1278119125}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71755d78173b96c449845c5c61163e7e, type: 3}
 --- !u!4 &347391188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2d9f29453d0534d49a7ff53d93a119da,
@@ -8058,6 +8159,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &350569498
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8115,6 +8218,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &351671422
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8172,6 +8277,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &370880278
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8247,6 +8354,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &385348512
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8355,7 +8464,7 @@ PrefabInstance:
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -8901,6 +9010,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &449963327
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9460,6 +9571,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &545359918
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9532,7 +9645,7 @@ PrefabInstance:
     - target: {fileID: 1436746647951165513, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1436746647951165513, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
@@ -9638,6 +9751,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &569357252
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9934,6 +10049,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &586701584
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10142,6 +10259,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &604408219
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10213,6 +10332,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &606939784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10471,6 +10592,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &627557681
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10534,6 +10657,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &652297259
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10585,6 +10710,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &662150333
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11014,6 +11141,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &689411020
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11146,7 +11275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4786118699980226, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4786118699980226, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11636,7 +11765,7 @@ Transform:
   - {fileID: 914406159}
   - {fileID: 1371517969}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &736928320 stripped
 GameObject:
@@ -11922,6 +12051,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &778694204
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12285,6 +12416,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &791482827
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12399,6 +12532,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &801944254
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12617,7 +12752,7 @@ PrefabInstance:
     - target: {fileID: 9157851744649455506, guid: 8c90c1c23ab888742b2d95f1634adf5c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 31
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 9157851744649455506, guid: 8c90c1c23ab888742b2d95f1634adf5c,
         type: 3}
@@ -12728,7 +12863,7 @@ PrefabInstance:
     - target: {fileID: 5863519014631797819, guid: f2ad486d233de594cbe80332ee1a6b9f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 26
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 5863519014631797819, guid: f2ad486d233de594cbe80332ee1a6b9f,
         type: 3}
@@ -12806,6 +12941,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &854120498
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12893,6 +13030,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &872275569
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12986,6 +13125,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &894597521
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13052,7 +13193,7 @@ PrefabInstance:
     - target: {fileID: 2698346998091061451, guid: 05dd2e9ea537ffe43808d6c8da1a5593,
         type: 3}
       propertyPath: m_RootOrder
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2698346998091061451, guid: 05dd2e9ea537ffe43808d6c8da1a5593,
         type: 3}
@@ -13348,6 +13489,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForwardGate
       objectReference: {fileID: 0}
+    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6122957370378499269, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13473,11 +13619,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1262038718868608141, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: playOnAwake
@@ -13517,7 +13658,7 @@ RectTransform:
   m_Children:
   - {fileID: 1717953276}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13661,7 +13802,7 @@ Transform:
   - {fileID: 488776044}
   - {fileID: 1444401390}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 153.466, z: 0}
 --- !u!136 &938186088
 CapsuleCollider:
@@ -13712,6 +13853,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &940097546
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13826,6 +13969,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &947904087
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14032,6 +14177,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &969506280
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14408,6 +14555,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1063641745
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14554,6 +14703,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1078294102
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14962,7 +15113,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1163877198 stripped
 Transform:
@@ -15005,6 +15156,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1164843877
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15424,6 +15577,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1206665637
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15481,6 +15636,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1210295649
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15693,7 +15850,7 @@ PrefabInstance:
     - target: {fileID: 3184235483534371017, guid: 26939cb73d045474babe71b15edcab86,
         type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3184235483534371017, guid: 26939cb73d045474babe71b15edcab86,
         type: 3}
@@ -15826,6 +15983,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1241699548
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16090,6 +16249,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1253073469
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16147,6 +16308,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1255867651
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16639,6 +16802,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1301457701
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16752,6 +16917,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1323797269
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16944,6 +17111,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1360373930
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17628,6 +17797,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1457625242
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17729,6 +17900,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1473990402
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17871,6 +18044,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1503939255
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18156,6 +18331,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1524750684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -23933,6 +24110,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1601795095
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24130,6 +24309,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1618366227
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24181,6 +24362,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1624951570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24561,6 +24744,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1680334746
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24999,7 +25184,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1752083750 stripped
 Transform:
@@ -25069,7 +25254,7 @@ PrefabInstance:
     - target: {fileID: 3184235483534371017, guid: 26939cb73d045474babe71b15edcab86,
         type: 3}
       propertyPath: m_RootOrder
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 3184235483534371017, guid: 26939cb73d045474babe71b15edcab86,
         type: 3}
@@ -25229,6 +25414,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1811004433
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25286,6 +25473,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1815209539
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25352,7 +25541,7 @@ PrefabInstance:
     - target: {fileID: 5863519014631797819, guid: f2ad486d233de594cbe80332ee1a6b9f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 28
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 5863519014631797819, guid: f2ad486d233de594cbe80332ee1a6b9f,
         type: 3}
@@ -25412,6 +25601,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1828655683
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25499,6 +25690,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1850806278
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25580,6 +25773,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1864703992
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25631,6 +25826,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1867042002
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -26016,7 +26213,7 @@ PrefabInstance:
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -26417,7 +26614,7 @@ Transform:
   - {fileID: 961163631}
   - {fileID: 584529856}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 153.466, z: 0}
 --- !u!136 &1936056099
 CapsuleCollider:
@@ -26468,6 +26665,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1938013788
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -26519,6 +26718,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1939099815
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31382,6 +31583,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &1976354032
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31523,7 +31726,7 @@ PrefabInstance:
     - target: {fileID: 1450933541541137722, guid: 6245fbdf7609d8a42bbd96f14f9ce78c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1450933541541137722, guid: 6245fbdf7609d8a42bbd96f14f9ce78c,
         type: 3}
@@ -31873,7 +32076,7 @@ Transform:
   - {fileID: 406033339}
   - {fileID: 418061916}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2012275110 stripped
 Transform:
@@ -31962,6 +32165,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &2025165793
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -32013,6 +32218,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &2025582528
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37036,6 +37243,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &2065387265
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37135,6 +37344,8 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!54 &2097842392
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37190,7 +37401,7 @@ Transform:
   - {fileID: 862802763}
   - {fileID: 1460948841}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2121516041 stripped
 Transform:
@@ -37218,7 +37429,7 @@ PrefabInstance:
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.348183
+      value: 49.08
       objectReference: {fileID: 0}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
@@ -37228,7 +37439,7 @@ PrefabInstance:
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.159681
+      value: 29.24
       objectReference: {fileID: 0}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
@@ -37253,7 +37464,7 @@ PrefabInstance:
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
@@ -37386,7 +37597,7 @@ Transform:
   - {fileID: 155248565}
   - {fileID: 232506277}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2141659132 stripped
 Transform:
@@ -69461,7 +69672,7 @@ Transform:
   - {fileID: 1572035610}
   - {fileID: 1184108090}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3145317840928190673
 GameObject:
@@ -75576,7 +75787,7 @@ Transform:
   - {fileID: 4141720465897384783}
   - {fileID: 6434526493992303957}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3656171888072705469
 PrefabInstance:
@@ -76575,7 +76786,7 @@ Transform:
   - {fileID: 1795135282809937419}
   - {fileID: 449863354}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5223586850342941071
 MeshFilter:

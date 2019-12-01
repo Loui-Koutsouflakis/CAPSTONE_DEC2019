@@ -32,7 +32,7 @@ public class TeleportNext : MonoBehaviour
             }
             else if(gameObject.name == "TeleportPrevious")
             {
-                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
             }
 
             teleportPsParent.position = player.transform.position;
