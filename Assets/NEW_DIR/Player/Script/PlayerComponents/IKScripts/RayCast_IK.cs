@@ -159,12 +159,8 @@ public class RayCast_IK : MonoBehaviour
 
     public void IK_Grapple()
     {
-        tetherPoint = pc.attachedGrapplePoint;
+        tetherPoint = pc.tetherPoint.GetTetherLocation();
         rightHandTarget.position = tetherPoint.position;
-
-
-       
-
 
         StartCoroutine(StartGrapCoroutine(0, toggleGrapple));
 
@@ -181,9 +177,12 @@ public class RayCast_IK : MonoBehaviour
         { 
 
         grapAnimCurve.throwPosition = grapplePoint;
-       
-        grapAnimCurve.SetHookPoint(rightHandTarget);
-        grapAnimCurve.DetatchHook(true);
+
+            grapAnimCurve.SetHookPoint(rightHandTarget);
+
+
+            grapAnimCurve.DetatchHook(true);
+
 
         grapAnimCurve.hook.SetActive(true);
 
@@ -251,7 +250,7 @@ public class RayCast_IK : MonoBehaviour
             }
 
 
-            weight += 0.001f;
+            weight += 0.00000001f;
             fBIK.solver.IKPositionWeight = weight;
             fBIK.solver.rightHandEffector.positionWeight = weight;
             yield return null;
@@ -268,7 +267,7 @@ public class RayCast_IK : MonoBehaviour
         if (gt == false)
             return;
 
-        fBIK.solver.IKPositionWeight = 0.5f;
+        fBIK.solver.IKPositionWeight = 0.2f;
         fBIK.solver.rightHandEffector.target = rightHandTarget;
         fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
         fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;

@@ -198,7 +198,9 @@ public class PlayerController : MonoBehaviour
         player.isGrappling = true;
         anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
+        playerIK.IK_Grapple();
 
+        playerIK.EnableRope();
         StartCoroutine(StartGrapple());
         //player.SetMovementType(MovementType.grapple);
         //player.GetGrappleComponent().Grapple();
@@ -211,7 +213,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
-        playerIK.IK_Grapple();
 
         //player.ikGrapple = true;
         //playerIK.IK_Grapple();
@@ -224,8 +225,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Grapple", false);
         
         player.GetGrappleComponent().DetatchGrapple();
-        player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
-        
+        //player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
+        playerIK.IK_EndGrapple();
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
         //player.ikGrapple = false;
