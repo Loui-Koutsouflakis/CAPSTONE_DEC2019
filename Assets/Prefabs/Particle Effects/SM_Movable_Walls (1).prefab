@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!65 &6464218724782502562
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6187687374202986324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3870895, y: 6.002766, z: 11.199354}
+  m_Center: {x: -2.3683212, y: 0.08852379, z: 0.0012331008}
+--- !u!65 &5620767798200847644
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6729307489912094315}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5599774, y: 5.9760118, z: 11.199356}
+  m_Center: {x: 2.3339007, y: 0.2355886, z: 0.0012332243}
+--- !u!1 &6892303854058294305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7637322177861500466}
+  - component: {fileID: 6892303854058294304}
+  m_Layer: 0
+  m_Name: SM_Movable_Walls (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7637322177861500466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892303854058294305}
+  m_LocalRotation: {x: -0, y: 0.7155223, z: -0, w: 0.69858986}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5725725020072739445}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 91.372, z: 0}
+--- !u!111 &6892303854058294304
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892303854058294305}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 04d8a6baf20b51e42aa2e953414bb2f1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 04d8a6baf20b51e42aa2e953414bb2f1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!1001 &724912823579781487
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7637322177861500466}
+    m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Puzzle_MovableWalls
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3175cbcafd475724c9c2a312dc3e6511, type: 3}
+--- !u!4 &5725725020072739445 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 3175cbcafd475724c9c2a312dc3e6511,
+    type: 3}
+  m_PrefabInstance: {fileID: 724912823579781487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6187687374202986324 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6904155381527803451, guid: 3175cbcafd475724c9c2a312dc3e6511,
+    type: 3}
+  m_PrefabInstance: {fileID: 724912823579781487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6729307489912094315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2923920424971741436, guid: 3175cbcafd475724c9c2a312dc3e6511,
+    type: 3}
+  m_PrefabInstance: {fileID: 724912823579781487}
+  m_PrefabAsset: {fileID: 0}

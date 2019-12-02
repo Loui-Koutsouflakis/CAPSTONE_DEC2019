@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour
 
             gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
         }
-        else if (collision.gameObject.name == "TeleportPrev")
+        else if (collision.gameObject.name == "TeleportPrevious")
         {
             t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
 
