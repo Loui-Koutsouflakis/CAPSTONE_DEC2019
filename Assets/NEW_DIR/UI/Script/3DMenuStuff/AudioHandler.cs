@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class AudioHandler : MonoBehaviour
 {
@@ -13,9 +14,16 @@ public class AudioHandler : MonoBehaviour
     private AudioSource musicSource;
     private AudioSource dialogueSource;
 
+
+    public AudioMixer inGameMixer;
+ 
+
+
     // Start is called before the first frame update
     void Start()
     {
+
+      
 
         if(GameObject.FindGameObjectWithTag("SaveGameManager"))
         {
@@ -23,18 +31,23 @@ public class AudioHandler : MonoBehaviour
  
             
         }
-        GetAllAudioSources();
 
-        for (int i = 0; i < allMenuAudioSources.Length; i++)
-        {
-            allMenuAudioSources[i].volume = saveGameManager.GetMasterVolume();
-        }
-        if(GameObject.FindGameObjectWithTag("MusicSource"))
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        inGameMixer.SetFloat("MasterVolume", saveGameManager.GetMasterVolume());
+        inGameMixer.SetFloat("MusicVolume", saveGameManager.GetMusicVolume());
+        inGameMixer.SetFloat("SFXVolume", saveGameManager.GetDialogueVolume());
+
+        //GetAllAudioSources();
+
+        //for (int i = 0; i < allMenuAudioSources.Length; i++)
+        //{
+        //    allMenuAudioSources[i].volume = saveGameManager.GetMasterVolume();
+        //}
+        //if(GameObject.FindGameObjectWithTag("MusicSource"))
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
           
-        }
+        //}
     }
 
     // Update is called once per frame
@@ -56,24 +69,24 @@ public class AudioHandler : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("On Level Load Works");
-        GetAllAudioSources();
-        for (int i = 0; i < allAudioSources.Length; i++)
-        {
-            allAudioSources[i].volume = saveGameManager.GetMasterVolume();
-        }
+        //Debug.Log("On Level Load Works");
+        //GetAllAudioSources();
+        //for (int i = 0; i < allAudioSources.Length; i++)
+        //{
+        //    allAudioSources[i].volume = saveGameManager.GetMasterVolume();
+        //}
 
 
-        if (GameObject.FindGameObjectWithTag("MusicSource"))
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
-        }
-        else
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
-        }
+        //if (GameObject.FindGameObjectWithTag("MusicSource"))
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        //}
+        //else
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        //}
     }
 
     public void GetAllAudioSources()
@@ -92,4 +105,6 @@ public class AudioHandler : MonoBehaviour
     {
         return musicSource;
     }
+
+ 
 }

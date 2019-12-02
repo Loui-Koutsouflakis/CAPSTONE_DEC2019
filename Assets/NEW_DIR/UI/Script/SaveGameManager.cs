@@ -122,7 +122,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            masterSoundVolume = 0.5f;
+            masterSoundVolume = 0f;
         }
 
         if (PlayerPrefs.HasKey("MusicSoundVolume"))
@@ -131,7 +131,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            MusicSoundVolume = 0.5f;
+            MusicSoundVolume = 0f;
         }
 
         if(PlayerPrefs.HasKey("DialogueSoundVolume"))
@@ -140,7 +140,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            dialogueSoundVolume = 0.5f;
+            dialogueSoundVolume = 0f;
         }
 
         if(PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
@@ -149,7 +149,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            masterVolumePercent = 0.5f;
+            masterVolumePercent = 1f;
         }
 
         SaveSettings();
