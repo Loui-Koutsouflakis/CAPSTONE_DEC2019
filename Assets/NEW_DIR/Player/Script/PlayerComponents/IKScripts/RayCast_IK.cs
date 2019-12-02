@@ -64,7 +64,7 @@ public class RayCast_IK : MonoBehaviour
     RaycastHit wall;
     RaycastHit lWall;
     RaycastHit rWall;
-    LayerMask p_LayerMask = 1 << 9;
+    public LayerMask p_LayerMask;
 
   
      float wallDist;
@@ -91,7 +91,7 @@ public class RayCast_IK : MonoBehaviour
 
         bPIK.solvers.rightHand.target = rightHandTarget;
         bPIK.solvers.leftHand.target = leftHandTarget;
-        p_LayerMask = ~p_LayerMask;
+       
     }
 
 
@@ -159,12 +159,8 @@ public class RayCast_IK : MonoBehaviour
 
     public void IK_Grapple()
     {
-        tetherPoint = pc.attachedGrapplePoint;
+        tetherPoint = pc.tetherPoint.GetTetherLocation();
         rightHandTarget.position = tetherPoint.position;
-
-
-       
-
 
         StartCoroutine(StartGrapCoroutine(0, toggleGrapple));
 
@@ -181,9 +177,12 @@ public class RayCast_IK : MonoBehaviour
         { 
 
         grapAnimCurve.throwPosition = grapplePoint;
-       
-        grapAnimCurve.setHookPoint(rightHandTarget);
+
+            grapAnimCurve.SetHookPoint(rightHandTarget);
+
+
             grapAnimCurve.DetatchHook(true);
+
 
         grapAnimCurve.hook.SetActive(true);
 
@@ -204,7 +203,12 @@ public class RayCast_IK : MonoBehaviour
     {
         rope.enabled = false;
         if (grapAnimCurve != null)
+        { 
         grapAnimCurve.hook.SetActive(false);
+        grapAnimCurve.DetatchHook(false);
+
+        }
+
         bPIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
         StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
@@ -246,7 +250,7 @@ public class RayCast_IK : MonoBehaviour
             }
 
 
-            weight += 0.001f;
+            weight += 0.00000001f;
             fBIK.solver.IKPositionWeight = weight;
             fBIK.solver.rightHandEffector.positionWeight = weight;
             yield return null;
@@ -263,7 +267,7 @@ public class RayCast_IK : MonoBehaviour
         if (gt == false)
             return;
 
-        fBIK.solver.IKPositionWeight = 0.5f;
+        fBIK.solver.IKPositionWeight = 0.2f;
         fBIK.solver.rightHandEffector.target = rightHandTarget;
         fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
         fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
@@ -364,7 +368,7 @@ public class RayCast_IK : MonoBehaviour
                     Vector3 ropeVec = rope.GetPosition(0) - rope.GetPosition(1);
                     float ropeDistance = ropeVec.magnitude;
 
-                    rope.material.SetTextureScale("_MainTex", new Vector2(ropeWidth, ropeDistance));
+                    rope.material.SetTextureScale("_MainTex", new Vector2(ropeDistance, ropeWidth));
 
                 }
 
