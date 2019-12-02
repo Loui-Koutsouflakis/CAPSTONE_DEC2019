@@ -364,7 +364,7 @@ public class RayCast_IK : MonoBehaviour
                     Vector3 ropeVec = rope.GetPosition(0) - rope.GetPosition(1);
                     float ropeDistance = ropeVec.magnitude;
 
-                    rope.material.SetTextureScale("_MainTex", new Vector2(ropeWidth, ropeDistance));
+                    rope.material.SetTextureScale("_MainTex", new Vector2(ropeDistance, ropeWidth));
 
                 }
 
