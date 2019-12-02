@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //by limiting what angle the player approaches the tether point, can prevent the minimize in circles around the tether point
+        //by limiting what angle the player approaches the tether point, can minimize going in circles around the tether point
         Vector3 tetherVector = player.tetherPoint.transform.position - player.transform.position;
         Vector3 tetherProjection = Vector3.ProjectOnPlane(tetherVector, player.transform.up);
         float angleBetween = Vector3.Angle(player.transform.forward, tetherProjection);
@@ -198,21 +198,26 @@ public class PlayerController : MonoBehaviour
         player.isGrappling = true;
         anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
-        
-        player.SetMovementType(MovementType.grapple);
-        player.GetGrappleComponent().Grapple();
-        playerIK.IK_Grapple();
+
+        StartCoroutine(StartGrapple());
+        //player.SetMovementType(MovementType.grapple);
+        //player.GetGrappleComponent().Grapple();
+        //playerIK.IK_Grapple();
     }
 
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
-    //IEnumerator StartGrapple()
-    //{
-    //    yield return new WaitForSeconds(0.2f);
-    //    player.ikGrapple = true;
-    //    playerIK.IK_Grapple();
-    //}
+    IEnumerator StartGrapple()
+    {
+        yield return new WaitForSeconds(0.3f);
+        player.SetMovementType(MovementType.grapple);
+        player.GetGrappleComponent().Grapple();
+        playerIK.IK_Grapple();
 
-    
+        //player.ikGrapple = true;
+        //playerIK.IK_Grapple();
+    }
+
+
 
     public void DetatchGrapple()
     {
