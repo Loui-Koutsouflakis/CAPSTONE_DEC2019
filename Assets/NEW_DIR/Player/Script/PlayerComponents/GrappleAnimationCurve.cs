@@ -45,10 +45,10 @@ public class GrappleAnimationCurve : MonoBehaviour
 
     }
 
-    public void setHookPoint(Transform hP)
+    public void SetHookPoint(Transform hP)
     {
 
-        endValueVector = hP.position;
+        endValueVector = hP.position + new Vector3(0,0.5f,0);
 
     }
 

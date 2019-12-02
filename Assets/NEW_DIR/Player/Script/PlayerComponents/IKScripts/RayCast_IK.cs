@@ -64,7 +64,7 @@ public class RayCast_IK : MonoBehaviour
     RaycastHit wall;
     RaycastHit lWall;
     RaycastHit rWall;
-    LayerMask p_LayerMask = 1 << 9;
+    public LayerMask p_LayerMask;
 
   
      float wallDist;
@@ -91,7 +91,7 @@ public class RayCast_IK : MonoBehaviour
 
         bPIK.solvers.rightHand.target = rightHandTarget;
         bPIK.solvers.leftHand.target = leftHandTarget;
-        p_LayerMask = ~p_LayerMask;
+       
     }
 
 
@@ -182,8 +182,8 @@ public class RayCast_IK : MonoBehaviour
 
         grapAnimCurve.throwPosition = grapplePoint;
        
-        grapAnimCurve.setHookPoint(rightHandTarget);
-            grapAnimCurve.DetatchHook(true);
+        grapAnimCurve.SetHookPoint(rightHandTarget);
+        grapAnimCurve.DetatchHook(true);
 
         grapAnimCurve.hook.SetActive(true);
 
@@ -204,7 +204,12 @@ public class RayCast_IK : MonoBehaviour
     {
         rope.enabled = false;
         if (grapAnimCurve != null)
+        { 
         grapAnimCurve.hook.SetActive(false);
+        grapAnimCurve.DetatchHook(false);
+
+        }
+
         bPIK.solvers.rightHand.SetIKPositionWeight(0);
         fBIK.solver.rightArmChain.pull = 0;
         StartCoroutine(EndGrapCoroutine(fBIK.solver.IKPositionWeight));
