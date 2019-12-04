@@ -32,6 +32,11 @@ public class SaveGameManager : MonoBehaviour
     public bool loading;
 
 
+
+    public bool shardCollected;
+    public List<int> collectedShards = new List<int>(); 
+
+
     //Settings Varibles
     [SerializeField]
     int cameraInverted = 0;
@@ -122,7 +127,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            masterSoundVolume = 0.5f;
+            masterSoundVolume = 0f;
         }
 
         if (PlayerPrefs.HasKey("MusicSoundVolume"))
@@ -131,7 +136,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            MusicSoundVolume = 0.5f;
+            MusicSoundVolume = 0f;
         }
 
         if(PlayerPrefs.HasKey("DialogueSoundVolume"))
@@ -140,7 +145,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            dialogueSoundVolume = 0.5f;
+            dialogueSoundVolume = 0f;
         }
 
         if(PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
@@ -149,7 +154,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            masterVolumePercent = 0.5f;
+            masterVolumePercent = 1f;
         }
 
         SaveSettings();
@@ -178,6 +183,7 @@ public class SaveGameManager : MonoBehaviour
         //Checks which file it should save to
         if(currentFile == 1)
         {
+            if(player)
             Debug.Log("Hi world");
             //Gets the player position and stores it
             Vector3 checkpointPosition = currentCheckpoint.position;
@@ -533,6 +539,26 @@ public class SaveGameManager : MonoBehaviour
         }
     }
 
+
+    public void SaveCollectedShardsID()
+    {
+        int i = 0;
+        foreach (int shardID in collectedShards)
+        {
+            PlayerPrefs.SetInt("CollectedShardsIDs" + i, collectedShards[i]);
+            i++;
+        }
+        PlayerPrefs.SetInt("NumberOfCollectedShards", i);
+    }
+
+    public void LoadCollectedShards()
+    {
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
+        {
+            AddToListOfCollectedShards(PlayerPrefs.GetInt("CollectedShardsIDs" + i));
+        }
+    }
+
     //Public function to increase small shards
     public void increaseSmallShards(int amountOfShards)
     {
@@ -698,6 +724,21 @@ public class SaveGameManager : MonoBehaviour
     public float GetDialogueSliderPosition()
     {
         return PlayerPrefs.GetFloat("DialogueSliderPositionX");
+    }
+
+    public List<int> ReturnListOfCollectedShards()
+    {
+        return collectedShards;
+    }
+
+    public void AddToListOfCollectedShards(int IDOfCollectedShard)
+    {
+        collectedShards.Add(IDOfCollectedShard);
+    }
+
+    public void ResetListOfShards()
+    {
+        collectedShards.Clear();
     }
 
 

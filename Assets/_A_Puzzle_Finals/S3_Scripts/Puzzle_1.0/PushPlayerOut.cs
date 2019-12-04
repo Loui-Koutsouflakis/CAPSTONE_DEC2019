@@ -30,7 +30,7 @@ public class PushPlayerOut : MonoBehaviour
             distance, player, QueryTriggerInteraction.UseGlobal))
         {
             playerScript.DisableControls();
-            playerScript.GenericAddForce(transform.forward, 1.0f);
+            playerScript.GenericAddForce(transform.right, 1.0f);
 
             if (!hasBeenDamaged && !platformScript.GetDirection())
             {
