@@ -193,7 +193,7 @@ public class CheatCodeHandler : MonoBehaviour
                 player.SetHealth(3);
                 player.GetHManager().HealthFull();
             }
-            Debug.Log(player.GetDamagable());
+            
         }
     }
 }
