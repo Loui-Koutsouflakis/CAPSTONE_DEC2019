@@ -183,11 +183,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //by limiting what angle the player approaches the tether point, can prevent the minimize in circles around the tether point
+        //by limiting what angle the player approaches the tether point, can minimize going in circles around the tether point
         Vector3 tetherVector = player.tetherPoint.transform.position - player.transform.position;
         Vector3 tetherProjection = Vector3.ProjectOnPlane(tetherVector, player.transform.up);
         float angleBetween = Vector3.Angle(player.transform.forward, tetherProjection);
-        Debug.DrawLine(transform.position, transform.position + tetherProjection.normalized * 10, Color.black, 10);
+        //Debug.DrawLine(transform.position, transform.position + tetherProjection.normalized * 10, Color.black, 10);
         //Debug.Log(angleBetween);
         if(angleBetween > 45)
         {
@@ -198,29 +198,35 @@ public class PlayerController : MonoBehaviour
         player.isGrappling = true;
         anim.SetBool("Grapple", true);
         //stateMachine.SetTrigger("GrappleTrigger");
-        
-        player.SetMovementType(MovementType.grapple);
-        player.GetGrappleComponent().Grapple();
         playerIK.IK_Grapple();
+
+        playerIK.EnableRope();
+        StartCoroutine(StartGrapple());
+        //player.SetMovementType(MovementType.grapple);
+        //player.GetGrappleComponent().Grapple();
+        //playerIK.IK_Grapple();
     }
 
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
-    //IEnumerator StartGrapple()
-    //{
-    //    yield return new WaitForSeconds(0.2f);
-    //    player.ikGrapple = true;
-    //    playerIK.IK_Grapple();
-    //}
+    IEnumerator StartGrapple()
+    {
+        yield return new WaitForSeconds(0.3f);
+        player.SetMovementType(MovementType.grapple);
+        player.GetGrappleComponent().Grapple();
 
-    
+        //player.ikGrapple = true;
+        //playerIK.IK_Grapple();
+    }
+
+
 
     public void DetatchGrapple()
     {
         anim.SetBool("Grapple", false);
         
         player.GetGrappleComponent().DetatchGrapple();
-        player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
-        
+        //player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
+        playerIK.IK_EndGrapple();
         //stateMachine.SetTrigger("FallTrigger");
         player.SetMovementType(MovementType.air);
         //player.ikGrapple = false;
@@ -269,7 +275,7 @@ public class PlayerController : MonoBehaviour
                 float angleBetween = Vector3.Angle(player.transform.forward, tetherProjection);
                 if (angleBetween > 45 && angleBetween < 135)
                 {
-                    Debug.Log(angleBetween);
+                    //Debug.Log(angleBetween);
                     player.GetGrappleComponent().SpeedUp();
                 }
             }            
@@ -280,18 +286,38 @@ public class PlayerController : MonoBehaviour
     //ability for player to take damage
     #region Player Damage
     //only using collision ckecks for taking damage from enemies
+
+    private Vector3 tempVel;
     private void OnCollisionEnter(Collision collision) //to take damage from hitting enemy
     {
         if (collision.gameObject.layer == 10)//enemy layer
         {
-            if(footHit.collider.gameObject == null || footHit.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
+            RaycastHit footCheck;
+            Physics.BoxCast(transform.position, new Vector3(0.25f, 0.25f, 0.25f), Vector3.down, out footCheck, Quaternion.identity, 0.5f, p_Layer);
+            //Debug.Log(footCheck.collider);
+            //if(footCheck.collider != null)
+            //{
+            //    Debug.Log(footCheck.collider.gameObject.layer);
+            //}
+            //else if(footCheck.collider == null)
+            //{
+            //    Debug.Log("no collider");
+            //}
+            
+            
+            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
-                    anim.SetTrigger("Damaged");
-                    player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+                    if (player.GetHealth() > 0)
+                    {
+                        anim.SetTrigger("Damaged");
+                    }
+                    player.DisableControls();
+                    StartCoroutine(EnableControls());
+                    player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
                     StartCoroutine(DamageFlashOff());
                     player.SetDamagable(false); //provides a brief period of invulnerability 
                     //if (player.GetHealth() <= 0)
@@ -299,7 +325,16 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-            }            
+                if(collision.gameObject.GetComponent<StackableEnemy>())
+                {
+                    collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
+                }
+            }
+            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackableEnemy>())
+            {
+                tempVel = player.rb.velocity;
+            }
+            
         }
         //once we have level hazards
         //else if(collision.gameObject.layer == )
@@ -307,11 +342,13 @@ public class PlayerController : MonoBehaviour
         //player.SetHealth(-1); //reduces health on player class
         //h_Manager.HealthDown(); //reduces health on hud
         //anim.SetTrigger("Damaged");
-        //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
-        //StartCoroutine(DamageFlashOff());
-        //player.SetDamagable(false); //provides a brief period of invulnerability
-        //}
-        //level end triggers
+        //player.DisableControls();
+        //StartCoroutine(EnableControls());
+            //player.GenericAddForce((collision.gameObject.transform.position - player.transform.position).normalized, 5); //knocks player away from enemy
+            //StartCoroutine(DamageFlashOff());
+            //player.SetDamagable(false); //provides a brief period of invulnerability
+            //}
+            //level end triggers
         else if (collision.gameObject.name == "TeleportNext")
         {
 
@@ -326,7 +363,7 @@ public class PlayerController : MonoBehaviour
 
             gameObject.SetActive(false); // REPLACE WITH DISSOLVE EFFECT
         }
-        else if (collision.gameObject.name == "TeleportPrev")
+        else if (collision.gameObject.name == "TeleportPrevious")
         {
             t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
 
@@ -379,6 +416,12 @@ public class PlayerController : MonoBehaviour
             timesThrough = 0;
         }
     }
+
+    IEnumerator EnableControls()
+    {
+        yield return new WaitForSeconds(0.5f);
+        player.EnableControls();
+    }
     #endregion
 
     //Ground checks
@@ -401,6 +444,8 @@ public class PlayerController : MonoBehaviour
     
     //for coyote time
     private float gracePeriod;
+
+    private bool dontStop;
 
 
     public IEnumerator FrontCheck()
@@ -433,6 +478,18 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
             {
+
+                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                {
+                    Debug.Log("hit stackable enemy");
+                    //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    //{
+                        //Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
+                        dontStop = true;
+                        StartCoroutine(RestartStop());
+                    //}
+                }
+
                 antiStickTimer = 0;
 
                 //disable controls and slide off of steep surfaces
@@ -442,7 +499,7 @@ public class PlayerController : MonoBehaviour
                 if(Vector3.Angle(footHit.normal, Vector3.up) >= 45)
                 {
                     //player.DisableControls(); disable controls causes some problems so taking it out for now
-                    Debug.Log("sliding");
+                    //Debug.Log("sliding");
                     //player.GenericAddForce(groundSlopeDirection, 0.5f);
                     player.rb.AddForce(groundSlopeDirection.normalized * 10, ForceMode.Force);
                     sliding = true;
@@ -463,7 +520,7 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("position set");
                     positionTimer = 0;
                 }
-
+                
                 //will activiate on landing only once, for particles and/or sfx
                 if (!player.IsGrounded())
                 {
@@ -478,16 +535,27 @@ public class PlayerController : MonoBehaviour
 
 
                 //to jump on enemies
-                if (footHit.collider.gameObject.tag == "EnemyWeakSpot")
+                if (footHit.collider.gameObject.tag == "EnemyWeakSpot" && !footHit.collider.isTrigger)
                 {
                     if (!landed)
                     {
                         StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
-                                                                                                                                    //Debug.Log("Hitting Spider");
-                                                                                                                                    //if (!player.GetGroundPounding())//move this to the enemies side of things
-                        player.GenericAddForce(footHit.collider.gameObject.transform.position - player.transform.position, 5); //bounce off enemies
-                        landed = true;
-                        StartCoroutine(LandedSwitch());
+                        //if (footHit.collider.gameObject.GetComponent<StackableEnemy>().backpack.ChildCount > 0)
+                        //{keep going } start short coroutine to turn off hitting stackable 
+                        //else
+                        if(!dontStop)
+                        {
+                            player.DisableControls();
+                            StartCoroutine(EnableControls());
+                            player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
+                            landed = true;
+                            StartCoroutine(LandedSwitch());
+                        }
+                        else 
+                        {
+                            player.rb.velocity = tempVel;
+                            Debug.Log("smash");
+                        }
                     }
                 }
                 //for ground pounding checks
@@ -502,7 +570,7 @@ public class PlayerController : MonoBehaviour
                     }
 
                     //to kill spiderlings within groundpound radius 
-                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, is there a better way of doing this during gameplay?
+                    foreach(Collider thing in Physics.OverlapSphere(player.transform.position, 5)) //expensive, we should do this a better way during gameplay
                     {
                         if (thing.gameObject.GetComponent<Spiderlings>() || (thing.gameObject.GetComponent<MotherSpider>() && thing == thing.GetComponent<BoxCollider>()))
                         {
@@ -510,9 +578,18 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    player.DisableControls();
-                    StartCoroutine(GroundPoundStop());
-                    player.SetGroundPounding(false);
+                    //dont do this if stackable enemy
+                    if (!dontStop)
+                    {
+                        player.DisableControls();
+                        StartCoroutine(GroundPoundStop());
+                        player.SetGroundPounding(false);
+                    }
+                    else
+                    {
+                        player.rb.velocity = tempVel;
+                        Debug.Log("smash");
+                    }
                 }
 
                 //to parent to moving platforms
@@ -565,50 +642,59 @@ public class PlayerController : MonoBehaviour
                     player.SetGrounded(false);
                 }               
 
-                //probably need to put below in an else
-                if (footHit.collider.gameObject != null && !isCrouching)
+                //dont do this if hitting stackable object
+                if(!dontStop)
                 {
-                    player.SetGrounded(true);
-                    player.SetFlutter(true);
-                    player.SetMovementType(MovementType.move);
-                    anim.SetBool("Grounded", true);
-                    //stateMachine.SetTrigger("GroundTrigger");                
-                    if (player.playerCurrentMove == MovementType.move)
+                    if (footHit.collider.gameObject != null && !isCrouching)
                     {
-                        psRun.Play();
-                    }
-                    else
-                    {
-                        psRun.Stop();
-                    }
-                    //if (!jumpParticleIsPlaying)
-                    //{
-                    //    psJump.Play();
-                    //    jumpParticleIsPlaying = true;
-                    //}
+                        player.SetGrounded(true);
+                        player.SetFlutter(true);
+                        player.SetMovementType(MovementType.move);
+                        anim.SetBool("Grounded", true);
+                        //stateMachine.SetTrigger("GroundTrigger");                
+                        if (player.playerCurrentMove == MovementType.move)
+                        {
+                            psRun.Play();
+                        }
+                        else
+                        {
+                            psRun.Stop();
+                        }
+                        //if (!jumpParticleIsPlaying)
+                        //{
+                        //    psJump.Play();
+                        //    jumpParticleIsPlaying = true;
+                        //}
 
+                    }
+                    else if (footHit.collider.gameObject != null && isCrouching)
+                    {
+                        player.SetGrounded(true);
+                        player.SetFlutter(true);
+                        player.SetMovementType(MovementType.crouch);
+                        anim.SetBool("Grounded", true);
+                        //stateMachine.SetBool("Crouching", true);
+                        if (player.playerCurrentMove == MovementType.move)
+                        {
+                            psRun.Play();
+                        }
+                        else
+                        {
+                            psRun.Stop();
+                        }
+                        //if (!jumpParticleIsPlaying)
+                        //{
+                        //    psJump.Play();
+                        //    jumpParticleIsPlaying = true;
+                        //}
+                    }
                 }
-                else if (footHit.collider.gameObject != null && isCrouching)
+                else
                 {
-                    player.SetGrounded(true);
-                    player.SetFlutter(true);
-                    player.SetMovementType(MovementType.crouch);
-                    anim.SetBool("Grounded", true);
-                    //stateMachine.SetBool("Crouching", true);
-                    if (player.playerCurrentMove == MovementType.move)
-                    {
-                        psRun.Play();
-                    }
-                    else
-                    {
-                        psRun.Stop();
-                    }
-                    //if (!jumpParticleIsPlaying)
-                    //{
-                    //    psJump.Play();
-                    //    jumpParticleIsPlaying = true;
-                    //}
-                }                
+                    player.rb.velocity = tempVel;
+                    Debug.Log("smash");
+                }
+
             }
             else
             {
@@ -674,6 +760,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.1f);
         player.EnableControls();
+    }
+
+    IEnumerator RestartStop()
+    {
+        yield return new WaitForSeconds(0.2f);
+        dontStop = false;
     }
 
     //breaks parenting if was on moving platform, needed a longer time to prevent jittering
@@ -745,7 +837,7 @@ public class PlayerController : MonoBehaviour
                 if (anim.GetFloat("YVelocity") < 0)
                 {                   
                     anim.SetTrigger("Land");
-                    Debug.Log("landing");
+                    //Debug.Log("landing");
                 }
             }
         }

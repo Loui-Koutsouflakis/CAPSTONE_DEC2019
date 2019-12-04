@@ -15,6 +15,9 @@ public class GolemRockProjectile : MonoBehaviour
 
     private IEnumerator Timer()
     {
+        GetComponent<Animation>().Play("CINEMA_4D_Main");
+        GetComponent<Collider>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(timer);
         gameObject.SetActive(false);
     }

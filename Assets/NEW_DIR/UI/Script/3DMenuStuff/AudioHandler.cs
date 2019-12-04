@@ -2,18 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class AudioHandler : MonoBehaviour
 {
 
+    public AudioSource[] allMenuAudioSources;
     public AudioSource[] allAudioSources;
+    AudioSource[] sources;
     private SaveGameManager saveGameManager;
     private AudioSource musicSource;
     private AudioSource dialogueSource;
 
+
+    public AudioMixer inGameMixer;
+ 
+
+
     // Start is called before the first frame update
     void Start()
     {
+
+      
 
         if(GameObject.FindGameObjectWithTag("SaveGameManager"))
         {
@@ -21,18 +31,23 @@ public class AudioHandler : MonoBehaviour
  
             
         }
-        GetAllAudioSources();
 
-        for (int i = 0; i < allAudioSources.Length; i++)
-        {
-            allAudioSources[i].volume = saveGameManager.GetMasterVolume();
-        }
-        if(GameObject.FindGameObjectWithTag("MusicSource"))
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        inGameMixer.SetFloat("MasterVolume", saveGameManager.GetMasterVolume());
+        inGameMixer.SetFloat("MusicVolume", saveGameManager.GetMusicVolume());
+        inGameMixer.SetFloat("SFXVolume", saveGameManager.GetDialogueVolume());
+
+        //GetAllAudioSources();
+
+        //for (int i = 0; i < allMenuAudioSources.Length; i++)
+        //{
+        //    allMenuAudioSources[i].volume = saveGameManager.GetMasterVolume();
+        //}
+        //if(GameObject.FindGameObjectWithTag("MusicSource"))
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
           
-        }
+        //}
     }
 
     // Update is called once per frame
@@ -54,23 +69,35 @@ public class AudioHandler : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GetAllAudioSources();
+        //Debug.Log("On Level Load Works");
+        //GetAllAudioSources();
+        //for (int i = 0; i < allAudioSources.Length; i++)
+        //{
+        //    allAudioSources[i].volume = saveGameManager.GetMasterVolume();
+        //}
 
-        if (GameObject.FindGameObjectWithTag("MusicSource"))
-        {
-            musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
-            musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
-        }
+
+        //if (GameObject.FindGameObjectWithTag("MusicSource"))
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        //}
+        //else
+        //{
+        //    musicSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
+        //}
     }
 
     public void GetAllAudioSources()
     {
-        allAudioSources = GetComponents<AudioSource>();//FindObjectsOfType<AudioSource>();
-        //allAudioSources = new AudioSource[AudioSourcesInScene.Length];
-        //for (int i = 0; i < AudioSourcesInScene.Length; i++)
-        //{
-        //    allAudioSources[i] = AudioSourcesInScene[i].GetComponent<AudioSource>();
-        //}
+        allMenuAudioSources = GetComponents<AudioSource>();
+        sources = FindObjectsOfType<AudioSource>();
+        allAudioSources = new AudioSource[sources.Length];
+        for (int i = 0; i < allAudioSources.Length; i++)
+        {
+            allAudioSources[i] = sources[i].GetComponent<AudioSource>();
+        }
 
     }
 
@@ -78,4 +105,6 @@ public class AudioHandler : MonoBehaviour
     {
         return musicSource;
     }
+
+ 
 }

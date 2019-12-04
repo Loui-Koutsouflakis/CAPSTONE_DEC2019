@@ -22,6 +22,12 @@ public class Kickable_Object : MonoBehaviour
     RaycastHit hit; // Used to store Raycast Hit info
     bool grounded;
 
+    bool activated; 
+    [Header("Either turn off script to prevent kicking or turn off object once it stopped. Only have one active")]
+    public bool canBeTurnedOff; //if we want to prevent kicking an object after the first kick
+    public bool canBeDestroyed; //if we want to destroy the oject after it is kicked
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,11 +43,17 @@ public class Kickable_Object : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //IsGrounded();
-        //if(grounded)
-        //{
-        //    AddFriction();
-        //}
+        if(activated)
+        {
+            if(rb.velocity.magnitude < 0.2f)
+            {
+                if(canBeDestroyed)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+
     }
 
     
@@ -49,16 +61,15 @@ public class Kickable_Object : MonoBehaviour
     private void OnTriggerEnter(Collider o)
     {
         if(o.gameObject.layer == 14)
-        {
-            //if(Vector3.Angle(o.transform.forward, transform.forward) >= 90)
-            //{
+        {            
             Vector3 kickVector = (transform.position - o.transform.position - transform.position).normalized;
                 rb.AddForce((kickVector * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
-            //}
-            //else
-            //{
-            //    rb.AddForce((o.transform.forward * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
-            //}            
+
+            StartCoroutine(DestroyWait());
+            if(canBeTurnedOff)
+            {
+                this.enabled = false;
+            }
         }
     }
 
@@ -80,6 +91,12 @@ public class Kickable_Object : MonoBehaviour
         {
             grounded = false;
         }
+    }
+
+    IEnumerator DestroyWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        activated = true;
     }
 
 }

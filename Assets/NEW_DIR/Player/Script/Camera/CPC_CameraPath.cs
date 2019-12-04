@@ -110,6 +110,13 @@ public class CPC_CameraPath : MonoBehaviour
         //    PlayPath(playOnAwakeTime, );
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("AButton"))
+        {
+            currentWaypointIndex = points.Count-1;
+        }
+    }
     /// <summary>
     /// Plays the path
     /// </summary>
@@ -120,7 +127,10 @@ public class CPC_CameraPath : MonoBehaviour
         paused = false;
         playing = true;
         if (playing)
+        {
+            cam.cinema_Playing = true;
             cam.SwitchToCinema(PlayerCamera.CameraType.Cinema);
+        }
         player.DisableControls();
         player.rb.isKinematic = true;
         StopAllCoroutines();
@@ -142,6 +152,7 @@ public class CPC_CameraPath : MonoBehaviour
         if (endCam == null)
         {
             yield return new WaitForSeconds(t);
+            cam.cinema_Playing = false;
             player.EnableControls();
             player.rb.isKinematic = false;
             cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
@@ -153,6 +164,7 @@ public class CPC_CameraPath : MonoBehaviour
             cam.transform.rotation = endCam.transform.rotation;
             cam.transform.position = endCam.transform.position;
             yield return new WaitForSeconds(ET);
+            cam.cinema_Playing = false;
             player.EnableControls();
             player.rb.isKinematic = false;
             cam.SwitchToCinema(PlayerCamera.CameraType.Orbit);
@@ -261,6 +273,7 @@ public class CPC_CameraPath : MonoBehaviour
         {
             UpdateTimeInSeconds(time);
             currentWaypointIndex = 0;
+         
             while (currentWaypointIndex < points.Count)
             {
                 currentTimeInWaypoint = 0;

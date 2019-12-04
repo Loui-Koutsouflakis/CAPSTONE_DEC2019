@@ -319,4 +319,9 @@ public class MultiPurposePlatform : MonoBehaviour
                 break;
         }        
     }
+
+    public bool GetDirection()
+    {
+        return goingForward;
+    }
 }

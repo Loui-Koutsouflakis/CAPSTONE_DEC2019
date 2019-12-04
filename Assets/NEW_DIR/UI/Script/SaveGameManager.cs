@@ -32,6 +32,11 @@ public class SaveGameManager : MonoBehaviour
     public bool loading;
 
 
+
+    public bool shardCollected;
+    public List<int> collectedShards = new List<int>(); 
+
+
     //Settings Varibles
     [SerializeField]
     int cameraInverted = 0;
@@ -106,31 +111,41 @@ public class SaveGameManager : MonoBehaviour
         }
 
 
-        if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
+        //if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
+        //{
+        //    masterSoundVolume = PlayerPrefs.GetFloat("MasterSoundVolume");
+        //}
+        //else
+        //{
+        //    masterSoundVolume = 0.5f;
+        //}
+
+
+        if (PlayerPrefs.HasKey("MasterSoundVolume"))
         {
             masterSoundVolume = PlayerPrefs.GetFloat("MasterSoundVolume");
         }
         else
         {
-            masterSoundVolume = 0.5f;
+            masterSoundVolume = 0f;
         }
 
-        if(PlayerPrefs.GetFloat("MusicSoundVolume") >= 0 && PlayerPrefs.GetFloat("MusicSoundVolume") <= 1)
+        if (PlayerPrefs.HasKey("MusicSoundVolume"))
         {
             MusicSoundVolume = PlayerPrefs.GetFloat("MusicSoundVolume");
         }
         else
         {
-            MusicSoundVolume = 0.5f;
+            MusicSoundVolume = 0f;
         }
 
-        if(PlayerPrefs.GetFloat("DialogueSoundVolume") >= 0 && PlayerPrefs.GetFloat("DialogueSoundVolume") <= 1)
+        if(PlayerPrefs.HasKey("DialogueSoundVolume"))
         {
             dialogueSoundVolume = PlayerPrefs.GetFloat("DialogueSoundVolume");
         }
         else
         {
-            dialogueSoundVolume = 0.5f;
+            dialogueSoundVolume = 0f;
         }
 
         if(PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
@@ -139,7 +154,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            masterVolumePercent = 0.5f;
+            masterVolumePercent = 1f;
         }
 
         SaveSettings();
@@ -168,6 +183,7 @@ public class SaveGameManager : MonoBehaviour
         //Checks which file it should save to
         if(currentFile == 1)
         {
+            if(player)
             Debug.Log("Hi world");
             //Gets the player position and stores it
             Vector3 checkpointPosition = currentCheckpoint.position;
@@ -455,6 +471,10 @@ public class SaveGameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha8))
         {
             ClearSavedFiles();
+            PlayerPrefs.DeleteKey("MasterSoundVolume");
+            PlayerPrefs.DeleteKey("MusicSoundVolume");
+            PlayerPrefs.DeleteKey("DialogueSoundVolume");
+            
         }
     }
 
@@ -516,6 +536,26 @@ public class SaveGameManager : MonoBehaviour
 
             PlayerPrefs.SetInt("HasData_1", 0);
 
+        }
+    }
+
+
+    public void SaveCollectedShardsID()
+    {
+        int i = 0;
+        foreach (int shardID in collectedShards)
+        {
+            PlayerPrefs.SetInt("CollectedShardsIDs" + i, collectedShards[i]);
+            i++;
+        }
+        PlayerPrefs.SetInt("NumberOfCollectedShards", i);
+    }
+
+    public void LoadCollectedShards()
+    {
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
+        {
+            AddToListOfCollectedShards(PlayerPrefs.GetInt("CollectedShardsIDs" + i));
         }
     }
 
@@ -684,6 +724,21 @@ public class SaveGameManager : MonoBehaviour
     public float GetDialogueSliderPosition()
     {
         return PlayerPrefs.GetFloat("DialogueSliderPositionX");
+    }
+
+    public List<int> ReturnListOfCollectedShards()
+    {
+        return collectedShards;
+    }
+
+    public void AddToListOfCollectedShards(int IDOfCollectedShard)
+    {
+        collectedShards.Add(IDOfCollectedShard);
+    }
+
+    public void ResetListOfShards()
+    {
+        collectedShards.Clear();
     }
 
 

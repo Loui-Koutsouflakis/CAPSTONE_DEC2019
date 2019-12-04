@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 [AddComponentMenu("Camera/Camera Path", 1)]
 public class CameraPaths : MonoBehaviour
 {
-    PlayerClass player;
     public bool playOnStart = false;
     public bool active = false;
     public CPC_CameraPath path;
@@ -17,6 +16,8 @@ public class CameraPaths : MonoBehaviour
     public float time = 10;
     public float stayTime;
     bool hasPlayed = false;
+    public ParticleSystem[] particles;
+    public bool hasParticles;
     [Header("If the object is collection based")]
     [Tooltip("Crystal threshold")]
     public float c_Threshold;
@@ -28,7 +29,6 @@ public class CameraPaths : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerClass>();
         paths = FindObjectsOfType<CPC_CameraPath>();
         if (anims == null)
             Debug.Log("No big deal");
@@ -43,6 +43,14 @@ public class CameraPaths : MonoBehaviour
     {
         if (active)
         {
+            if(hasParticles)
+            {
+                foreach (var item in particles)
+                {
+                    item.Play();
+                }
+            }
+
             foreach (var item in paths)
             {
                 item.gameObject.SetActive(false);
@@ -53,18 +61,9 @@ public class CameraPaths : MonoBehaviour
                 if (anims != null)
                     anims.Play();
             }
+          
             StartCoroutine(goTime());
         }
-
-        //if (Vector3.Distance(player.gameObject.transform.position, transform.position) < 1f)
-        //{
-        //    if (player.GetShards() >= c_Threshold)
-        //    {
-        //        active = true;
-        //        if (anims != null)
-        //            anims.Play();
-        //    }
-        //}
     }
 
     public void StartMeUp()
@@ -72,6 +71,7 @@ public class CameraPaths : MonoBehaviour
         if (!hasPlayed)
         {
             active = true;
+            
             hasPlayed = true;
         }
     }
@@ -81,7 +81,7 @@ public class CameraPaths : MonoBehaviour
         {
             if (!hasPlayed)
             {
-                if (player.GetShards() >= c_Threshold)
+                if (HudManager.shardsCollected >= c_Threshold)
                 {
                     active = true;
                     hasPlayed = true;
@@ -94,10 +94,21 @@ public class CameraPaths : MonoBehaviour
 
     IEnumerator goTime()
     {
-        active = false;
+        if (hasParticles)
+        {
+            StartCoroutine(StopParticles(3));
+        }
         yield return new WaitForEndOfFrame();
+        active = false;
         if (hasEndCam) path.PlayPath(time, stayTime, endCamStayTime,endCam);
         else
         path.PlayPath(time,stayTime, endCamStayTime, null);
+    }
+
+    IEnumerator StopParticles(float t)
+    {
+        yield return new WaitForSeconds(t);
+        particles[1].Stop();
+
     }
 }
