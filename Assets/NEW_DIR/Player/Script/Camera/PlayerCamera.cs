@@ -206,16 +206,6 @@ public class PlayerCamera : MonoBehaviour
     {
         CameraTypes(CamType);
         EnclosedCameraFunctions(AreaChecks(forward), AreaChecks(back), AreaChecks(left), AreaChecks(right));
-
-        if (Vector3.Distance(this.gameObject.transform.position, Player.gameObject.transform.position) <= 1)
-        {
-            camWall = true;
-        }
-        if (Vector3.Distance(this.gameObject.transform.position, Player.gameObject.transform.position) > 1)
-        {
-            camWall = false;
-            camWallTimer = 0;
-        }
     }
 
     #region CameraTypes 
