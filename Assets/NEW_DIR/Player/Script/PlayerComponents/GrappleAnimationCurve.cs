@@ -14,7 +14,6 @@ public class GrappleAnimationCurve : MonoBehaviour
 
     public GameObject hook;
 
-    public Animator anim; 
     public AnimationCurve animCurve; 
     public AnimationClip animClip;
     float startTime = 0;
@@ -24,7 +23,7 @@ public class GrappleAnimationCurve : MonoBehaviour
     float startValueX;
 
 
-    float endTime = 0.2f;
+    float endTime = 1f;
 
     public Vector3 endValueVector; 
     float endValueY; 
@@ -46,7 +45,7 @@ public class GrappleAnimationCurve : MonoBehaviour
 
     }
 
-    public void setHookPoint(Transform hP)
+    public void SetHookPoint(Transform hP)
     {
 
         endValueVector = hP.position;
