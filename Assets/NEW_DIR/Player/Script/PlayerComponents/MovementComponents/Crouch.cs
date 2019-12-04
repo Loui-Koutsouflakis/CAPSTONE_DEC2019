@@ -141,10 +141,10 @@ public class Crouch : PlayerVariables
         cammyFront.Normalize();
 
         //rotates the direction the character is facing to the correct direction based on camera
-        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, cammyFront * vertical + cammyRight * horizontal, crouchRotateSpeed * Time.fixedDeltaTime, 0.0f));
+        player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, cammyFront * vertical + cammyRight * horizontal, crouchRotateSpeed * Time.fixedDeltaTime, 0.0f));
 
         //adds force to the player
-        rb.AddForce(transform.forward * crouchAccel, ForceMode.Force);
+        rb.AddForce(player.transform.forward * crouchAccel, ForceMode.Force);
 
         Friction();
     }
