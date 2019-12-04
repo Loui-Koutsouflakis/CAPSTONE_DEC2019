@@ -210,7 +210,7 @@ public class PlayerController : MonoBehaviour
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
     IEnumerator StartGrapple()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
 

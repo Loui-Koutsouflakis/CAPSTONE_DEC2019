@@ -178,7 +178,7 @@ public class RayCast_IK : MonoBehaviour
 
         grapAnimCurve.throwPosition = grapplePoint;
 
-            grapAnimCurve.SetHookPoint(rightHandTarget);
+            grapAnimCurve.SetHookPoint(pc.tetherPoint.GetTetherLocation());
 
 
             grapAnimCurve.DetatchHook(true);
