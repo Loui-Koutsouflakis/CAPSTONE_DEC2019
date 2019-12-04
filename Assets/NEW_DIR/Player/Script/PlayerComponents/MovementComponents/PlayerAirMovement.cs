@@ -101,7 +101,7 @@ public class PlayerAirMovement : PlayerVariables
         if (wallRotate)
         {
             //Debug.Log("rotating");
-            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, transform.right, 10 * Time.fixedDeltaTime, 0.0f));
+            player.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(player.transform.forward, player.transform.right, 10 * Time.fixedDeltaTime, 0.0f));
         }
     }
 
@@ -429,7 +429,7 @@ public class PlayerAirMovement : PlayerVariables
     //prevents player input for a time directly after wall jumping
     IEnumerator WallDeadZone()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         wallDeadZone = false;
         wallRotate = false;
         anim.SetBool("WallJumpB", false);
