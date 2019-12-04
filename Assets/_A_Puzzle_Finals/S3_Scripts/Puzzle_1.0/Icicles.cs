@@ -85,7 +85,7 @@ public class Icicles : MonoBehaviour
     {
         animator.SetBool("Smash", true);
 
-        source.time = 0.5f;
+        //source.time = 0.5f;
         source.Play();
 
         StartCoroutine(CleanUp());
@@ -96,15 +96,5 @@ public class Icicles : MonoBehaviour
         yield return new WaitForSecondsRealtime(timer);
 
         gameObject.SetActive(false);
-    }
-
-    public void PlayRumble()
-    {
-        source.Play();
-    }
-
-    public void StopRumble()
-    {
-        source.Stop();
     }
 }
