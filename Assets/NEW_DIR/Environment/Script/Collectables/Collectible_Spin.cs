@@ -48,9 +48,15 @@ public class Collectible_Spin : MonoBehaviour
         hud = GameObject.FindObjectOfType<HudManager>();
         player = FindObjectOfType<PlayerClass>();
         sfx = GetComponent<HandleSfx>();
-        saveMan = FindObjectOfType<SaveGameManager>();
     }
 
+    private void Start()
+    {
+        //Debug.Log(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+        saveMan = FindObjectOfType<SaveGameManager>();
+        saveMan.LoadCollectedShards();
+        if (saveMan.ReturnListOfCollectedShards().Contains(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name)) { isCollected = true; print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name); }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -58,7 +64,7 @@ public class Collectible_Spin : MonoBehaviour
         if (isCollected)
         {
             GetComponentInParent<SphereCollider>().enabled = false;
-            //print(gameObject.GetInstanceID());
+
             gameObject.SetActive(false);
         }
         RotateAround();
@@ -72,12 +78,18 @@ public class Collectible_Spin : MonoBehaviour
             hud.ShardsUp();
             player.SetShards(1);
             isCollected = true;
+
+            saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+            print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+            saveMan.SaveCollectedShardsID();
+
+
         }
     }
 
 
     void PSRotation()//Rotates the Particle System
-    {        
+    {
         rotX += rateOfParticleXRotation * Time.deltaTime;
         rotY += rateOfParticleYRotation * Time.deltaTime;
         rotZ += rateOfParticleZRotation * Time.deltaTime;
@@ -86,13 +98,13 @@ public class Collectible_Spin : MonoBehaviour
         rotationVector.z = rotZ;
         //myPS.transform.eulerAngles = rotationVector;
     }
-    
+
     void RotateAround()//Rotates Orb
-    {           
+    {
         transform.RotateAround((transform.position + transform.forward * offset), Vector3.up, rateOfOrbRotation);
         VerticalMovement();
     }
-    
+
     void VerticalMovement()//Vertical Orb Movement
     {
         if (movingUp)
