@@ -14,9 +14,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
     public enum EnemyType { Rock, Snow}
     [SerializeField]
     EnemyType type;
-
     
-
     // Body Parts
     [SerializeField]
     Stack catHead;
@@ -28,6 +26,8 @@ public class StackableEnemy : MonoBehaviour, IKillable
     Stack rockMonst;
     [SerializeField]
     Stack activeStack;
+    [SerializeField]
+    StackableEnemy parent;
 
     // Cached for resizing
     [SerializeField]
@@ -46,6 +46,8 @@ public class StackableEnemy : MonoBehaviour, IKillable
 
     [SerializeField]
     Rigidbody rb;
+    [SerializeField]
+    Animator anim;
 
     [SerializeField, Range(0, 5)]
     float idleAnimTime = 0.0f;
@@ -122,6 +124,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
         BoxCollider[] temp = GetComponents<BoxCollider>();
         foreach (BoxCollider box in temp)
@@ -184,8 +187,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
                     }
                     if (navAgent.remainingDistance <= navAgent.stoppingDistance)
                     {
-                        // Trigger move animation start
-                        //notMoving = true;
+                        
                         needIdleMovePos = true;
                         SetEnemyStatus(StackableEnemyStatus.Idle);
                     }
@@ -203,6 +205,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
                     if (playerRef.position != navAgent.destination)
                     {
                         SetDestination(playerRef.position);
+                        navAgent.speed = 3;
                     }
                 }
                 else
@@ -366,7 +369,8 @@ public class StackableEnemy : MonoBehaviour, IKillable
                     animTrigg = true;
                     hasPassengers = true;                                     
                     o.GetComponent<StackableEnemy>().SetPassangerStatus();
-                    o.transform.parent = backPack;
+                    o.GetComponent<StackableEnemy>().SetNewParent(backPack);
+                    //o.transform.parent = backPack;
                     o.GetComponent<StackableEnemy>().SetPassengerNum(backPack.childCount);
                     passengerCount = backPack.childCount;
                     //o.GetComponent<StackableEnemy>().SetEnemyStatus(StackableEnemyStatus.Stacking);
@@ -379,7 +383,8 @@ public class StackableEnemy : MonoBehaviour, IKillable
                 {
                     navAgent.isStopped = true;
                     o.GetComponent<StackableEnemy>().SetPassangerStatus();
-                    o.transform.parent = backPack;
+                    o.GetComponent<StackableEnemy>().SetNewParent(backPack);
+                    //o.transform.parent = backPack;
                     o.GetComponent<StackableEnemy>().SetPassengerNum(backPack.childCount);
                     passengerCount = backPack.childCount;
                     //o.GetComponent<StackableEnemy>().SetEnemyStatus(StackableEnemyStatus.Stacking);
@@ -397,6 +402,9 @@ public class StackableEnemy : MonoBehaviour, IKillable
     {
         stackingRank = Random.Range(1, 100);
     }
+
+
+    
 
     Vector3 GetJumpDestinantion()
     {
@@ -417,7 +425,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
                 switch (passengerNum)
                 {
                     case 1:
-                        if (transform.parent.parent.GetComponent<StackableEnemy>().backPack.childCount > 1)
+                        if (parent.backPack.childCount > 1)
                         {
                             offset = Vector3.up * catMid.GetModelInfo().offset;
                         }
@@ -428,10 +436,8 @@ public class StackableEnemy : MonoBehaviour, IKillable
                 break;
                     case 2:
                         
-                        offset = (Vector3.up * (catHead.GetModelInfo().offset)) + (Vector3.up 
-                            * transform.parent.parent.GetComponent<StackableEnemy>().backPack.
-                            GetChild( transform.parent.parent.GetComponent<StackableEnemy>().backPack.childCount 
-                                - transform.parent.parent.GetComponent<StackableEnemy>().backPack.childCount).
+                        offset = (Vector3.up * (catHead.GetModelInfo().offset)) + 
+                                 (Vector3.up * parent.backPack.GetChild( parent.backPack.childCount - parent.backPack.childCount).
                                 GetComponent<StackableEnemy>().activeStack.GetModelInfo().offset);
                         break;
                 }
@@ -446,6 +452,15 @@ public class StackableEnemy : MonoBehaviour, IKillable
     }
 
     #region Public Functions
+    public void SetNewParent(Transform bp)
+    {
+        transform.parent = bp;
+        parent = bp.parent.GetComponent<StackableEnemy>();
+    }
+    public void SetParentNull()
+    {
+        transform.parent = null;       
+    }
 
     public float GetStackingRank()
     {
@@ -560,7 +575,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
                     switch (passengerNum)
                     {
                         case 1:
-                            if (transform.parent.parent.GetComponent<StackableEnemy>().backPack.childCount == 1)
+                            if (parent.backPack.childCount == 1)
                             {
                                 if (activeStack != null)
                                 {
@@ -574,7 +589,7 @@ public class StackableEnemy : MonoBehaviour, IKillable
                                 }
                                 
                             }
-                            if (transform.parent.parent.GetComponent<StackableEnemy>().backPack.childCount == 2)
+                            if (parent.backPack.childCount == 2)
                             {
                                 if (activeStack != null)
                                 {
@@ -659,14 +674,18 @@ public class StackableEnemy : MonoBehaviour, IKillable
         {
             if(transform.parent != null)
             {
-                if (transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                if (parent.GetBackPack().childCount > 0)
                 {
-                    if (transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
+                    if (parent.GetBackPack().childCount > 0)
                     {
-                        transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetActiveStack();
+                        parent.GetBackPack().GetChild(parent.GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetActiveStack();
                     }
-                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetDead();
-                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).transform.parent = null;                
+                    //transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetDead();
+                    //transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount - 1).transform.parent = null;
+
+                    parent.GetBackPack().GetChild(parent.GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetDead();
+                    parent.GetBackPack().GetChild(parent.GetBackPack().childCount - 1).GetComponent<StackableEnemy>().SetParentNull();
+
                     SetActiveStack();
                 }
                 else
@@ -683,11 +702,11 @@ public class StackableEnemy : MonoBehaviour, IKillable
         {
             if (isAPassenger)
             {
-                for (int i = 0; i < transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount; i++)
+                for (int i = 0; i < parent.GetBackPack().childCount; i++)
                 {
-                    transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().GetChild(i).GetComponent<StackableEnemy>().SetDead();
+                    parent.GetBackPack().GetChild(i).GetComponent<StackableEnemy>().SetDead();
                 }
-                transform.parent.parent.GetComponent<StackableEnemy>().SetDead();
+                parent.GetComponent<StackableEnemy>().SetDead();
             }
             else
             {
