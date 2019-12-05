@@ -39,60 +39,60 @@ public class UIManager : MonoBehaviour
     public GameObject controlsScrollObject;
     public GameObject pauseMenuScrollObject;
     public GameObject gameOverScrollObject;
-    
+
 
     //The Game Objects That Hold The Button Controller Scripts
-   
-    
+
+
 
     //Animation delay for the scrolls
     [Range(0f, 2f)]
     public float animDelay;
-  
+
     //Functions that the individual button classes will call
     public void StartGame()
     {
         mainMenuAnimator.SetTrigger("Close");
         StartCoroutine(AnimationDelayStartGame(animDelay));
-        
+
     }
 
     public void Continue()
     {
-        if(GameObject.FindGameObjectWithTag("SaveGameManager"))
+        if (GameObject.FindGameObjectWithTag("SaveGameManager"))
         {
             saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
-            if(PlayerPrefs.GetInt("HasData_1") == 1)
+            if (PlayerPrefs.GetInt("HasData_1") == 1)
             {
                 mainMenuAnimator.SetTrigger("Close");
                 StartCoroutine(AnimationDelayContinue(animDelay));
             }
             else
             {
-                
-                
+
+
             }
         }
-        
+
 
     }
 
     public void Setting()
     {
-        
-        
+
+
         StartCoroutine(AnimationDelaySettings(animDelay));
         mainMenuAnimator.SetTrigger("Close");
-       
-        
-        
+
+
+
     }
 
     public void QuitGame()
     {
         mainMenuAnimator.SetTrigger("Close");
-        
-      
+
+
         StartCoroutine(AnimationDelayQuit(animDelay));
 
     }
@@ -124,7 +124,7 @@ public class UIManager : MonoBehaviour
     public void ControlsButton()
     {
         StartCoroutine(AnimationDelayControls(animDelay));
-        
+
         settingsMenuAnimator.SetTrigger("SettingsClose");
 
     }
@@ -141,7 +141,7 @@ public class UIManager : MonoBehaviour
     {
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.setInverted();
-        
+
     }
 
     public void ControlsClassicButton()
@@ -149,7 +149,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0f);
         saveGameManager.SaveSettings();
-       
+
     }
 
     public void ControlsStandardButton()
@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0.202f);
         saveGameManager.SaveSettings();
-       
+
     }
 
     public void ControlsVeteranButton()
@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.SetCameraSmoothing(0.609f);
         saveGameManager.SaveSettings();
-       
+
     }
 
     public void VideoButton()
@@ -180,7 +180,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(5, true);
         saveGameManager.SetQualitySettings(5);
         saveGameManager.SaveSettings();
-       
+
 
     }
 
@@ -190,7 +190,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(3, true);
         saveGameManager.SetQualitySettings(3);
         saveGameManager.SaveSettings();
-       
+
 
     }
 
@@ -200,7 +200,7 @@ public class UIManager : MonoBehaviour
         QualitySettings.SetQualityLevel(1, true);
         saveGameManager.SetQualitySettings(1);
         saveGameManager.SaveSettings();
-       
+
 
     }
 
@@ -209,7 +209,7 @@ public class UIManager : MonoBehaviour
     {
         pauseMenuAnimator.SetTrigger("PauseClose");
         StartCoroutine(AnimationDelayPauseMenuResume(animDelay));
-            
+
     }
 
     public void PauseQuitButton()
@@ -258,7 +258,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         singleton = this;
-        
+
     }
 
     private IEnumerator AnimationDelayStartGame(float delay)
@@ -267,6 +267,7 @@ public class UIManager : MonoBehaviour
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+        saveGameManager.loadingFromContinue = false;
         saveGameManager.loading = true;
         LoadLevel.LoadLevel(1);
 
@@ -277,15 +278,16 @@ public class UIManager : MonoBehaviour
 
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
-        saveGameManager.loading = true;
         saveGameManager.loadingFromContinue = true;
+        Debug.Log(saveGameManager.loadingFromContinue);
+        saveGameManager.loading = true;
         LoadLevel.LoadLevel(PlayerPrefs.GetInt("CurrentScene_1"));
 
     }
 
     private IEnumerator AnimationDelaySettings(float delay)
     {
-       
+
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
@@ -312,7 +314,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         mainMenuScrollObject.SetActive(true);
         yield return new WaitForSeconds(delay * Time.timeScale);
-       
+
         MainMenuButtonController.SetCanInteractWithButtons(true);
         settingsScrollObject.SetActive(false);
 
@@ -326,7 +328,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
         yield return new WaitForSeconds(delay * Time.timeScale);
-        
+
         settingsButtonController.SetCanInteractWithButtons(true);
         videoScrollObject.SetActive(false);
 
@@ -368,7 +370,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
         yield return new WaitForSeconds(delay * Time.timeScale);
-      
+
         settingsButtonController.SetCanInteractWithButtons(true);
         audioScrollObject.SetActive(false);
 
@@ -396,7 +398,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         settingsScrollObject.SetActive(true);
         yield return new WaitForSeconds(delay * Time.timeScale);
-        
+
         settingsButtonController.SetCanInteractWithButtons(true);
         controlsScrollObject.SetActive(false);
 
@@ -407,7 +409,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator AnimationDelayPauseMenuResume(float delay)
     {
 
-       
+
         pauseButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         if (GameObject.FindGameObjectWithTag("GameManager"))
@@ -476,7 +478,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator AnimationDelayGameOverRetry(float delay)
     {
-        
+
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         gameOverButtonController.SetCanInteractWithButtons(false);
@@ -488,7 +490,7 @@ public class UIManager : MonoBehaviour
         gameManager.GetPlayer().GetHManager().HealthFull();
         gameManager.GetPlayer().UnDeath();
         saveGameManager.Load();
-        
+
         //gameManager.GetPlayer().SetShards(saveGameManager.GetShards());
 
     }
@@ -500,7 +502,7 @@ public class UIManager : MonoBehaviour
         gameOverButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         gameManager.GoToMenu();
-        
+
     }
 }
 
@@ -508,8 +510,8 @@ public class MenuButtons : MonoBehaviour
 {
 
     public bool selected;
-    public string m_name; 
-    
+    public string m_name;
+
 
     public virtual void Execute(UIManager uiManager_m) { }
 
@@ -519,98 +521,98 @@ public class MenuButtons : MonoBehaviour
 
 public class Button_StartGame : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.StartGame(); }
 }
 
 public class Button_Continue : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.Continue(); }
 }
 
 public class Button_Settings : MenuButtons
 {
-   public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.Setting(); }
 }
 
 public class Button_QuitGame : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.QuitGame(); }
 }
 
 public class Button_Audio : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.AudioButton(); }
 }
 
 public class Button_Controls : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.ControlsButton(); }
 }
 
 public class Button_Video : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.VideoButton(); }
 }
 
 public class Button_SettingsBack : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.SettingsBackButton(); }
 }
 
 public class Button_VideoBack : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.VideoBackButton(); }
 }
 
 public class Button_AudioBack : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.AudioBackButton(); }
 }
 
 public class Button_ControlsBack : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.ControlsBackButton(); }
 }
 
 public class Button_PauseMenuResume : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.PauseResumeButton(); }
 }
 
 public class Button_PauseMenuQuit : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.PauseQuitButton(); }
 }
 
 public class Button_PauseMenuMainMenu : MenuButtons
 {
-    public override void Name() {  }
+    public override void Name() { }
 
     public override void Execute(UIManager uiManager_m) { uiManager_m.PauseMainMenuButton(); }
 }
