@@ -34,7 +34,7 @@ public class SaveGameManager : MonoBehaviour
 
 
     public bool shardCollected;
-    public List<int> collectedShards = new List<int>(); 
+    public List<string> collectedShards = new List<string>();
 
 
     //Settings Varibles
@@ -55,13 +55,18 @@ public class SaveGameManager : MonoBehaviour
     float musicSliderPositionX;
     float masterSliderPositionX;
     float dialogueSliderPositionX;
-   
-    
-    
+
+
+
     private void Awake()
     {
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
+        {
+            Debug.Log(PlayerPrefs.GetString("CollectedShardsIDs" + i));
+        }
+
         //Basic Singleton set up to prevent muliples of this script
-        if(_instance != null && _instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
@@ -73,7 +78,7 @@ public class SaveGameManager : MonoBehaviour
         //this script will need to run throughout the game
         DontDestroyOnLoad(gameObject);
 
-        if(PlayerPrefs.GetInt("CameraInverted") != 0 && PlayerPrefs.GetInt("CameraInverted") != 1)
+        if (PlayerPrefs.GetInt("CameraInverted") != 0 && PlayerPrefs.GetInt("CameraInverted") != 1)
         {
             cameraInverted = 0;
         }
@@ -90,8 +95,8 @@ public class SaveGameManager : MonoBehaviour
         {
             cameraSmoothing = 0.202f;
         }
-        
-        if(PlayerPrefs.GetFloat("CameraSensitivity") >= 1 && PlayerPrefs.GetFloat("CameraSensitivity") <= 10)
+
+        if (PlayerPrefs.GetFloat("CameraSensitivity") >= 1 && PlayerPrefs.GetFloat("CameraSensitivity") <= 10)
         {
             cameraSensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
 
@@ -101,7 +106,7 @@ public class SaveGameManager : MonoBehaviour
             cameraSensitivity = 1;
         }
 
-        if(PlayerPrefs.GetInt("QualitySetting") > 0)
+        if (PlayerPrefs.GetInt("QualitySetting") > 0)
         {
             qualitySetting = PlayerPrefs.GetInt("QualitySetting");
         }
@@ -139,7 +144,7 @@ public class SaveGameManager : MonoBehaviour
             MusicSoundVolume = 0f;
         }
 
-        if(PlayerPrefs.HasKey("DialogueSoundVolume"))
+        if (PlayerPrefs.HasKey("DialogueSoundVolume"))
         {
             dialogueSoundVolume = PlayerPrefs.GetFloat("DialogueSoundVolume");
         }
@@ -148,7 +153,7 @@ public class SaveGameManager : MonoBehaviour
             dialogueSoundVolume = 0f;
         }
 
-        if(PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
+        if (PlayerPrefs.GetFloat("MasterVolumePercent") >= 0 && PlayerPrefs.GetFloat("MasterVolumePercent") <= 1)
         {
             masterVolumePercent = PlayerPrefs.GetFloat("MasterVolumePercent");
         }
@@ -161,19 +166,19 @@ public class SaveGameManager : MonoBehaviour
         LoadSettings();
     }
 
- 
+
 
     private void Update()
-    {  
+    {
 
-        if(loading)
+        if (loading)
         {
             //Calls OnSceneLoaded when the scene switches 
             SceneManager.sceneLoaded += OnSceneLoaded;
             loading = false;
         }
-        
-          
+
+
         inputSaveTesting();
     }
 
@@ -181,10 +186,10 @@ public class SaveGameManager : MonoBehaviour
     public void Save()
     {
         //Checks which file it should save to
-        if(currentFile == 1)
+        if (currentFile == 1)
         {
-            if(player)
-            Debug.Log("Hi world");
+            if (player)
+                Debug.Log("Hi world");
             //Gets the player position and stores it
             Vector3 checkpointPosition = currentCheckpoint.position;
             PlayerPrefs.SetFloat("CheckpointPositionX_1", checkpointPosition.x);
@@ -328,7 +333,7 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MusicSoundVolume", MusicSoundVolume);
         PlayerPrefs.SetFloat("DialogueSoundVolume", dialogueSoundVolume);
         PlayerPrefs.SetFloat("MasterVolumePercent", masterVolumePercent);
-      
+
 
     }
 
@@ -344,17 +349,17 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("DialogueSliderPositionX", dialogueSliderPositionX);
     }
 
-   
+
 
     public void LoadSettings()
     {
-        if(mainCamera)
+        if (mainCamera)
         {
-            if(PlayerPrefs.GetInt("CameraInverted") == 1)
+            if (PlayerPrefs.GetInt("CameraInverted") == 1)
             {
                 mainCamera.invY = true;
             }
-            else if(PlayerPrefs.GetInt("CameraInverted") == 0)
+            else if (PlayerPrefs.GetInt("CameraInverted") == 0)
             {
                 mainCamera.invY = false;
             }
@@ -368,25 +373,25 @@ public class SaveGameManager : MonoBehaviour
 
         }
 
-        if(audioHandler)
-        {
-            for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
-            {
-                audioHandler.allAudioSources[i].volume = PlayerPrefs.GetFloat("MasterSoundVolume");
-            }
-            audioHandler.GetMusicSouce().volume = PlayerPrefs.GetFloat("MusicSoundVolume");
-        }
+        //if (audioHandler)
+        //{
+        //    for (int i = 0; i < audioHandler.allAudioSources.Length; i++)
+        //    {
+        //        audioHandler.allAudioSources[i].volume = PlayerPrefs.GetFloat("MasterSoundVolume");
+        //    }
+        //    audioHandler.GetMusicSouce().volume = PlayerPrefs.GetFloat("MusicSoundVolume");
+        //}
 
 
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualitySetting"), true);
-        
+
     }
 
     //Loads the scene from the saved scene in playerPrefs
     public void LoadSavedScene()
     {
         //Checks which file the scene should be loaded from
-        if(currentFile == 1)
+        if (currentFile == 1)
         {
             int savedSceneIndex = PlayerPrefs.GetInt("CurrentScene_1");
             SceneManager.LoadSceneAsync(savedSceneIndex);
@@ -418,6 +423,7 @@ public class SaveGameManager : MonoBehaviour
         //Finds if the player is in the scene
         if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera") && GameObject.FindGameObjectWithTag("AudioManager"))
         {
+
             //Sets the found player to the player variable
             player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
@@ -427,30 +433,33 @@ public class SaveGameManager : MonoBehaviour
             //Checks whether or not it is loading from a file or not;
             if (!loadingFromContinue)
             {
+                ClearCollectedShards();
+                ResetListOfShards();
                 //Sets the beginning variable to the beginning object in the scene
                 beginning = player.transform;
-                
+
                 //Sets current checkpoint to the beginning
                 currentCheckpoint = beginning;
-                
+
                 //Save the game
                 Save();
 
                 LoadSettings();
-                
-                
+                Debug.Log("Gets Called ");
+
             }
-            else if(loadingFromContinue)
+            else if (loadingFromContinue)
             {
                 //Load the data
                 Load();
-                
+
                 //Sets the condition to load from continue to false;
-                loadingFromContinue = false;
 
                 LoadSettings();
+                LoadCollectedShards();
+
             }
-                LoadSettings();
+            LoadSettings();
         }
     }
 
@@ -474,7 +483,7 @@ public class SaveGameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("MasterSoundVolume");
             PlayerPrefs.DeleteKey("MusicSoundVolume");
             PlayerPrefs.DeleteKey("DialogueSoundVolume");
-            
+
         }
     }
 
@@ -482,10 +491,10 @@ public class SaveGameManager : MonoBehaviour
     public void ClearSavedFiles()
     {
         //Checks which file it should delete the data from
-        if(currentFile == 1)
+        if (currentFile == 1)
         {
             //Clears All the Data in the playerPrefs 
-          
+
             PlayerPrefs.SetFloat("CheckpointPositionX_1", 0);
             PlayerPrefs.SetFloat("CheckpointPositionY_1", 0);
             PlayerPrefs.SetFloat("CheckpointPositionZ_1", 0);
@@ -542,20 +551,23 @@ public class SaveGameManager : MonoBehaviour
 
     public void SaveCollectedShardsID()
     {
-        int i = 0;
-        foreach (int shardID in collectedShards)
+
+        for (int i = 0; i < collectedShards.Count; i++)
         {
-            PlayerPrefs.SetInt("CollectedShardsIDs" + i, collectedShards[i]);
-            i++;
+
+            PlayerPrefs.SetString("CollectedShardsIDs" + i, collectedShards[i]);
+
+            PlayerPrefs.SetInt("NumberOfCollectedShards", i + 1);
+
+
         }
-        PlayerPrefs.SetInt("NumberOfCollectedShards", i);
     }
 
     public void LoadCollectedShards()
     {
         for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
         {
-            AddToListOfCollectedShards(PlayerPrefs.GetInt("CollectedShardsIDs" + i));
+            AddToListOfCollectedShards(PlayerPrefs.GetString("CollectedShardsIDs" + i));
         }
     }
 
@@ -591,12 +603,12 @@ public class SaveGameManager : MonoBehaviour
 
     public void setInverted()
     {
-        if(PlayerPrefs.GetInt("CameraInverted") == 0)
+        if (PlayerPrefs.GetInt("CameraInverted") == 0)
         {
             cameraInverted = 1;
             SaveSettings();
         }
-        else if(PlayerPrefs.GetInt("CameraInverted") == 1)
+        else if (PlayerPrefs.GetInt("CameraInverted") == 1)
         {
             cameraInverted = 0;
             SaveSettings();
@@ -646,7 +658,7 @@ public class SaveGameManager : MonoBehaviour
     public void SetSliderPosition(float newPositionX)
     {
         sliderButtonPostionX = newPositionX;
-      
+
     }
 
     public float GetMasterVolume()
@@ -726,19 +738,32 @@ public class SaveGameManager : MonoBehaviour
         return PlayerPrefs.GetFloat("DialogueSliderPositionX");
     }
 
-    public List<int> ReturnListOfCollectedShards()
+    public List<string> ReturnListOfCollectedShards()
     {
         return collectedShards;
     }
 
-    public void AddToListOfCollectedShards(int IDOfCollectedShard)
+    public void AddToListOfCollectedShards(string IDOfCollectedShard)
     {
         collectedShards.Add(IDOfCollectedShard);
     }
 
     public void ResetListOfShards()
     {
+
         collectedShards.Clear();
+    }
+
+    public void ClearCollectedShards()
+    {
+
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
+        {
+            PlayerPrefs.DeleteKey("CollectedShardsIDs" + i);
+
+
+        }
+        PlayerPrefs.DeleteKey("NumberOfCollectedShards");
     }
 
 

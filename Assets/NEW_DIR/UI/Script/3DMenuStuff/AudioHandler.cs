@@ -69,6 +69,9 @@ public class AudioHandler : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        inGameMixer.SetFloat("MasterVolume", saveGameManager.GetMasterVolume());
+        inGameMixer.SetFloat("MusicVolume", saveGameManager.GetMusicVolume());
+        inGameMixer.SetFloat("SFXVolume", saveGameManager.GetDialogueVolume());
         //Debug.Log("On Level Load Works");
         //GetAllAudioSources();
         //for (int i = 0; i < allAudioSources.Length; i++)
