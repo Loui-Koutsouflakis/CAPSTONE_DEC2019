@@ -33,8 +33,10 @@ public class Collectible_Spin : MonoBehaviour
     HudManager hud;
     [SerializeField]
     PlayerClass player;
-    HandleSfx sfx;
+    SaveGameManager saveMan;
 
+    HandleSfx sfx;
+    public bool isCollected = false;
     Animator anim;
     #endregion
     void Awake()
@@ -46,12 +48,19 @@ public class Collectible_Spin : MonoBehaviour
         hud = GameObject.FindObjectOfType<HudManager>();
         player = FindObjectOfType<PlayerClass>();
         sfx = GetComponent<HandleSfx>();
+        saveMan = FindObjectOfType<SaveGameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //PSRotation();
+        if (isCollected)
+        {
+            GetComponentInParent<SphereCollider>().enabled = false;
+            //print(gameObject.GetInstanceID());
+            gameObject.SetActive(false);
+        }
         RotateAround();
     }
 
@@ -62,7 +71,7 @@ public class Collectible_Spin : MonoBehaviour
             sfx.PlayOneShotByName("Collect");
             hud.ShardsUp();
             player.SetShards(1);
-            Destroy(this.gameObject);
+            isCollected = true;
         }
     }
 

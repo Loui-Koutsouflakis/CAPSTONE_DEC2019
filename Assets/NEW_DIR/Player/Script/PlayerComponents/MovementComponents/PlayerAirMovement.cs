@@ -429,7 +429,7 @@ public class PlayerAirMovement : PlayerVariables
     //prevents player input for a time directly after wall jumping
     IEnumerator WallDeadZone()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         wallDeadZone = false;
         wallRotate = false;
         anim.SetBool("WallJumpB", false);

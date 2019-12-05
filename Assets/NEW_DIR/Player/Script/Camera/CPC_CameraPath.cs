@@ -110,13 +110,13 @@ public class CPC_CameraPath : MonoBehaviour
         //    PlayPath(playOnAwakeTime, );
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("AButton"))
-        {
-            currentWaypointIndex = points.Count-1;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetButtonDown("AButton"))
+    //    {
+    //        currentWaypointIndex = points.Count-1;
+    //    }
+    //}
     /// <summary>
     /// Plays the path
     /// </summary>
