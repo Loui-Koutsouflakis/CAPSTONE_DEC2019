@@ -1,7 +1,8 @@
 ﻿//Created by Dylan LeClair 10/28/2019
 
 //Small icicle gameobject must have rigidbody attached
-//Icicle reference must be set in inspector
+//All icicles must have animator and audio source attached
+//Icicle reference must be set in inspector "Small or Large"
 
 //Player gameobject must be tagged "Player"
 
@@ -16,21 +17,18 @@ public class Icicles : MonoBehaviour
     public IcicleIdetifier icicleSize;
 
     //Object & component reference variables
-    private GameObject playerRef;
-    private Rigidbody rigidbodyRef;
     private Animator animator;
     private AudioSource source;
+    private GameObject playerRef;
+    private Rigidbody rigidbodyRef;
 
     //Distance variables
     private float distanceToPlayer;
     private readonly float thresholdDistance = 20.0f;
-    private Vector3 sinkDistance = new Vector3(0.0f, -2.0f, 0.0f);
-
-    //CleanUp
-    private float timer = 1.0f;
 
     private void Awake()
     {
+        //Get rigidbody reference from small icicles
         if(icicleSize == IcicleIdetifier.small)
         {
             rigidbodyRef = GetComponent<Rigidbody>();
@@ -39,7 +37,7 @@ public class Icicles : MonoBehaviour
 
     private void Start()
     {
-        //Get reference to player object && animotor
+        //Get reference to player object && components
         playerRef = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
@@ -69,31 +67,37 @@ public class Icicles : MonoBehaviour
     {
         if(icicleSize == IcicleIdetifier.small)
         {
-            //Drop icicles
+            //Drop small icicles
             rigidbodyRef.useGravity = true;
             rigidbodyRef.isKinematic = false;
         }
         if(icicleSize == IcicleIdetifier.large)
         {
+            //Drop large icicles
             animator.SetBool("Shake", true);
 
+            //Turn off script
             this.enabled = false;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        animator.SetBool("Smash", true);
+        //Play smashing animation and sound
+        if (icicleSize == IcicleIdetifier.small)
+        {
+            animator.SetBool("Smash", true);
 
-        //source.time = 0.5f;
-        source.Play();
+            source.Play();
 
-        StartCoroutine(CleanUp());
+            StartCoroutine(CleanUp());
+        }
     }
 
     private IEnumerator CleanUp()
     {
-        yield return new WaitForSecondsRealtime(timer);
+        //Clean up small icicles after animation has played
+        yield return new WaitForSecondsRealtime(1.0f);
 
         gameObject.SetActive(false);
     }

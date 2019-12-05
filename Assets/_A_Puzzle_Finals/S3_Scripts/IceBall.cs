@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class IceBall : MonoBehaviour
 {
+    //Object & component references variables
     private Animator animator;
-    private IceBaricade iceBaricade;
     private AudioSource source;
-    private HandleSfx handleSfx;
+    private IceBaricade iceBaricade;
 
+    //Distiguish between animation stages
+    public int stageIndex;
     private enum Stage { one, two, three }
     private Stage index = Stage.one;
-
-    public int stageIndex;
 
     private void Awake()
     {
@@ -25,7 +25,6 @@ public class IceBall : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
-        handleSfx = GetComponent<HandleSfx>();
     }
 
     public void PlayIceBallAnimations()
@@ -56,16 +55,4 @@ public class IceBall : MonoBehaviour
     {
         iceBaricade.PlayBreak();
     }
-
-    //public void PlayRoll()
-    //{
-    //    source.time = 0.3f;
-    //    handleSfx.PlayOneShotByIndex(1);
-    //}
-
-    //public void StopRoll()
-    //{
-    //    source.volume -= 0.1f * Time.deltaTime;
-    //    source.Stop();
-    //}
 }
