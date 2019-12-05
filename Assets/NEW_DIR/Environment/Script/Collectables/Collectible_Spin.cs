@@ -58,7 +58,7 @@ public class Collectible_Spin : MonoBehaviour
         if (isCollected)
         {
             GetComponentInParent<SphereCollider>().enabled = false;
-            print(gameObject.GetInstanceID());
+            //print(gameObject.GetInstanceID());
             gameObject.SetActive(false);
         }
         RotateAround();
