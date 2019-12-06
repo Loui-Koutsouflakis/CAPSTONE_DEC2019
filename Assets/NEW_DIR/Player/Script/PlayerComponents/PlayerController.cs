@@ -315,11 +315,15 @@ public class PlayerController : MonoBehaviour
                     {
                         anim.SetTrigger("Damaged");
                     }
-                    player.DisableControls();
-                    StartCoroutine(EnableControls());
-                    player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
-                    StartCoroutine(DamageFlashOff());
-                    player.SetDamagable(false); //provides a brief period of invulnerability 
+                    if(player.GetHealth() > 0)
+                    {
+                        player.DisableControls();
+                        StartCoroutine(EnableControls());
+                        player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
+                        StartCoroutine(DamageFlashOff());
+                        player.SetDamagable(false); //provides a brief period of invulnerability 
+                    }
+                    
                     //if (player.GetHealth() <= 0)
                     //{
                     //    //player.Death();
@@ -514,7 +518,7 @@ public class PlayerController : MonoBehaviour
 
                 positionTimer += 1;
                 //when falling into a pit will return to the last known position
-                if(positionTimer * groundCheckRate >= 1)
+                if(positionTimer * groundCheckRate >= 0.5f)
                 {
                     player.SetLastKnownPos(player.transform.position);
                     //Debug.Log("position set");
@@ -722,7 +726,7 @@ public class PlayerController : MonoBehaviour
 
                 psRun.Stop();
 
-                positionTimer = 0;
+                //positionTimer = 0;
 
                 //to allow player to jump for a very slight time after running off a ledge
                 gracePeriod += 1;

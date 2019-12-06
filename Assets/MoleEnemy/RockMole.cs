@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockMole : MonoBehaviour
+public class RockMole : MonoBehaviour , IKillable
 {
     [SerializeField]
     private Transform[] waypoints;
