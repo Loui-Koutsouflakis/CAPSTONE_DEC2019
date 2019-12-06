@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7222314153536093949}
   - component: {fileID: 9138644813143300904}
   - component: {fileID: 4665565911839426117}
+  - component: {fileID: 753672875992737675}
   m_Layer: 10
   m_Name: P_StackEnemy
   m_TagString: EnemyWeakSpot
@@ -60,11 +61,13 @@ MonoBehaviour:
   catBase: {fileID: 2123347139210105929}
   rockMonst: {fileID: 6684735728059440374}
   activeStack: {fileID: 0}
+  parent: {fileID: 0}
   bCollider: {fileID: 0}
   cCollider: {fileID: 0}
   playerRef: {fileID: 0}
   backPack: {fileID: 8571740454401670580}
   rb: {fileID: 0}
+  anim: {fileID: 0}
   idleAnimTime: 1
   coolDownAnimTime: 1
   StackAnimTime: 1
@@ -164,6 +167,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &753672875992737675
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2656624167307102910}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2ab3a942ed2b1824a8598f6b73806081, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3912701888051333032
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +223,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8794579359746989558}
     m_Modifications:
+    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: m_Name
+      value: P_StackaStan
+      objectReference: {fileID: 0}
+    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: 1507268710183727114, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -255,26 +297,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
-        type: 3}
-      propertyPath: m_Name
-      value: P_StackaStan
-      objectReference: {fileID: 0}
-    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2499987346919326233, guid: d967e3f30a532fc4791522efa073fe26,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
       objectReference: {fileID: 0}
     - target: {fileID: 5250567873346630538, guid: d967e3f30a532fc4791522efa073fe26,
         type: 3}
@@ -368,6 +390,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8794579359746989558}
     m_Modifications:
+    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_Name
+      value: P_Snowcat_Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: 5197592600568173809, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: offsetInput
@@ -503,26 +545,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
-        type: 3}
-      propertyPath: m_Name
-      value: P_Snowcat_Head
-      objectReference: {fileID: 0}
-    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8998823691075727653, guid: 25871cdd1d8dfd041bbae75ca82332f5,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
-      objectReference: {fileID: 0}
     - target: {fileID: 6705418496981052344, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -593,22 +615,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.432
       objectReference: {fileID: 0}
-    - target: {fileID: 8372954281800916786, guid: 25871cdd1d8dfd041bbae75ca82332f5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6800425711184327232, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 1318309826224268310, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+    - target: {fileID: 7584150743602217980, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 7584150743602217980, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+    - target: {fileID: 8372954281800916786, guid: 25871cdd1d8dfd041bbae75ca82332f5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318309826224268310, guid: 25871cdd1d8dfd041bbae75ca82332f5,
         type: 3}
       propertyPath: m_Layer
       value: 10
@@ -640,6 +662,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8794579359746989558}
     m_Modifications:
+    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: m_Name
+      value: P_Snowcat_Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: 8627711256459614254, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
       propertyPath: offsetInput
@@ -760,26 +802,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
-        type: 3}
-      propertyPath: m_Name
-      value: P_Snowcat_Chest
-      objectReference: {fileID: 0}
-    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8445171783697878591, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
-      objectReference: {fileID: 0}
     - target: {fileID: 6391965579539705266, guid: 9cc6fe1f75cab9f44bb5a86f2f67e2f3,
         type: 3}
       propertyPath: m_Layer
@@ -817,6 +839,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8794579359746989558}
     m_Modifications:
+    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: m_Name
+      value: P_Snowcat_Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: -809344296335204023, guid: ef5604c0dad459248a8919e0dae8bbc7,
         type: 3}
       propertyPath: bColSizeX
@@ -931,26 +973,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
-        type: 3}
-      propertyPath: m_Name
-      value: P_Snowcat_Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1314034482645761961, guid: ef5604c0dad459248a8919e0dae8bbc7,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5604c0dad459248a8919e0dae8bbc7, type: 3}
