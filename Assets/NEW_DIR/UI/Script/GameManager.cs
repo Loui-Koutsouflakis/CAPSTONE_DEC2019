@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
         if (GameObject.FindObjectOfType<PauseMenuNavigationManager>())
         {
             pauseNavigationManager = GameObject.FindObjectOfType<PauseMenuNavigationManager>().GetComponent<PauseMenuNavigationManager>();
-            Debug.Log(pauseNavigationManager.GetCanInteractWithButtons()); 
+
 
         }
 
