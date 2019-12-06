@@ -375,18 +375,18 @@ public class PlayerAirMovement : PlayerVariables
         else if (midBoxCast && !topOfHead)
         {
             onWall = false;
-            if (!ledgeHoping && canLedgeGrab)
-            {
-                player.rb.velocity = Vector3.zero;
-                player.rb.isKinematic = true;
-                player.DisableControls();
-                anim.SetBool("LedgeGrab", true);
-                //Debug.Log("triggered");
-                StartCoroutine(LedgeHopStart());
-                ledgeHoping = true;
-                canLedgeGrab = false;
-                StartCoroutine(LedgeGrabEnable());
-            }
+            //if (!ledgeHoping && canLedgeGrab)
+            //{
+            //    player.rb.velocity = Vector3.zero;
+            //    player.rb.isKinematic = true;
+            //    player.DisableControls();
+            //    anim.SetBool("LedgeGrab", true);
+            //    //Debug.Log("triggered");
+            //    StartCoroutine(LedgeHopStart());
+            //    ledgeHoping = true;
+            //    canLedgeGrab = false;
+            //    StartCoroutine(LedgeGrabEnable());
+            //}
             //ledge grab if we have it
         }
         else if(!toeCast || !midCast || !topOfHead)

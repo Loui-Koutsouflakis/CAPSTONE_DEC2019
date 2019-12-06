@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1068389192}
-  m_IndirectSpecularColor: {r: 0.55948764, g: 0.7242776, b: 0.8301639, a: 1}
+  m_IndirectSpecularColor: {r: 0.2692295, g: 0.4762675, b: 0.64602256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2471,11 +2471,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Lumi
       objectReference: {fileID: 0}
-    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: h_Manager
-      value: 
-      objectReference: {fileID: 1627023995}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2531,6 +2526,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: h_Manager
+      value: 
+      objectReference: {fileID: 1627023995}
     - target: {fileID: 614405374624740024, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: t_Manager
@@ -7979,6 +7979,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockMole-Type2-Container
       objectReference: {fileID: 0}
+    - target: {fileID: 8914215988200446626, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988200446626, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8914215988200446629, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8059,6 +8069,51 @@ PrefabInstance:
       propertyPath: playerTf
       value: 
       objectReference: {fileID: 31637007}
+    - target: {fileID: 8914215987504071909, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988045755599, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215989474400671, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 618195053398948051, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988192967666, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988133412839, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988167250511, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988480965465, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914215988842053682, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ede6e948e5b5fa47b75d94a0ae3775b, type: 3}
 --- !u!1001 &691412379
@@ -9178,6 +9233,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
+        type: 3}
+      propertyPath: startDelay
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5446155480787679540, guid: 697b07756cbbc664184d1cb470e6e1a3,
         type: 3}
       propertyPath: startDelay
@@ -9197,11 +9257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: startDelay
       value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
-        type: 3}
-      propertyPath: startDelay
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697b07756cbbc664184d1cb470e6e1a3, type: 3}
@@ -11953,6 +12008,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5006512736378447086}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_TreePlatforms_Box004
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12021,16 +12086,6 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_TreePlatforms_Box004
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 250ea0ee624eb9a4bbc0019d8d493a7d,
-        type: 3}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -12619,7 +12674,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1e-44, y: 1.1754945e-38, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: -1.114e-42, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -23450,6 +23505,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224712610643282805, guid: 5827f724c000d964a96be175eb5c9a7b,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
       objectReference: {fileID: 0}
     - target: {fileID: 5224712610643282802, guid: 5827f724c000d964a96be175eb5c9a7b,
         type: 3}
