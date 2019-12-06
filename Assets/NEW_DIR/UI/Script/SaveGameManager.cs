@@ -56,14 +56,20 @@ public class SaveGameManager : MonoBehaviour
     float masterSliderPositionX;
     float dialogueSliderPositionX;
 
+    bool startingUp = true;
 
 
     private void Awake()
     {
-        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
-        {
-            Debug.Log(PlayerPrefs.GetString("CollectedShardsIDs" + i));
-        }
+        //if(startingUp == true)
+        //{
+        //    LoadCollectedShards();
+        //    startingUp = false;
+        //}
+        //for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
+        //{
+        //    Debug.Log(PlayerPrefs.GetString("CollectedShardsIDs Main Menu" + i));
+        //}
 
         //Basic Singleton set up to prevent muliples of this script
         if (_instance != null && _instance != this)
@@ -552,21 +558,23 @@ public class SaveGameManager : MonoBehaviour
     public void SaveCollectedShardsID()
     {
 
-        for (int i = 0; i < collectedShards.Count; i++)
-        {
+        //for (int i = PlayerPrefs.GetInt("NumberOfCollectedShards"); i < collectedShards.Count; i++)
+       // {
 
-            PlayerPrefs.SetString("CollectedShardsIDs" + i, collectedShards[i]);
+            PlayerPrefs.SetString("CollectedShardsIDs" + PlayerPrefs.GetInt("NumberOfCollectedShards"), collectedShards[collectedShards.Count - 1] );
 
-            PlayerPrefs.SetInt("NumberOfCollectedShards", i + 1);
+            PlayerPrefs.SetInt("NumberOfCollectedShards", collectedShards.Count);
+            Debug.Log(PlayerPrefs.GetInt("NumberOfCollectedShards"));
 
-
-        }
+       // }
     }
 
     public void LoadCollectedShards()
     {
+       
         for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
         {
+            
             AddToListOfCollectedShards(PlayerPrefs.GetString("CollectedShardsIDs" + i));
         }
     }
