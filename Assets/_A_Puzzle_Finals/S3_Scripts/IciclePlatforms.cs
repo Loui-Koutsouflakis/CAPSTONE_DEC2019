@@ -12,18 +12,19 @@ using UnityEngine;
 public class IciclePlatforms : MonoBehaviour, Interact
 {
     //Object & scripts reference variables
+    private CameraPaths camerPaths;
     public GameObject icicleRef;
-    private Icicles icicleScriptRef;
     private IceBall iceBallScript;
-    CameraPaths camerPaths;
+    private Icicles icicleScriptRef;
 
-    private readonly float timer = 0.6f;
+    //Helper variables
     private bool hasPlayed = false;
 
     private void Awake()
     {
-        iceBallScript = FindObjectOfType<IceBall>();
+        //Get reference to scripts & components
         camerPaths = GetComponent<CameraPaths>();
+        iceBallScript = FindObjectOfType<IceBall>();
     }
 
     private void Start()
@@ -41,23 +42,27 @@ public class IciclePlatforms : MonoBehaviour, Interact
     {
         if(!hasPlayed)
         {
-            //Call falling script
+            //Check for final iceball stage
             if(iceBallScript.stageIndex == 3)
             {
+                //Play final camera
                 this.camerPaths.hasEndCam = true;
                 this.camerPaths.stayTime = 0;
             }
+            //Play cutscene & drop large icicle
             camerPaths.StartMeUp();
             icicleScriptRef.MakeIcicleFall();
             StartCoroutine(PauseAnimation());
 
+            //Ensure sequence only plays once
             hasPlayed = true;
         }
     }
 
     private IEnumerator PauseAnimation()
     {
-        yield return new WaitForSeconds(timer);
+        //Time iceball rolling to be after icicle drop
+        yield return new WaitForSeconds(0.6f);
 
         iceBallScript.PlayIceBallAnimations();
     }

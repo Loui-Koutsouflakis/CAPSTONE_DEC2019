@@ -1,5 +1,7 @@
 ﻿//Created by Dylan LeClair 11/11/19
 
+//Platform gameoject reference must be set in inspector
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

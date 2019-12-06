@@ -8,7 +8,6 @@ public class IceBall : MonoBehaviour
 {
     //Object & component references variables
     private Animator animator;
-    private AudioSource source;
     private IceBaricade iceBaricade;
 
     //Distiguish between animation stages
@@ -18,18 +17,19 @@ public class IceBall : MonoBehaviour
 
     private void Awake()
     {
+        //Get reference to ice wall
         iceBaricade = FindObjectOfType<IceBaricade>();
     }
 
     private void Start()
     {
+        //Get reference to component
         animator = GetComponent<Animator>();
-        source = GetComponent<AudioSource>();
     }
 
     public void PlayIceBallAnimations()
     {
-        source.time = 1.0f;
+        //Choose and play animation & sound
         switch (index)
         {
             case Stage.one:
@@ -53,6 +53,7 @@ public class IceBall : MonoBehaviour
 
     public void GoToBaricade()
     {
+        //Call ice wall animation
         iceBaricade.PlayBreak();
     }
 }
