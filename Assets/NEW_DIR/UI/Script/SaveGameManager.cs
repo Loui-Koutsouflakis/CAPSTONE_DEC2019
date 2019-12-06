@@ -61,11 +61,11 @@ public class SaveGameManager : MonoBehaviour
 
     private void Awake()
     {
-        //if(startingUp == true)
-        //{
-        //    LoadCollectedShards();
-        //    startingUp = false;
-        //}
+        if (startingUp == true)
+        {
+            LoadCollectedShards();
+            startingUp = false;
+        }
         //for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
         //{
         //    Debug.Log(PlayerPrefs.GetString("CollectedShardsIDs Main Menu" + i));
@@ -462,7 +462,7 @@ public class SaveGameManager : MonoBehaviour
                 //Sets the condition to load from continue to false;
 
                 LoadSettings();
-                LoadCollectedShards();
+               
 
             }
             LoadSettings();
@@ -558,15 +558,13 @@ public class SaveGameManager : MonoBehaviour
     public void SaveCollectedShardsID()
     {
 
-        //for (int i = PlayerPrefs.GetInt("NumberOfCollectedShards"); i < collectedShards.Count; i++)
-       // {
 
-            PlayerPrefs.SetString("CollectedShardsIDs" + PlayerPrefs.GetInt("NumberOfCollectedShards"), collectedShards[collectedShards.Count - 1] );
+        PlayerPrefs.SetString("CollectedShardsIDs" + PlayerPrefs.GetInt("NumberOfCollectedShards"), collectedShards[collectedShards.Count - 1]);
 
-            PlayerPrefs.SetInt("NumberOfCollectedShards", collectedShards.Count);
-            Debug.Log(PlayerPrefs.GetInt("NumberOfCollectedShards"));
+        PlayerPrefs.SetInt("NumberOfCollectedShards", collectedShards.Count);
+        Debug.Log(PlayerPrefs.GetInt("NumberOfCollectedShards"));
 
-       // }
+
     }
 
     public void LoadCollectedShards()

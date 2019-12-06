@@ -16,8 +16,8 @@ public class AudioHandler : MonoBehaviour
 
 
     public AudioMixer inGameMixer;
- 
-
+    public AudioMixerGroup SFXMixer;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -36,17 +36,12 @@ public class AudioHandler : MonoBehaviour
         inGameMixer.SetFloat("MusicVolume", saveGameManager.GetMusicVolume());
         inGameMixer.SetFloat("SFXVolume", saveGameManager.GetDialogueVolume());
 
-        //GetAllAudioSources();
-
-        //for (int i = 0; i < allMenuAudioSources.Length; i++)
-        //{
-        //    allMenuAudioSources[i].volume = saveGameManager.GetMasterVolume();
-        //}
+        
         //if(GameObject.FindGameObjectWithTag("MusicSource"))
         //{
         //    musicSource = GameObject.FindGameObjectWithTag("MusicSource").GetComponent<AudioSource>();
         //    musicSource.volume = saveGameManager.GetMusicVolume() * saveGameManager.GetMasterVolume();
-          
+
         //}
     }
 
@@ -72,6 +67,17 @@ public class AudioHandler : MonoBehaviour
         inGameMixer.SetFloat("MasterVolume", saveGameManager.GetMasterVolume());
         inGameMixer.SetFloat("MusicVolume", saveGameManager.GetMusicVolume());
         inGameMixer.SetFloat("SFXVolume", saveGameManager.GetDialogueVolume());
+
+        GetAllAudioSources();
+
+        for (int i = 0; i < allMenuAudioSources.Length; i++)
+        {
+            if (allAudioSources[i].outputAudioMixerGroup == null)
+            {
+                allMenuAudioSources[i].outputAudioMixerGroup = SFXMixer;
+
+            }
+        }
         //Debug.Log("On Level Load Works");
         //GetAllAudioSources();
         //for (int i = 0; i < allAudioSources.Length; i++)
