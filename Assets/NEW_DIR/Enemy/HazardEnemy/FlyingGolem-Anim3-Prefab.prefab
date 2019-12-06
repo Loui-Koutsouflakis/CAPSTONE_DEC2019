@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8319470515797846450}
-  - component: {fileID: 8319470515797846451}
   m_Layer: 10
   m_Name: WingPivot_L
   m_TagString: Enemy
@@ -63,19 +62,6 @@ Transform:
   m_Father: {fileID: 8319470516624605331}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8319470515797846451
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8319470515797846449}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1.1014729, y: 0.38822126, z: 1}
-  m_Center: {x: -0.52535534, y: 0.030588865, z: 0}
 --- !u!1 &8319470516183520723
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +75,7 @@ GameObject:
   - component: {fileID: 8319470516183520680}
   - component: {fileID: 8319470516183520686}
   - component: {fileID: 8319470516183520685}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_FlyingGolem
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -338,7 +324,7 @@ GameObject:
   - component: {fileID: 8319470517513435541}
   - component: {fileID: 8319470517513435547}
   - component: {fileID: 8319470517513435546}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FlyingGolem_Wing_L
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -444,7 +430,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8319470517603788264}
-  - component: {fileID: 8319470517603788265}
   m_Layer: 10
   m_Name: WingPivot_R
   m_TagString: Enemy
@@ -467,19 +452,6 @@ Transform:
   m_Father: {fileID: 8319470516624605331}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8319470517603788265
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8319470517603788271}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1.1221561, y: 0.35763216, z: 1}
-  m_Center: {x: 0.52011204, y: 0.025491, z: 0}
 --- !u!1 &8319470517645105838
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +465,7 @@ GameObject:
   - component: {fileID: 8319470517645105835}
   - component: {fileID: 8319470517645105833}
   - component: {fileID: 8319470517645105832}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FlyingGolem_Wing_R
   m_TagString: Enemy
   m_Icon: {fileID: 0}
