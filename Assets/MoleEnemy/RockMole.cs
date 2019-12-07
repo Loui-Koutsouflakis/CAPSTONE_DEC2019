@@ -33,6 +33,9 @@ public class RockMole : MonoBehaviour , IKillable
     private bool randomizedSurfaceTime;
 
     [SerializeField]
+    private bool rotatesTowardPlayer = true;
+
+    [SerializeField]
     private float randomRange = 5f;
 
     private bool alive;
@@ -101,7 +104,7 @@ public class RockMole : MonoBehaviour , IKillable
 
             if (randomizedDigTime)
             {
-                yield return new WaitForSeconds(Random.Range(1f, 5f));
+                yield return new WaitForSeconds(Random.Range(1f, 2.5f));
             }
             else
             {
@@ -118,9 +121,13 @@ public class RockMole : MonoBehaviour , IKillable
                 transform.parent.position = waypoints[i - 1].position;
             }
 
-            lookDirection = playerTf.position - transform.parent.position;
-            lookDirection.y = 0f;
-            transform.parent.rotation = Quaternion.LookRotation(lookDirection);
+            if (rotatesTowardPlayer)
+            {
+                lookDirection = playerTf.position - transform.parent.position;
+                lookDirection.y = 0f;
+                transform.parent.rotation = Quaternion.LookRotation(lookDirection);
+            }
+
             anim.SetTrigger(surfaceAnimName);
 
             foreach (ParticleSystem ps in groundPs)
@@ -130,7 +137,7 @@ public class RockMole : MonoBehaviour , IKillable
 
             if (randomizedSurfaceTime)
             {
-                yield return new WaitForSeconds(Random.Range(1f, 5f));
+                yield return new WaitForSeconds(Random.Range(1f, 2.5f));
             }
             else
             {
