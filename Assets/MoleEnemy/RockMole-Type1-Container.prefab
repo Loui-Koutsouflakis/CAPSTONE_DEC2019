@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2087796521954935514}
   - component: {fileID: 2087796521954935512}
   - component: {fileID: 2087796521954935515}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4764,9 +4764,9 @@ GameObject:
   - component: {fileID: 2087796522097388516}
   - component: {fileID: 2087796522097388514}
   - component: {fileID: 2087796522097388517}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9517,7 +9517,7 @@ GameObject:
   - component: {fileID: 2087796522135741647}
   m_Layer: 0
   m_Name: RockMole-Type1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9547,9 +9547,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2087796522156885327}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GroundSpillParticles
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9583,9 +9583,9 @@ GameObject:
   - component: {fileID: 2087796523097712808}
   - component: {fileID: 2087796523097712790}
   - component: {fileID: 2087796523097712809}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14336,9 +14336,9 @@ GameObject:
   - component: {fileID: 2087796523571276820}
   - component: {fileID: 2087796523571276818}
   - component: {fileID: 2087796523571276821}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19089,7 +19089,7 @@ GameObject:
   - component: {fileID: 2087796523767958661}
   m_Layer: 0
   m_Name: Waypoint
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19119,7 +19119,7 @@ GameObject:
   - component: {fileID: 2087796523792792944}
   m_Layer: 0
   m_Name: RockMole-Type1-Container
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19133,7 +19133,7 @@ Transform:
   m_GameObject: {fileID: 2087796523792792947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.4899999, y: 0, z: 0.39600003}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 2087796522135741647}
   - {fileID: 2087796523767958661}
@@ -19151,8 +19151,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38350132, y: 0.15105224, z: 0.37275577}
-  m_Center: {x: 0, y: 0.40162742, z: 0.000000044703484}
+  m_Size: {x: 0.6, y: 0.1124905, z: 0.6}
+  m_Center: {x: 0, y: 0.38234663, z: 0.00000003973643}
 --- !u!95 &2087796523287762754
 Animator:
   serializedVersion: 3
@@ -19189,14 +19189,16 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   anim: {fileID: 2087796523287762754}
   moleType: 1
+  startDelay: 1
   groundPs:
   - {fileID: 2087796523571276818}
   - {fileID: 2087796523097712790}
   - {fileID: 2087796522097388514}
   - {fileID: 2087796521954935512}
-  colliders:
-  - {fileID: 2087796523287762766}
-  - {fileID: 2087796523411025675}
+  randomizedWaypoints: 0
+  randomizedDigTime: 0
+  randomizedSurfaceTime: 0
+  randomRange: 5
 --- !u!65 &2087796523411025675
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19208,7 +19210,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38350132, y: 0.3944676, z: 0.37275577}
+  m_Size: {x: 0.46, y: 0.3944676, z: 0.39}
   m_Center: {x: 0, y: 0.12958014, z: 0.000000044703484}
 --- !u!1001 &2087796522095268364
 PrefabInstance:
@@ -19217,21 +19219,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6450248881789891790}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Name
-      value: SideCol
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19302,6 +19289,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Name
+      value: SideCol
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -19324,16 +19326,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2087796522135741647}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_RockTotem3_fixed
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19403,6 +19395,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_RockTotem3_fixed
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}

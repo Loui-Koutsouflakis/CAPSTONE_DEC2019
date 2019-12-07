@@ -11,8 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.367021, y: 0.1734556, z: 0.5923368}
-  m_Center: {x: 0, y: 0.60871774, z: 0}
+  m_Size: {x: 0.65, y: 0.11724806, z: 0.63339496}
+  m_Center: {x: 0, y: 0.580614, z: 0.036697447}
 --- !u!95 &8914215989315371490
 Animator:
   serializedVersion: 3
@@ -50,14 +50,16 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   anim: {fileID: 8914215989315371490}
   moleType: 2
+  startDelay: 1
   groundPs:
   - {fileID: 8914215988167250544}
   - {fileID: 8914215988842053687}
   - {fileID: 8914215988480965466}
   - {fileID: 8914215988133412840}
-  colliders:
-  - {fileID: 8914215989315371494}
-  - {fileID: 8914215988277361343}
+  randomizedWaypoints: 0
+  randomizedDigTime: 0
+  randomizedSurfaceTime: 0
+  randomRange: 5
 --- !u!65 &8914215988277361343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69,7 +71,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.367021, y: 0.5409068, z: 0.5923368}
+  m_Size: {x: 0.4, y: 0.5409068, z: 0.56}
   m_Center: {x: 0, y: 0.26797515, z: 0}
 --- !u!1 &8914215987504071909
 GameObject:
@@ -144,7 +146,7 @@ GameObject:
   - component: {fileID: 8914215988133412838}
   - component: {fileID: 8914215988133412840}
   - component: {fileID: 8914215988133412841}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4897,7 +4899,7 @@ GameObject:
   - component: {fileID: 8914215988167250510}
   - component: {fileID: 8914215988167250544}
   - component: {fileID: 8914215988167250545}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9648,7 +9650,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8914215988192967669}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GroundSpillParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9717,7 +9719,7 @@ GameObject:
   - component: {fileID: 8914215988480965464}
   - component: {fileID: 8914215988480965466}
   - component: {fileID: 8914215988480965467}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14470,7 +14472,7 @@ GameObject:
   - component: {fileID: 8914215988842053685}
   - component: {fileID: 8914215988842053687}
   - component: {fileID: 8914215988842053684}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19365,6 +19367,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: EnemyWeakSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f8a8c9fea53d3e3408acfe70fd3bcdb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f8a8c9fea53d3e3408acfe70fd3bcdb2,
         type: 3}

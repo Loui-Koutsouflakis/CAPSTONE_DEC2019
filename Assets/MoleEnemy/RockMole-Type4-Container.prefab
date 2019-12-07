@@ -11,7 +11,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.24792682, y: 0.49612606, z: 0.47312206}
+  m_Size: {x: 0.25, y: 0.49612606, z: 0.45}
   m_Center: {x: 0, y: 0.24308318, z: 0.0112944245}
 --- !u!65 &5224712610462755255
 BoxCollider:
@@ -24,8 +24,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.24792682, y: 0.14714634, z: 0.47312206}
-  m_Center: {x: 0, y: 0.5769966, z: 0.0112944245}
+  m_Size: {x: 0.6, y: 0.1095351, z: 0.6}
+  m_Center: {x: 0, y: 0.558191, z: 0.0112944245}
 --- !u!95 &5224712610462755147
 Animator:
   serializedVersion: 3
@@ -65,14 +65,16 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   anim: {fileID: 5224712610462755147}
   moleType: 4
+  startDelay: 1
   groundPs:
   - {fileID: 5224712611313297510}
   - {fileID: 5224712611883493534}
   - {fileID: 5224712611563914872}
   - {fileID: 5224712611670664255}
-  colliders:
-  - {fileID: 5224712610462755255}
-  - {fileID: 5224712611490555841}
+  randomizedWaypoints: 0
+  randomizedDigTime: 0
+  randomizedSurfaceTime: 0
+  randomRange: 5
 --- !u!1 &5224712610565036608
 GameObject:
   m_ObjectHideFlags: 0
@@ -19313,16 +19315,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5224712610997093214}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_RockTotem2_fixed
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 225d6da4dbf851342a09becea8df5c34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19393,6 +19385,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_RockTotem2_fixed
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 225d6da4dbf851342a09becea8df5c34,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -19419,21 +19421,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1007500915871226954}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
-        type: 3}
-      propertyPath: m_Name
-      value: SideCol
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 225d6da4dbf851342a09becea8df5c34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19503,6 +19490,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
+        type: 3}
+      propertyPath: m_Name
+      value: SideCol
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 225d6da4dbf851342a09becea8df5c34,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 225d6da4dbf851342a09becea8df5c34,
         type: 3}
