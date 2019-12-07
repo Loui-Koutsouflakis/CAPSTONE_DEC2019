@@ -50,6 +50,28 @@ public class TransitionManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + sceneIndexOffset);
     }
 
+    public IEnumerator BlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor)
+    {
+        deltaFadeIn.a *= deltaFadeFactor;
+        deltaFadeOut.a *= deltaFadeFactor;
+
+        fadeOut = true;
+        yield return new WaitForSeconds(outTime);
+        fadeOut = false;
+        yield return new WaitForSeconds(darkTime);
+        fadeIn = true;
+        yield return new WaitForSeconds(inTime);
+        fadeIn = fadeIn = false;
+
+        deltaFadeIn.a /= deltaFadeFactor;
+        deltaFadeOut.a /= deltaFadeFactor;
+    }
+
+    public void FadeIn()
+    {
+        fadeIn = true;
+    }
+
     public void FadeOut()
     {
         fadeOut = true;
