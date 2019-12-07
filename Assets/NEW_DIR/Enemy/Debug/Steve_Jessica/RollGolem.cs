@@ -24,8 +24,8 @@ public class RollGolem : MonoBehaviour, IKillable
     bool seesPlayer;
     bool canBounceOff;
     bool canReverse;
-    float viewRadius = 32f;
-    readonly float rollSpeed = 23f;
+    float viewRadius = 22f;
+    readonly float rollSpeed = 10f;
     readonly float groundCheckDistance = 0.2f;
     readonly float wallCheckDistance = 3f;
     Vector3 direction;
@@ -57,6 +57,11 @@ public class RollGolem : MonoBehaviour, IKillable
 
         wallHit = new RaycastHit[9];
         groundHit = new RaycastHit[9];
+
+        foreach(Collider col in handColliders)
+        {
+            col.enabled = false;
+        }
     }
 
     //private void Update()
@@ -378,6 +383,8 @@ public class RollGolem : MonoBehaviour, IKillable
 
     public IEnumerator CheckHit(bool isGroundPound)
     {
+        Debug.Log("CheckHit() called for Steve");
+
         yield return 0f;
 
         if(state == State.Vulnerable)
@@ -396,6 +403,8 @@ public class RollGolem : MonoBehaviour, IKillable
 
     public IEnumerator TakeDamage()
     {
+        Debug.Log("TakeDamage() called for Steve");
+
         foreach (BoxCollider col in handColliders)
         {
             col.enabled = false;
@@ -412,6 +421,9 @@ public class RollGolem : MonoBehaviour, IKillable
 
     public IEnumerator Die()
     {
+
+        Debug.Log("Die() called for Steve");
+
         spinCollider.enabled = false;
         headColSpin.enabled = false;
 
