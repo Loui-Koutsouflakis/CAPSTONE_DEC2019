@@ -33,7 +33,7 @@ public class PlayerVariables : MonoBehaviour
     public float wallJumpHorizontal = 5;
     public float testAirMax = 6f;
     public float doubleJumpMax = 4f;
-    public float longJumpMax = 20;
+    public float longJumpMax = 10;
     public float highJumpAirMax = 1;
 
     [Header("Crouch Movement")]

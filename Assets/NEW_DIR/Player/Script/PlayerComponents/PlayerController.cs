@@ -551,7 +551,8 @@ public class PlayerController : MonoBehaviour
                         {
                             player.DisableControls();
                             StartCoroutine(EnableControls());
-                            player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
+                            //player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
+                            player.GenericAddForce(player.transform.up.normalized, 5);
                             landed = true;
                             StartCoroutine(LandedSwitch());
                         }
