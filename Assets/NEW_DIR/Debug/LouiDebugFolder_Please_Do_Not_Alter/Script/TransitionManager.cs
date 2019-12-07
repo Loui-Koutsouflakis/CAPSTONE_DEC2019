@@ -50,6 +50,36 @@ public class TransitionManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + sceneIndexOffset);
     }
 
+    /// <summary>
+    /// Coroutine used for fade transitions of any length. Good for respawns, retries, and cutscene cues.
+    /// </summary>
+    /// <param name="outTime"> Duration of fade out. </param>
+    /// <param name="darkTime"> Duration of full darkness. </param>
+    /// <param name="inTime"> Duration of fade in. </param>
+    /// <param name="deltaFadeFactor"> Scale of the fade speed (default fade out = 1f, default fade in = 0.8f) </param>
+    /// <returns></returns>
+    public IEnumerator BlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor)
+    {
+        deltaFadeIn.a *= deltaFadeFactor;
+        deltaFadeOut.a *= deltaFadeFactor;
+
+        fadeOut = true;
+        yield return new WaitForSeconds(outTime);
+        fadeOut = false;
+        yield return new WaitForSeconds(darkTime);
+        fadeIn = true;
+        yield return new WaitForSeconds(inTime);
+        fadeIn = fadeIn = false;
+
+        deltaFadeIn.a /= deltaFadeFactor;
+        deltaFadeOut.a /= deltaFadeFactor;
+    }
+
+    public void FadeIn()
+    {
+        fadeIn = true;
+    }
+
     public void FadeOut()
     {
         fadeOut = true;
