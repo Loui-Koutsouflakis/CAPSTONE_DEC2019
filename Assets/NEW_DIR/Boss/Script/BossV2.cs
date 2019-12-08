@@ -17,12 +17,14 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
 
     public bool steering;
+    public float steerSpeed = 25f;
 
     float leftHandBlocking;
     float rightHandBlocking;
 
     float handLerpRate;
     readonly float dragonInputThreshold = 0.14f;
+    readonly float steerLerpRate = 5f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
@@ -43,6 +45,13 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
+        //
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            steering = true;
+        }
+        //
+
         if(rightHandBlocking < 0f)
         {
             rightHand.position = Vector3.Lerp(rightHand.position, rightHandBlockingPoint, handLerpRate * Time.deltaTime);
@@ -57,9 +66,9 @@ public class BossV2 : MonoBehaviour
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
 
-            foreach(Transform target in bodyTargets)
+            for(int i = 0; i < body.Length, i++)
             {
-                
+                body[i].position = Vector3.Lerp(body[i].position, bodyTargets[i].position, steerLerpRate);
             }
 
             if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
@@ -73,8 +82,11 @@ public class BossV2 : MonoBehaviour
 
     public IEnumerator SteerRoutine(Vector3 steerDirection)
     {
-
-        yield return new WaitForSeconds(1f);
+        foreach (Transform target in bodyTargets)
+        {
+            target.localPosition += steerDirection * steerSpeed * Time.deltaTime;
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
     public void CueSteer()
