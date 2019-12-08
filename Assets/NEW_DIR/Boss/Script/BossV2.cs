@@ -19,10 +19,12 @@ public class BossV2 : MonoBehaviour
 
     float leftHandBlocking;
     float rightHandBlocking;
+
     float handLerpRate;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
+
 
     public Transform bossCamTarget;
     public Camera playerCam;
