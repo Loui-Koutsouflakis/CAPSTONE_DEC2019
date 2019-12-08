@@ -17,7 +17,7 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
 
     public bool steering;
-    public float steerSpeed = 25f;
+    public float steerSpeed = 75f;
 
     float leftHandBlocking;
     float rightHandBlocking;
@@ -83,7 +83,7 @@ public class BossV2 : MonoBehaviour
         foreach (Transform target in bodyTargets)
         {
             target.localPosition += steerDirection * steerSpeed * Time.deltaTime;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

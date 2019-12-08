@@ -130,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1883270}
   m_Layer: 0
-  m_Name: BossRib_P3 (1)
+  m_Name: BossRib_P3_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 18
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &15039846
 GameObject:
@@ -17785,7 +17785,7 @@ RectTransform:
   m_Children:
   - {fileID: 1221924948}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18280,7 +18280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387170031}
   m_Layer: 0
-  m_Name: BossPlat_P4 (1)
+  m_Name: BossPlat_P4_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18298,7 +18298,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 2.1160002, z: 0}
 --- !u!1001 &388622531
 PrefabInstance:
@@ -23845,7 +23845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 432325815}
   m_Layer: 0
-  m_Name: BossRib_P5 (1)
+  m_Name: BossRib_P5_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23863,7 +23863,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 5.67, z: 0}
 --- !u!1 &445582148
 GameObject:
@@ -24526,7 +24526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 524662148}
   m_Layer: 0
-  m_Name: BossLead (1)
+  m_Name: BossLead_Target
   m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24544,7 +24544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -17, z: 0}
 --- !u!1001 &524873287
 PrefabInstance:
@@ -33264,6 +33264,89 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 830715952}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &837775093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837775096}
+  - component: {fileID: 837775094}
+  - component: {fileID: 837775095}
+  m_Layer: 0
+  m_Name: BossCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!20 &837775094
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837775093}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &837775095
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837775093}
+  m_Enabled: 1
+--- !u!4 &837775096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837775093}
+  m_LocalRotation: {x: 0.19936734, y: -0.085731104, z: 0.017512094, w: 0.9760104}
+  m_LocalPosition: {x: 15.19487, y: 59, z: -106.878815}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &861912609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34169,7 +34252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942601958}
   m_Layer: 0
-  m_Name: BossTail (1)
+  m_Name: BossTail_Target
   m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34187,7 +34270,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 15.14, z: 0}
 --- !u!1 &945151473
 GameObject:
@@ -40600,7 +40683,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1096422122}
   m_Layer: 0
-  m_Name: BossPlat_P6 (1)
+  m_Name: BossPlat_P6_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40618,7 +40701,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 9.409, z: 0}
 --- !u!1001 &1099779563
 PrefabInstance:
@@ -44705,7 +44788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1420498113}
   m_Layer: 0
-  m_Name: BossPlat_P2 (1)
+  m_Name: BossPlat_P2_Target
   m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44723,7 +44806,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: -5.451, z: 0}
 --- !u!1001 &1423050001
 PrefabInstance:
@@ -44981,7 +45064,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1460577448
 PrefabInstance:
@@ -45281,6 +45364,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1579670293}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1481621529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481621530}
+  m_Layer: 0
+  m_Name: CamTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1481621530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481621529}
+  m_LocalRotation: {x: 0.20013498, y: -0, z: 0.0000000018626449, w: 0.97976834}
+  m_LocalPosition: {x: -0, y: 59, z: -112.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2140824011}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 23.09, y: 0, z: 0}
 --- !u!1 &1481688614
 GameObject:
   m_ObjectHideFlags: 0
@@ -46160,6 +46273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1545110790}
+  - component: {fileID: 1545110791}
   m_Layer: 0
   m_Name: Boss_Shell_v2
   m_TagString: Untagged
@@ -46189,17 +46303,59 @@ Transform:
   - {fileID: 2035214695}
   - {fileID: 21208946}
   - {fileID: 391860605}
-  - {fileID: 1420498113}
   - {fileID: 524662148}
   - {fileID: 1792482002}
+  - {fileID: 1420498113}
+  - {fileID: 1883270}
   - {fileID: 387170031}
   - {fileID: 432325815}
   - {fileID: 1096422122}
   - {fileID: 942601958}
-  - {fileID: 1883270}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1545110791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545110789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeabbc5b643df444f9833229de5e928b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body:
+  - {fileID: 1921944161}
+  - {fileID: 2140824011}
+  - {fileID: 1481688615}
+  - {fileID: 1884548950}
+  - {fileID: 82847851}
+  - {fileID: 1070936939}
+  - {fileID: 243702585}
+  - {fileID: 1746682476}
+  bodyTargets:
+  - {fileID: 524662148}
+  - {fileID: 1792482002}
+  - {fileID: 1420498113}
+  - {fileID: 1883270}
+  - {fileID: 387170031}
+  - {fileID: 432325815}
+  - {fileID: 1096422122}
+  - {fileID: 942601958}
+  bodyAnims: []
+  pathOne: []
+  pathTwo: []
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
+  leftHandAnim: {fileID: 0}
+  rightHandAnim: {fileID: 0}
+  steering: 0
+  steerSpeed: 25
+  bossCamTarget: {fileID: 1481621530}
+  playerCam: {fileID: 1636064365}
+  bossCam: {fileID: 837775094}
 --- !u!4 &1546489821 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2087796523792792944, guid: b31562b4891b774419eaa7a5703fe7e1,
@@ -47037,6 +47193,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a83fc953b411ea24283ee68fc8078fab, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9857b6fd3066b974f8defde4391a7766, type: 3}
+--- !u!20 &1636064365 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20539314722032298, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 706744172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &1636984356
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -57902,7 +58064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1792482002}
   m_Layer: 0
-  m_Name: BossRib_P1 (1)
+  m_Name: BossRib_P1_Target
   m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57920,7 +58082,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1545110790}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: -10.040001, z: 0}
 --- !u!1001 &1797135806
 PrefabInstance:
@@ -61392,6 +61554,7 @@ Transform:
   - {fileID: 5006512736495795571}
   - {fileID: 758289393}
   - {fileID: 1752850516}
+  - {fileID: 1481621530}
   m_Father: {fileID: 1545110790}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -10.040001, z: 0}
