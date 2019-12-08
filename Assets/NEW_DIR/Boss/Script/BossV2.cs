@@ -14,7 +14,6 @@ public class BossV2 : MonoBehaviour
     public Transform rightHand;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
-
     
     float leftHandBlocking;
     float rightHandBlocking;
@@ -31,6 +30,16 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
-        
+        if(rightHandBlocking < 0f)
+        {
+            rightHand.position = Vector3.Lerp(rightHand.position, rightHandBlockingPoint, handLerpRate * Time.deltaTime);
+        }
+
+        if(leftHandBlocking < 0f)
+        {
+            leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
+        }
+
+
     }
 }
