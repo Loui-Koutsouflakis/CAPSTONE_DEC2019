@@ -44,10 +44,10 @@ public class BossV2 : MonoBehaviour
     private void Update()
     {
         //
-        if(Input.GetKeyDown(KeyCode.B))
-        {
-            steering = true;
-        }
+        //if(Input.GetKeyDown(KeyCode.B))
+        //{
+        //    steering = true;
+        //}
         //
 
         if(rightHandBlocking < 0f)
