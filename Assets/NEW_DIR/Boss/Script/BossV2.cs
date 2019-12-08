@@ -64,7 +64,7 @@ public class BossV2 : MonoBehaviour
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
 
-            for(int i = 0; i < body.Length, i++)
+            for(int i = 0; i < body.Length; i++)
             {
                 body[i].position = Vector3.Lerp(body[i].position, bodyTargets[i].position, steerLerpRate);
             }
