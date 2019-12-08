@@ -14,18 +14,25 @@ public class BossV2 : MonoBehaviour
     public Transform rightHand;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
-    
+
+    public bool steering;
+
     float leftHandBlocking;
     float rightHandBlocking;
-
     float handLerpRate;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
 
+    public Camera playerCam;
+    public Camera bossCam;
+
     private void Start()
     {
-        
+        if(bossCam.enabled)
+        {
+            bossCam.enabled = false;
+        }
     }
 
     private void Update()
@@ -40,6 +47,17 @@ public class BossV2 : MonoBehaviour
             leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
         }
 
+        if(steering)
+        {
 
+        }
+    }
+
+    public void CueSteer()
+    {
+        bossCam.enabled = true;
+        playerCam.enabled = false;
+
+        steering = true;
     }
 }
