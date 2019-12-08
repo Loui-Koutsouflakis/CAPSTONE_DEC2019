@@ -92,7 +92,24 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        //Hand Animations Finish and bring Lumi back to tail
+        //Fade Out
+
+        foreach(GameObject go in pathOne) 
+        {
+            go.SetActive(false);
+        }
+
+        //foreach()
+
+        yield return new WaitForSeconds(0.2f);
+        
+
+
+        //Hand Animations Finish, bringing Lumi back to tail
+
+        bossCam.enabled = false;
+        playerCam.enabled = true;
+
         //Player is given back control over the dragon
     }
 
