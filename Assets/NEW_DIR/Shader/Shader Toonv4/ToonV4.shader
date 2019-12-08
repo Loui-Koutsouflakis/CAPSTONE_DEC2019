@@ -308,5 +308,5 @@
 		}
 	}
 	Fallback "Diffuse"
-	CustomEditor "ToonGUIv5"
+	//CustomEditor "ToonGUIv5"
 }
