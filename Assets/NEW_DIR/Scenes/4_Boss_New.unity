@@ -5478,6 +5478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 82847851}
+  - component: {fileID: 82847852}
   m_Layer: 0
   m_Name: BossPlat_P4
   m_TagString: Untagged
@@ -5502,6 +5503,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 2.1160002, z: 0}
+--- !u!95 &82847852
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82847850}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &89938679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16382,6 +16402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 243702585}
+  - component: {fileID: 243702586}
   m_Layer: 0
   m_Name: BossPlat_P6
   m_TagString: Untagged
@@ -16406,6 +16427,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 9.409, z: 0}
+--- !u!95 &243702586
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243702584}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &269944623
 GameObject:
   m_ObjectHideFlags: 0
@@ -40408,6 +40448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1070936939}
+  - component: {fileID: 1070936940}
   m_Layer: 0
   m_Name: BossRib_P5
   m_TagString: Untagged
@@ -40432,6 +40473,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 5.67, z: 0}
+--- !u!95 &1070936940
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070936938}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1075148772
 GameObject:
   m_ObjectHideFlags: 0
@@ -45403,6 +45463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1481688615}
+  - component: {fileID: 1481688616}
   m_Layer: 0
   m_Name: BossPlat_P2
   m_TagString: MovingPlatform
@@ -45427,6 +45488,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -5.451, z: 0}
+--- !u!95 &1481688616
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481688614}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1485389773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8914215988200446629, guid: 5ede6e948e5b5fa47b75d94a0ae3775b,
@@ -46344,9 +46424,29 @@ MonoBehaviour:
   - {fileID: 432325815}
   - {fileID: 1096422122}
   - {fileID: 942601958}
-  bodyAnims: []
-  pathOne: []
-  pathTwo: []
+  bodyAnims:
+  - {fileID: 1921944162}
+  - {fileID: 2140824012}
+  - {fileID: 1481688616}
+  - {fileID: 1884548951}
+  - {fileID: 82847852}
+  - {fileID: 1070936940}
+  - {fileID: 243702586}
+  - {fileID: 1746682477}
+  pathOne:
+  - {fileID: 1752850515}
+  - {fileID: 741071688}
+  - {fileID: 1418231369}
+  - {fileID: 289607840}
+  - {fileID: 1075148772}
+  - {fileID: 1211284700}
+  pathTwo:
+  - {fileID: 758289392}
+  - {fileID: 144223752}
+  - {fileID: 354693905}
+  - {fileID: 1672047649}
+  - {fileID: 1045561765}
+  - {fileID: 1430379653}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
   leftHandAnim: {fileID: 0}
@@ -57685,6 +57785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746682476}
+  - component: {fileID: 1746682477}
   m_Layer: 0
   m_Name: BossTail
   m_TagString: MovingPlatform
@@ -57708,6 +57809,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 15.14, z: 0}
+--- !u!95 &1746682477
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746682475}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1752850515
 GameObject:
   m_ObjectHideFlags: 0
@@ -58677,6 +58797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1884548950}
+  - component: {fileID: 1884548951}
   m_Layer: 0
   m_Name: BossRib_P3
   m_TagString: Untagged
@@ -58701,6 +58822,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1884548951
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884548949}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1903550720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58920,6 +59060,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1921944161}
+  - component: {fileID: 1921944162}
   m_Layer: 0
   m_Name: BossLead
   m_TagString: MovingPlatform
@@ -58943,6 +59084,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -17, z: 0}
+--- !u!95 &1921944162
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921944160}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1925151740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61533,6 +61693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2140824011}
+  - component: {fileID: 2140824012}
   m_Layer: 0
   m_Name: BossRib_P1
   m_TagString: MovingPlatform
@@ -61558,6 +61719,25 @@ Transform:
   m_Father: {fileID: 1545110790}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -10.040001, z: 0}
+--- !u!95 &2140824012
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140824010}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &2142817497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3412738273491382745, guid: 9857b6fd3066b974f8defde4391a7766,
