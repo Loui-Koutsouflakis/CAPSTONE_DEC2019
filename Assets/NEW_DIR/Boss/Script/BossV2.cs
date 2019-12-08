@@ -23,7 +23,7 @@ public class BossV2 : MonoBehaviour
     float rightHandBlocking;
     float handLerpRate;
     readonly float dragonInputThreshold = 0.14f;
-    readonly float steerLerpRate = 5f;
+    readonly float steerLerpRate = 4f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
@@ -66,7 +66,16 @@ public class BossV2 : MonoBehaviour
 
             for(int i = 0; i < body.Length; i++)
             {
-                body[i].position = Vector3.Lerp(body[i].position, bodyTargets[i].position, steerLerpRate);
+                body[i].position = Vector3.Lerp(body[i].position, bodyTargets[i].position, steerLerpRate * Time.deltaTime);
+
+                if (i > 0)
+                {
+                    body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerLerpRate * Time.deltaTime);
+                }
+                //else
+                //{
+                //    body[0].rotation = Quaternion.Lerp(body[].rotation, Quaternion.LookRotation(body[].position - body[].position), steerLerpRate * Time.deltaTime);
+                //}
             }
 
             if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
