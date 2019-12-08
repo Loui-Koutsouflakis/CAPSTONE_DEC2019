@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossV2 : MonoBehaviour
 {
     public Transform[] body;
+    public Transform[] bodyTargets;
     public Animator[] bodyAnims;
 
     public GameObject[] pathOne;
@@ -24,6 +25,7 @@ public class BossV2 : MonoBehaviour
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
+    Vector3 steer;
 
     public Transform bossCamTarget;
     public Camera playerCam;
@@ -53,11 +55,24 @@ public class BossV2 : MonoBehaviour
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
 
+            foreach(Transform target in bodyTargets)
+            {
+                
+            }
+
             if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
             {
-
+                steer.x = Input.GetAxis("Horizontal");
+                steer.y = Input.GetAxis("Vertical");
+                StartCoroutine(SteerRoutine(steer));
             }
         }
+    }
+
+    public IEnumerator SteerRoutine(Vector3 steerDirection)
+    {
+
+        yield return new WaitForSeconds(1f);
     }
 
     public void CueSteer()
