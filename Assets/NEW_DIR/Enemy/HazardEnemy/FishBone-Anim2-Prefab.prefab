@@ -796,6 +796,7 @@ GameObject:
   - component: {fileID: 5446155482628981622}
   - component: {fileID: 5446155482628981623}
   - component: {fileID: 5446155482628981620}
+  - component: {fileID: 5129903018924041543}
   m_Layer: 10
   m_Name: FishHead
   m_TagString: EnemyWeakSpot
@@ -897,7 +898,7 @@ MonoBehaviour:
   - {fileID: 5446155480989846497}
   - {fileID: 5446155482628981620}
   partColliders:
-  - {fileID: 5446155481799966343}
+  - {fileID: 5129903018924041543}
   - {fileID: 5446155482055757867}
   - {fileID: 5446155481343140939}
   - {fileID: 5446155480989846496}
@@ -925,6 +926,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &5129903018924041543
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446155482628981610}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 7148142681821666313, guid: 1f2543eb11946d849b237683e4ec7ba1, type: 3}
 --- !u!1 &5446155482753111813
 GameObject:
   m_ObjectHideFlags: 0
