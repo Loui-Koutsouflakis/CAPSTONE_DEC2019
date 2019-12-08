@@ -21,6 +21,7 @@ public class BossV2 : MonoBehaviour
     float rightHandBlocking;
 
     float handLerpRate;
+    readonly float dragonInputThreshold = 0.14f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
@@ -53,6 +54,11 @@ public class BossV2 : MonoBehaviour
         if(steering)
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
+
+            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
+            {
+
+            }
         }
     }
 
@@ -94,16 +100,23 @@ public class BossV2 : MonoBehaviour
 
         //Fade Out
 
-        foreach(GameObject go in pathOne) 
+        yield return new WaitForSeconds(1f);
+
+        foreach (GameObject go in pathOne) 
         {
             go.SetActive(false);
+            yield return new WaitForSeconds(0.04f);
         }
 
-        //foreach()
+        foreach(GameObject go in pathTwo)
+        {
+            go.SetActive(true);
+            yield return new WaitForSeconds(0.04f);
+        }
 
-        yield return new WaitForSeconds(0.2f);
-        
+        //Fade In
 
+        yield return new WaitForSeconds(1f);
 
         //Hand Animations Finish, bringing Lumi back to tail
 
