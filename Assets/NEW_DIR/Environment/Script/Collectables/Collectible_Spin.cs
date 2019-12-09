@@ -57,7 +57,7 @@ public class Collectible_Spin : MonoBehaviour
         saveMan = FindObjectOfType<SaveGameManager>();
 
         
-        if (saveMan.ReturnListOfCollectedShards().Contains(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name)) { isCollected = true; print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name); }
+        if (saveMan.ReturnListOfCollectedShards().Contains(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name)) { isCollected = true; }
     }
     // Update is called once per frame
     void Update()
