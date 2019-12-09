@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(PlatformCheck());
         StartCoroutine(LandingCheck());
         p_Layer = ~p_Layer;
+        player.HardSetShards(h_Manager.GetShards());
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
         player.SetLastKnownPos(player.transform.position);

@@ -205,6 +205,11 @@ public class PlayerClass : MonoBehaviour
         //}        
     }
 
+    public void HardSetShards(int value)
+    {
+        shards = value;
+    }
+
     private float attachedWebs;
 
     public void IncreaseWebs()
