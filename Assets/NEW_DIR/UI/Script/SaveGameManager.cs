@@ -1,4 +1,4 @@
-﻿// Written By Benjamin Young October 16/2019.  Last Updated October 17/2019
+﻿// Written By Benjamin Young October 16/2019.  Last Updated December 9/2019
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -32,10 +32,12 @@ public class SaveGameManager : MonoBehaviour
     public bool loading;
 
 
-
+    //Shard Saving Varibles
     public bool shardCollected;
     public List<string> collectedShards = new List<string>();
 
+    //Monolith Saving Varibles
+    public List<string> triggeredMonoliths = new List<string>();
 
     //Settings Varibles
     [SerializeField]
@@ -447,6 +449,9 @@ public class SaveGameManager : MonoBehaviour
                 //Sets current checkpoint to the beginning
                 currentCheckpoint = beginning;
 
+                HudManager.ResetShards();
+                HudManager.ResetMoons();
+
                 //Save the game
                 Save();
 
@@ -554,7 +559,7 @@ public class SaveGameManager : MonoBehaviour
         }
     }
 
-
+    //Function that saves the IDs of the shards into playerPrefs
     public void SaveCollectedShardsID()
     {
 
@@ -562,11 +567,12 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.SetString("CollectedShardsIDs" + PlayerPrefs.GetInt("NumberOfCollectedShards"), collectedShards[collectedShards.Count - 1]);
 
         PlayerPrefs.SetInt("NumberOfCollectedShards", collectedShards.Count);
-        Debug.Log(PlayerPrefs.GetInt("NumberOfCollectedShards"));
+        
 
 
     }
 
+    //Function that loads the IDs of the shards into a list
     public void LoadCollectedShards()
     {
        
@@ -574,6 +580,23 @@ public class SaveGameManager : MonoBehaviour
         {
             
             AddToListOfCollectedShards(PlayerPrefs.GetString("CollectedShardsIDs" + i));
+        }
+    }
+
+    public void SaveTriggeredMonoliths()
+    {
+        PlayerPrefs.SetString("TriggeredMonoliths" + PlayerPrefs.GetInt("NumberOfTriggeredMonoliths"), triggeredMonoliths[triggeredMonoliths.Count - 1]);
+
+        PlayerPrefs.SetInt("NumberOfTriggeredMonoliths", triggeredMonoliths.Count);
+    }
+
+    public void LoadTriggeredMonoliths()
+    {
+
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfTriggeredMonoliths"); i++)
+        {
+
+            AddToListOfTriggeredMonoliths(PlayerPrefs.GetString("TriggeredMonoliths" + i));
         }
     }
 
@@ -772,5 +795,20 @@ public class SaveGameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("NumberOfCollectedShards");
     }
 
+    public void ClearTriggeredMonoliths()
+    {
+
+    }
+
+    public void AddToListOfTriggeredMonoliths(string NameOfMonolith)
+    {
+        triggeredMonoliths.Add(NameOfMonolith);
+    }
+
+    public void ResetListOfMonoliths()
+    {
+
+        triggeredMonoliths.Clear();
+    }
 
 }
