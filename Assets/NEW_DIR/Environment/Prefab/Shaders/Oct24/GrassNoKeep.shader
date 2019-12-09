@@ -1,4 +1,4 @@
-Shader "Capstone2019/Grass"
+Shader "Capstone2019/GrassNoKeep"
 {
     Properties
     {
@@ -24,24 +24,6 @@ Shader "Capstone2019/Grass"
 		_WindStrength("Wind Strength", Range(0.01, 1)) = 1
 
 		_TessellationUniform("Density", Range(1, 64)) = 1
-		//==
-		[Toggle] _UseToon("Toon Properties", Int) = 0
-		//==
-		_MainTex("Main Texture", 2D) = "white" {}
-
-		[HDR]
-		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
-
-		[HDR]
-		_SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
-		_Glossiness("Glossiness", Float) = 32
-
-		[HDR]
-		_RimColor("Rim Color", Color) = (1,1,1,1)
-		_RimAmount("Rim Amount", Range(0, 1)) = 0.716
-
-		_RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
-		//==
     }
 
 	CGINCLUDE
@@ -211,92 +193,6 @@ Shader "Capstone2019/Grass"
 				float4 lightIntensity = NdotL * _LightColor0 + float4(ambient, 1);
 				float4 col = lerp(_BottomColor, _TopColor * lightIntensity, i.uv.y);
 				return col;
-			}
-			ENDCG
-		}
-
-		Pass // Toon
-		{
-			//ZWrite Off
-			Tags
-			{
-				"LightMode" = "ForwardBase"
-				"PassFlags" = "OnlyDirectional"
-			}
-
-			CGPROGRAM
-			#pragma vertex vertT
-			#pragma fragment fragT
-			#pragma multi_compile_fwdbase
-
-			#include "Lighting.cginc"
-			#include "AutoLight.cginc"
-
-
-			float _Glossiness;
-			float4 _SpecularColor;
-
-			float4 _RimColor;
-			float _RimAmount;
-
-			float _RimThreshold;
-
-			struct appdataT
-			{
-				float4 vertex : POSITION;
-				float3 normal : NORMAL;
-				float2 uv : TEXCOORD0;
-			};
-
-			struct v2fT
-			{
-				float4 pos : SV_POSITION;
-				float3 worldNormal : NORMAL;
-				float3 viewDir : TEXCOORD0;
-				float2 uv : TEXCOORD2;
-			};
-
-			v2fT vertT(appdataT v)
-			{
-				v2fT o;
-
-				o.pos = UnityObjectToClipPos(v.vertex);
-				float3 normal = UnityObjectToWorldNormal(v.normal);
-				o.worldNormal = normal;
-				o.viewDir = WorldSpaceViewDir(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-
-				return o;
-			}
-
-			float4 _AmbientColor;
-
-			float4 fragT(v2fT i) : SV_Target
-			{
-				float3 normal = normalize(i.worldNormal);
-				float NdotL = dot(_WorldSpaceLightPos0, normal);
-
-				float lightIntensity = smoothstep(0, 0.01, NdotL);
-				float4 light = lightIntensity * _LightColor0;
-
-				float3 viewDir = normalize(i.viewDir);
-				float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
-				float NdotH = dot(normal, halfVector);
-
-				float specularIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
-
-				float specularIntensitySmooth = smoothstep(0.005, 0.01, specularIntensity);
-				float4 specular = specularIntensitySmooth * _SpecularColor;
-
-				float4 rimDot = 1 - dot(viewDir, normal);
-
-				float rimIntensity = rimDot * pow(NdotL, _RimThreshold);
-				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
-
-				float4 rim = rimIntensity * _RimColor;
-				float4 c = tex2D(_MainTex, i.uv);
-
-				return c * (_AmbientColor + light + specular + rim);
 			}
 			ENDCG
 		}
