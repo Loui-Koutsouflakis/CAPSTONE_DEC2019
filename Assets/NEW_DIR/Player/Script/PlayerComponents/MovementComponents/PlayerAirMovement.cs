@@ -79,6 +79,7 @@ public class PlayerAirMovement : PlayerVariables
             anim.SetBool("GroundPound", false);
             wallRotate = false;
             ledgeHoping = false;
+            player.SetOnLedge(false);
 
             if (ledgeHoping)
             {
@@ -109,6 +110,12 @@ public class PlayerAirMovement : PlayerVariables
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("VerticalJoy") + Input.GetAxis("Vertical");
+
+        //to drop off ledge
+        if(player.GetOnLedge() && vertical < 0)
+        {
+            LedgeHopDrop();
+        }
     }
 
     private void LateUpdate()
@@ -276,6 +283,10 @@ public class PlayerAirMovement : PlayerVariables
             player.SetFlutter(true);
             player.SetDoubleJump(false);            
         }
+        else if(player.GetOnLedge())
+        {
+            StartCoroutine(LedgeHopStart());
+        }
         else if (player.CanFlutter())
         {
             //Debug.Log("Flutter Jump");
@@ -324,13 +335,7 @@ public class PlayerAirMovement : PlayerVariables
         player.rb.isKinematic = false;
         player.EnableControls();
         player.rb.AddForce(player.transform.up * -DropForce, ForceMode.Impulse); // Force Down
-    }
-
-    IEnumerator LedgeGrabEnable()
-    {
-        yield return new WaitForSeconds(1.25f);
-        canLedgeGrab = true;
-    }
+    }   
 
 
     private bool ledgeHoping = false;
@@ -354,8 +359,8 @@ public class PlayerAirMovement : PlayerVariables
        
         RaycastHit hit;
         //mid raycast
-        Vector3 midRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-        Vector3 midRaycastHalf = new Vector3(0.1f, 0.2f, 0.1f);
+        Vector3 midRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y + 0.1f, player.transform.position.z);
+        Vector3 midRaycastHalf = new Vector3(0.1f, 0.1f, 0.1f);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool midCast = Physics.Raycast(midRaycastLocation, player.transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
@@ -375,6 +380,7 @@ public class PlayerAirMovement : PlayerVariables
         else if (midBoxCast && !topOfHead)
         {
             onWall = false;
+            //ledge hop
             //if (!ledgeHoping && canLedgeGrab)
             //{
             //    player.rb.velocity = Vector3.zero;
@@ -387,7 +393,16 @@ public class PlayerAirMovement : PlayerVariables
             //    canLedgeGrab = false;
             //    StartCoroutine(LedgeGrabEnable());
             //}
-            //ledge grab if we have it
+            //ledge grab 
+            if(!ledgeHoping && canLedgeGrab)
+            {
+                player.rb.velocity = Vector3.zero;
+                player.rb.isKinematic = true;
+                //anim.SetBool("LedgeIdle", true);
+                player.SetOnLedge(true);
+                ledgeHoping = true;
+                canLedgeGrab = false;
+            }
         }
         else if(!toeCast || !midCast || !topOfHead)
         {
@@ -399,15 +414,22 @@ public class PlayerAirMovement : PlayerVariables
         StartCoroutine(CheckWall());
     }
 
+    IEnumerator LedgeGrabEnable()
+    {
+        yield return new WaitForSeconds(0.5f); //was 1.25
+        canLedgeGrab = true;
+    }
+
     IEnumerator LedgeHopStart()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f);  //0.3 for ledge hop 0.1 for jump up
         player.rb.isKinematic = false;
-        player.GenericAddForce(player.transform.up, 5.5f);
+        player.GenericAddForce(player.transform.up, 7f); //was 5.5
         StartCoroutine(LedgeHopFinish());
         //for jump bug fix
         player.SetGroundCheck(false);
         player.StartCoroutine(player.GroundCheckStop());
+        
     }
     IEnumerator LedgeHopFinish()
     {
@@ -417,8 +439,17 @@ public class PlayerAirMovement : PlayerVariables
         player.GenericAddForce(player.transform.forward, 3.5f);
         player.EnableControls();
         anim.SetBool("LedgeGrab", false);
+        player.SetOnLedge(false);
+        StartCoroutine(LedgeGrabEnable());
     }
 
+    private void LedgeHopDrop()
+    {
+        player.rb.isKinematic = false;
+        StartCoroutine(LedgeGrabEnable());
+
+    }
+    
     //wait for time after air controller is initially enabled to prevent sticking to wall initially if next to wall
     IEnumerator WallWait()
     {

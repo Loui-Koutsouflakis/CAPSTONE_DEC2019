@@ -299,6 +299,18 @@ public class PlayerClass : MonoBehaviour
         isBouncing = value;
     }
 
+
+    private bool onLedge;
+
+    public void SetOnLedge(bool value)
+    {
+        onLedge = value;
+    }
+
+    public bool GetOnLedge()
+    {
+        return onLedge;
+    }
    
     // for jump bug fix
     [SerializeField]
