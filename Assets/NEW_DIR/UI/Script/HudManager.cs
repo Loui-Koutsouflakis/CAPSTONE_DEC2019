@@ -153,6 +153,21 @@ public class HudManager : MonoBehaviour
         }
     }
 
+    public static void ResetShards()
+    {
+        shardsCollected = 0;      
+    }
+
+    public static void ResetMoons()
+    {
+        moonsCollected = 0;      
+    }
+
+    public int GetShards()
+    {
+        return shardsCollected;
+    }
+
     public void MoonsUp()
     {
         StopAllCoroutines();

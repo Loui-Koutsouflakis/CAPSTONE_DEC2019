@@ -80,6 +80,7 @@ public class PlayerAirMovement : PlayerVariables
             wallRotate = false;
             ledgeHoping = false;
             player.SetOnLedge(false);
+            anim.SetBool("LedgeIdle", false);
 
             if (ledgeHoping)
             {
@@ -360,11 +361,13 @@ public class PlayerAirMovement : PlayerVariables
         RaycastHit hit;
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y + 0.1f, player.transform.position.z);
+        Vector3 ledgeRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
         Vector3 midRaycastHalf = new Vector3(0.1f, 0.1f, 0.1f);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool midCast = Physics.Raycast(midRaycastLocation, player.transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
         bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, player.transform.forward, Quaternion.identity, 0.25f, player.airMask );
+        bool ledgeCast = Physics.Raycast(ledgeRaycastLocation, player.transform.forward, out hit, 0.26f);//0.5f * transform.localScale.z + 0.1f);
 
         //if all three
         if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
@@ -377,7 +380,7 @@ public class PlayerAirMovement : PlayerVariables
         //    onWall = false;
         //    //call function to move player up on top of platform if we want
         //}
-        else if (midBoxCast && !topOfHead)
+        else if (ledgeCast && !topOfHead)
         {
             onWall = false;
             //ledge hop
@@ -398,7 +401,8 @@ public class PlayerAirMovement : PlayerVariables
             {
                 player.rb.velocity = Vector3.zero;
                 player.rb.isKinematic = true;
-                //anim.SetBool("LedgeIdle", true);
+                anim.SetBool("LedgeIdle", true);
+                Debug.Log(anim.GetBool("ledgeIdle"));
                 player.SetOnLedge(true);
                 ledgeHoping = true;
                 canLedgeGrab = false;
@@ -422,9 +426,10 @@ public class PlayerAirMovement : PlayerVariables
 
     IEnumerator LedgeHopStart()
     {
-        yield return new WaitForSeconds(0.3f);  //0.3 for ledge hop 0.1 for jump up
+        yield return new WaitForSeconds(0.1f);  //0.3 for ledge hop 0.1 for jump up
         player.rb.isKinematic = false;
         player.GenericAddForce(player.transform.up, 7f); //was 5.5
+        anim.SetTrigger("LedgeHop");
         StartCoroutine(LedgeHopFinish());
         //for jump bug fix
         player.SetGroundCheck(false);
@@ -435,6 +440,7 @@ public class PlayerAirMovement : PlayerVariables
     {
         yield return new WaitForSeconds(0.15f);
         //Debug.Log("forward force");
+        anim.SetBool("LedgeIdle", false);
         ledgeHoping = false;
         player.GenericAddForce(player.transform.forward, 3.5f);
         player.EnableControls();
@@ -446,6 +452,7 @@ public class PlayerAirMovement : PlayerVariables
     private void LedgeHopDrop()
     {
         player.rb.isKinematic = false;
+        anim.SetBool("LedgeIdle", false);
         StartCoroutine(LedgeGrabEnable());
 
     }
