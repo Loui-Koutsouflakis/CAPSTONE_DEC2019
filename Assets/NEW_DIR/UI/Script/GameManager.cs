@@ -1,4 +1,4 @@
-//Made By Benjamin Young.  Purpose: Game Manager For Capstone Project. Last updated 21/10/2019
+//Made By Benjamin Young.  Purpose: Game Manager For Capstone Project. Last updated 21/11/2019
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

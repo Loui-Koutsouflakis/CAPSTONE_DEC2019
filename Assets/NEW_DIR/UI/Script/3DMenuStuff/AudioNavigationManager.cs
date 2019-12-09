@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿// Written By Benjamin Young October 31/2019.  Last Updated December 9/2019
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -416,19 +417,19 @@ public class AudioNavigationManager : UIManager
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
-        audioValue = ((sliderPercentDecimal * 80 + 80) * -1);
+        audioValue = ((sliderPercentDecimal * 80 + 80) * -1) + 20;
 
 
         
 
 
-        if (audioValue < -80)
+        if (audioValue < -60)
         {
-            audioValue = -80;
+            audioValue = -60;
         }
-        else if (audioValue > 0)
+        else if (audioValue > 20)
         {
-            audioValue = 0;
+            audioValue = 20;
         }
 
         
