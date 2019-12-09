@@ -30,10 +30,10 @@ public class BossV2 : MonoBehaviour
     Vector3 rightHandBlockingPoint;
     Vector3 steer;
 
-
     public Transform bossCamTarget;
     public Camera playerCam;
     public Camera bossCam;
+    public BossSteerVolume steerVolume;
 
     private void Start()
     {
@@ -62,7 +62,14 @@ public class BossV2 : MonoBehaviour
             leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
         }
 
-        if(steering)
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
+        {
+            steer.x = Input.GetAxis("Horizontal");
+            steer.y = Input.GetAxis("Vertical");
+            StartCoroutine(SteerRoutine(steer));
+        }
+
+        if (steering)
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
 
@@ -74,17 +81,10 @@ public class BossV2 : MonoBehaviour
                 {
                     body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerLerpRate * Time.deltaTime);
                 }
-                //else
-                //{
-                //    body[0].rotation = Quaternion.Lerp(body[].rotation, Quaternion.LookRotation(body[].position - body[].position), steerLerpRate * Time.deltaTime);
-                //}
-            }
-
-            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
-            {
-                steer.x = Input.GetAxis("Horizontal");
-                steer.y = Input.GetAxis("Vertical");
-                StartCoroutine(SteerRoutine(steer));
+                else
+                {
+                    body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.LookRotation( body[0].position + (Vector3.forward*2f) + steer), steerLerpRate * Time.deltaTime);
+                }
             }
         }
     }
@@ -141,13 +141,13 @@ public class BossV2 : MonoBehaviour
         foreach (GameObject go in pathOne) 
         {
             go.SetActive(false);
-            yield return new WaitForSeconds(0.04f);
+            yield return new WaitForSeconds(0.06f);
         }
 
         foreach(GameObject go in pathTwo)
         {
             go.SetActive(true);
-            yield return new WaitForSeconds(0.04f);
+            yield return new WaitForSeconds(0.06f);
         }
 
         //Fade In
