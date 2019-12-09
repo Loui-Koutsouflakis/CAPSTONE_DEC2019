@@ -12,7 +12,7 @@ public class RayCast_IK : MonoBehaviour
 
 
     [Header("Read only attached grapple point")]
-   public Transform grapplePoint;
+    public Transform grapplePoint;
 
     FullBodyBipedIK fBIK;
     BipedIK bPIK;
@@ -21,7 +21,7 @@ public class RayCast_IK : MonoBehaviour
     public GrappleAnimationCurve grapAnimCurve;
 
     [Header("Rope Width")]
-    public float ropeWidth = 0.05f; 
+    public float ropeWidth = 0.05f;
     //Rotation of Target Transform should be: 
 
     //RHand x: 0, y: 150, z:320
@@ -33,22 +33,22 @@ public class RayCast_IK : MonoBehaviour
     public Transform leftLegTarget;
     public Transform rightLegTarget;
 
-   
 
-    [Header ("IK weights")]
+
+    [Header("IK weights")]
     public float bipediIKWeigh = 0.2f;
     public float fBIKWeigh = 0.1f;
     public float fBIKWeighEase = 0.5f;
-
+    public float rightHandChainPull = 0.5f;
 
 
     LineRenderer rope;
 
 
-    [Header ("Lumi_IKRigged goes in here")]
+    [Header("Lumi_IKRigged goes in here")]
     public GameObject player;
 
-    [Header ("Rope Lerp values")]
+    [Header("Rope Lerp values")]
     public float smoothTime;
     public float ikVelocity;
 
@@ -66,8 +66,10 @@ public class RayCast_IK : MonoBehaviour
     RaycastHit rWall;
     public LayerMask p_LayerMask;
 
-  
-     float wallDist;
+    RopeController rC;
+
+
+    float wallDist;
     //Strings to change limb direction == "rHand", "lHand", "rFoot", "lFoot"
 
 
@@ -75,9 +77,11 @@ public class RayCast_IK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rC = FindObjectOfType<RopeController>();
+        rC.enabled = false;
         if (grapAnimCurve != null)
-        grapAnimCurve.hook.SetActive(false);
-        
+            grapAnimCurve.hook.SetActive(false);
+
 
         fBIK = GetComponent<FullBodyBipedIK>();
         fBIK.solver.IKPositionWeight = 0;
@@ -91,7 +95,7 @@ public class RayCast_IK : MonoBehaviour
 
         bPIK.solvers.rightHand.target = rightHandTarget;
         bPIK.solvers.leftHand.target = leftHandTarget;
-       
+
     }
 
 
@@ -131,7 +135,7 @@ public class RayCast_IK : MonoBehaviour
 
     #endregion
 
-   
+
 
     //simple function to turn off the individual IK limb
     void ReturnHand(IKSolverLimb limb)
@@ -164,7 +168,7 @@ public class RayCast_IK : MonoBehaviour
 
         StartCoroutine(StartGrapCoroutine(0, toggleGrapple));
 
-      
+
 
     }
 
@@ -172,11 +176,12 @@ public class RayCast_IK : MonoBehaviour
     public void EnableRope()
     {
         rope.enabled = true;
-
+        rC.enabled = true;
+        rC.beTwisty = true;
         if (grapAnimCurve != null)
-        { 
+        {
 
-        grapAnimCurve.throwPosition = grapplePoint;
+            grapAnimCurve.throwPosition = grapplePoint;
 
             grapAnimCurve.SetHookPoint(pc.tetherPoint.GetTetherLocation());
 
@@ -184,16 +189,16 @@ public class RayCast_IK : MonoBehaviour
             grapAnimCurve.DetatchHook(true);
 
 
-        grapAnimCurve.hook.SetActive(true);
+            grapAnimCurve.hook.SetActive(true);
 
-       // grapAnimCurve.hook.transform.rotation = grapplePoint.transform.rotation;
+            // grapAnimCurve.hook.transform.rotation = grapplePoint.transform.rotation;
 
-         grapAnimCurve.AnimateHook();
+            grapAnimCurve.AnimateHook();
 
         }
-        rope.SetPosition(0, grapAnimCurve.hook.transform.position);
-       
-        rope.SetPosition(1, grapplePoint.position);
+        //rope.SetPosition(0, grapAnimCurve.hook.transform.position);
+
+        //rope.SetPosition(1, grapplePoint.position);
 
         Debug.Log("Rope Enabled");
     }
@@ -202,10 +207,11 @@ public class RayCast_IK : MonoBehaviour
     public void IK_EndGrapple()
     {
         rope.enabled = false;
+        rC.enabled = false;
         if (grapAnimCurve != null)
-        { 
-        grapAnimCurve.hook.SetActive(false);
-        grapAnimCurve.DetatchHook(false);
+        {
+            grapAnimCurve.hook.SetActive(false);
+            grapAnimCurve.DetatchHook(false);
 
         }
 
@@ -239,7 +245,7 @@ public class RayCast_IK : MonoBehaviour
     IEnumerator StartGrapCoroutine(float weight, bool gt)
     {
         if (gt == false)
-            yield break; 
+            yield break;
 
 
         while (fBIK.solver.IKPositionWeight < fBIKWeighEase)
@@ -271,7 +277,7 @@ public class RayCast_IK : MonoBehaviour
         fBIK.solver.rightHandEffector.target = rightHandTarget;
         fBIK.solver.rightHandEffector.positionWeight = fBIKWeigh;
         fBIK.solver.rightArmChain.bendConstraint.direction = rightHandTarget.position;
-        fBIK.solver.rightArmChain.pull = 0.5f;
+        fBIK.solver.rightArmChain.pull = rightHandChainPull;
 
     }
 
@@ -341,7 +347,7 @@ public class RayCast_IK : MonoBehaviour
                     // playerIK.solvers.rightHand.SetIKPositionWeight(0.8f);
 
                 }
-               
+
             }
 
 
@@ -360,10 +366,10 @@ public class RayCast_IK : MonoBehaviour
 
                 if (rope.enabled)
                 {
-                    rope.SetPosition(0, grapAnimCurve.hook.transform.position);
-                    rope.SetPosition(1, grapplePoint.position);
-                    rope.startWidth = ropeWidth;
-                    rope.endWidth = ropeWidth;
+                    //rope.SetPosition(0, grapAnimCurve.hook.transform.position);
+                    //rope.SetPosition(1, grapplePoint.position);
+                    //rope.startWidth = ropeWidth;
+                    //rope.endWidth = ropeWidth;
 
                     Vector3 ropeVec = rope.GetPosition(0) - rope.GetPosition(1);
                     float ropeDistance = ropeVec.magnitude;
@@ -373,7 +379,7 @@ public class RayCast_IK : MonoBehaviour
                 }
 
 
-                GrappleUpdate(toggleGrapple); 
+                GrappleUpdate(toggleGrapple);
 
 
 
