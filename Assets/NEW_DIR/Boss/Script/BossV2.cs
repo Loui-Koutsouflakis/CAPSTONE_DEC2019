@@ -17,18 +17,22 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
 
     public bool steering;
-    public float steerSpeed = 75f;
+    public float steerSpeed = 125f;
 
     float leftHandBlocking;
     float rightHandBlocking;
 
     float handLerpRate;
+    float horizontalInput;
+    float verticalInput;
     readonly float dragonInputThreshold = 0.14f;
     readonly float steerLerpRate = 4f;
+    readonly float steerRotLerp = 2f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
     Vector3 steer;
+    Vector3 steerRot;
 
     public Transform bossCamTarget;
     public Camera playerCam;
@@ -47,14 +51,14 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
-        //
-        //if(Input.GetKeyDown(KeyCode.B))
-        //{
-        //    steering = true;
-        //}
-        //
 
-        if(rightHandBlocking < 0f)
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            CueSteer();
+        }
+
+
+        if (rightHandBlocking < 0f)
         {
             rightHand.position = Vector3.Lerp(rightHand.position, rightHandBlockingPoint, handLerpRate * Time.deltaTime);
         }
@@ -67,29 +71,35 @@ public class BossV2 : MonoBehaviour
         if (steering)
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
+            
+            horizontalInput = Input.GetAxis("Horizontal") + Input.GetAxis("HorizontalJoy");
+            verticalInput = Input.GetAxis("Vertical") + Input.GetAxis("VerticalJoy");
 
-            for(int i = 0; i < body.Length; i++)
+            for (int i = 0; i < body.Length; i++)
             {
                 body[i].position = Vector3.Lerp(body[i].position, bodyTargets[i].position, steerLerpRate * Time.deltaTime);
 
                 if (i > 0)
                 {
-                    body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerLerpRate * Time.deltaTime);
+                    body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerRotLerp * Time.deltaTime);
                 }
                 else
                 {
-                    body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.LookRotation( body[0].position + (Vector3.forward*8f) + steer), steerLerpRate * Time.deltaTime);
+                    steerRot.x = -steer.y;
+                    steerRot.y = steer.x;
+                    body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(steerRot * 20f), steerRotLerp * Time.deltaTime);
                 }
             }
 
-            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
+            if (Mathf.Abs(horizontalInput) > 0.14f || Mathf.Abs(verticalInput) > 0.14f)
             {
-                steer.x = Input.GetAxis("Horizontal");
-                steer.y = Input.GetAxis("Vertical");
-                StartCoroutine(SteerRoutine(steer));
+                steer.x = horizontalInput;
+                steer.y = verticalInput;
+                StartCoroutine(SteerRoutine(steer.normalized));
             }
             else
             {
+                steer = Vector3.zero;
                 body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(0f, -17f, 0f), steerLerpRate * Time.deltaTime);
             }
         }
