@@ -710,7 +710,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //additional check to prevent sticking on walls                
-                if(Mathf.Abs(player.rb.velocity.y) < 0.2f)
+                if(Mathf.Abs(player.rb.velocity.y) < 0.2f && !player.GetOnLedge())
                 {
                     antiStickTimer += 1;
                     if (antiStickTimer * groundCheckRate > 1.5f)
