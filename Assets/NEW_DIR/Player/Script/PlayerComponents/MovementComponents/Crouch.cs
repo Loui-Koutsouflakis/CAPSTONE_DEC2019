@@ -26,10 +26,14 @@ public class Crouch : PlayerVariables
     private float horizontal;
     private float vertical;
 
+    private HandleSfx SoundManager;
+   
+
     // Start is called before the first frame update
     void Start()
     {
         enteredScript = true;
+        SoundManager = GetComponentInParent<HandleSfx>();
     }
 
     public void OnEnable()
@@ -119,6 +123,7 @@ public class Crouch : PlayerVariables
         rb.AddForce(player.transform.up * highJumpForce, ForceMode.Impulse);
         player.SetHighJump(true);
         anim.SetBool("Grounded", false);
+        SoundManager.PlayOneShotByName("Jump");
     }
 
     public void LongJump() // will apply significant forward force with little upwards force, creating a long jump.
@@ -127,6 +132,7 @@ public class Crouch : PlayerVariables
         rb.AddForce(player.transform.up * longJumpUpForce + player.transform.forward * longJumpForwardForce, ForceMode.Impulse);
         player.SetLongJump(true);
         anim.SetBool("Grounded", false);
+        SoundManager.PlayOneShotByName("Jump");
     }
 
     public void Movement()
