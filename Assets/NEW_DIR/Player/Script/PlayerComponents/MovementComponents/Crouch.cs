@@ -153,6 +153,8 @@ public class Crouch : PlayerVariables
         rb.AddForce(player.transform.forward * crouchAccel, ForceMode.Force);
 
         Friction();
+
+        
     }
 
     void ApplyVelocityCutoff()

@@ -7,11 +7,13 @@ public class ActivateText : MonoBehaviour
     private GameObject gameText;
     private PlayerClass player;
     private PlayerCamera camera;
+    public GameObject sign;
     // Start is called before the first frame update
     void Start()
     {
         gameText = GetComponentInChildren<TextMesh>().gameObject;
         gameText.SetActive(false);
+        sign.SetActive(false);
         player = FindObjectOfType<PlayerClass>();
         camera = FindObjectOfType<PlayerCamera>();
     }
@@ -21,8 +23,10 @@ public class ActivateText : MonoBehaviour
     {
         if(gameText.activeSelf)
         {
-            gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 15 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
-            transform.forward = Vector3.Lerp(transform.forward, camera.transform.forward, Time.deltaTime * 10);
+            gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 10 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
+            sign.transform.position = camera.transform.position + camera.transform.forward.normalized * 11 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
+            gameText.transform.forward = Vector3.Lerp(gameText.transform.forward, camera.transform.forward, Time.deltaTime * 10);
+            sign.transform.forward = Vector3.Lerp(sign.transform.forward, camera.transform.forward, Time.deltaTime * 10);
         }
     }
 
@@ -33,6 +37,7 @@ public class ActivateText : MonoBehaviour
             if(!gameText.activeSelf)
             {
                 gameText.SetActive(true);
+                sign.SetActive(true);
                 StartCoroutine(DisableText());
             }
         }
@@ -42,5 +47,6 @@ public class ActivateText : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         gameText.SetActive(false);
+        sign.SetActive(false);
     }
 }
