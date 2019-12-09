@@ -37,7 +37,14 @@ public class PlayerAirMovement : PlayerVariables
     private float horizontal;
     private float vertical;
 
-       
+    private HandleSfx SoundManager;
+
+    private void Start()
+    {
+        SoundManager = GetComponentInParent<HandleSfx>();
+    }
+
+
     private void OnEnable()
     {
         horizontal = Input.GetAxis("HorizontalJoy") + Input.GetAxis("Horizontal");
@@ -269,6 +276,7 @@ public class PlayerAirMovement : PlayerVariables
         if (onWall && Vector3.Dot(wallNormal, inputDir) > 0) //wall jump only if pressing away from the wall (as per brad's request) if we want when no dir is pressed add >=
         {                   
             anim.SetBool("WallJumpB", true);
+            SoundManager.PlayOneShotByName("Jump");
             
             //zero out velocity
             player.rb.velocity = Vector3.zero;
@@ -296,6 +304,7 @@ public class PlayerAirMovement : PlayerVariables
             player.rb.velocity = tempVelocity;
 
             anim.SetTrigger("DJump");
+            SoundManager.PlayOneShotByName("AirJump");
 
             onWall = false;
 
@@ -366,13 +375,14 @@ public class PlayerAirMovement : PlayerVariables
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool midCast = Physics.Raycast(midRaycastLocation, player.transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
         bool midBoxCast = Physics.BoxCast(ledgeRaycastLocation, midRaycastHalf, player.transform.forward, Quaternion.identity, 0.26f, player.ledgeMask );
-        bool ledgeCast = Physics.Raycast(ledgeRaycastLocation, player.transform.forward, out hit, 0.26f, player.ledgeMask);//0.5f * transform.localScale.z + 0.1f);
+        //bool ledgeCast = Physics.Raycast(ledgeRaycastLocation, player.transform.forward, out hit, 0.26f, player.ledgeMask);//0.5f * transform.localScale.z + 0.1f);
 
         //if all three
         if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
         {
             onWall = true;
             wallNormal = hit.normal;
+            //Debug.DrawLine(player.transform.position, player.transform.position + )
         }
         //else if (toeCast && !midCast && !topOfHead)
         //{
@@ -398,8 +408,10 @@ public class PlayerAirMovement : PlayerVariables
             //ledge grab 
             if(!ledgeHoping && canLedgeGrab)
             {
+                //wallNormal = hit.normal;
                 player.rb.velocity = Vector3.zero;
                 player.rb.isKinematic = true;
+                player.transform.forward = -wallNormal;
                 anim.SetBool("LedgeIdle", true);
                 Debug.Log(anim.GetBool("ledgeIdle"));
                 player.SetOnLedge(true);
