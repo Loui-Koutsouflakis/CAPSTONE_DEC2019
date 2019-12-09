@@ -37,7 +37,6 @@ public class PlayerAirMovement : PlayerVariables
     private float horizontal;
     private float vertical;
 
-
        
     private void OnEnable()
     {
@@ -362,12 +361,12 @@ public class PlayerAirMovement : PlayerVariables
         //mid raycast
         Vector3 midRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y + 0.1f, player.transform.position.z);
         Vector3 ledgeRaycastLocation = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
-        Vector3 midRaycastHalf = new Vector3(0.1f, 0.1f, 0.1f);
+        Vector3 midRaycastHalf = new Vector3(0.1f, 0.05f, 0.1f);
 
         //bool midCast = Physics.BoxCast(minRaycastLocation, toeRaycastHalf, transform.forward, out faceHit, Quaternion.Euler(0, 2 * Mathf.PI, 0), 0.5f * transform.localScale.z + 0.1f);
         bool midCast = Physics.Raycast(midRaycastLocation, player.transform.forward, out hit, 0.5f * transform.localScale.z + 0.1f);
-        bool midBoxCast = Physics.BoxCast(midRaycastLocation, midRaycastHalf, player.transform.forward, Quaternion.identity, 0.25f, player.airMask );
-        bool ledgeCast = Physics.Raycast(ledgeRaycastLocation, player.transform.forward, out hit, 0.26f);//0.5f * transform.localScale.z + 0.1f);
+        bool midBoxCast = Physics.BoxCast(ledgeRaycastLocation, midRaycastHalf, player.transform.forward, Quaternion.identity, 0.26f, player.ledgeMask );
+        bool ledgeCast = Physics.Raycast(ledgeRaycastLocation, player.transform.forward, out hit, 0.26f, player.ledgeMask);//0.5f * transform.localScale.z + 0.1f);
 
         //if all three
         if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
@@ -380,7 +379,7 @@ public class PlayerAirMovement : PlayerVariables
         //    onWall = false;
         //    //call function to move player up on top of platform if we want
         //}
-        else if (ledgeCast && !topOfHead)
+        else if (midBoxCast && !topOfHead)
         {
             onWall = false;
             //ledge hop
