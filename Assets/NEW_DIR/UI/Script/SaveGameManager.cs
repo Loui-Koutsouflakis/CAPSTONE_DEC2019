@@ -218,6 +218,7 @@ public class SaveGameManager : MonoBehaviour
                 //Handles Saving the scene;
                 PlayerPrefs.SetInt("CurrentScene_1", SceneManager.GetActiveScene().buildIndex);
 
+
                 //Lets Me know if there is data
                 PlayerPrefs.SetInt("HasData_1", 1);
 
