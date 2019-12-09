@@ -285,7 +285,7 @@ public class UIManager : MonoBehaviour
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager.loadingFromContinue = true;
-        Debug.Log(saveGameManager.loadingFromContinue);
+        //Debug.Log(saveGameManager.loadingFromContinue);
         saveGameManager.loading = true;
         LoadLevel.LoadLevel(PlayerPrefs.GetInt("CurrentScene_1"));
 

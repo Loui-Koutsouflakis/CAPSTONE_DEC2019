@@ -14,7 +14,7 @@ public class trigger_Animation : MonoBehaviour
         {
             anim = GetComponent<Animator>();
         }
-        if (playWithoutActive) anim.SetTrigger("Go");
+        if (camTrigger.playAnimWithoutActive) anim.SetTrigger("Go");
     }
 
     // Update is called once per frame

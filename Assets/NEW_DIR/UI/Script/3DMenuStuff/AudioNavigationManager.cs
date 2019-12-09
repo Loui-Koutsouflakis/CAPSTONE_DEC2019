@@ -155,7 +155,7 @@ public class AudioNavigationManager : UIManager
     void Update()
     {
 
-        Debug.Log(CalculateMasterVolumePercent(sliderButtons[2]));
+        //Debug.Log(CalculateMasterVolumePercent(sliderButtons[2]));
 
 
         if (Time.timeScale < 1)

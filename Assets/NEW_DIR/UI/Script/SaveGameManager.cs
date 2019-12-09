@@ -63,9 +63,13 @@ public class SaveGameManager : MonoBehaviour
 
     private void Awake()
     {
+        
+        
+
         if (startingUp == true)
         {
             LoadCollectedShards();
+            LoadTriggeredMonoliths();
             startingUp = false;
         }
         //for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
@@ -196,26 +200,29 @@ public class SaveGameManager : MonoBehaviour
         //Checks which file it should save to
         if (currentFile == 1)
         {
-            if (player)
-                Debug.Log("Hi world");
             //Gets the player position and stores it
-            Vector3 checkpointPosition = currentCheckpoint.position;
-            PlayerPrefs.SetFloat("CheckpointPositionX_1", checkpointPosition.x);
-            PlayerPrefs.SetFloat("CheckpointPositionY_1", checkpointPosition.y);
-            PlayerPrefs.SetFloat("CheckpointPositionZ_1", checkpointPosition.z);
+            if (player)
+            {
 
-            //Handles recording the collectibles;
-            PlayerPrefs.SetInt("SmallShards_1", smallShards);
-            PlayerPrefs.SetInt("BigShards_1", bigShards);
-            PlayerPrefs.SetInt("Crystals_1", crystals);
+                  
+                Vector3 checkpointPosition = currentCheckpoint.position;
+                PlayerPrefs.SetFloat("CheckpointPositionX_1", checkpointPosition.x);
+                PlayerPrefs.SetFloat("CheckpointPositionY_1", checkpointPosition.y);
+                PlayerPrefs.SetFloat("CheckpointPositionZ_1", checkpointPosition.z);
 
-            //Handles Saving the scene;
-            PlayerPrefs.SetInt("CurrentScene_1", SceneManager.GetActiveScene().buildIndex);
+                //Handles recording the collectibles;
+                PlayerPrefs.SetInt("SmallShards_1", smallShards);
+                PlayerPrefs.SetInt("BigShards_1", bigShards);
+                PlayerPrefs.SetInt("Crystals_1", crystals);
 
-            //Lets Me know if there is data
-            PlayerPrefs.SetInt("HasData_1", 1);
+                //Handles Saving the scene;
+                PlayerPrefs.SetInt("CurrentScene_1", SceneManager.GetActiveScene().buildIndex);
 
-            Debug.Log("You Saved");
+                //Lets Me know if there is data
+                PlayerPrefs.SetInt("HasData_1", 1);
+
+                //Debug.Log("You Saved");
+            }
         }
 
         //Checks which file it should save to
@@ -238,7 +245,7 @@ public class SaveGameManager : MonoBehaviour
             //Lets Me know if there is data
             PlayerPrefs.SetInt("HasData_2", 1);
 
-            Debug.Log("You Saved");
+            //Debug.Log("You Saved");
         }
 
         //Checks which file it should save to
@@ -261,7 +268,7 @@ public class SaveGameManager : MonoBehaviour
             //Lets Me know if there is data
             PlayerPrefs.SetInt("HasData_3", 1);
 
-            Debug.Log("You Saved");
+            //Debug.Log("You Saved");
         }
     }
 
@@ -269,11 +276,11 @@ public class SaveGameManager : MonoBehaviour
     //Loads data from playerPrefs
     public void Load()
     {
-        Debug.Log("You Enterd Load Function");
+        //Debug.Log("You Enterd Load Function");
         //Checks which file it should load from
         if (currentFile == 1)
         {
-            Debug.Log("You Enterd File");
+            //Debug.Log("You Enterd File");
             //Checks if it has a key before it trys to load anything
             if (PlayerPrefs.HasKey("CheckpointPositionX_1"))
             {
@@ -286,7 +293,7 @@ public class SaveGameManager : MonoBehaviour
                 bigShards = PlayerPrefs.GetInt("BigShards_1");
                 crystals = PlayerPrefs.GetInt("Crystals_1");
 
-                Debug.Log("You Loaded");
+               // Debug.Log("You Loaded");
             }
         }
 
@@ -305,7 +312,7 @@ public class SaveGameManager : MonoBehaviour
                 bigShards = PlayerPrefs.GetInt("BigShards_2");
                 crystals = PlayerPrefs.GetInt("Crystals_2");
 
-                Debug.Log("You Loaded");
+                //Debug.Log("You Loaded");
             }
         }
 
@@ -324,7 +331,7 @@ public class SaveGameManager : MonoBehaviour
                 bigShards = PlayerPrefs.GetInt("BigShards_3");
                 crystals = PlayerPrefs.GetInt("Crystals_3");
 
-                Debug.Log("You Loaded");
+               // Debug.Log("You Loaded");
             }
         }
 
@@ -443,6 +450,8 @@ public class SaveGameManager : MonoBehaviour
             {
                 ClearCollectedShards();
                 ResetListOfShards();
+                ClearTriggeredMonoliths();
+                ResetListOfMonoliths();
                 //Sets the beginning variable to the beginning object in the scene
                 beginning = player.transform;
 
@@ -456,7 +465,7 @@ public class SaveGameManager : MonoBehaviour
                 Save();
 
                 LoadSettings();
-                Debug.Log("Gets Called ");
+                //Debug.Log("Gets Called ");
 
             }
             else if (loadingFromContinue)
@@ -517,7 +526,7 @@ public class SaveGameManager : MonoBehaviour
             PlayerPrefs.SetInt("CurrentScene_1", 0);
 
             PlayerPrefs.SetInt("HasData_1", 0);
-            Debug.Log("Cleared Data");
+            //Debug.Log("Cleared Data");
         }
 
         //Checks which file it should delete the data from
@@ -797,7 +806,13 @@ public class SaveGameManager : MonoBehaviour
 
     public void ClearTriggeredMonoliths()
     {
+        for (int i = 0; i < PlayerPrefs.GetInt("NumberOfTriggeredMonoliths"); i++)
+        {
+            PlayerPrefs.DeleteKey("TriggeredMonoliths" + i);
 
+
+        }
+        PlayerPrefs.DeleteKey("NumberOfTriggeredMonoliths");
     }
 
     public void AddToListOfTriggeredMonoliths(string NameOfMonolith)
