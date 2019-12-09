@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Crystal_Collectable
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 3d23b8c0bb9e13f4f945def368cce1ea, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2300
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -35,13 +35,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: b33d68e8275874d4ea316190b470b988, type: 3}
         m_Scale: {x: 0.14, y: 0.62}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: f5aa8e227273b8748a11775dbf1cbb47, type: 3}
-        m_Scale: {x: 0.14, y: 0.62}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -63,31 +67,46 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SnowText:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EmissionIntensity: 1
+    - _Factor: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _NormalMapIntensity: 1.17
+    - _ObjYScale: 0
     - _OcclusionStrength: 1
-    - _OutlineWidth: 0.015
+    - _OutlineStrength: 0
+    - _OutlineWidth: 0.009
     - _Parallax: 0.02
     - _RimAmount: 0.312
     - _RimThreshold: 0.174
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Strength: 0
     - _UVSec: 0
+    - _UseDissolve: 0
+    - _UseEmission: 0
+    - _UseNormalMap: 0
+    - _UseOutline: 0
+    - _UseSnow: 0
+    - _UseToon: 0
     - _ZWrite: 1
     m_Colors:
     - _AmbientColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DisOutline: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.77254903, g: 0, b: 0.6797412, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
