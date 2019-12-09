@@ -21,6 +21,7 @@ public class CameraPaths : MonoBehaviour
     [Header("If the object is collection based")]
     [Tooltip("Crystal threshold")]
     public float c_Threshold;
+    public bool playAnimWithoutActive = false;
 
     [Header("Animations?")]
     [Tooltip("If your path requires an animation")]
@@ -36,6 +37,7 @@ public class CameraPaths : MonoBehaviour
             anims.Stop();
         if (playOnStart)
             active = true;
+        if (playAnimWithoutActive) { hasPlayed = true;  if(anims != null) anims.Play(); }
     }
 
     // Update is called once per frame

@@ -6,6 +6,7 @@ public class trigger_Animation : MonoBehaviour
 {
     public CameraPaths camTrigger;
     public Animator anim;
+    public bool playWithoutActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,7 @@ public class trigger_Animation : MonoBehaviour
         {
             anim = GetComponent<Animator>();
         }
+        if (playWithoutActive) anim.SetTrigger("Go");
     }
 
     // Update is called once per frame
