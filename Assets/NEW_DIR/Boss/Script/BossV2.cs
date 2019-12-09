@@ -7,18 +7,19 @@ public class BossV2 : MonoBehaviour
     public Transform[] body;
     public Transform[] bodyTargets;
     public Animator[] bodyAnims;
+    public Transform[] targetInits;
 
-    private readonly Vector3[] targetInitOffset =
-    {
-        new Vector3(0f, 0f, 0f),
-        new Vector3(-0.5688758f, -2.2f, -18.96224f),
-        new Vector3(-4.401353f, -3.9f, -46.54705f),
-        new Vector3(-7.734359f, -2.73f, -73.86629f),
-        new Vector3(-17.17431f, -3.9f, -98.58646f),
-        new Vector3(-27.90802f, -2.73f, -123.434f),
-        new Vector3(-40.29121f, -3.9f, -146.836f),
-        new Vector3(-57.83416f, -5.46f, -175.1439f)
-    };
+    //private readonly Vector3[] targetInitOffset =
+    //{
+    //    new Vector3(0f, 0f, 0f),
+    //    new Vector3(-0.5688758f, -2.2f, -18.96224f),
+    //    new Vector3(-4.401353f, -3.9f, -46.54705f),
+    //    new Vector3(-7.734359f, -2.73f, -73.86629f),
+    //    new Vector3(-17.17431f, -3.9f, -98.58646f),
+    //    new Vector3(-27.90802f, -2.73f, -123.434f),
+    //    new Vector3(-40.29121f, -3.9f, -146.836f),
+    //    new Vector3(-57.83416f, -5.46f, -175.1439f)
+    //};
 
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
@@ -31,12 +32,15 @@ public class BossV2 : MonoBehaviour
     public bool steering;
     public float steerSpeed = 125f;
 
+    bool steerAdjusted;
+
     float leftHandBlocking;
     float rightHandBlocking;
 
     float handLerpRate;
     float horizontalInput;
     float verticalInput;
+    float steerLerpRate = 2.6f;
 
     readonly float bossMaxY = 45f;
     readonly float bossMinY = -45f;
@@ -44,8 +48,7 @@ public class BossV2 : MonoBehaviour
     readonly float bossMinX = -90f;
 
     readonly float dragonInputThreshold = 0.14f;
-    readonly float steerLerpRate = 4f;
-    readonly float steerRotLerp = 2f;
+    readonly float steerRotLerp = 2.75f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
@@ -74,7 +77,6 @@ public class BossV2 : MonoBehaviour
         {
             CueSteer();
         }
-
 
         if (rightHandBlocking < 0f)
         {
@@ -112,13 +114,25 @@ public class BossV2 : MonoBehaviour
             steer.x = horizontalInput;
             steer.y = verticalInput;
 
-            if (Mathf.Abs(horizontalInput) > 0.14f || Mathf.Abs(verticalInput) > 0.14f)
+            if (Mathf.Abs(horizontalInput) > 0.03f || Mathf.Abs(verticalInput) > 0.03f)
             {
                 StartCoroutine(SteerRoutine(steer.normalized));
+                steerAdjusted = false;
             }
             else
             {
-                //steer = Vector3.zero;
+                steer = Vector3.zero;
+
+                //if(!steerAdjusted)
+                //{
+                //    for (int i = 1; i < bodyTargets.Length; i++)
+                //    {
+                //        bodyTargets[i].position = targetInits[i].position;
+                //    }
+
+                //    steerAdjusted = true;
+                //}
+
                 body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(0f, -17f, 0f), steerLerpRate * Time.deltaTime);
             }
         }
@@ -133,47 +147,40 @@ public class BossV2 : MonoBehaviour
     {
         Vector3 holdSteerDirection = steerDirection;
 
-        foreach (Transform target in bodyTargets)
+        for (int i = 0; i < bodyTargets.Length; i++)
         {
-            if(bodyTargets[0].localPosition.y > bossMaxY && steerDirection.y > 0f)
+            if (i == 0)
             {
-                steerDirection.y = 0f;
-            }
-            else
-            {
-                steerDirection.y = holdSteerDirection.y;
+                if (bodyTargets[0].localPosition.y > bossMaxY && steerDirection.y > 0f)
+                {
+                    steerDirection.y = 0f;
+                }
+                else if (bodyTargets[0].localPosition.y < bossMinY && steerDirection.y < 0f)
+                {
+                    steerDirection.y = 0f;
+                }
+                else
+                {
+                    steerDirection.y = holdSteerDirection.y;
+                }
+
+                if (bodyTargets[0].localPosition.x > bossMaxX && steerDirection.x > 0f)
+                {
+                    steerDirection.x = 0f;
+                }
+                else if (bodyTargets[0].localPosition.x < bossMinX && steerDirection.x < 0f)
+                {
+                    steerDirection.x = 0f;
+                }
+                else
+                {
+                    steerDirection.x = holdSteerDirection.x;
+                }
             }
 
-            if(bodyTargets[0].localPosition.x > bossMaxX && steerDirection.x > 0f)
-            {
-                steerDirection.x = 0f;
-            }
-            else
-            {
-                steerDirection.x = holdSteerDirection.x;
-            }
+            bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
 
-            if (bodyTargets[0].localPosition.y < bossMinY && steerDirection.y < 0f)
-            {
-                steerDirection.y = 0f;
-            }
-            else
-            {
-                steerDirection.y = holdSteerDirection.y;
-            }
-
-            if (bodyTargets[0].localPosition.x < bossMinX && steerDirection.x < 0f)
-            {
-                steerDirection.x = 0f;
-            }
-            else
-            {
-                steerDirection.x = holdSteerDirection.x;
-            }
-
-            target.localPosition += steerDirection * steerSpeed * Time.deltaTime;
-
-            yield return new WaitForSeconds(0.12f);
+            yield return new WaitForSeconds(0.116f);
         }
     }
 
