@@ -30,7 +30,7 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
 
     public bool steering;
-    public float steerSpeed = 125f;
+    public float steerSpeed = 100f;
 
     bool steerAdjusted;
 
@@ -42,8 +42,8 @@ public class BossV2 : MonoBehaviour
     float verticalInput;
     float steerLerpRate = 2.6f;
 
-    readonly float bossMaxY = 45f;
-    readonly float bossMinY = -45f;
+    readonly float bossMaxY = 15f;
+    readonly float bossMinY = -60f;
     readonly float bossMaxX = 90f;
     readonly float bossMinX = -90f;
 
@@ -129,7 +129,7 @@ public class BossV2 : MonoBehaviour
                 //    {
                 //        bodyTargets[i].position = targetInits[i].position;
                 //    }
-
+                //
                 //    steerAdjusted = true;
                 //}
 
