@@ -109,10 +109,13 @@ public class PlayerClass : MonoBehaviour
 
     GameObject[] playerMovementArray = new GameObject[4];
     #endregion
-       
+
     //this is where I put the player's dynamic variables such as health, grounded, canFlutter, etc...
     #region dynamic player variables
     //HEALTH
+    public LayerMask ledgeMask;
+
+
     [Header("Health")]
     public int health = 3;
 
@@ -203,6 +206,11 @@ public class PlayerClass : MonoBehaviour
         //    h_Manager.HealthUp();
         //    healthShards = 0;
         //}        
+    }
+
+    public void HardSetShards(int value)
+    {
+        shards = value;
     }
 
     private float attachedWebs;

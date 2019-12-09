@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     public Animator controlsMenuAnimator;
     public Animator pauseMenuAnimator;
     public Animator GameOverMenuAnimator;
+    public Animator buttonLayoutMenuAnimator;
+    public Animator keyboardLayoutMenuAnimator;
 
     //Control the different buttons
     [Header("Menu Navigation")]
@@ -39,6 +41,7 @@ public class UIManager : MonoBehaviour
     public GameObject controlsScrollObject;
     public GameObject pauseMenuScrollObject;
     public GameObject gameOverScrollObject;
+    
 
 
     //The Game Objects That Hold The Button Controller Scripts
@@ -135,6 +138,8 @@ public class UIManager : MonoBehaviour
         StartCoroutine(AnimationDelayControlsBack(animDelay));
         saveGameManager.LoadSettings();
         controlsMenuAnimator.SetTrigger("ControlsClose");
+        //buttonLayoutMenuAnimator.SetTrigger("LayoutClosed");
+        //keyboardLayoutMenuAnimator.SetTrigger("LayoutClosed");
     }
 
     public void ControlsInvertButton()
