@@ -1,4 +1,4 @@
-Shader "Capstone2019/Grass"
+Shader "Capstone2019/GrassNoKeep"
 {
     Properties
     {
@@ -8,40 +8,22 @@ Shader "Capstone2019/Grass"
 		_BottomColor("Bottom Color", Color) = (1,1,1,1)
 		_GradThresh("Gradiant Threshold", Range(0,1)) = 0.5 //_TranslucentGain
 
-		_BendRotationRandom("Bend Rotation Random", Range(0, 1)) = 0
+		_BendRotationRandom("Bend Rotation Random", Range(0, 4)) = 0
 
-		_BladeForward("Blade Forward Amount", Range(0, 0.1)) = 0
+		_BladeForward("Blade Forward Amount", Range(0, 2)) = 0
 		_BladeCurve("Blade Curvature Amount", Range(1, 4)) = 2
 
 		_BladeHeight("Blade Height", Float) = 0.1
-		_BladeHeightRandom("Random Height Variation", Range(0, 0.1)) = 0 // Random Variation
+		_BladeHeightRandom("Random Height Variation", Range(0, 2)) = 0 // Random Variation
 
 		_BladeWidth("Blade Width", Float) = 0
-		_BladeWidthRandom("Random Width Variation", Range(0, 0.03)) = 0 // Random Variation
+		_BladeWidthRandom("Random Width Variation", Range(0, 2)) = 0 // Random Variation
 
 		_WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
 		_WindFrequency("Wind Direction", Vector) = (0.05, 0.05, 0, 0)
 		_WindStrength("Wind Strength", Range(0.01, 1)) = 1
 
 		_TessellationUniform("Density", Range(1, 64)) = 1
-		//==
-		[Toggle] _UseToon("Toon Properties", Int) = 0
-		//==
-		_Color("Color", Color) = (1,1,1,1)
-
-		[HDR]
-		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
-
-		[HDR]
-		_SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
-		_Glossiness("Glossiness", Float) = 32
-
-		[HDR]
-		_RimColor("Rim Color", Color) = (1,1,1,1)
-		_RimAmount("Rim Amount", Range(0, 1)) = 0.716
-
-		_RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
-		//==
     }
 
 	CGINCLUDE
@@ -69,7 +51,8 @@ Shader "Capstone2019/Grass"
 	float2 _WindFrequency;
 	float _WindStrength;
 
-	float4 _Color;
+	sampler2D _MainTex;
+	float4 _MainTex_ST;
 
 	float rand(float3 co)
 	{
@@ -213,88 +196,7 @@ Shader "Capstone2019/Grass"
 			}
 			ENDCG
 		}
-
-		Pass // Toon
-		{
-			//ZWrite Off
-			Tags
-			{
-				"LightMode" = "ForwardBase"
-				"PassFlags" = "OnlyDirectional"
-			}
-
-			CGPROGRAM
-			#pragma vertex vertT
-			#pragma fragment fragT
-			#pragma multi_compile_fwdbase
-
-			#include "Lighting.cginc"
-			#include "AutoLight.cginc"
-
-
-			float _Glossiness;
-			float4 _SpecularColor;
-
-			float4 _RimColor;
-			float _RimAmount;
-
-			float _RimThreshold;
-
-			struct appdataT
-			{
-				float4 vertex : POSITION;
-				float3 normal : NORMAL;
-			};
-
-			struct v2fT
-			{
-				float4 pos : SV_POSITION;
-				float3 viewDir : TEXCOORD0;
-				float3 worldNormal : NORMAL;
-			};
-
-			v2fT vertT(appdataT v)
-			{
-				v2fT o;
-
-				o.pos = UnityObjectToClipPos(v.vertex);
-				float3 normal = UnityObjectToWorldNormal(v.normal);
-				o.worldNormal = normal;
-				o.viewDir = WorldSpaceViewDir(v.vertex);
-
-				return o;
-			}
-
-			float4 _AmbientColor;
-
-			float4 fragT(v2fT i) : SV_Target
-			{
-				float3 normal = normalize(i.worldNormal);
-				float NdotL = dot(_WorldSpaceLightPos0, normal);
-
-				float lightIntensity = smoothstep(0, 0.01, NdotL);
-				float4 light = lightIntensity * _LightColor0;
-
-				float3 viewDir = normalize(i.viewDir);
-				float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
-				float NdotH = dot(normal, halfVector);
-
-				float specularIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
-
-				float specularIntensitySmooth = smoothstep(0.005, 0.01, specularIntensity);
-				float4 specular = specularIntensitySmooth * _SpecularColor;
-
-				float4 rimDot = 1 - dot(viewDir, normal);
-
-				float rimIntensity = rimDot * pow(NdotL, _RimThreshold);
-				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
-
-				float4 rim = rimIntensity * _RimColor;
-				return _Color * (_AmbientColor + light + specular + rim);
-			}
-			ENDCG
-		}
 	}
-	FallBack "Capstone2019/ToonV3.31" // Create Basic Texture Fallback (with Cell shader)
-	CustomEditor "VegeGUI"
+	FallBack "Capstone2019/ToonV4" // Create Basic Texture Fallback (with Cell shader)
+	//CustomEditor "VegeGUI"
 }
