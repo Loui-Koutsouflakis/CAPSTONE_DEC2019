@@ -72,7 +72,6 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.B))
         {
             CueSteer();

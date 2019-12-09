@@ -25,6 +25,13 @@ public class PlayerGroundMovement : PlayerVariables
     private float horizontal;
     private float vertical;
 
+    private HandleSfx SoundManager;
+
+    private void Start()
+    {
+        SoundManager = GetComponentInParent<HandleSfx>();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -149,7 +156,8 @@ public class PlayerGroundMovement : PlayerVariables
         player.SetGroundCheck(false);
         player.StartCoroutine(player.GroundCheckStop());
 
-        anim.SetTrigger("Jump");              
+        anim.SetTrigger("Jump");
+        SoundManager.PlayOneShotByName("Jump");
     }
 
     public void Decel()

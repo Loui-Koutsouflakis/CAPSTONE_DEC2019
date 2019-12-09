@@ -12,10 +12,14 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     // Misc
     public int health;
-    
+    [Tooltip("This the knockback force")]
+    public Vector3 KnockBackForce = new Vector3(0, 5, 0);
     public Collider Weakpoint;
+    [Tooltip("This is only for the DrawGizmos")]
+    public float MeleeRadius, ChargeRadius, ThrowRadius;
 
     // Rock Throwing Portion
+    public bool IsTurretEdition;
     public Transform RockSpawnPosition;
     [Tooltip("This has to have a rigidbody with usegravity set to off, collider disabled")]
     public GameObject RockProjectileObject;
@@ -28,8 +32,8 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Lead Target Calculation Requirements
     private Vector3 AITarget;
     private Rigidbody PlayerRigidBody;
-    private float DistanceCheckPlayer;
-    private float MinusTargetHeight = 5; // 4.4 , 5
+    public float DistanceCheckPlayer;
+    public float MinusTargetHeight; // 4.4 , 5
 
     // Find New Sleep Position
     [Tooltip("Use an Empty GameObject to mark the middle of his return area. Make sure it is level with the ground.")]
@@ -54,10 +58,31 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Update is called once per frame
     void Update()
     {
+        if (IsTurretEdition)
+        {
+            if (DistanceCheckPlayer <= 50 && DistanceCheckPlayer >= 40)
+            {
+                MinusTargetHeight = 4f;
+            }
+            else if (DistanceCheckPlayer <= 40 && DistanceCheckPlayer >= 35)
+            {
+                MinusTargetHeight = 4.5f;
+            }
+            else if (DistanceCheckPlayer <= 35 && DistanceCheckPlayer >= 20)
+            {
+                MinusTargetHeight = 5.5f;
+            }
+            else if (DistanceCheckPlayer <= 20 && DistanceCheckPlayer >= 10)
+            {
+                MinusTargetHeight = 6;
+            }
+        }
+
         DistanceCheckPlayer = Vector3.Distance(this.transform.position, Player.position);
         CalculateLead();
         AITarget = new Vector3(AITarget.x, AITarget.y + DistanceCheckPlayer / MinusTargetHeight, AITarget.z); // Calculates how high it has to aim to hit the Player.
         RockSpawnPosition.LookAt(AITarget);
+
 
 
         if (SleepBool == true && animator.GetBool("isInWakeUpRange") == false)
@@ -93,11 +118,11 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         Gizmos.DrawCube(center, size); // Gizmo for the area of the potential sleep position.
 
         Gizmos.color = new Color(0, 1, 0, 0.2f);
-        Gizmos.DrawSphere(transform.position, 20); // Green zone is for throw.
+        Gizmos.DrawSphere(transform.position, ThrowRadius); // Green zone is for throw.
         Gizmos.color = new Color(0, 0, 1, 0.2f);
-        Gizmos.DrawSphere(transform.position, 15); // Blue zone is for the charge.
+        Gizmos.DrawSphere(transform.position, ChargeRadius); // Blue zone is for the charge.
         Gizmos.color = new Color(1, 0, 0, 0.2f);
-        Gizmos.DrawSphere(transform.position, 5); // Red zone is for the melee.
+        Gizmos.DrawSphere(transform.position, MeleeRadius); // Red zone is for the melee.
         Gizmos.color = new Color(1, 1, 1, 0.2f);
         Gizmos.DrawSphere(pos, 1); // Shows where the new sleep posiyion is in the red area.
         Gizmos.color = new Color(1, 1, 1, 0.5f);
@@ -168,7 +193,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     public IEnumerator CheckHit(bool x)
     {
-        
+        Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
         Debug.Log("Has been hit!!");
         if(health > 0)
         {

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private HandleSfx SoundManager;
+    
 
     public LayerMask p_Layer; //= 1 << 9;
     
@@ -310,6 +311,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (player.GetDamagable())
                 {
+                    SoundManager.PlayOneShotByName("Damaged");
                     player.SetHealth(-1); //reduces health on player class
                     h_Manager.HealthDown(); //reduces health on hud
                     if (player.GetHealth() > 0)
@@ -542,6 +544,7 @@ public class PlayerController : MonoBehaviour
                 //to jump on enemies
                 if (footHit.collider.gameObject.tag == "EnemyWeakSpot" && !footHit.collider.isTrigger)
                 {
+                    SoundManager.PlayOneShotByName("HitEnemy");
                     if (!landed)
                     {
                         StartCoroutine(footHit.collider.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding())); //also check to see if enemy is damagable (bool) so will not continue to check if not damagable
@@ -567,6 +570,7 @@ public class PlayerController : MonoBehaviour
                 //for ground pounding checks
                 if (player.GetGroundPounding())
                 {
+                    SoundManager.PlayOneShotByName("GroundPound");
                     if (footHit.collider.GetComponent<Interact>() != null)
                     {
                         if (footHit.collider.gameObject.layer == 16 || footHit.collider.gameObject.layer == 17) //will trigger the groundpound or walkon layers
