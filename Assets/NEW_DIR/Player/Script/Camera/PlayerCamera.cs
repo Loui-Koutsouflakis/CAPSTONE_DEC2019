@@ -53,7 +53,7 @@ public class PlayerCamera : MonoBehaviour
     [Header("CameraRayCast")]
     Camera main;
     GameObject aimer;
-   // int p_LayerMask = 1 << 9;
+    // int p_LayerMask = 1 << 9;
     public LayerMask IgnoreMask;
     RaycastHit hit;
     RaycastHit wall;
@@ -116,7 +116,7 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("How far away the camera is when in 2D Mode.")]
     public float DistIn2D;
     public float Height2D;
-    public enum WallCamChoice { Back, Left, Front, Right }
+    public enum WallCamChoice { Back, Left, Front, Right, BackLeft, FrontLeft, BackRight, FrontRight }
     [SerializeField]
     [Tooltip("Choose what direction to set the 2D camera.")]
     public WallCamChoice wallCamChoice;
@@ -221,7 +221,7 @@ public class PlayerCamera : MonoBehaviour
                 CamMovement2D(wallCamChoice);
                 break;
             case CameraType.Cinema:
-               
+
                 break;
             case CameraType.Shake:
                 time += Time.deltaTime;
@@ -250,8 +250,8 @@ public class PlayerCamera : MonoBehaviour
         //}
         //else
         //{
-            currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
-            yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
+        yaw += Input.GetAxis("CamX") * sensitivity + Input.GetAxis("MouseX") * sensitivity;
         //}
 
         transform.eulerAngles = currentRotation;
@@ -277,6 +277,22 @@ public class PlayerCamera : MonoBehaviour
                 break;
             case WallCamChoice.Right:
                 transform.eulerAngles = new Vector3(15, -90, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
+                break;
+            case WallCamChoice.BackLeft:
+                transform.eulerAngles = new Vector3(15, 135, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
+                break;
+            case WallCamChoice.BackRight:
+                transform.eulerAngles = new Vector3(15, -135, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
+                break;
+            case WallCamChoice.FrontLeft:
+                transform.eulerAngles = new Vector3(15, 45, 0);
+                transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
+                break;
+            case WallCamChoice.FrontRight:
+                transform.eulerAngles = new Vector3(15, -45, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
         }

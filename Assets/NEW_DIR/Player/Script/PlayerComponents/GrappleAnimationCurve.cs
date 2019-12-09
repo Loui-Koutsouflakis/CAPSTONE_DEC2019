@@ -75,7 +75,7 @@ public class GrappleAnimationCurve : MonoBehaviour
 
         BezierCurve.GetBezierCurve(A, B, C, D, pointsInbetween);
 
-        Vector3 finalVector = pointsInbetween[pointsInbetween.Count - 1] + new Vector3(0, -0.6f, 0);
+        Vector3 finalVector = pointsInbetween[pointsInbetween.Count - 1] + new Vector3(0, -0.3f, 0);
 
         pointsInbetween.Add(finalVector);
 
