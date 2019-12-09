@@ -35,6 +35,8 @@ public class BossV2 : MonoBehaviour
     public Camera bossCam;
     public BossSteerVolume steerVolume;
 
+    const string bumperName = "RightBumper";
+
     private void Start()
     {
         if(bossCam.enabled)
@@ -62,13 +64,6 @@ public class BossV2 : MonoBehaviour
             leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
         }
 
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
-        {
-            steer.x = Input.GetAxis("Horizontal");
-            steer.y = Input.GetAxis("Vertical");
-            StartCoroutine(SteerRoutine(steer));
-        }
-
         if (steering)
         {
             bossCam.gameObject.transform.position = Vector3.Lerp(bossCam.gameObject.transform.position, bossCamTarget.position, handLerpRate * Time.deltaTime);
@@ -83,9 +78,25 @@ public class BossV2 : MonoBehaviour
                 }
                 else
                 {
-                    body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.LookRotation( body[0].position + (Vector3.forward*2f) + steer), steerLerpRate * Time.deltaTime);
+                    body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.LookRotation( body[0].position + (Vector3.forward*8f) + steer), steerLerpRate * Time.deltaTime);
                 }
             }
+
+            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.14f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.14f)
+            {
+                steer.x = Input.GetAxis("Horizontal");
+                steer.y = Input.GetAxis("Vertical");
+                StartCoroutine(SteerRoutine(steer));
+            }
+            else
+            {
+                body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(0f, -17f, 0f), steerLerpRate * Time.deltaTime);
+            }
+        }
+
+        if ((Input.GetButtonDown(bumperName)) && steerVolume.canSteer)
+        {
+            CueSteer();
         }
     }
 
@@ -102,7 +113,8 @@ public class BossV2 : MonoBehaviour
     {
         bossCam.enabled = true;
         playerCam.enabled = false;
-
+        steerVolume.canSteer = false;
+        steerVolume.enabled = false;  //don't forget to re-enable this
         steering = true;
     }
 
