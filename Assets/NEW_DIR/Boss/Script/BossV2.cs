@@ -184,7 +184,7 @@ public class BossV2 : MonoBehaviour
         }
     }
 
-    //
+    // Cue Steer
 
     public void CueSteer()
     {
