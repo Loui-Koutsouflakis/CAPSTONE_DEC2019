@@ -23,10 +23,10 @@ public class ActivateText : MonoBehaviour
     {
         if(gameText.activeSelf)
         {
-            gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 10 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
-            sign.transform.position = camera.transform.position + camera.transform.forward.normalized * 11 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
+            gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 5 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
+            sign.transform.position = camera.transform.position + camera.transform.forward.normalized * 6 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
             gameText.transform.forward = Vector3.Lerp(gameText.transform.forward, camera.transform.forward, Time.deltaTime * 10);
-            sign.transform.forward = Vector3.Lerp(sign.transform.forward, camera.transform.forward, Time.deltaTime * 10);
+            sign.transform.forward = Vector3.Lerp(sign.transform.forward, -camera.transform.forward, Time.deltaTime * 10);
         }
     }
 
@@ -38,6 +38,7 @@ public class ActivateText : MonoBehaviour
             {
                 gameText.SetActive(true);
                 sign.SetActive(true);
+                sign.transform.forward = -camera.transform.forward;
                 StartCoroutine(DisableText());
             }
         }

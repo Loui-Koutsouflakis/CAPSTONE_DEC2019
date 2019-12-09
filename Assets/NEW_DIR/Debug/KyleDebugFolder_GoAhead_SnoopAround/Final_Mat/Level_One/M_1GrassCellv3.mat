@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_1GrassCellv3
-  m_Shader: {fileID: 4800000, guid: 966160389fd2f5e4eade15ce1f83aa72, type: 3}
+  m_Shader: {fileID: 4800000, guid: ddb2f041cb09f75469c04308ee2339cc, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2350
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -35,6 +35,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,11 +51,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowText:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -71,21 +83,33 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionIntensity: 0
+    - _Factor: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _GradThresh: 0.5
     - _Metallic: 0
     - _Mode: 0
+    - _NormalMapIntensity: 1.5
+    - _ObjYScale: 0
     - _OcclusionStrength: 1
+    - _OutlineStrength: 0
+    - _OutlineWidth: 0.1
     - _Parallax: 0.02
     - _RimAmount: 1
     - _RimThreshold: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Strength: 0
     - _TessellationUniform: 20
     - _UVSec: 0
+    - _UseDissolve: 0
+    - _UseEmission: 0
+    - _UseNormalMap: 0
+    - _UseOutline: 0
+    - _UseSnow: 0
     - _UseToon: 0
     - _UseVege: 0
     - _WindStrength: 0.5
@@ -94,7 +118,9 @@ Material:
     - _AmbientColor: {r: 0.058823507, g: 0.654902, b: 0, a: 1}
     - _BottomColor: {r: 0.14117648, g: 0.34901962, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DisOutline: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
     - _TopColor: {r: 0.32549015, g: 0.8, b: 0, a: 1}
