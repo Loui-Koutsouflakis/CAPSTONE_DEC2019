@@ -23,8 +23,11 @@ public class ActivateText : MonoBehaviour
     {
         if(gameText.activeSelf)
         {
-            gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 5 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
-            sign.transform.position = camera.transform.position + camera.transform.forward.normalized * 6 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 2;
+            gameText.transform.position = Vector3.Lerp(gameText.transform.position, player.transform.position + camera.transform.forward.normalized * 1 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1.5f, Time.deltaTime * 100);
+            sign.transform.position = Vector3.Lerp(sign.transform.position, player.transform.position + camera.transform.forward.normalized * 1 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1.5f, Time.deltaTime * 100);
+
+            //gameText.transform.position = Vector3.Lerp(gameText.transform.position, camera.transform.position + camera.transform.forward.normalized * 3 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1, Time.deltaTime * 100);
+            //sign.transform.position = Vector3.Lerp(sign.transform.position, camera.transform.position + camera.transform.forward.normalized * 3 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1, Time.deltaTime * 100);
             gameText.transform.forward = Vector3.Lerp(gameText.transform.forward, camera.transform.forward, Time.deltaTime * 10);
             sign.transform.forward = Vector3.Lerp(sign.transform.forward, -camera.transform.forward, Time.deltaTime * 10);
         }
@@ -38,6 +41,8 @@ public class ActivateText : MonoBehaviour
             {
                 gameText.SetActive(true);
                 sign.SetActive(true);
+                gameText.transform.position = camera.transform.position + camera.transform.forward.normalized * 3 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1;
+                sign.transform.position = camera.transform.position + camera.transform.forward.normalized * 3 + camera.transform.right.normalized * 2 + camera.transform.up.normalized * 1;
                 sign.transform.forward = -camera.transform.forward;
                 StartCoroutine(DisableText());
             }

@@ -518,8 +518,11 @@ public class PlayerController : MonoBehaviour
                 }
 
                 gracePeriod = 0;
-
-                positionTimer += 1;
+                //so will not set last known position on enemies or moving platforms
+                if (footHit.collider.gameObject.layer != 10 && footHit.collider.gameObject.tag != "MovingPlatform")
+                {
+                    positionTimer += 1;
+                }
                 //when falling into a pit will return to the last known position
                 if(positionTimer * groundCheckRate >= 0.5f)
                 {
