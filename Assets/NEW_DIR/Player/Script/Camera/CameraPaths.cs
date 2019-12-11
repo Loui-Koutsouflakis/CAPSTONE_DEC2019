@@ -96,10 +96,13 @@ public class CameraPaths : MonoBehaviour
             {
                 if (HudManager.shardsCollected >= c_Threshold)
                 {
-                    saveGameManager.AddToListOfTriggeredMonoliths(gameObject.name + SceneManager.GetActiveScene());
-                    saveGameManager.SaveTriggeredMonoliths();
                     active = true;
                     hasPlayed = true;
+                    if (saveGameManager)
+                    {
+                        saveGameManager.AddToListOfTriggeredMonoliths(gameObject.name + SceneManager.GetActiveScene());
+                        saveGameManager.SaveTriggeredMonoliths();
+                    }
                     if (anims != null)
                         anims.Play();
                 }
