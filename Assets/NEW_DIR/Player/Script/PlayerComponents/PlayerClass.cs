@@ -145,6 +145,7 @@ public class PlayerClass : MonoBehaviour
         //Debug.Log("enabled");
         gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
         gameManager.Death();
+        StopAllCoroutines(); //to prevent multiple game reset triggers
     }
 
     public void Death()
