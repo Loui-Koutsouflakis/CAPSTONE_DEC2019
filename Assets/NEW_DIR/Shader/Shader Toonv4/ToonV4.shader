@@ -8,6 +8,7 @@
 		_OutlineWidth("Outline width", Range(0, 10)) = .1
 		//==
 		[Toggle] _UseToon("Toon Properties", Int) = 0
+		_Alpha("Alpha", Range(0, 1)) = 0.5
 		_MainTex("Main Texture", 2D) = "white" {}
 
 		[HDR]
@@ -161,36 +162,42 @@
 
 		Pass
 		{
-			Tags{ "LightMode" = "ShadowCaster" }
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile_shadowcaster
+			#pragma multi_compile_fwdbase
 
 			#include "UnityCG.cginc"
+			#include "AutoLight.cginc"
 
 			struct appdata
 			{
 				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-				float4 normal : NORMAL;
 			};
 
 			struct v2f
 			{
-				V2F_SHADOW_CASTER;
+				float4 pos : SV_POSITION;
+				SHADOW_COORDS(0)
 			};
 
 			v2f vert(appdata v)
 			{
 				v2f o;
-				TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+				o.pos = UnityObjectToClipPos(v.vertex);
+				TRANSFER_SHADOW(o)
 				return o;
 			}
 
-			fixed4 frag(v2f i) : SV_Target
+			float _Alpha;
+
+			float4 frag(v2f i) : SV_Target
 			{
-				SHADOW_CASTER_FRAGMENT(i)
+				float shadow = SHADOW_ATTENUATION(i);
+
+				return float4(0, 0, 0, (1 - shadow) * _Alpha);
 			}
 			ENDCG
 		}

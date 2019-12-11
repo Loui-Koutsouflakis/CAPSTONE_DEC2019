@@ -39,6 +39,7 @@ public class CameraPaths : MonoBehaviour
             Debug.Log("No big deal");
         else
             anims.Stop();
+
         if (playOnStart)
             active = true;
         //if(saveGameManager.triggeredMonoliths.Contains(gameObject.name + SceneManager.GetActiveScene()))
@@ -46,6 +47,7 @@ public class CameraPaths : MonoBehaviour
         //    playAnimWithoutActive = true;
         //}
         //if (playAnimWithoutActive) { hasPlayed = true;  if(anims != null) anims.Play(); }
+
 
     }
 
@@ -56,24 +58,12 @@ public class CameraPaths : MonoBehaviour
 
         if (active)
         {
-            if(hasParticles)
-            {
-                foreach (var item in particles)
-                {
-                    item.Play();
-                }
-            }
+            if(hasParticles) { foreach (var item in particles) { item.Play(); } }
 
-            foreach (var item in paths)
-            {
-                item.gameObject.SetActive(false);
-            }
+            foreach (var item in paths) { item.gameObject.SetActive(false); }
+            
             path.gameObject.SetActive(true);
-            if (playOnStart)
-            {
-                if (anims != null)
-                    anims.Play();
-            }
+            if (playOnStart) { if (anims != null) anims.Play(); }
           
             StartCoroutine(goTime());
         }
@@ -96,10 +86,17 @@ public class CameraPaths : MonoBehaviour
             {
                 if (HudManager.shardsCollected >= c_Threshold)
                 {
+
                     //saveGameManager.AddToListOfTriggeredMonoliths(gameObject.name + SceneManager.GetActiveScene());
                     //saveGameManager.SaveTriggeredMonoliths();
+
                     active = true;
                     hasPlayed = true;
+                    if (saveGameManager)
+                    {
+                        saveGameManager.AddToListOfTriggeredMonoliths(gameObject.name + SceneManager.GetActiveScene());
+                        saveGameManager.SaveTriggeredMonoliths();
+                    }
                     if (anims != null)
                         anims.Play();
                 }

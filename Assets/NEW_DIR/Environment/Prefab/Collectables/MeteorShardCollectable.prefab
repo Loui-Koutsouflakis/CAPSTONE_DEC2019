@@ -269,6 +269,7 @@ MonoBehaviour:
   rateOfParticleYRotation: 1
   rateOfParticleZRotation: 1
   player: {fileID: 0}
+  isCollected: 0
 --- !u!1 &6640246073373556881
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,16 +308,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6640246072155432241}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 893654a5ced480f47b1b8c86679ba61c,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_MeteoritePiece
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 893654a5ced480f47b1b8c86679ba61c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 893654a5ced480f47b1b8c86679ba61c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -387,6 +378,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 893654a5ced480f47b1b8c86679ba61c,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_MeteoritePiece
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 893654a5ced480f47b1b8c86679ba61c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 893654a5ced480f47b1b8c86679ba61c, type: 3}
 --- !u!1 &3388687730155803828 stripped
@@ -408,16 +409,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6640246073373556880}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: a4c4aa4f36d84004191d4403562db5aa,
-        type: 3}
-      propertyPath: m_Name
-      value: Plane_Glow_Face_Camera (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a4c4aa4f36d84004191d4403562db5aa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a4c4aa4f36d84004191d4403562db5aa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -473,11 +464,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a4c4aa4f36d84004191d4403562db5aa,
+        type: 3}
+      propertyPath: m_Name
+      value: Plane_Glow_Face_Camera (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a4c4aa4f36d84004191d4403562db5aa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: a4c4aa4f36d84004191d4403562db5aa,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f4fbbfaf1982ae74188896d38096e766, type: 2}
+    - target: {fileID: -1504981713932161579, guid: a4c4aa4f36d84004191d4403562db5aa,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: a4c4aa4f36d84004191d4403562db5aa,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4c4aa4f36d84004191d4403562db5aa, type: 3}
 --- !u!1 &3388687729017744122 stripped
