@@ -69,7 +69,7 @@ public class SaveGameManager : MonoBehaviour
         if (startingUp == true)
         {
             LoadCollectedShards();
-            LoadTriggeredMonoliths();
+            //LoadTriggeredMonoliths();
             startingUp = false;
         }
         //for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
@@ -447,12 +447,12 @@ public class SaveGameManager : MonoBehaviour
 
 
             //Checks whether or not it is loading from a file or not;
-            if (!loadingFromContinue)
+            if (!loadingFromContinue && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 ClearCollectedShards();
                 ResetListOfShards();
-                ClearTriggeredMonoliths();
-                ResetListOfMonoliths();
+                //ClearTriggeredMonoliths();
+                //ResetListOfMonoliths();
                 //Sets the beginning variable to the beginning object in the scene
                 beginning = player.transform;
 
@@ -477,10 +477,17 @@ public class SaveGameManager : MonoBehaviour
                 //Sets the condition to load from continue to false;
 
                 LoadSettings();
-               
 
+                loadingFromContinue = false;
             }
-            LoadSettings();
+            else
+            {
+                beginning = player.transform;
+                currentCheckpoint = beginning;
+                LoadSettings();
+                Debug.Log("Else Worked");
+            }
+            Debug.Log(loadingFromContinue + " Loading From Continue");
         }
     }
 
