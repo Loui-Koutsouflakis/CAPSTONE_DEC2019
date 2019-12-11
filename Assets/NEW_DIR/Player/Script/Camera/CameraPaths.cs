@@ -39,8 +39,7 @@ public class CameraPaths : MonoBehaviour
             Debug.Log("No big deal");
         else
             anims.Stop();
-        if (playOnStart)
-            active = true;
+        if (playOnStart) active = true;
         if(saveGameManager.triggeredMonoliths.Contains(gameObject.name + SceneManager.GetActiveScene()))
         {
             playAnimWithoutActive = true;
@@ -56,24 +55,12 @@ public class CameraPaths : MonoBehaviour
 
         if (active)
         {
-            if(hasParticles)
-            {
-                foreach (var item in particles)
-                {
-                    item.Play();
-                }
-            }
+            if(hasParticles) { foreach (var item in particles) { item.Play(); } }
 
-            foreach (var item in paths)
-            {
-                item.gameObject.SetActive(false);
-            }
+            foreach (var item in paths) { item.gameObject.SetActive(false); }
+            
             path.gameObject.SetActive(true);
-            if (playOnStart)
-            {
-                if (anims != null)
-                    anims.Play();
-            }
+            if (playOnStart) { if (anims != null) anims.Play(); }
           
             StartCoroutine(goTime());
         }
