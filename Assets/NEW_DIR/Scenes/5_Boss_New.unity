@@ -5428,8 +5428,9 @@ GameObject:
   - component: {fileID: 58435548}
   - component: {fileID: 58435547}
   - component: {fileID: 58435546}
+  - component: {fileID: 58435549}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: LeftBlockingcollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5508,6 +5509,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58435544}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &58435549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58435544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1001 &70379136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12186,8 +12200,9 @@ GameObject:
   - component: {fileID: 221799955}
   - component: {fileID: 221799954}
   - component: {fileID: 221799953}
+  - component: {fileID: 221799956}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: LeftBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12266,6 +12281,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221799951}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &221799956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221799951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &227865456
 GameObject:
   m_ObjectHideFlags: 0
@@ -17277,8 +17305,9 @@ GameObject:
   - component: {fileID: 251480681}
   - component: {fileID: 251480680}
   - component: {fileID: 251480679}
+  - component: {fileID: 251480682}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: RightBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17357,6 +17386,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251480677}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &251480682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251480677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &264105817
 GameObject:
   m_ObjectHideFlags: 0
@@ -17369,8 +17411,9 @@ GameObject:
   - component: {fileID: 264105821}
   - component: {fileID: 264105820}
   - component: {fileID: 264105819}
+  - component: {fileID: 264105822}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: RightBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17449,6 +17492,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264105817}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &264105822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264105817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &269944623
 GameObject:
   m_ObjectHideFlags: 0
@@ -18171,8 +18227,9 @@ GameObject:
   - component: {fileID: 316517980}
   - component: {fileID: 316517979}
   - component: {fileID: 316517978}
+  - component: {fileID: 316517981}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: LeftBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18251,6 +18308,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316517976}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &316517981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316517976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &319675152
 GameObject:
   m_ObjectHideFlags: 0
@@ -25772,8 +25842,9 @@ GameObject:
   - component: {fileID: 495171053}
   - component: {fileID: 495171052}
   - component: {fileID: 495171051}
+  - component: {fileID: 495171054}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: LeftBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25852,6 +25923,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495171049}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &495171054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495171049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1001 &496099152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26305,8 +26389,9 @@ GameObject:
   - component: {fileID: 515980544}
   - component: {fileID: 515980543}
   - component: {fileID: 515980542}
+  - component: {fileID: 515980545}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: RightBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26385,6 +26470,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515980540}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &515980545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515980540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &519440073
 GameObject:
   m_ObjectHideFlags: 0
@@ -26694,8 +26792,9 @@ GameObject:
   - component: {fileID: 540099126}
   - component: {fileID: 540099125}
   - component: {fileID: 540099124}
+  - component: {fileID: 540099127}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: LeftBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26774,6 +26873,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 540099122}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &540099127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540099122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1001 &552549203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26881,8 +26993,9 @@ GameObject:
   - component: {fileID: 556281165}
   - component: {fileID: 556281164}
   - component: {fileID: 556281163}
+  - component: {fileID: 556281166}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: LeftBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26961,6 +27074,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556281161}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &556281166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556281161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &571603952
 GameObject:
   m_ObjectHideFlags: 0
@@ -26973,8 +27099,9 @@ GameObject:
   - component: {fileID: 571603956}
   - component: {fileID: 571603955}
   - component: {fileID: 571603954}
+  - component: {fileID: 571603957}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: LeftBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27053,6 +27180,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571603952}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &571603957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571603952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &588892164
 GameObject:
   m_ObjectHideFlags: 0
@@ -28004,8 +28144,9 @@ GameObject:
   - component: {fileID: 630368814}
   - component: {fileID: 630368813}
   - component: {fileID: 630368812}
+  - component: {fileID: 630368815}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: RightBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28084,6 +28225,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630368810}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &630368815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630368810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!114 &636389181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 765223219481059161, guid: ed0f424436d4a7748b4172bb67a9e0a5,
@@ -28108,8 +28262,9 @@ GameObject:
   - component: {fileID: 638911322}
   - component: {fileID: 638911321}
   - component: {fileID: 638911320}
+  - component: {fileID: 638911323}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: LeftBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28188,6 +28343,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638911318}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &638911323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638911318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &647006742
 GameObject:
   m_ObjectHideFlags: 0
@@ -28445,8 +28613,9 @@ GameObject:
   - component: {fileID: 657969312}
   - component: {fileID: 657969311}
   - component: {fileID: 657969310}
+  - component: {fileID: 657969313}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: RightBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28525,6 +28694,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657969308}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &657969313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657969308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &661555673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36381,8 +36563,9 @@ GameObject:
   - component: {fileID: 893762351}
   - component: {fileID: 893762350}
   - component: {fileID: 893762349}
+  - component: {fileID: 893762352}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: RightBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36461,6 +36644,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893762347}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &893762352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893762347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &896919532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36731,8 +36927,9 @@ GameObject:
   - component: {fileID: 918568477}
   - component: {fileID: 918568476}
   - component: {fileID: 918568475}
+  - component: {fileID: 918568478}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: LeftBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36811,6 +37008,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918568473}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &918568478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918568473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1001 &921250081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43372,8 +43582,9 @@ GameObject:
   - component: {fileID: 1053301181}
   - component: {fileID: 1053301180}
   - component: {fileID: 1053301179}
+  - component: {fileID: 1053301182}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: LeftBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43452,6 +43663,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053301177}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1053301182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053301177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!4 &1056436164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 602634423808418026, guid: 9058801f520916a41b1780a1b2839c37,
@@ -43750,8 +43974,9 @@ GameObject:
   - component: {fileID: 1078196747}
   - component: {fileID: 1078196746}
   - component: {fileID: 1078196745}
+  - component: {fileID: 1078196748}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: RightBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43830,6 +44055,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078196743}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1078196748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078196743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &1082871370
 GameObject:
   m_ObjectHideFlags: 0
@@ -45077,8 +45315,9 @@ GameObject:
   - component: {fileID: 1168076286}
   - component: {fileID: 1168076285}
   - component: {fileID: 1168076284}
+  - component: {fileID: 1168076287}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: RightBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45157,6 +45396,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168076282}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1168076287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168076282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &1168226041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49469,8 +49721,9 @@ GameObject:
   - component: {fileID: 1441768468}
   - component: {fileID: 1441768467}
   - component: {fileID: 1441768466}
+  - component: {fileID: 1441768469}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: RightBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49549,6 +49802,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1441768464}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1441768469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441768464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &1454837529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50110,8 +50376,9 @@ GameObject:
   - component: {fileID: 1487492922}
   - component: {fileID: 1487492921}
   - component: {fileID: 1487492920}
+  - component: {fileID: 1487492923}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: RightBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50190,6 +50457,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1487492918}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1487492923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487492918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &1488069421
 GameObject:
   m_ObjectHideFlags: 0
@@ -50505,8 +50785,9 @@ GameObject:
   - component: {fileID: 1497194873}
   - component: {fileID: 1497194872}
   - component: {fileID: 1497194871}
+  - component: {fileID: 1497194874}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: LeftBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50585,6 +50866,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497194869}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1497194874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497194869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!4 &1501245640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3412738273491382745, guid: 9857b6fd3066b974f8defde4391a7766,
@@ -50687,8 +50981,9 @@ GameObject:
   - component: {fileID: 1505309677}
   - component: {fileID: 1505309676}
   - component: {fileID: 1505309675}
+  - component: {fileID: 1505309678}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: LeftBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50767,6 +51062,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505309673}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1505309678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505309673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1001 &1509077600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51475,6 +51783,7 @@ MonoBehaviour:
   - {fileID: 811397975}
   - {fileID: 1919499198}
   - {fileID: 1562352180}
+  playerTf: {fileID: 0}
   pathOne:
   - {fileID: 1752850515}
   - {fileID: 741071688}
@@ -51495,6 +51804,8 @@ MonoBehaviour:
   rightHandAnim: {fileID: 0}
   steering: 0
   steerSpeed: 77
+  leftHandBlocking: 0
+  rightHandBlocking: 0
   bossCamTarget: {fileID: 1481621530}
   playerCam: {fileID: 1636064365}
   bossCam: {fileID: 837775094}
@@ -51678,8 +51989,9 @@ GameObject:
   - component: {fileID: 1553006824}
   - component: {fileID: 1553006823}
   - component: {fileID: 1553006822}
+  - component: {fileID: 1553006825}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: LeftBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51758,6 +52070,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553006820}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1553006825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553006820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &1562352179
 GameObject:
   m_ObjectHideFlags: 0
@@ -58400,8 +58725,9 @@ GameObject:
   - component: {fileID: 1734330744}
   - component: {fileID: 1734330743}
   - component: {fileID: 1734330742}
+  - component: {fileID: 1734330745}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: RightBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58480,6 +58806,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734330740}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1734330745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734330740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &1736155174
 GameObject:
   m_ObjectHideFlags: 0
@@ -63604,8 +63943,9 @@ GameObject:
   - component: {fileID: 1766384975}
   - component: {fileID: 1766384974}
   - component: {fileID: 1766384973}
+  - component: {fileID: 1766384976}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: RightBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63684,6 +64024,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1766384971}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1766384976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766384971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &1766537628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64630,8 +64983,9 @@ GameObject:
   - component: {fileID: 1806668024}
   - component: {fileID: 1806668023}
   - component: {fileID: 1806668022}
+  - component: {fileID: 1806668025}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: LeftBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64710,6 +65064,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806668020}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1806668025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806668020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!64 &1807662472
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -65217,8 +65584,9 @@ GameObject:
   - component: {fileID: 1876687825}
   - component: {fileID: 1876687824}
   - component: {fileID: 1876687823}
+  - component: {fileID: 1876687826}
   m_Layer: 2
-  m_Name: Cube (4)
+  m_Name: RightBlockingCollider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65297,6 +65665,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876687821}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1876687826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876687821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1001 &1879121329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65803,7 +66184,7 @@ Animator:
   m_GameObject: {fileID: 1921944160}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09848a9208de88d40932461efe77d572, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -65913,8 +66294,9 @@ GameObject:
   - component: {fileID: 1928609348}
   - component: {fileID: 1928609347}
   - component: {fileID: 1928609346}
+  - component: {fileID: 1928609349}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: LeftBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65993,6 +66375,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928609344}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1928609349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928609344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 1
 --- !u!1 &1931564127
 GameObject:
   m_ObjectHideFlags: 0
@@ -67554,8 +67949,9 @@ GameObject:
   - component: {fileID: 2072135695}
   - component: {fileID: 2072135694}
   - component: {fileID: 2072135693}
+  - component: {fileID: 2072135696}
   m_Layer: 2
-  m_Name: Cube (6)
+  m_Name: RightBlockingCollider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67634,6 +68030,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072135691}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2072135696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072135691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &2081490355
 GameObject:
   m_ObjectHideFlags: 0
@@ -69090,8 +69499,9 @@ GameObject:
   - component: {fileID: 2146647301}
   - component: {fileID: 2146647300}
   - component: {fileID: 2146647299}
+  - component: {fileID: 2146647302}
   m_Layer: 2
-  m_Name: Cube (5)
+  m_Name: RightBlockingCollider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69170,6 +69580,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146647297}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2146647302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146647297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281b233f6e2ee3a43b8cf1178da6c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: 0
 --- !u!1 &16029001948617418
 GameObject:
   m_ObjectHideFlags: 0
