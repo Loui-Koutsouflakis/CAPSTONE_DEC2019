@@ -60,6 +60,8 @@ public class SaveGameManager : MonoBehaviour
 
     bool startingUp = true;
 
+    public int loadFixer = 2;
+
 
     private void Awake()
     {
@@ -186,8 +188,10 @@ public class SaveGameManager : MonoBehaviour
         if (loading)
         {
             //Calls OnSceneLoaded when the scene switches 
+           
             SceneManager.sceneLoaded += OnSceneLoaded;
             loading = false;
+            
         }
 
 
@@ -445,9 +449,9 @@ public class SaveGameManager : MonoBehaviour
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
             audioHandler = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioHandler>();
 
-
+            Debug.Log("Gets Called ");
             //Checks whether or not it is loading from a file or not;
-            if (!loadingFromContinue && SceneManager.GetActiveScene().buildIndex == 1)
+            if (!loadingFromContinue && SceneManager.GetActiveScene().buildIndex == 1 && loadFixer == 0)
             {
                 ClearCollectedShards();
                 ResetListOfShards();
@@ -464,12 +468,14 @@ public class SaveGameManager : MonoBehaviour
 
                 //Save the game
                 Save();
+                Debug.Log(loadingFromContinue);
 
                 LoadSettings();
                 //Debug.Log("Gets Called ");
+                loadFixer = 2;
 
             }
-            else if (loadingFromContinue)
+            else if (loadingFromContinue && loadFixer == 1)
             {
                 //Load the data
                 Load();
@@ -478,7 +484,9 @@ public class SaveGameManager : MonoBehaviour
 
                 LoadSettings();
 
-                loadingFromContinue = false;
+                loadFixer = 2;
+
+                //loadingFromContinue = false;
             }
             else
             {
@@ -488,8 +496,8 @@ public class SaveGameManager : MonoBehaviour
                 LoadSettings();
                 Debug.Log("Else Worked");
             }
-            Debug.Log(loadingFromContinue + " Loading From Continue");
         }
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     //Function to handle input testing

@@ -23,10 +23,19 @@ public class AudioHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetAllAudioSources();
 
-      
+        for (int i = 0; i < allMenuAudioSources.Length; i++)
+        {
+            if (allAudioSources[i].outputAudioMixerGroup == null)
+            {
+                allMenuAudioSources[i].outputAudioMixerGroup = SFXMixer;
 
-        if(GameObject.FindGameObjectWithTag("SaveGameManager"))
+            }
+        }
+
+
+        if (GameObject.FindGameObjectWithTag("SaveGameManager"))
         {
             saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
  

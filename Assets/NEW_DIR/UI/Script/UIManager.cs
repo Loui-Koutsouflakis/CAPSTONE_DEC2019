@@ -274,6 +274,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.loadingFromContinue = false;
+        saveGameManager.loadFixer = 0;
         saveGameManager.loading = true;
         LoadLevel.LoadLevel(1);
 
@@ -285,6 +286,8 @@ public class UIManager : MonoBehaviour
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager.loadingFromContinue = true;
+        saveGameManager.loadFixer = 1;
+        //Debug.Log(saveGameManager.loadingFromContinue + " Loading From Continue");
         //Debug.Log(saveGameManager.loadingFromContinue);
         saveGameManager.loading = true;
         LoadLevel.LoadLevel(PlayerPrefs.GetInt("CurrentScene_1"));
