@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_TreePlatforms_Box006_Cell
-  m_Shader: {fileID: 4800000, guid: bac4d7ebafce0b8488ff8bc3ceca25f3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3d23b8c0bb9e13f4f945def368cce1ea, type: 3}
   m_ShaderKeywords: _USEDISSOLVE_ON _USETOON_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2315
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTexture:
-        m_Texture: {fileID: 2800000, guid: 6bbb7b979ac71704b9ccd1fea1b1064b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -72,6 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 0.5
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -88,16 +89,16 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineExtrusion: 0
     - _OutlineStrength: 0
-    - _OutlineWidth: 0.1
+    - _OutlineWidth: 0.05
     - _Parallax: 0.02
-    - _RimAmount: 0.716
-    - _RimThreshold: 0.1
+    - _RimAmount: 0.65
+    - _RimThreshold: 0
     - _SRef: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 1
+    - _Strength: 0
     - _UVSec: 0
     - _UseDissolve: 1
     - _UseEmission: 0
@@ -107,11 +108,12 @@ Material:
     - _UseToon: 1
     - _ZWrite: 1
     m_Colors:
-    - _AmbientColor: {r: 0.78431374, g: 0.09803922, b: 0, a: 1}
+    - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorD: {r: 1, g: 1, b: 1, a: 1}
+    - _DisOutline: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SnowDir: {r: 0, g: 1, b: 0, a: 1}
-    - _SpecularColor: {r: 0.78431374, g: 0, b: 0.09803922, a: 1}
+    - _SpecularColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}

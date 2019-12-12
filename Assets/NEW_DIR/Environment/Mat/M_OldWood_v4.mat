@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TreeTops
-  m_Shader: {fileID: 4800000, guid: 3d23b8c0bb9e13f4f945def368cce1ea, type: 3}
-  m_ShaderKeywords: 
+  m_Name: M_OldWood_v4
+  m_Shader: {fileID: 4800000, guid: 7ad1386aa971dcf4e89a31ae4c5d46e9, type: 3}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _USEEMISSION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2315
+  m_CustomRenderQueue: 2950
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -41,19 +41,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0.06, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bc6da5ca93e89dc4b96d4632c8e5da47, type: 3}
-        m_Scale: {x: 5, y: 1}
+        m_Texture: {fileID: 2800000, guid: e1973954da897cc4a9701c3016b1d22b, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0.06, y: 0}
+    - _MainTexD:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 2d38b44789715cd4383414c0d8f25e41, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 3923854dbc9a66249b833b8c246cb9e2, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -64,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Ramp:
-        m_Texture: {fileID: 2800000, guid: ad645447d2da4cc458567b123dbbf48a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SnowText:
@@ -72,44 +76,47 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 0.5
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EmissionIntensity: 0
     - _Factor: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.65
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 3
     - _NormalMapIntensity: 2
     - _ObjYScale: 0
     - _OcclusionStrength: 1
+    - _OutlineExtrusion: 0
     - _OutlineStrength: 0
     - _OutlineWidth: 0.05
     - _Parallax: 0.02
-    - _RimAmount: 0.944
-    - _RimThreshold: 1
-    - _RotationSpeed: 0
+    - _RimAmount: 0.716
+    - _RimThreshold: 0.1
+    - _SRef: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Strength: 0
     - _UVSec: 0
     - _UseDissolve: 0
-    - _UseEmission: 0
+    - _UseEmission: 1
     - _UseNormalMap: 0
     - _UseOutline: 0
     - _UseSnow: 0
     - _UseToon: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _AmbientColor: {r: 0, g: 0.4764706, b: 0, a: 1}
-    - _Color: {r: 0.2988608, g: 0.8679245, b: 0.44535246, a: 1}
+    - _AmbientColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.6509804}
+    - _ColorD: {r: 1, g: 1, b: 1, a: 1}
     - _DisOutline: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0, g: 0.20754717, b: 0, a: 1}
+    - _SnowDir: {r: 0, g: 1, b: 0, a: 1}
+    - _SpecularColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
