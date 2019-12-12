@@ -35,8 +35,8 @@ public class BossV2 : MonoBehaviour
 
     bool steerAdjusted;
 
-    float leftHandBlocking;
-    float rightHandBlocking;
+    public float leftHandBlocking;
+    public float rightHandBlocking;
 
     float handLerpRate;
     float horizontalInput;
