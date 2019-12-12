@@ -25,5 +25,6 @@ public class trigger_Animation : MonoBehaviour
         {
             anim.SetTrigger("Go");
         }
+       
     }
 }

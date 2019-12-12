@@ -8,6 +8,7 @@ public class BossV2 : MonoBehaviour
     public Transform[] bodyTargets;
     public Animator[] bodyAnims;
     public Transform[] targetInits;
+    public Transform playerTf;
 
     //private readonly Vector3[] targetInitOffset =
     //{
@@ -34,8 +35,8 @@ public class BossV2 : MonoBehaviour
 
     bool steerAdjusted;
 
-    float leftHandBlocking;
-    float rightHandBlocking;
+    public float leftHandBlocking;
+    public float rightHandBlocking;
 
     float handLerpRate;
     float horizontalInput;
@@ -77,14 +78,14 @@ public class BossV2 : MonoBehaviour
             CueSteer();
         }
 
-        if (rightHandBlocking < 0f)
+        if (rightHandBlocking > 0f)
         {
-            rightHand.position = Vector3.Lerp(rightHand.position, rightHandBlockingPoint, handLerpRate * Time.deltaTime);
+            MoveHand(rightHand);
         }
 
-        if(leftHandBlocking < 0f)
+        if(leftHandBlocking > 0f)
         {
-            leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
+            MoveHand(leftHand);
         }
 
         if (steering)
@@ -140,6 +141,16 @@ public class BossV2 : MonoBehaviour
         {
             CueSteer();
         }
+    }
+
+    public void MoveHand(Transform hand)
+    {
+        hand.position = Vector3.Lerp(hand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
+        Vector3 toRotate = playerTf.position - hand.position;
+        toRotate.x = 0f;
+        toRotate.z = 0f;
+        hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.LookRotation(toRotate), steerRotLerp * Time.deltaTime);
+        rightHandBlocking -= Time.deltaTime;
     }
 
     public IEnumerator SteerRoutine(Vector3 steerDirection)
