@@ -106,7 +106,7 @@
 
 			half4 frag(v2fOL i) : COLOR
 			{
-				half dissolveValue = tex2D(_DissolveTexture, i.uv).r;
+				half dissolveValue = tex2D(_DissolveTexture, i.uv).b;
 				clip(dissolveValue - _Strength);
 				fixed4 c = _OutlineColor;
 				fixed4 e = _DisOutline * step(dissolveValue - _Strength, _OutlineStrength);
@@ -160,7 +160,7 @@
 			ENDCG
 		}
 
-		Pass
+		Pass // Shadow Reciever
 		{
 			Blend SrcAlpha OneMinusSrcAlpha
 
@@ -169,24 +169,27 @@
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
 
-			#include "UnityCG.cginc"
 			#include "AutoLight.cginc"
 
 			struct appdata
 			{
 				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
 			};
 
 			struct v2f
 			{
 				float4 pos : SV_POSITION;
 				SHADOW_COORDS(0)
+				float2 uv : TEXCOORD01;
 			};
 
 			v2f vert(appdata v)
 			{
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
 				TRANSFER_SHADOW(o)
 				return o;
 			}
@@ -197,123 +200,62 @@
 			{
 				float shadow = SHADOW_ATTENUATION(i);
 
-				return float4(0, 0, 0, (1 - shadow) * _Alpha);
+				half dissolveValue = tex2D(_DissolveTexture, i.uv).r;
+				clip(dissolveValue - _Strength);
+
+				fixed4 e = _DisOutline * step(dissolveValue - _Strength, _OutlineStrength);
+				fixed4 s = float4(0, 0, 0, (1 - shadow) * _Alpha);
+
+				return s + e;
 			}
 			ENDCG
 		}
 
-		Pass // Snow
+		Pass // Shadow Caster
 		{
 			Tags
 			{
-				"RenderType" = "Opaque"
-				"Queue" = "Geometry+2"
+				"LightMode" = "ShadowCaster"
 			}
-			Cull Off
 
 			CGPROGRAM
-			#pragma vertex vertS
-			#pragma fragment fragS
-			#pragma geometry geomS
+			#pragma vertex verts
+			#pragma fragment frags
+			#pragma multi_compile_shadowcaster
 
-			struct g2f // Appdata equivilant
-			{
-				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
-				fixed4 col : COLOR;
-			};
-
-			struct v2g // v2f equivilant
+			struct appdatas
 			{
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
-				float3 normal : NORMAL;
 			};
 
-			sampler2D _SnowText;
-			float4 _SnowText_ST;
-			float _ObjYScale;
-
-			v2g vertS(appdata_base v)
+			struct v2fs
 			{
-				v2g o;
-				o.vertex = v.vertex;
-				o.uv = TRANSFORM_TEX(v.texcoord, _SnowText);
-				o.normal = v.normal;
+				float2 uv : TEXCOORD0;
+				V2F_SHADOW_CASTER;
+			};
+
+			v2fs verts(appdata_base /*appdatas*/ v)
+			{
+				v2fs o;
+				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.vertex, _MainTex);
+				TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
 				return o;
 			}
 
-			float _Factor;
-
-			[maxvertexcount(24)]
-			void geomS(triangle v2g IN[3], inout TriangleStream<g2f> tristream)
+			float4 frags(v2fs i) : SV_Target
 			{
-				if (_Factor > 0)
-				{
-					if (IN[0].vertex.y > _ObjYScale&& IN[1].vertex.y > _ObjYScale&& IN[2].vertex.y > _ObjYScale)
-					{
-						g2f o;
-						for (int i = 0; i < 3; i++) // Side Trangles
-						{
-							o.pos = UnityObjectToClipPos(IN[i].vertex);
-							o.uv = IN[i].uv;
-							o.col = fixed4(0., 0., 0., 1.);
-							tristream.Append(o);
+				half dissolveValue = tex2D(_DissolveTexture, i.uv).r;
+				clip(dissolveValue - _Strength);
 
-
-							o.pos = UnityObjectToClipPos(IN[i].vertex + float4(0, 1, 0, 0) * _Factor);
-							o.uv = IN[i].uv;
-							o.col = fixed4(1., 1., 1., 1.);
-							tristream.Append(o);
-
-							int inext = (i + 1) % 3;
-
-							o.pos = UnityObjectToClipPos(IN[inext].vertex);
-							o.uv = IN[inext].uv;
-							o.col = fixed4(0., 0., 0., 1.);
-							tristream.Append(o);
-
-							tristream.RestartStrip();
-
-							o.pos = UnityObjectToClipPos(IN[i].vertex + float4(0, 1, 0, 0) * _Factor);
-							o.uv = IN[i].uv;
-							o.col = fixed4(1., 1., 1., 1.);
-							tristream.Append(o);
-
-							o.pos = UnityObjectToClipPos(IN[inext].vertex);
-							o.uv = IN[inext].uv;
-							o.col = fixed4(0., 0., 0., 1.);
-							tristream.Append(o);
-
-							o.pos = UnityObjectToClipPos(IN[inext].vertex + float4(0, 1, 0, 0) * _Factor);
-							o.uv = IN[inext].uv;
-							o.col = fixed4(1., 1., 1., 1.);
-							tristream.Append(o);
-
-							tristream.RestartStrip();
-						}
-
-						for (int i = 0; i < 3; i++) // Top Triangles
-						{
-							o.pos = UnityObjectToClipPos(IN[i].vertex + float4(0, 1, 0, 0) * _Factor);
-							o.uv = IN[i].uv;
-							o.col = fixed4(1., 1., 1., 1.);
-							tristream.Append(o);
-						}
-
-						tristream.RestartStrip();
-					}
-				}
-			}
-
-			fixed4 fragS(g2f i) : SV_Target
-			{
-				fixed4 col = tex2D(_SnowText, i.uv) * i.col;
-				return col;
+				fixed4 e = _DisOutline * step(dissolveValue - _Strength, _OutlineStrength);
+				SHADOW_CASTER_FRAGMENT(i)
+				return e;
 			}
 			ENDCG
 		}
 	}
 	Fallback "Diffuse"
-	//CustomEditor "ToonGUIv5"
+	CustomEditor "ToonGUIv6"
 }
