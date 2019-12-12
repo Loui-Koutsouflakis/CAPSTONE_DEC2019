@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Butterfly : MonoBehaviour
 {
-    MeshRenderer rend;
-    Material mat;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rend.material = new Material(mat);
-        rend.material = mat;
-        mat.SetFloat("_DisplacementAmount", 4);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+//    MeshRenderer rend;
+//    Material mat;
+//    public Transform followPoint;
+//    Transform newPos;
+//    // Start is called before the first frame update
+//    void Start()
+//    {
         
-    }
-}
+//    }
+
+//    // Update is called once per frame
+//    void Update()
+//    {
+//        Vector3.RotateTowards(followPoint);
+//        transform.position = Vector3.MoveTowards(transform.position,new Vector3(followPoint.position.x,transform.position.y,followPoint.position.z), 3 * Time.smoothDeltaTime);
+//    }
+//}
