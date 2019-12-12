@@ -72,7 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 525d52a29d75ef848a8220cade1ddfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackTarget: {x: 0, y: 0, z: 0}
   ChargeSpeed: 0
   RotationSpeed: 180
   Layer:
@@ -82,10 +81,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   PlusY: 0.1
-  FirstRayLength: 7
-  SecondRayLength: 0.5
-  EndPoint: {x: 0, y: 0, z: 0}
-  AI: {x: 0, y: 0, z: 0}
+  TopY: 0
+  RightX: 0
+  LeftX: 0
+  MaxHieghtDifference: 0
+  FRL: 0
+  SRL: 0
 --- !u!1102 &-8104086594518995807
 AnimatorState:
   serializedVersion: 5
@@ -346,7 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d59c57a63a743f4cbd30ab644b0ef75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DistanceCheckAI: 0
   RotationSpeed: 200
   LongRangeMax: 20
   LongRangeMin: 15
@@ -354,6 +354,7 @@ MonoBehaviour:
   MiddleRangeMin: 5
   ShortRangeMax: 5
   ShortRangeMin: 1
+  MaxHieghtDifference: 3
   Layer:
     serializedVersion: 2
     m_Bits: 1
@@ -361,10 +362,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   PlusY: 0.1
-  FirstRayLength: 6
+  TopY: 4
+  RightX: 1
+  LeftX: -1
+  FRL: 5
   SecondRayLength: 0.5
-  EndPoint: {x: 0, y: 0, z: 0}
-  AI: {x: 0, y: 0, z: 0}
 --- !u!114 &-4659624052817523656
 MonoBehaviour:
   m_ObjectHideFlags: 1
