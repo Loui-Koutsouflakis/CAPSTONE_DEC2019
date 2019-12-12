@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_1Tree_Trunk
+  m_Name: M_2Mushroom_Blue 1
   m_Shader: {fileID: 4800000, guid: 3d23b8c0bb9e13f4f945def368cce1ea, type: 3}
-  m_ShaderKeywords: _USEDISSOLVE_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2300
+  m_CustomRenderQueue: 3800
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -44,11 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 01da24a3201f0684fa00ec450bbd607f, type: 3}
-        m_Scale: {x: 15, y: 15}
-        m_Offset: {x: 0, y: 0}
-    - _MainTexD:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 81bc1f20fde8d874391bd42feadad9ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -56,18 +52,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: e44953b3c8444e545a4499796850b212, type: 3}
-        m_Scale: {x: 15, y: 15}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Ramp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -84,27 +76,24 @@ Material:
     - _EmissionIntensity: 0
     - _Factor: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NormalMapIntensity: 2
+    - _NormalMapIntensity: 1.5
     - _ObjYScale: 0
     - _OcclusionStrength: 1
-    - _OutlineExtrusion: 0
     - _OutlineStrength: 0
-    - _OutlineWidth: 0.07
+    - _OutlineWidth: 0.05
     - _Parallax: 0.02
-    - _RimAmount: 0.754
-    - _RimThreshold: 0.898
-    - _SRef: 1
-    - _Smoothness: 0
+    - _RimAmount: 1
+    - _RimThreshold: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Strength: 0
     - _UVSec: 0
-    - _UseDissolve: 1
+    - _UseDissolve: 0
     - _UseEmission: 0
     - _UseNormalMap: 0
     - _UseOutline: 0
@@ -112,12 +101,10 @@ Material:
     - _UseToon: 0
     - _ZWrite: 1
     m_Colors:
-    - _AmbientColor: {r: 1, g: 0.39215687, b: 0, a: 1}
+    - _AmbientColor: {r: 2.27451, g: 0, b: 0.03137255, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorD: {r: 1, g: 1, b: 1, a: 1}
     - _DisOutline: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SnowDir: {r: 0, g: 1, b: 0, a: 1}
-    - _SpecularColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    - _RimColor: {r: 0, g: 0.019247802, b: 0.4716981, a: 1}
+    - _SpecularColor: {r: 3.764706, g: 0.1254902, b: 0, a: 1}

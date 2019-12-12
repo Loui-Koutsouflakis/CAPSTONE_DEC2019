@@ -10,6 +10,7 @@ public class Killzone : MonoBehaviour
     private void Start()
     {
         hudManager = playerScript.GetHManager();
+        playerScript = FindObjectOfType<PlayerClass>();
         //spawnPoint = playerScript.transform.position;
     }
 
