@@ -484,6 +484,7 @@ public class SaveGameManager : MonoBehaviour
             {
                 beginning = player.transform;
                 currentCheckpoint = beginning;
+                Save();
                 LoadSettings();
                 Debug.Log("Else Worked");
             }

@@ -8,6 +8,7 @@ public class BossV2 : MonoBehaviour
     public Transform[] bodyTargets;
     public Animator[] bodyAnims;
     public Transform[] targetInits;
+    public Transform playerTf;
 
     //private readonly Vector3[] targetInitOffset =
     //{
@@ -85,6 +86,7 @@ public class BossV2 : MonoBehaviour
         if(leftHandBlocking < 0f)
         {
             leftHand.position = Vector3.Lerp(leftHand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
+            leftHand.rotation = Quaternion.Lerp(leftHand.rotation, Quaternion.LookRotation(playerTf.position - leftHand.position), steerRotLerp * Time.deltaTime);
         }
 
         if (steering)
