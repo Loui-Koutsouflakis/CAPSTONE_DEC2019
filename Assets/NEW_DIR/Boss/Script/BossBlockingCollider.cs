@@ -9,17 +9,19 @@ public class BossBlockingCollider : MonoBehaviour
 
     public static BossV2 bossRef;
 
+    readonly float initBlocking = 50f;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == 9 && !collision.collider.isTrigger)
         {
             if(leftHand)
             {
-                bossRef.leftHandBlocking = 5f;
+                bossRef.leftHandBlocking = initBlocking;
             }
             else
             {
-                bossRef.rightHandBlocking = 5f;
+                bossRef.rightHandBlocking = initBlocking;
             }
         }
     }
