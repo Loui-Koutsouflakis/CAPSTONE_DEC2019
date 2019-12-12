@@ -57,7 +57,7 @@ public class RockMole : MonoBehaviour , IKillable
     private void Start()
     {
         alive = true;
-
+        playerTf = FindObjectOfType<PlayerClass>().transform;
         if (moleType < 2)
         {
             surfaceTime = 4f;
