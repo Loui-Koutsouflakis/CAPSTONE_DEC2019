@@ -5,198 +5,198 @@ using UnityEngine.AI;
 
 public class Spiderlings : MonoBehaviour, IKillable
 {
-    [Range(1, 5)]
-    public int rotationSpeed = 4;
-    public int speed = 3;
-    public float fireRange = 4f;
+
     public GameObject spineret;
     public SpiderlingAnimController spiderlingAnimController;
-    //public FlockingController flockController;
+    public Material toonShader;
+    public SpiderlingState currentState;
     public int hitPoints = 1;
-    private bool stuckPlayer = false;
-    private float angle;
-    private Enemy enemyScript;
+    public float fireRange = 4f;
 
     private Transform player;
+    private LineRenderer lineRend;
+    private NavMeshAgent navmeshAgent;
     private Vector3 destination;
-    private Vector3 newDirection;
+    private Vector3 startPos;
+    private bool stuckPlayer = false;
+    private Material useMaterial;
+    private Material mat;
+    [SerializeField]
+    private Transform motherSpider;
+    private float chasePlayerSpeed;
+    private float motherSpiderSpeed;
 
-    //The modified direction for the boid.
-    private Vector3 targetDirection;
-    //The Boid's current direction.
-    private Vector3 direction;
-    public bool kill = false;
-    Vector3 debugCurrentAxis;
-    float debugAngleToTurn;
-    public GameObject posVisual;
-    public GameObject posVisual2;
-    private List<Vector3> obstaclePos = new List<Vector3>();
-    public Vector3 Direction { get { return direction; } }
-    Vector3 startPos;
-
-
-    public void SetPlayer(Transform player)
-    {
-        this.player = player; 
-    }
+    #region Awake, update, on enable, on disable
     private void Awake()
     {
-        enemyScript = GetComponent<Enemy>();
+        useMaterial = new Material(toonShader);
+        lineRend = GetComponent<LineRenderer>();
+        navmeshAgent = GetComponent<NavMeshAgent>();
+        chasePlayerSpeed = navmeshAgent.speed;
+
+        startPos = transform.position;
+        GetChildRecursive(gameObject);
     }
 
+    private void GetChildRecursive(GameObject obj)
+    {
+        if (null == obj)
+            return;
+
+        mat = useMaterial;
+        mat.SetFloat("_Strength", 0.0f);
+
+        foreach (Transform child in obj.transform)
+        {
+            if (null == child)
+                continue;
+
+            if (child.gameObject.tag == "SpiderBody")
+            {
+                child.gameObject.GetComponent<Renderer>().material = mat;
+            }
+
+
+            GetChildRecursive(child.gameObject);
+        }
+
+
+    }
 
     private void OnEnable()
     {
+        currentState = SpiderlingState.Chaseplayer;
         startPos = transform.position;
-        if(player != null) destination = player.position;        
+        if (player != null) destination = player.position;
+
+        SetState(SpiderlingState.Chaseplayer);
+
+        if (motherSpider != null) motherSpiderSpeed = motherSpider.gameObject.GetComponent<NavMeshAgent>().speed;
+        else motherSpiderSpeed = 3.5f;
     }
 
     private void OnDisable()
     {
+        if(mat != null) mat.SetFloat("_Strength", 0);
+
         SetLineRend(spineret.transform.position);
         transform.position = startPos;
     }
 
-
-    private void SetLineRend(Vector3 end)
-    {
-        GetComponent<LineRenderer>().SetPosition(0, spineret.transform.position);
-        GetComponent<LineRenderer>().SetPosition(1, end);
-    }
-
-    public void Step()
-    {
-        transform.position += (transform.forward * (3 * Time.deltaTime));
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        startPos = transform.position;
-    }
-
-
-
-    private void TestForCollisions()
-    {
-        obstaclePos = new List<Vector3>();
-        int test = 0;
-        int pos = 0;
-        Vector3 lineStart = new Vector3();
-        Vector3 lineEnd = new Vector3();
-
-        while (test < 8)
-        {
-            DebugFindNewAxis(pos);
-            lineStart = (debugCurrentAxis * 1.1f) + transform.position;
-            posVisual.transform.position = lineStart;
-            lineEnd = (debugCurrentAxis * 2.5f) + transform.position;
-            posVisual2.transform.position = lineEnd;
-            RaycastHit hit;
-            if(Physics.Linecast(lineStart, lineEnd, out hit))
-            {
-                obstaclePos.Add(hit.transform.position);
-            }
-
-            pos++;
-            if (pos > 7) pos = 0;
-            test++;
-        }
-        Debug.Log("Its done");
-    }
-
     void Update()
     {
-        if (kill)
-        {
-            kill = false;
-            StartCoroutine(Die());
-        }
+        if (currentState == SpiderlingState.Chaseplayer) destination = player.position;
+        else if (currentState == SpiderlingState.FollowSpiderMother && motherSpider != null) destination = motherSpider.position - (motherSpider.forward * 5);
 
-        if (player != null) destination = player.position;
-        if (GetComponent<NavMeshAgent>().isPathStale) GetComponent<NavMeshAgent>().ResetPath();
-        if ((destination - transform.position).magnitude <= fireRange / 2 && !stuckPlayer)
+        if (navmeshAgent.isPathStale) navmeshAgent.ResetPath();
+
+        if ((destination - transform.position).magnitude <= fireRange / 2 && !stuckPlayer && currentState != SpiderlingState.Die && currentState != SpiderlingState.FollowSpiderMother)
         {
 
             stuckPlayer = true;
-
+            currentState = SpiderlingState.StuckPlayer;
+            player.gameObject.GetComponent<PlayerClass>().IncreaseWebs();
+            //Debug.Log(player.gameObject.GetComponent<PlayerClass>().GetAttachedWebs() + " Increase");
+       
         }
 
-        if ((destination - transform.position).magnitude > fireRange)
+        if ((destination - transform.position).magnitude > fireRange && stuckPlayer && currentState != SpiderlingState.Die || currentState == SpiderlingState.FollowSpiderMother)
         {
             SetLineRend(spineret.transform.position);
+            //currentState = SpiderlingState.Chaseplayer;
             stuckPlayer = false;
+            player.gameObject.GetComponent<PlayerClass>().DecreaseWebs();
+            //Debug.Log(player.gameObject.GetComponent<PlayerClass>().GetAttachedWebs() + " Decrease");
             GetComponent<NavMeshObstacle>().enabled = false;
-            GetComponent<NavMeshAgent>().enabled = true;
+            GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionY;
+
+            navmeshAgent.enabled = true;
 
         }
 
-        if (!stuckPlayer /*&& GetComponent<NavMeshAgent>().enabled*/)
+        if (!stuckPlayer && currentState != SpiderlingState.Die)
         {
-            GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
+            navmeshAgent.SetDestination(destination);
             spiderlingAnimController.TrapPlayer(false);
 
         }
-        else if (stuckPlayer/*GetComponent<NavMeshAgent>().enabled*/)
+        else if (stuckPlayer && currentState != SpiderlingState.Die)
         {
-            GetComponent<NavMeshAgent>().SetDestination(transform.position);
-            GetComponent<NavMeshAgent>().enabled = false;
+            navmeshAgent.SetDestination(transform.position);
+            navmeshAgent.enabled = false;
             GetComponent<NavMeshObstacle>().enabled = true;
-
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
             spiderlingAnimController.TrapPlayer(true);
             SetLineRend(player.position);
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (stuckPlayer)
+        
+        if (currentState == SpiderlingState.Die)
         {
-            newDirection = destination - transform.position;
-            newDirection.y = transform.forward.y;
-            angle = Vector3.SignedAngle(newDirection, transform.forward, transform.up);
+            SetLineRend(spineret.transform.position);
 
-            if (angle > 5) transform.Rotate(transform.up, -rotationSpeed);
-            if (angle < -5) transform.Rotate(transform.up, rotationSpeed);
+            navmeshAgent.enabled = false;
+
         }
     }
 
+    #endregion
 
-
-    public void DebugFindNewAxis(int rayPos)
+    public void SetSpiderTransform(Transform spider)
     {
-        debugCurrentAxis = transform.right;
-        debugAngleToTurn = (45 * rayPos);
+        motherSpider = spider;
+    }
 
-        float x = debugCurrentAxis.x;
+    public void SetPlayer(Transform player)
+    {
+        this.player = player;
+    }
 
-        float z = debugCurrentAxis.z;
 
-        debugCurrentAxis.x = x * Mathf.Cos(debugAngleToTurn * Mathf.Deg2Rad) + z * Mathf.Sin(debugAngleToTurn * Mathf.Deg2Rad);
-        debugCurrentAxis.z = -x * Mathf.Sin(debugAngleToTurn * Mathf.Deg2Rad) + z * Mathf.Cos(debugAngleToTurn * Mathf.Deg2Rad);
 
-        x = debugCurrentAxis.x;
+    public void SetState(SpiderlingState state)
+    {
+        switch(state)
+        {
+            case SpiderlingState.Chaseplayer:
+                navmeshAgent.speed = chasePlayerSpeed;
+                currentState = SpiderlingState.Chaseplayer;
+                break;
+            case SpiderlingState.FollowSpiderMother:
+                navmeshAgent.speed = motherSpiderSpeed;
+                currentState = SpiderlingState.FollowSpiderMother;
 
-        z = debugCurrentAxis.z;
-
-        debugCurrentAxis.x = x * Mathf.Cos(90 * Mathf.Deg2Rad) + z * Mathf.Sin(90 * Mathf.Deg2Rad);
-        debugCurrentAxis.z = -x * Mathf.Sin(90 * Mathf.Deg2Rad) + z * Mathf.Cos(90 * Mathf.Deg2Rad);
+                break;
+        }
 
     }
 
+    private void SetLineRend(Vector3 end)
+    {
+        lineRend.SetPosition(0, spineret.transform.position);
+        lineRend.SetPosition(1, end);
+    }
+
+    
+
+
+    #region Ikillable impementation
     public IEnumerator CheckHit(bool x)
     {
-        Debug.Log("this is working");
-        if(x) StartCoroutine(Die());
-        else StartCoroutine(TakeDamage());
+        //Debug.Log(x + " Why it no work");
+        //Debug.Log("this is working");
+        if (currentState != SpiderlingState.Die)
+        {
+            if (x) StartCoroutine(Die());
+            else StartCoroutine(TakeDamage());
+        }
         yield return 0;
     }
 
     public IEnumerator TakeDamage()
     {
-        hitPoints --;
-        Debug.Log("Spiderling hit");
+        hitPoints--;
+        //Debug.Log("Spiderling hit");
 
         if (hitPoints < 1)
         {
@@ -210,9 +210,32 @@ public class Spiderlings : MonoBehaviour, IKillable
 
     public IEnumerator Die()
     {
-        Debug.Log("Spiderling died");
-        gameObject.SetActive(false);
-        transform.position = startPos;
+        currentState = SpiderlingState.Die;
+        if(stuckPlayer) player.gameObject.GetComponent<PlayerClass>().DecreaseWebs();
+        //Debug.Log(player.gameObject.GetComponent<PlayerClass>().GetAttachedWebs() + " Decrease in die");
+        spiderlingAnimController.Death();
+        //Debug.Log("Spiderling died");
         yield return 0;
     }
+
+    public IEnumerator DeathDeactivate()
+    {
+        for (float i = 0; i < 0.8f; i += 0.05f)
+        {
+
+            mat.SetFloat("_Strength", i);
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        gameObject.SetActive(false);
+
+    }
+    #endregion
+}
+
+public enum SpiderlingState
+{
+    Chaseplayer,
+    FollowSpiderMother,
+    StuckPlayer,
+    Die
 }
