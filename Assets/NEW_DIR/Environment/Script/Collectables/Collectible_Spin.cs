@@ -38,6 +38,7 @@ public class Collectible_Spin : MonoBehaviour
 
     HandleSfx sfx;
     public bool isCollected = false;
+    public bool isMoon = false;
     Animator anim;
     #endregion
     void Awake()
@@ -76,15 +77,22 @@ public class Collectible_Spin : MonoBehaviour
     {
         if (c.gameObject.layer == 14 && anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation"))
         {
+            if (!isMoon)
+            {
+                sfx.PlayOneShotByName("Collect");
+                hud.ShardsUp();
+                player.SetShards(1);
+                isCollected = true;
+                if (saveMan)
+                    saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
+                print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+                saveMan.SaveCollectedShardsID();
+            }
+            else
             sfx.PlayOneShotByName("Collect");
-            hud.ShardsUp();
-            player.SetShards(1);
+            hud.MoonsUp();
+            //player.MoonsUp(1);
             isCollected = true;
-            if(saveMan)
-                saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
-            print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
-            saveMan.SaveCollectedShardsID();
-
 
         }
     }

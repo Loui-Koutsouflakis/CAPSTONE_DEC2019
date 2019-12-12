@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class IntroSnow : MonoBehaviour
 {
+    //Cache wait time
+    private readonly WaitForSeconds timer = new WaitForSeconds(13.0f);
+
     private void Start()
     {
         //Start timer
@@ -15,7 +18,7 @@ public class IntroSnow : MonoBehaviour
     private IEnumerator TurnOffSnow()
     {
         //Wait for openeing cutscene to finish, then disable gameobject
-        yield return new WaitForSeconds(13.0f);
+        yield return timer;
 
         gameObject.SetActive(false);
     }

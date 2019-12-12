@@ -12,6 +12,9 @@ public class IceBaricade : MonoBehaviour
     private Animator animator;
     private AudioSource source;
 
+    //Cache wait time
+    private readonly WaitForSeconds timer = new WaitForSeconds(5.0f);
+
     private void Start()
     {
         //Get component references
@@ -34,7 +37,7 @@ public class IceBaricade : MonoBehaviour
     private IEnumerator CleanUp()
     {
         //Wait for animation to finish, then clean un unnecessary assets
-        yield return new WaitForSecondsRealtime(5.0f);
+        yield return timer;
 
         gameObject.SetActive(false);
     }
