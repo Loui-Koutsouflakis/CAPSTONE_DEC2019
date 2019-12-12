@@ -15,6 +15,11 @@ public class EggSack : MonoBehaviour
         return spiderlingsToSpawn = Random.Range(3, 6);
     }
 
+    public GameObject[] SpiderlingsPool()
+    {
+        return spiderlings;
+    }
+
     public bool SpiderlingsDead()
     {
         for(int i = 0; i < spiderlings.Length; i++)
