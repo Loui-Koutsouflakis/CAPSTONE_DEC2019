@@ -20,4 +20,4 @@ public class Butterfly : MonoBehaviour
 //        Vector3.RotateTowards(followPoint);
 //        transform.position = Vector3.MoveTowards(transform.position,new Vector3(followPoint.position.x,transform.position.y,followPoint.position.z), 3 * Time.smoothDeltaTime);
 //    }
-//}
+}
