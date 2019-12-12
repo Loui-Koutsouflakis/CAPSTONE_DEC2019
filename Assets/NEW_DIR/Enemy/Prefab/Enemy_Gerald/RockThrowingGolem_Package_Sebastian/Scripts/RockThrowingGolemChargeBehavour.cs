@@ -45,7 +45,7 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
 
         var r = Quaternion.LookRotation(AttackTarget - atp);
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
-        //animator.transform.position = Vector3.MoveTowards(atp, AttackTarget, ChargeSpeed * Time.deltaTime);
+        animator.transform.position = Vector3.MoveTowards(atp, AttackTarget, ChargeSpeed * Time.deltaTime);
 
         // Cliff and Wall
         RaycastHit FH;
@@ -83,7 +83,7 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         }
         Debug.DrawRay(EndPoint, Vector3.down * secondHit.distance, Color.red);
 
-        if (Vector3.Distance(atp, AttackTarget) < 1)
+        if (Vector3.Distance(atp, AttackTarget) < 2)
         {
             animator.SetBool("IsTired", true);
         }

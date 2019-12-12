@@ -13,6 +13,7 @@ public class RockThrowingGolemIdleBehavour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        animator.SetBool("HasArrivedAtNewSleepPos", false);
         animator.SetBool("isInWakeUpRange", false);
         animator.SetBool("HasExitedRange", false);
         animator.SetBool("HasNotExitedRange", false);
@@ -22,7 +23,6 @@ public class RockThrowingGolemIdleBehavour : StateMachineBehaviour
         animator.SetBool("IsTired", false);
         animator.SetBool("IsInThrowRange", false);
         animator.SetBool("StartNewSleepPosFunction", false);
-        animator.SetBool("HasArrivedAtNewSleepPos", false);
 
     }
 

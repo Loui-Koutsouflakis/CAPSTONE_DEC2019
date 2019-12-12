@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ToonWater_Level4
-  m_Shader: {fileID: 4800000, guid: f24809d953f26f64b9c352c89807da80, type: 3}
+  m_Name: ToonIce_Lv4
+  m_Shader: {fileID: 4800000, guid: ec0b9ce75d9297042844cff94d7c15ba, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2255
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -23,9 +23,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DepthGradient:
-        m_Texture: {fileID: 2800000, guid: 74226c0f9b8ae5b448a0ff3216590eb1, type: 3}
-        m_Scale: {x: 1, y: 1}
+    - _BumpRamp:
+        m_Texture: {fileID: 2800000, guid: f7ec36c2528d64549abd9848fa28e968, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _BumpTex:
+        m_Texture: {fileID: 2800000, guid: f17ba3ff6b9f9e7468435456b84fa6bb, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -59,23 +63,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SurfaceDistortion:
-        m_Texture: {fileID: 2800000, guid: c53bb6b8c40b02141be3fdec5cc582e9, type: 3}
-        m_Scale: {x: 10, y: 10}
-        m_Offset: {x: 0, y: 0}
-    - _SurfaceNoise:
-        m_Texture: {fileID: 2800000, guid: 6308be476c63a354ea43b473a0263f89, type: 3}
-        m_Scale: {x: 10, y: 10}
+    - _RampTex:
+        m_Texture: {fileID: 2800000, guid: 59ebe488dc64f9b4480f1c434f612317, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DepthMaxDistance: 0.27
     - _DetailNormalMapScale: 1
+    - _DistortStrength: 0.1
     - _DstBlend: 0
-    - _FoamDistance: 0.12
-    - _FoamMaxDistance: 2.84
-    - _FoamMinDistance: 2.03
+    - _EdgeThickness: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,20 +81,11 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ShorelineMaxDistance: 0.4
-    - _ShorelineMinDistance: 0.04
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SurfaceDistortionAmount: 0.1
-    - _SurfaceNoiseCutoff: 0.566
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthGradientDeep: {r: 0.086274505, g: 0.40704754, b: 1, a: 0.7490196}
-    - _DepthGradientShallow: {r: 0, g: 0.68429995, b: 1, a: 0.7254902}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.49019608}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.43867922, g: 0.726356, b: 1, a: 1}
-    - _ShorelineColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SurfaceNoiseScroll: {r: 0.2, g: 0.2, b: 0, a: 0}
