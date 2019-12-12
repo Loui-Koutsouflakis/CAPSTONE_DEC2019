@@ -7,24 +7,14 @@ public class SpiderlingAnimController : MonoBehaviour
     public Spiderlings spiderlings;
     private Animator anim;
 
-    //public void Step()
-    //{
-    //    spiderlings.Step();
-    //}
+    public void Step()
+    {
+        spiderlings.Step();
+    }
 
     public void TrapPlayer(bool isTrapped)
     {
         GetComponent<Animator>().SetBool("TrapPlayer", isTrapped);
-    }
-
-    public void Death()
-    {
-        anim.SetTrigger("Death");
-    }
-
-    public void Deactivate()
-    {
-        StartCoroutine(spiderlings.DeathDeactivate());
     }
     // Start is called before the first frame update
     void Start()

@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class SpiderMotherAnimControls : MonoBehaviour
 {
-    public AudioClip footFall;
-
     private Animator animator;
     private MotherSpider spiderMother;
-    private new AudioSource audio;
-
 
     private void Awake()
     {
@@ -30,15 +26,6 @@ public class SpiderMotherAnimControls : MonoBehaviour
         {
             Debug.Log("Can not find spiderMother script.");
         }
-        audio = GetComponent<AudioSource>();
-        audio.clip = footFall;
-    }
-
-    public void StepSound()
-    {
-
-        audio.pitch = Random.Range(0.5f, 1.5f);
-        audio.Play();
     }
 
     public void TriggerReveal()
@@ -56,26 +43,9 @@ public class SpiderMotherAnimControls : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
-    public void Attack()
-    {
-        spiderMother.gameObject.layer = 10;
-    }
-
     public void TriggerShootEggSack()
     {
         animator.SetTrigger("ShootEggSack");
-    }
-
-    public void TriggerHit()
-    {
-        animator.SetTrigger("Hit");
-        if(spiderMother.hitPoints >= 1) StartCoroutine(StopVulnerable());
-    }
-
-    public IEnumerator StopVulnerable()
-    {
-        yield return new WaitForSecondsRealtime(1f);
-        SetVaulnerableBool(false);
     }
 
     public void SetVaulnerableBool(bool vaulnerable)
@@ -85,8 +55,7 @@ public class SpiderMotherAnimControls : MonoBehaviour
 
     public void SpawnEggSack()
     {
-       spiderMother.SpawnEggSack();
-        
+        spiderMother.SpawnEggSack();
     }
 
     public void ColliderToggle()
@@ -96,32 +65,12 @@ public class SpiderMotherAnimControls : MonoBehaviour
 
     public void MoveToChaseState()
     {
-        spiderMother.SetState(SpiderMotherState.ChasePlayer);
+        spiderMother.SetState(SpiderState.ChasePlayer);
     }
 
     public void AttackToVulnerable()
     {
-        //SetVaulnerableBool(true);
-        //StartCoroutine(spiderMother.VulnerableTimer());
-        spiderMother.SetState(SpiderMotherState.Vulnerable);
+        spiderMother.SetState(SpiderState.Vulnerable);
 
-    }
-
-    public void TriggerDeath()
-    {
-        animator.SetTrigger("Death");
-    }
-
-    public void Deactivate()
-    {
-        StartCoroutine(spiderMother.DeactivateSpider());
-    }
-
-    public void SetToHide()
-    {
-        if(spiderMother.currentState != SpiderMotherState.Hiding)
-        {
-            spiderMother.SetState(SpiderMotherState.Hiding);
-        }
     }
 }
