@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // Created By Sebastian Borkowski: 10/10/2018.
-// Last Updated: 10/31/2019.
+// Last Updated: 12/9/2019.
 public class RockThrowingGolem : MonoBehaviour, IKillable
 {
     //Animator
@@ -12,8 +12,8 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     // Misc
     public int health;
-    [Tooltip("This the knockback force")]
-    public Vector3 KnockBackForce = new Vector3(0, 5, 0);
+    //[Tooltip("This the knockback force")]
+    //public Vector3 KnockBackForce = new Vector3(0, 5, 0);
     public Collider Weakpoint;
     [Tooltip("This is only for the DrawGizmos")]
     public float MeleeRadius, ChargeRadius, ThrowRadius;
@@ -21,8 +21,8 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Rock Throwing Portion
     public bool IsTurretEdition;
     public Transform RockSpawnPosition;
-    [Tooltip("This has to have a rigidbody with usegravity set to off, collider disabled")]
-    public GameObject RockProjectileObject;
+    //[Tooltip("This has to have a rigidbody with usegravity set to off, collider disabled")]
+    //public GameObject RockProjectileObject;
     [Tooltip("Speed at which the Rock is hurtling towards the player.")]
     public float RockSpeed;
     private Transform Player;
@@ -32,7 +32,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Lead Target Calculation Requirements
     private Vector3 AITarget;
     private Rigidbody PlayerRigidBody;
-    public float DistanceCheckPlayer;
+    private float DistanceCheckPlayer;
     public float MinusTargetHeight; // 4.4 , 5
 
     // Find New Sleep Position
@@ -40,7 +40,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     public Transform middle;
     [Tooltip("Set the size of x and z to whatever you deem necessary, but KEEP Y ZERO !!")]
     public Vector3 size;
-    //private float WalkSpeed = 1;
+    private float WalkSpeed = 2;
     private Vector3 center;
     private Vector3 pos;
     private bool SleepBool;
@@ -68,13 +68,21 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
             {
                 MinusTargetHeight = 4.5f;
             }
-            else if (DistanceCheckPlayer <= 35 && DistanceCheckPlayer >= 20)
+            else if (DistanceCheckPlayer <= 35 && DistanceCheckPlayer >= 25)
             {
-                MinusTargetHeight = 5.5f;
+                MinusTargetHeight = 6f;
+            }
+            else if (DistanceCheckPlayer <= 25 && DistanceCheckPlayer >= 20)
+            {
+                MinusTargetHeight = 6.5f;
             }
             else if (DistanceCheckPlayer <= 20 && DistanceCheckPlayer >= 10)
             {
-                MinusTargetHeight = 6;
+                MinusTargetHeight = 7f;
+            }
+            else if (DistanceCheckPlayer <= 10 && DistanceCheckPlayer >= 5)
+            {
+                MinusTargetHeight = 7.5f;
             }
         }
 
@@ -88,9 +96,14 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         if (SleepBool == true && animator.GetBool("isInWakeUpRange") == false)
         {
             Vector3 TargetRotation = new Vector3(pos.x, animator.transform.position.y, pos.z); // pos.y
-            var r = Quaternion.LookRotation(TargetRotation - animator.transform.position);
-            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, 180 * Time.deltaTime);
-            //animator.transform.position = Vector3.MoveTowards(animator.transform.position, pos, WalkSpeed * Time.deltaTime);
+            var rotation = Quaternion.LookRotation(TargetRotation - animator.transform.position);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, rotation, 180 * Time.deltaTime);
+            animator.transform.position = Vector3.MoveTowards(animator.transform.position, pos, WalkSpeed * Time.deltaTime);
+        }
+
+        if (animator.GetBool("StartNewSleepPosFunction") == true)
+        {
+            StartCoroutine(SetNewSleepPos());
         }
 
         if (Vector3.Distance(this.transform.position, pos) < 1)
@@ -98,11 +111,11 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
             SleepBool = false;
             animator.SetBool("HasArrivedAtNewSleepPos", true);
         }
-
-        if (animator.GetBool("StartNewSleepPosFunction") == true)
+        else
         {
-            StartCoroutine(SetNewSleepPos());
+            animator.SetBool("HasArrivedAtNewSleepPos", false);
         }
+
     }
 
     IEnumerator SetNewSleepPos()
@@ -133,14 +146,25 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     public void PickUpRock()
     {
-        Rock = Instantiate(RockProjectileObject, RockSpawnPosition.position, RockSpawnPosition.rotation);
+        Rock = RTG_RockPooler.SharedInstance.GetPooledRock();
+        if (Rock != null)
+        {
+            Rock.transform.position = RockSpawnPosition.position;
+            Rock.transform.rotation = RockSpawnPosition.rotation;
+            Rock.SetActive(true);
+            Rock.transform.parent = RockSpawnPosition.transform;
+        }
+
         Rock.transform.parent = RockSpawnPosition.transform;
+        //Rock = Instantiate(RockProjectileObject, RockSpawnPosition.position, RockSpawnPosition.rotation);
     }
 
     public void ThrowRock()
     {
+
         Rock.transform.parent = null;
         Rock.GetComponent<Rigidbody>().useGravity = enabled;
+        Rock.GetComponent<Rigidbody>().isKinematic = false;
         Rock.GetComponent<Rigidbody>().velocity = Rock.transform.forward * RockSpeed;
     }
 
@@ -193,7 +217,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
     public IEnumerator CheckHit(bool x)
     {
-        Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
+        //Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
         Debug.Log("Has been hit!!");
         if(health > 0)
         {
