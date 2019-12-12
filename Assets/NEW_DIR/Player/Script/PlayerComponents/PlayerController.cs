@@ -614,7 +614,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //to parent to moving platforms
-                if (footHit.collider.gameObject.tag == "MovingPlatform") //swtich to layer check not tag
+                if (footHit.collider.gameObject.tag == "MovingPlatform" || footHit.collider.gameObject.tag == "IcePlatform") //swtich to layer check not tag
                 {
                     transform.parent = footHit.transform;
                     if (footHit.collider.GetComponent<Interact>() != null)
