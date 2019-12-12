@@ -48,7 +48,7 @@ public class BossV2 : MonoBehaviour
     readonly float bossMinX = -90f;
 
     readonly float dragonInputThreshold = 0.14f;
-    readonly float steerRotLerp = 2.75f;
+    readonly float steerRotLerp = 12.75f;
 
     Vector3 leftHandBlockingPoint;
     Vector3 rightHandBlockingPoint;
