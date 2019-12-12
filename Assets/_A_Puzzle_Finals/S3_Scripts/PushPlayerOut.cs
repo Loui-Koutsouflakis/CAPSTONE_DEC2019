@@ -19,6 +19,9 @@ public class PushPlayerOut : MonoBehaviour
     //Helper variables
     private bool hasBeenDamaged;
 
+    //Cache wait time
+    private readonly WaitForSeconds timer = new WaitForSeconds(0.5f);
+
     private void Awake()
     {
         //Find reference to player script
@@ -57,7 +60,7 @@ public class PushPlayerOut : MonoBehaviour
     private IEnumerator EnableControls()
     {
         //Ensure player cannot stay under moving platform
-        yield return new WaitForSeconds(0.5f);
+        yield return timer;
 
         //Enable player controls and damage
         playerScript.EnableControls();
