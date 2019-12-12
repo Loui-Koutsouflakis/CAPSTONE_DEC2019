@@ -845,22 +845,22 @@ PrefabInstance:
     - target: {fileID: 8000443053737351421, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_Intensity
-      value: 10.3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8000443054631092394, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_Intensity
-      value: 10.3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8000443053493619054, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_Intensity
-      value: 10.3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8000443054413941548, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_Intensity
-      value: 10.3
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b292371716e3d2142aa7f10dc7157475, type: 3}
@@ -875,6 +875,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PS_Lumi_Teleport
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -947,16 +957,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: simulationSpeed
       value: 5
@@ -1084,6 +1084,15 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 88509f974ab97f64199eac715d99bb92, type: 3}
+    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -8837878976853614303, guid: 60f2215579c11c44a932e3f3b5f7b46a,
+        type: 2}
+    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
+      propertyPath: BypassEffects
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4777716178381853034, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: invY
@@ -1188,11 +1197,6 @@ PrefabInstance:
       propertyPath: teleportPsParent
       value: 
       objectReference: {fileID: 1243363388}
-    - target: {fileID: 4690393965299292929, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: act
-      value: 
-      objectReference: {fileID: 468304894}
     - target: {fileID: 9018793544122922047, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -1258,6 +1262,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 239698624098066174, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8032465437768135387, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4410178354281251324, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690393965299292929, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: act
+      value: 
+      objectReference: {fileID: 468304894}
     - target: {fileID: 4096932238547917013, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -4517,21 +4541,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.018250655
-      objectReference: {fileID: 0}
-    - target: {fileID: 239698624098066174, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8032465437768135387, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4410178354281251324, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78753204a4a79ae46b2caa80d63f02b9, type: 3}

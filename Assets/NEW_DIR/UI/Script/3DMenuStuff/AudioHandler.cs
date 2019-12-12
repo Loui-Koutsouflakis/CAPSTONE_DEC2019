@@ -12,7 +12,7 @@ public class AudioHandler : MonoBehaviour
     public AudioSource[] allAudioSources;
     AudioSource[] sources;
     private SaveGameManager saveGameManager;
-    private AudioSource musicSource;
+    //private AudioSource musicSource;
     private AudioSource dialogueSource;
 
 
@@ -76,7 +76,7 @@ public class AudioHandler : MonoBehaviour
             if (allAudioSources[i].outputAudioMixerGroup == null)
             {
                 allMenuAudioSources[i].outputAudioMixerGroup = SFXMixer;
-
+                Debug.Log(allMenuAudioSources[i].outputAudioMixerGroup);
             }
         }
         //Debug.Log("On Level Load Works");
@@ -111,10 +111,10 @@ public class AudioHandler : MonoBehaviour
 
     }
 
-    public AudioSource GetMusicSouce()
-    {
-        return musicSource;
-    }
+    //public AudioSource GetMusicSouce()
+    //{
+    //    return musicSource;
+    //}
 
  
 }
