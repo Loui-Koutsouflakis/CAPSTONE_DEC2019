@@ -157,10 +157,6 @@ float3 frag(v2f i) : SV_Target
 	float3 specularTint;
 	float oneMinusReflectivity = 0;
 
-	//c.rgb = DiffuseAndSpecularFromMetallic(
-	//	c.rgb, rim, specularTint, oneMinusReflectivity
-	//);
-
 	c = c * (_AmbientColor + specular + rim + light) + (tex2D(_EmissionMap, i.uvEmission) * _EmissionColor * _EmissionIntensity) * NM;
 
 	return UNITY_BRDF_PBS(
@@ -169,8 +165,6 @@ float3 frag(v2f i) : SV_Target
 		i.worldNormal, viewDir,
 		CreateLight(i), CreateIndirectLight(i)
 	) + e;
-
-	//return (c + e) * (_AmbientColor + light + specular + rim) /** NM + (tex2D(_EmissionMap, i.uvEmission) * _EmissionColor * _EmissionIntensity)*/;
 }
 
 #endif
