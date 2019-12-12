@@ -33,18 +33,21 @@ public class CameraPaths : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>(); 
+        //saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>(); 
         paths = FindObjectsOfType<CPC_CameraPath>();
         if (anims == null)
             Debug.Log("No big deal");
         else
             anims.Stop();
-        if (playOnStart) active = true;
-        if(saveGameManager.triggeredMonoliths.Contains(gameObject.name + SceneManager.GetActiveScene()))
-        {
-            playAnimWithoutActive = true;
-        }
-        if (playAnimWithoutActive) { hasPlayed = true;  if(anims != null) anims.Play(); }
+
+        if (playOnStart)
+            active = true;
+        //if(saveGameManager.triggeredMonoliths.Contains(gameObject.name + SceneManager.GetActiveScene()))
+        //{
+        //    playAnimWithoutActive = true;
+        //}
+        //if (playAnimWithoutActive) { hasPlayed = true;  if(anims != null) anims.Play(); }
+
 
     }
 
@@ -83,6 +86,10 @@ public class CameraPaths : MonoBehaviour
             {
                 if (HudManager.shardsCollected >= c_Threshold)
                 {
+
+                    //saveGameManager.AddToListOfTriggeredMonoliths(gameObject.name + SceneManager.GetActiveScene());
+                    //saveGameManager.SaveTriggeredMonoliths();
+
                     active = true;
                     hasPlayed = true;
                     if (saveGameManager)
