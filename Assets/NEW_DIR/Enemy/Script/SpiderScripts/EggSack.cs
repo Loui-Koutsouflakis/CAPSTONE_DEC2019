@@ -15,6 +15,11 @@ public class EggSack : MonoBehaviour
         return spiderlingsToSpawn = Random.Range(3, 6);
     }
 
+    public GameObject[] SpiderlingsPool()
+    {
+        return spiderlings;
+    }
+
     public bool SpiderlingsDead()
     {
         for(int i = 0; i < spiderlings.Length; i++)
@@ -54,12 +59,12 @@ public class EggSack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Player" && other.gameObject.layer == 15)
         {
             SpiderlingsToSpawn();
             //flockController.flockSize = spiderlingsToSpawn;
             //flockController.target = other.transform;
-            StartCoroutine(ReleaseTheHounds(other.transform));
+            StartCoroutine(ReleaseTheHounds(other.transform.parent.transform));
             Debug.Log("Pop");
         }
     }
