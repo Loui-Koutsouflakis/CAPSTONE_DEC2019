@@ -129,13 +129,16 @@ public class PlayerController : MonoBehaviour
         }
         else if (player.playerCurrentMove == MovementType.crouch)
         {
-            player.GetCrouchComponent().Jump();
-            player.SetMovementType(MovementType.air);
-            player.SetGrounded(false);          
-            //Particle stuff from Tony
-            psRun.Stop();
-            psJump.Stop();
-            psJump.Play();
+            if (!sliding)//to prevent being able to jump out steep slopes
+            {
+                player.GetCrouchComponent().Jump();
+                player.SetMovementType(MovementType.air);
+                player.SetGrounded(false);
+                //Particle stuff from Tony
+                psRun.Stop();
+                psJump.Stop();
+                psJump.Play();
+            }
         }
         else if (player.playerCurrentMove == MovementType.grapple)
         {
@@ -488,7 +491,7 @@ public class PlayerController : MonoBehaviour
     {
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {
-            if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer))
+            if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer) ) //&& footHit.collider.gameObject.GetComponent<Renderer>().material.name != "M_2Rocks_Large_Cell")
             {
 
                 if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
@@ -515,7 +518,7 @@ public class PlayerController : MonoBehaviour
                     //player.GenericAddForce(groundSlopeDirection, 0.5f);
                     player.rb.AddForce(groundSlopeDirection.normalized * 10, ForceMode.Force);
                     sliding = true;
-                }
+                }                
                 else if(sliding == true)
                 {                    
                     player.EnableControls();
