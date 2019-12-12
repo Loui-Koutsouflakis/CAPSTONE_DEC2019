@@ -212,6 +212,10 @@ public class PlayerController : MonoBehaviour
     //check with Luke to see of there's a way to do this on a delay, to allow throw animation to play
     IEnumerator StartGrapple()
     {
+        //added to prevent grapple break
+        //if (player.playerCurrentMove != MovementType.grapple)
+        //    yield break; 
+
         yield return new WaitForSeconds(0.15f);
         player.SetMovementType(MovementType.grapple);
         player.GetGrappleComponent().Grapple();
@@ -225,7 +229,8 @@ public class PlayerController : MonoBehaviour
     public void DetatchGrapple()
     {
         anim.SetBool("Grapple", false);
-        
+
+        player.isGrappling = false;
         player.GetGrappleComponent().DetatchGrapple();
         //player.GetComponentInChildren<RayCast_IK>().IK_EndGrapple();
         playerIK.IK_EndGrapple();
@@ -1034,7 +1039,7 @@ public class PlayerController : MonoBehaviour
     //checks if an object is in front of player
     bool IsInFront(float dot)
     {
-        if (dot > 0)
+        if (dot > -0.2)
             return true;
 
         return false;

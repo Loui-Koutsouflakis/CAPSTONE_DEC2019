@@ -360,7 +360,7 @@ public class RayCast_IK : MonoBehaviour
 
             if (pc.playerCurrentMove == MovementType.grapple)
             {
-
+                if(pc.attachedGrapplePoint != null)
                 rightHandTarget.position = pc.attachedGrapplePoint.position;
 
 
@@ -384,7 +384,7 @@ public class RayCast_IK : MonoBehaviour
 
 
             }
-            else if (fBIK.solver.IKPositionWeight > 0)
+            else
             {
                 //fBIK.solver.IKPositionWeight = 0; 
             }
