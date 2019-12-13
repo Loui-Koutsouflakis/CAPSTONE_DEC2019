@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 // Created By Sebastian Borkowski: 10/10/2018.
 // Last Updated: 12/9/2019.
-public class RockThrowingGolem : MonoBehaviour, IKillable
+public class RockThrowingGolem : MonoBehaviour //, IKillable
 {
     //Animator
     public Animator animator;
@@ -28,6 +28,9 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     private Transform Player;
     private GameObject Rock;
     public Collider LeftHand, RightHand;
+    public Transform MeleeSpot;
+    public float MR;
+    private Vector3 MeleeR;
 
     // Lead Target Calculation Requirements
     private Vector3 AITarget;
@@ -44,6 +47,11 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     private Vector3 center;
     private Vector3 pos;
     private bool SleepBool;
+
+    // Particle and Sound
+    public ParticleSystem LeftFootWalking_PS;
+    public ParticleSystem RightFootWalking_PS;
+    public ParticleSystem VunerableParticleSystem;
 
 
     // Start is called before the first frame update
@@ -66,6 +74,10 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
 
         if (IsTurretEdition)
         {
+            LeftFootWalking_PS = null;
+            RightFootWalking_PS = null;
+            VunerableParticleSystem = null;
+
             if (DistanceCheckPlayer <= 50 && DistanceCheckPlayer >= 40)
             {
                 MinusTargetHeight = 4f;
@@ -91,6 +103,8 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
                 MinusTargetHeight = 7.5f;
             }
         }
+
+        MeleeR = new Vector3(MeleeSpot.position.x, MeleeSpot.position.y, MeleeSpot.position.z);
 
         DistanceCheckPlayer = Vector3.Distance(this.transform.position, Player.position);
         CalculateLead();
@@ -146,6 +160,9 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         Gizmos.DrawSphere(pos, 1); // Shows where the new sleep posiyion is in the red area.
         Gizmos.color = new Color(1, 1, 1, 0.5f);
         Gizmos.DrawSphere(AITarget, 0.1f); // Shows a floating white spere that the AI is aiming for. ie: Target Leader.
+
+        Gizmos.color = new Color(1, 1, 1, 0.5f);
+        Gizmos.DrawSphere(MeleeR, MR); // Shows a floating white spere that the AI is aiming for. ie: Target Leader.
     }
 
     
@@ -190,14 +207,36 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         RightHand.enabled = false;
     }
 
+    public void MeleeDamageCheck()
+    {
+        if (Vector3.Distance(MeleeSpot.position, Player.position) < MR)
+        {
+            Player.GetComponent<PlayerClass>().SetHealth(-1);
+        }
+    }
+
     public void ActivateWeakPoint()
     {
         Weakpoint.enabled = true;
+        VunerableParticleSystem.Play();
     }
     public void DeactivateWeakPoint()
     {
         Weakpoint.enabled = false;
+        VunerableParticleSystem.Stop();
+
     }
+
+    public void LeftFoot()
+    {
+        LeftFootWalking_PS.Play();
+    }
+
+    public void RightFoot()
+    {
+        RightFootWalking_PS.Play();
+    }
+
 
     Vector3 CalculateLead() // Calucates how far it has to shoot ahead to hit the player.
     {
@@ -221,30 +260,31 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
         }
     }
 
-    public IEnumerator CheckHit(bool x)
-    {
-        //Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
-        Debug.Log("Has been hit!!");
-        if(health > 0)
-        {
-            StartCoroutine(TakeDamage());
-        }
-        else
-        {
-            StartCoroutine(Die());
-        }
-        yield return new WaitForSeconds(1f);
-    }
+    //public IEnumerator CheckHit(bool x)
+    //{
+    //    //Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
+    //    animator.SetTrigger("IsHit");
+    //    Debug.Log("Has been hit!!");
+    //    if(health > 0)
+    //    {
+    //        StartCoroutine(TakeDamage());
+    //    }
+    //    else
+    //    {
+    //        StartCoroutine(Die());
+    //    }
+    //    yield return new WaitForSeconds(1f);
+    //}
 
-    public IEnumerator TakeDamage()
-    {
-        health -= 1;
-        yield return new WaitForSeconds(1f);
-    }
-    public IEnumerator Die()
-    {
-        gameObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
-    }
+    //public IEnumerator TakeDamage()
+    //{
+    //    health -= 1;
+    //    yield return new WaitForSeconds(1f);
+    //}
+    //public IEnumerator Die()
+    //{
+    //    gameObject.SetActive(false);
+    //    yield return new WaitForSeconds(1f);
+    //}
 
 }

@@ -13,13 +13,13 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
     // Cliff and Wall checker
     public LayerMask Layer;
     public LayerMask GroundLayer;
-    public float PlusY; // 1
-    public float TopY; // 2 or 3
-    public float RightX; // 1
-    public float LeftX; // 1
-    public float MaxHieghtDifference; // 3
-    public float FRL; // 5
-    public float SRL; // 2
+    private float PlusY = 0.2f; // 0.2
+    private float TopY = 4; // 4
+    private float RightX = 1; // 1
+    private float LeftX = 1; // 1
+    private float FRL = 4; // 4  // Far Range Length
+    private float SRL = 1; // 1  // Short Range Length
+    private float MaxHieghtDifference = 3; // 3
     private Vector3 EndPoint;
     private Vector3 AIMid;
     private Vector3 AITop;

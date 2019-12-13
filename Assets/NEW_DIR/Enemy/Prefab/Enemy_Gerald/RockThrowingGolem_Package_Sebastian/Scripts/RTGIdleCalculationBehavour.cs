@@ -7,6 +7,9 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
     private Transform PlayerPosition;
     private float DistanceCheckAI;
 
+
+    private PlayerCamera cam;
+
     public float RotationSpeed;
     public float LongRangeMax, LongRangeMin;
     public float MiddleRangeMax, MiddleRangeMin;
@@ -17,12 +20,12 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
     // Cliff and Wall checker
     public LayerMask Layer;
     public LayerMask GroundLayer;
-    public float PlusY; // 1
-    public float TopY; // 2 or 3
-    public float RightX; // 1
-    public float LeftX; // 1
-    public float FRL; // 5
-    public float SecondRayLength; // 2
+    private float PlusY = 0.2f; // 0.2
+    private float TopY = 4; // 4
+    private float RightX = 1; // 1
+    private float LeftX = 1; // 1
+    private float FRL = 4; // 4
+    private float SecondRayLength = 1; // 1
     private Vector3 EndPoint;
     private Vector3 AIMid;
     private Vector3 AITop;
@@ -32,6 +35,8 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        
+        cam = FindObjectOfType<PlayerCamera>();
         animator.SetBool("HasExitedRange", false);
         animator.SetBool("IsInThrowRange", false);
         animator.SetBool("IsInChargeRange", false);
@@ -39,6 +44,8 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
         animator.SetBool("IsAboveAI", false);
         animator.SetBool("IsTired", false);
         animator.SetBool("Ground", false);
+
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -112,7 +119,7 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
             }
         }
 
-        if (DistanceCheckAI < LongRangeMax && DistanceCheckAI > LongRangeMin)
+        if (DistanceCheckAI < LongRangeMax && DistanceCheckAI > LongRangeMin && !cam.isCinema)
         {
             animator.SetBool("IsInThrowRange", true);
         }

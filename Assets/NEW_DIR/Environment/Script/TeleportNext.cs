@@ -10,6 +10,7 @@ public class TeleportNext : MonoBehaviour
 
     public Transform teleportPsParent;
     public ParticleSystem[] teleport;
+    public bool isSecret = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,26 +25,31 @@ public class TeleportNext : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.layer == 14)
-        {
-            if(gameObject.name == "TeleportNext")
-            {
-                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
-            }
-            else if(gameObject.name == "TeleportPrevious")
-            {
-                t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
-            }
+        //if (collision.gameObject.layer == 14)
+        //{
+        //    if (gameObject.name == "TeleportNext")
+        //    {
+        //        if (!isSecret)
+        //            t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+        //        else
+        //        {
+        //            t_Manager.StartCoroutine(t_Manager.SceneTransition(2));
+        //        }
+        //    }
+        //    else if (gameObject.name == "TeleportPrevious")
+        //    {
+        //        t_Manager.StartCoroutine(t_Manager.SceneTransition(-1));
+        //    }
 
-            teleportPsParent.position = player.transform.position;
+        //    teleportPsParent.position = player.transform.position;
 
-            foreach(ParticleSystem ps in teleport)
-            {
-                ps.Play();
-            }
+        //    foreach (ParticleSystem ps in teleport)
+        //    {
+        //        ps.Play();
+        //    }
 
-            player.gameObject.SetActive(false);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        //    player.gameObject.SetActive(false);
+        //    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //}
     }
 }
