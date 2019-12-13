@@ -110,14 +110,14 @@ public class SaveGameManager : MonoBehaviour
             cameraSmoothing = 0.202f;
         }
 
-        if (PlayerPrefs.GetFloat("CameraSensitivity") >= 1 && PlayerPrefs.GetFloat("CameraSensitivity") <= 10)
+        if (PlayerPrefs.HasKey("CameraSensitivity"))
         {
             cameraSensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
 
         }
         else
         {
-            cameraSensitivity = 1;
+            cameraSensitivity = 6;
         }
 
         if (PlayerPrefs.GetInt("QualitySetting") > 0)
