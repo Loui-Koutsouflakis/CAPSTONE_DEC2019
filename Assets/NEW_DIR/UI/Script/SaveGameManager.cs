@@ -58,6 +58,7 @@ public class SaveGameManager : MonoBehaviour
     float masterSliderPositionX;
     float dialogueSliderPositionX;
 
+
     
 
     public int loadFixer = 2;
@@ -436,10 +437,19 @@ public class SaveGameManager : MonoBehaviour
 
     }
 
-
+   
     //A unique function that is called whenever a scene loaded
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        //Debug.Log(" Level Index Before Unload " + indexLevel);
+        //Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        //if(indexLevel != SceneManager.GetActiveScene().buildIndex)
+        //{
+        //    SceneManager.UnloadSceneAsync(indexLevel);
+        //    indexLevel = SceneManager.GetActiveScene().buildIndex;
+        //    Debug.Log(" Level Index After Unload " + indexLevel);
+        //}
+
         Debug.Log("Getting Called at all");
         //Finds if the player is in the scene
         if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera") && GameObject.FindGameObjectWithTag("AudioManager"))
@@ -500,6 +510,8 @@ public class SaveGameManager : MonoBehaviour
             }
         
         }
+      
+
         //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
