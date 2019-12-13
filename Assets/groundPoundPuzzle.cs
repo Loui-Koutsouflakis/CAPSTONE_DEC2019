@@ -7,6 +7,8 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     MeshCollider[] mesh;
     Rigidbody[] body;
     ParticleSystem particles;
+    public float upWards;
+    RaycastHit up;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +24,14 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     // Update is called once per frame
     void Update()
     {
-        
+        if (AreaChecks())
+        {
+            particles.Stop();
+        }
+        else if (!AreaChecks())
+        {
+            particles.Play();
+        }
     }
     public void DontInteractWithMe()
     {
@@ -51,5 +60,13 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
             item.enabled = false;
         }
         GetComponent<BoxCollider>().enabled = false;
+    }
+
+    public bool AreaChecks()
+    {
+        Vector3 lineStart = transform.position;
+        Vector3 forward = new Vector3(lineStart.x, lineStart.y + upWards, lineStart.z);
+       return Physics.BoxCast(transform.position, GetComponent<BoxCollider>().bounds.center / 2, Vector3.up, out up, Quaternion.identity, GetComponent<BoxCollider>().bounds.center.y);
+      //  return Physics.Linecast(transform.position,forward, out up);
     }
 }
