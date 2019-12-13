@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject GameOverCamera;
 
+
     // public Button[] pauseMenuButtons;
 
     // int selected = 0;
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.P) && !GameIsPaused && gameOverMenuUI.activeInHierarchy == false || Input.GetButtonDown("Start") && !GameIsPaused && gameOverMenuUI.activeInHierarchy == false)
         {
             pauseCamera.SetActive(true);
+            
             if (GameObject.FindGameObjectWithTag("AudioManager"))
             {
                 audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<MainMenuAudioManager>();
