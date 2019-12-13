@@ -59,7 +59,7 @@ public class EggSack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.tag == "Player" && other.gameObject.layer == 15)
+        if(other.gameObject.name == "InteractTriggerSphere" && other.gameObject.layer == 15)
         {
             SpiderlingsToSpawn();
             //flockController.flockSize = spiderlingsToSpawn;
