@@ -9,15 +9,14 @@ public class RTG_RockPooler : MonoBehaviour
     public List<GameObject> pooledRocks;
     public GameObject RocksToPool;
     public int AmountToPool;
+    public bool shouldExpand = true;
 
-    private void Awake()
-    {
-        SharedInstance = this;    
-    }
+    
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        SharedInstance = this;
         pooledRocks = new List<GameObject>();
         for(int i = 0; i < AmountToPool; i++)
         {
@@ -36,7 +35,17 @@ public class RTG_RockPooler : MonoBehaviour
                 return pooledRocks[i];
             }
         }
-        return null;
+        if (shouldExpand)
+        {
+            GameObject obj = (GameObject)Instantiate(RocksToPool);
+            obj.SetActive(false);
+            pooledRocks.Add(obj);
+            return obj;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     // Update is called once per frame

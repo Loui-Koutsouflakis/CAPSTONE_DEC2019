@@ -50,6 +50,7 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+
         PlayerRigidBody = Player.GetComponent<Rigidbody>();
         center = new Vector3(middle.position.x, middle.position.y, middle.position.z);
         //Weakpoint.enabled = false;
@@ -58,6 +59,11 @@ public class RockThrowingGolem : MonoBehaviour, IKillable
     // Update is called once per frame
     void Update()
     {
+        if (Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         if (IsTurretEdition)
         {
             if (DistanceCheckPlayer <= 50 && DistanceCheckPlayer >= 40)

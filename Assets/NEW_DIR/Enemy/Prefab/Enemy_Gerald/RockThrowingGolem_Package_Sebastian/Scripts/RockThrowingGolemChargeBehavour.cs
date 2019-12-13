@@ -30,6 +30,7 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+
         AttackTarget = new Vector3(PlayerPosition.position.x, animator.transform.position.y, PlayerPosition.position.z);
 
         if(PlayerPosition.position.y - animator.transform.position.y >= MaxHieghtDifference)
@@ -41,6 +42,11 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PlayerPosition == null)
+        {
+            PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         var atp = animator.transform.position;
 
         var r = Quaternion.LookRotation(AttackTarget - atp);
