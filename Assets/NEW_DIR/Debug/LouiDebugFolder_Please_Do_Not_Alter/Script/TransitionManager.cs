@@ -105,9 +105,6 @@ public class TransitionManager : MonoBehaviour
             deltaFadeIn.a /= deltaFadeFactor;
             deltaFadeOut.a /= deltaFadeFactor;
         }
-        
-
-       
     }
 
     public IEnumerator RealtimeBlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor)
