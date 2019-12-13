@@ -38,10 +38,10 @@ public class BossV2 : MonoBehaviour
     public float leftHandBlocking;
     public float rightHandBlocking;
 
-    float handLerpRate;
+    float handLerpRate = 8f;
     float horizontalInput;
     float verticalInput;
-    float steerLerpRate = 2.6f;
+    float steerLerpRate = 8.6f;
 
     readonly float bossMaxY = 15f;
     readonly float bossMinY = -60f;
@@ -51,10 +51,12 @@ public class BossV2 : MonoBehaviour
     readonly float dragonInputThreshold = 0.14f;
     readonly float steerRotLerp = 12.75f;
 
-    Vector3 leftHandBlockingPoint;
-    Vector3 rightHandBlockingPoint;
+    public Vector3 leftHandBlockingPoint;
+    public Vector3 rightHandBlockingPoint;
     Vector3 steer;
     Vector3 steerRot;
+    Vector3 rightHandRot = new Vector3(0f, 270f, 0f);
+    Vector3 leftHandRot = new Vector3(0f, 90f, 0f);
 
     public Transform bossCamTarget;
     public Camera playerCam;
@@ -80,12 +82,14 @@ public class BossV2 : MonoBehaviour
 
         if (rightHandBlocking > 0f)
         {
-            MoveHand(rightHand);
+            MoveHand(rightHand, rightHandRot);
+            rightHandBlocking -= Time.deltaTime;
         }
 
         if(leftHandBlocking > 0f)
         {
-            MoveHand(leftHand);
+            MoveHand(leftHand, leftHandRot);
+            leftHandBlocking -= Time.deltaTime;
         }
 
         if (steering)
@@ -146,14 +150,17 @@ public class BossV2 : MonoBehaviour
         }
     }
 
-    public void MoveHand(Transform hand)
+    public void MoveHand(Transform hand, Vector3 euler)
     {
         hand.position = Vector3.Lerp(hand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
-        Vector3 toRotate = playerTf.position - hand.position;
-        toRotate.x = 0f;
-        toRotate.z = 0f;
-        hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.LookRotation(toRotate), steerRotLerp * Time.deltaTime);
-        rightHandBlocking -= Time.deltaTime;
+
+        //hand.LookAt(playerTf);
+        //Vector3 toRotate = playerTf.position - hand.position;
+        //toRotate.x = 0f;
+        //toRotate.z = 0f;
+        //hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.LookRotation(toRotate), steerRotLerp * Time.deltaTime);
+
+        hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.Euler(euler), steerRotLerp * Time.deltaTime);
     }
 
     public void Steer(Vector3 steerDirection)
