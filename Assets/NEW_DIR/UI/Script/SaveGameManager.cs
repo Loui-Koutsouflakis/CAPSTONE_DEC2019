@@ -525,6 +525,13 @@ public class SaveGameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("DialogueSoundVolume");
 
         }
+
+        if(Input.GetKey(KeyCode.J))
+        {
+            Debug.Log(getCameraSensitivity() + " Saved Camera Sensitivity");
+            Debug.Log(mainCamera.sensitivity + " Camera Sensitivity");
+            
+        }
     }
 
     //Function to delete data from the playerPrefs based on which file is selected
