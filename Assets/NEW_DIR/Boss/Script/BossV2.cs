@@ -128,15 +128,15 @@ public class BossV2 : MonoBehaviour
 
             if (Mathf.Abs(horizontalInput) > 0.03f || Mathf.Abs(verticalInput) > 0.03f)
             {
-                //StartCoroutine(SteerRoutine(steer.normalized));
+                StartCoroutine(SteerRoutine(steer.normalized));
 
-                Steer(steer.normalized);
+                //Steer(steer.normalized);
 
                 //steerAdjusted = false;
             }
             else
             {
-                //steer = Vector3.zero;
+                steer = Vector3.zero;
 
                 //if(!steerAdjusted)
                 //{
@@ -177,6 +177,7 @@ public class BossV2 : MonoBehaviour
 
         for (int i = 0; i < bodyTargets.Length; i++)
         {
+
             if (i == 0)
             {
                 if (bodyTargets[0].localPosition.y > bossMaxY && steerDirection.y > 0f)
@@ -205,6 +206,8 @@ public class BossV2 : MonoBehaviour
                     steerDirection.x = holdSteerDirection.x;
                 }
             }
+
+            //bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
 
             bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
         }
