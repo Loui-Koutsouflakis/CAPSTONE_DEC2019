@@ -28,6 +28,8 @@ public class PlayerClass : MonoBehaviour
         return anim;
     }
 
+   
+
     public MovementType playerCurrentMove;
 
     public LayerMask airMask;
@@ -151,6 +153,8 @@ public class PlayerClass : MonoBehaviour
     public void Death()
     {
         //DisableControls(); bring this back once we have a proper reset 
+        RayCast_IK rayCast_IK = FindObjectOfType<RayCast_IK>();
+        rayCast_IK.IK_EndGrapple();
         anim.SetTrigger("Death");
         DisableControls();
         //Debug.Log("disabled");

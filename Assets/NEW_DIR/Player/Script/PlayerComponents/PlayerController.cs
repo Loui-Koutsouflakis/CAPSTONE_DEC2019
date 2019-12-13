@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
         lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
         SoundManager = GetComponent<HandleSfx>();
         player.SetSoundManager(SoundManager);
+        
     }   
 
     private void Start()
@@ -366,9 +367,14 @@ public class PlayerController : MonoBehaviour
             //level end triggers
         else if (collision.gameObject.name == "TeleportNext")
         {
-
-            t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
-
+            if (!collision.gameObject.GetComponent<TeleportNext>().isSecret)
+            {
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(1));
+            }
+            else
+            {
+                t_Manager.StartCoroutine(t_Manager.SceneTransition(2));
+            }
             teleportPsParent.position = transform.position;
 
             foreach (ParticleSystem ps in teleport)

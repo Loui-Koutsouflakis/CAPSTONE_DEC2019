@@ -5,13 +5,14 @@ using UnityEngine;
 public class RockThrowingGolemIdleBehavour : StateMachineBehaviour
 {
     private Transform PlayerPosition;
-    
+    private PlayerCamera cam;
 
     public float WakeUpRadius;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        cam = FindObjectOfType<PlayerCamera>();
         //PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         animator.SetBool("HasArrivedAtNewSleepPos", false);
         animator.SetBool("isInWakeUpRange", false);
