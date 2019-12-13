@@ -31,6 +31,7 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
 
     public bool steering;
+    public int health = 10;
     public float steerSpeed = 100f;
 
     bool steerAdjusted;
