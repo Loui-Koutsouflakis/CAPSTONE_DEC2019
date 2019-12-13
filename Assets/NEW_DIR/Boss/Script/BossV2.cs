@@ -55,8 +55,8 @@ public class BossV2 : MonoBehaviour
     public Vector3 rightHandBlockingPoint;
     Vector3 steer;
     Vector3 steerRot;
-    Vector3 rightHandRot = new Vector3(0f, 270f, 0f);
-    Vector3 leftHandRot = new Vector3(0f, 90f, 0f);
+    Vector3 rightHandRot = new Vector3(90f, 270f, 0f);
+    Vector3 leftHandRot = new Vector3(90f, 90f, 0f);
 
     public Transform bossCamTarget;
     public Camera playerCam;
@@ -82,14 +82,22 @@ public class BossV2 : MonoBehaviour
 
         if (rightHandBlocking > 0f)
         {
-            MoveHand(rightHand, rightHandRot);
+            MoveHand(rightHand, rightHandBlockingPoint, rightHandRot);
             rightHandBlocking -= Time.deltaTime;
+        }
+        else
+        {
+            // lerp back
         }
 
         if(leftHandBlocking > 0f)
         {
-            MoveHand(leftHand, leftHandRot);
+            MoveHand(leftHand, leftHandBlockingPoint, leftHandRot);
             leftHandBlocking -= Time.deltaTime;
+        }
+        else
+        {
+            // lerp back
         }
 
         if (steering)
@@ -124,7 +132,7 @@ public class BossV2 : MonoBehaviour
 
                 Steer(steer.normalized);
 
-                steerAdjusted = false;
+                //steerAdjusted = false;
             }
             else
             {
@@ -150,9 +158,9 @@ public class BossV2 : MonoBehaviour
         }
     }
 
-    public void MoveHand(Transform hand, Vector3 euler)
+    public void MoveHand(Transform hand, Vector3 blockingPoint, Vector3 euler)
     {
-        hand.position = Vector3.Lerp(hand.position, leftHandBlockingPoint, handLerpRate * Time.deltaTime);
+        hand.position = Vector3.Lerp(hand.position, blockingPoint, handLerpRate * Time.deltaTime);
 
         //hand.LookAt(playerTf);
         //Vector3 toRotate = playerTf.position - hand.position;

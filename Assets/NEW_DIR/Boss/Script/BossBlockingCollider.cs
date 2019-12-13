@@ -11,7 +11,7 @@ public class BossBlockingCollider : MonoBehaviour
     private BossV2 bossRef;
 
     readonly float handOffset = 4f;
-    readonly float initBlocking = 250f;
+    readonly float initBlocking = 8f;
 
     private void OnCollisionEnter(Collision collision)
     {
