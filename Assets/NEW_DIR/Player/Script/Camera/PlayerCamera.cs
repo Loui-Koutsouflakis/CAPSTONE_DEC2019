@@ -129,7 +129,7 @@ public class PlayerCamera : MonoBehaviour
     public Transform cameraOnePos;
     [Tooltip("Cinematic Camera Two.")]
     public Transform cameraTwoPos;
-
+    public bool isCinema;
     #region CameraShake
     [Header("Camera Shake Options")]
     [Tooltip("How far to shake the camera.")]
@@ -221,11 +221,14 @@ public class PlayerCamera : MonoBehaviour
         {
             case CameraType.Orbit:
                 CamMovement3D();
+                isCinema = false;
                 break;
             case CameraType.SideScroll:
                 CamMovement2D(wallCamChoice);
+                isCinema = false;
                 break;
             case CameraType.Cinema:
+                isCinema = true;
                 if (Input.GetButtonDown("AButton"))
                 {
                     CamType = CameraType.Orbit;
@@ -241,6 +244,7 @@ public class PlayerCamera : MonoBehaviour
                     CamType = CameraType.Orbit;
                 break;
             case CameraType.Dragon:
+                isCinema = false;
                 DragonCam();
                 break;
         }
