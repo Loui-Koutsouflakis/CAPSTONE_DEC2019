@@ -18,17 +18,22 @@ public class TransitionManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(FadeInSequence());
+        fader.color = new Color(0f, 0f, 0f, 0f);
     }
     
     void Update()
     {
         if(fadeIn)
         {
-            fader.color -= deltaFadeIn * Time.deltaTime;
+            if(fader.color.a > 0)
+                fader.color -= deltaFadeIn * Time.deltaTime;
+            //Debug.Log(fader.color.a);
         }   
         else if(fadeOut)
         {
-            fader.color += deltaFadeOut * Time.deltaTime;
+            Debug.Log(fader.color.a);
+            if(fader.color.a < 1)
+                fader.color += deltaFadeOut * Time.deltaTime / Time.timeScale;
         }
     }
 
@@ -58,21 +63,51 @@ public class TransitionManager : MonoBehaviour
     /// <param name="inTime"> Duration of fade in. </param>
     /// <param name="deltaFadeFactor"> Scale of the fade speed (default fade out = 1f, default fade in = 0.8f) </param>
     /// <returns></returns>
-    public IEnumerator BlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor)
+    public IEnumerator BlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor, bool pause)
     {
-        deltaFadeIn.a *= deltaFadeFactor;
-        deltaFadeOut.a *= deltaFadeFactor;
+        
+        
+        if(pause)
+        {
+            
+            deltaFadeIn.a *= deltaFadeFactor;
+            deltaFadeOut.a *= deltaFadeFactor;
 
-        fadeOut = true;
-        yield return new WaitForSeconds(outTime);
-        fadeOut = false;
-        yield return new WaitForSeconds(darkTime);
-        fadeIn = true;
-        yield return new WaitForSeconds(inTime);
-        fadeIn = fadeIn = false;
+            Debug.Log("started fade");
+            fadeIn = false;
+            fadeOut = true;
+            yield return new WaitForSecondsRealtime(outTime);
+            fadeOut = false;
+            Debug.Log("dark");
+            yield return new WaitForSecondsRealtime(darkTime);
+            fadeIn = true;
+            Debug.Log("unfadfe");
+            yield return new WaitForSecondsRealtime(inTime);
+            fadeIn = fadeIn = false;
+            Debug.Log("bright");
 
-        deltaFadeIn.a /= deltaFadeFactor;
-        deltaFadeOut.a /= deltaFadeFactor;
+            deltaFadeIn.a /= deltaFadeFactor;
+            deltaFadeOut.a /= deltaFadeFactor;
+        }
+        else
+        {
+            deltaFadeIn.a *= deltaFadeFactor;
+            deltaFadeOut.a *= deltaFadeFactor;
+
+            fadeOut = true;
+            yield return new WaitForSeconds(outTime);
+            fadeOut = false;
+            yield return new WaitForSeconds(darkTime);
+            fadeIn = true;
+            yield return new WaitForSeconds(inTime);
+            fadeIn = fadeIn = false;
+
+            deltaFadeIn.a /= deltaFadeFactor;
+            deltaFadeOut.a /= deltaFadeFactor;
+        }
+        
+
+       
     }
 
     public IEnumerator RealtimeBlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor)
