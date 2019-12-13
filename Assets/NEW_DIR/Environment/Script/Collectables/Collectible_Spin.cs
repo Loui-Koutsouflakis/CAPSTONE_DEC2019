@@ -80,11 +80,12 @@ public class Collectible_Spin : MonoBehaviour
             hud.ShardsUp();
             player.SetShards(1);
             isCollected = true;
-            if(saveMan)
+            if (saveMan)
+            {
                 saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
-            print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
-            saveMan.SaveCollectedShardsID();
-
+                print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+                saveMan.SaveCollectedShardsID();
+            }
 
         }
     }

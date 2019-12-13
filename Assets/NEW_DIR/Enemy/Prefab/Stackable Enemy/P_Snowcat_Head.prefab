@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318309826224268310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.252, y: -0.028, z: 0.611}
+  m_LocalPosition: {x: -0.252, y: -0.028, z: 0.565}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7437173471615053215}
@@ -103,13 +103,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6800425711184327232}
-  m_LocalRotation: {x: -0.24360576, y: -0, z: -0, w: 0.9698743}
-  m_LocalPosition: {x: 0.19599915, y: -0.304, z: 0.532}
+  m_LocalRotation: {x: -0.29841456, y: -0, z: -0, w: 0.9544364}
+  m_LocalPosition: {x: 0.164, y: -0.265, z: 0.448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7437173471615053215}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -28.199001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -34.725002, y: 0, z: 0}
 --- !u!33 &588485566335387360
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -182,7 +182,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7584150743602217980}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.252, y: -0.028, z: 0.614}
+  m_LocalPosition: {x: 0.252, y: -0.028, z: 0.563}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7437173471615053215}
@@ -259,13 +259,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8372954281800916786}
-  m_LocalRotation: {x: -0.17427215, y: -0, z: -0, w: 0.9846976}
-  m_LocalPosition: {x: -0.081085205, y: -0.347, z: 0.532}
+  m_LocalRotation: {x: -0.31605357, y: -0.013401404, z: 0.053370878, w: 0.94714415}
+  m_LocalPosition: {x: -0.169, y: -0.261, z: 0.445}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7437173471615053215}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -20.073002, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -36.674004, y: -4.227, z: 7.852}
 --- !u!33 &2357250392936149391
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -408,16 +408,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetInput: 0.4
-  bColSizeX: 0
-  bColSizeY: 0
-  bColSizeZ: 0
+  bColSizeX: 0.75
+  bColSizeY: 0.65
+  bColSizeZ: 0.7
   bColCentX: 0
-  bColCentY: 0
+  bColCentY: 0.325
   bColCentZ: 0
-  capColCentX: 0
-  capColCentY: 0
-  capColCentZ: 0
-  capColHeightInput: 0
-  capColRadiusInput: 0
-  navAgentHeightInput: 0
-  navAgentRadiusInput: 0
+  trigColCentX: 0
+  trigColCentY: 0.125
+  trigColCentZ: 0
+  trigColSizeX: 1.5
+  trigColSizeY: 0.125
+  trigColSizeZ: 1.5
+  navAgentHeightInput: 0.6
+  navAgentRadiusInput: 0.38
