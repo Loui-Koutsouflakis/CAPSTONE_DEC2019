@@ -85,7 +85,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         transform.position = startPos;
     }
 
-    NavMeshPath path = new NavMeshPath();
+    NavMeshPath path;
 
 
     void Update()
