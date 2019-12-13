@@ -1008,16 +1008,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Lumi_Teleport
       objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2020037364159137141, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1082,6 +1072,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -1194,6 +1194,19 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.37810084
       objectReference: {fileID: 0}
+    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f18b69615aa118409c7e9658e598ed3, type: 3}
+    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -8837878976853614303, guid: 60f2215579c11c44a932e3f3b5f7b46a,
+        type: 2}
     - target: {fileID: 614405374624740025, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: h_Manager
@@ -1329,19 +1342,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 5f18b69615aa118409c7e9658e598ed3, type: 3}
-    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: -8837878976853614303, guid: 60f2215579c11c44a932e3f3b5f7b46a,
-        type: 2}
     - target: {fileID: 4777716178381853034, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: invY
@@ -1486,31 +1486,6 @@ PrefabInstance:
       propertyPath: t_Manager
       value: 
       objectReference: {fileID: 564268042}
-    - target: {fileID: 2881686277094572220, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1243363388}
-    - target: {fileID: 4252692751290207358, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252692751290207358, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252692752800683936, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252692752800683936, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5191950579515954129, guid: 02c3c790bd144194d8da3458dea7ba93,
         type: 3}
       propertyPath: t_Manager
@@ -1521,21 +1496,6 @@ PrefabInstance:
       propertyPath: teleportPsParent
       value: 
       objectReference: {fileID: 1243363388}
-    - target: {fileID: 5191950579515954129, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: t_Manager
-      value: 
-      objectReference: {fileID: 564268042}
-    - target: {fileID: 5191950579515954129, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: teleportPsParent
-      value: 
-      objectReference: {fileID: 1243363388}
-    - target: {fileID: 5702101526343090356, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7099778201556656877, guid: 02c3c790bd144194d8da3458dea7ba93,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1589,36 +1549,6 @@ PrefabInstance:
     - target: {fileID: 7099778201556656877, guid: 02c3c790bd144194d8da3458dea7ba93,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8033337714522546972, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: playerTf
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6992804886345855148, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6467959112307327704, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6992804886233359160, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6992804886655039946, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6992804887724264608, guid: 02c3c790bd144194d8da3458dea7ba93,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
