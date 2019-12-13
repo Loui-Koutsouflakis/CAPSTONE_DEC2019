@@ -26,6 +26,9 @@ public class Icicles : MonoBehaviour
     private float distanceToPlayer;
     private readonly float thresholdDistance = 20.0f;
 
+    //Cache wait time
+    private readonly WaitForSeconds timer = new WaitForSeconds(1.0f);
+
     private void Awake()
     {
         //Get rigidbody reference from small icicles
@@ -97,7 +100,7 @@ public class Icicles : MonoBehaviour
     private IEnumerator CleanUp()
     {
         //Clean up small icicles after animation has played
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return timer;
 
         gameObject.SetActive(false);
     }

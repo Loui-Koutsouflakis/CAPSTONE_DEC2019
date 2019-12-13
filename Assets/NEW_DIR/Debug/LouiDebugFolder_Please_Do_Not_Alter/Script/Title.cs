@@ -22,6 +22,7 @@ public class Title : MonoBehaviour
     private void Start()
     {
         StartCoroutine(OpeningSequence());
+        Cursor.visible = false;
     }
 
     private void Update()

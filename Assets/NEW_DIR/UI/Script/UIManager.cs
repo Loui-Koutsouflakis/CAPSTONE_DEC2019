@@ -42,6 +42,8 @@ public class UIManager : MonoBehaviour
     public GameObject controlsScrollObject;
     public GameObject pauseMenuScrollObject;
     public GameObject gameOverScrollObject;
+
+    private TransitionManager transManager;
     
 
 
@@ -489,16 +491,20 @@ public class UIManager : MonoBehaviour
     {
 
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        transManager = GameObject.FindObjectOfType<TransitionManager>();
+        Debug.Log(transManager.name);
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         gameOverButtonController.SetCanInteractWithButtons(false);
+        transManager.StartCoroutine(transManager.BlinkSequence(2f, 0.5f, 1, 0.9f, true));
         yield return new WaitForSeconds(delay * Time.timeScale);
         gameOverScrollObject.SetActive(false);
         gameManager.ResetTimeAndCamera();
-        gameManager.GetPlayer().EnableControls();
         gameManager.GetPlayer().SetHealth(3);
         gameManager.GetPlayer().GetHManager().HealthFull();
         gameManager.GetPlayer().UnDeath();
         saveGameManager.Load();
+        yield return new WaitForSeconds(1.6f * Time.timeScale);
+        gameManager.GetPlayer().EnableControls();
 
         //gameManager.GetPlayer().SetShards(saveGameManager.GetShards());
 

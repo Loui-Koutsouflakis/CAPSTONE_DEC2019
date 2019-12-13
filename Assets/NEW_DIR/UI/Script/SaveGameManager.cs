@@ -58,22 +58,22 @@ public class SaveGameManager : MonoBehaviour
     float masterSliderPositionX;
     float dialogueSliderPositionX;
 
-    bool startingUp = true;
+    
 
     public int loadFixer = 2;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        LoadCollectedShards();
+    }
 
     private void Awake()
     {
         
-        
 
-        if (startingUp == true)
-        {
-            LoadCollectedShards();
-            //LoadTriggeredMonoliths();
-            startingUp = false;
-        }
+
+     
         //for (int i = 0; i < PlayerPrefs.GetInt("NumberOfCollectedShards"); i++)
         //{
         //    Debug.Log(PlayerPrefs.GetString("CollectedShardsIDs Main Menu" + i));
@@ -185,14 +185,14 @@ public class SaveGameManager : MonoBehaviour
     private void Update()
     {
 
-        if (loading)
-        {
-            //Calls OnSceneLoaded when the scene switches 
+        //if (loading)
+        //{
+        //    //Calls OnSceneLoaded when the scene switches 
            
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            loading = false;
+        //    SceneManager.sceneLoaded += OnSceneLoaded;
+        //    loading = false;
             
-        }
+        //}
 
 
         inputSaveTesting();
@@ -440,6 +440,7 @@ public class SaveGameManager : MonoBehaviour
     //A unique function that is called whenever a scene loaded
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Getting Called at all");
         //Finds if the player is in the scene
         if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera") && GameObject.FindGameObjectWithTag("AudioManager"))
         {
@@ -468,7 +469,7 @@ public class SaveGameManager : MonoBehaviour
 
                 //Save the game
                 Save();
-                Debug.Log(loadingFromContinue);
+                Debug.Log("New Game");
 
                 LoadSettings();
                 //Debug.Log("Gets Called ");
@@ -486,6 +487,7 @@ public class SaveGameManager : MonoBehaviour
 
                 loadFixer = 2;
 
+                Debug.Log("Continue");
                 //loadingFromContinue = false;
             }
             else
@@ -494,10 +496,11 @@ public class SaveGameManager : MonoBehaviour
                 currentCheckpoint = beginning;
                 Save();
                 LoadSettings();
-                Debug.Log("Else Worked");
+                Debug.Log("Loaded Next Level");
             }
+        
         }
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     //Function to handle input testing
