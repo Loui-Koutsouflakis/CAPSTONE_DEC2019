@@ -6,10 +6,15 @@ public class BossBlockingCollider : MonoBehaviour
 {
     [SerializeField]
     private bool leftHand;
-
-    public static BossV2 bossRef;
+    [SerializeField]
+    private BossV2 bossRef;
 
     readonly float initBlocking = 50f;
+
+    private void Awake()
+    {
+        bossRef = GameObject.Find("Boss_Shell_v2").GetComponent<BossV2>();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
