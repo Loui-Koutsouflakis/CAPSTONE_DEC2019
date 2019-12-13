@@ -14,6 +14,7 @@ public class PlayerCamera : MonoBehaviour
 
     #region Player
     GameObject Player;
+    PlayerClass pl;
     GameObject shadow;
     Rigidbody p_RB;
     #endregion
@@ -116,6 +117,7 @@ public class PlayerCamera : MonoBehaviour
     [Tooltip("How far away the camera is when in 2D Mode.")]
     public float DistIn2D;
     public float Height2D;
+    public Vector3 passThrough2D;
     public enum WallCamChoice { Back, Left, Front, Right, BackLeft, FrontLeft, BackRight, FrontRight }
     [SerializeField]
     [Tooltip("Choose what direction to set the 2D camera.")]
@@ -148,6 +150,7 @@ public class PlayerCamera : MonoBehaviour
             Player = FindObjectOfType<PlayerController>().gameObject;
         //if (!shadow)
         //    shadow = GameObject.FindGameObjectWithTag("LumiShadow");
+        if (!pl) pl = FindObjectOfType<PlayerClass>();
         if (!aimer)
             aimer = GameObject.FindGameObjectWithTag("CameraAimer");
         if (!main)
@@ -177,6 +180,8 @@ public class PlayerCamera : MonoBehaviour
         distFromPlayer = UpDownCam(invY);
         camDist = CameraRaycast(distFromPlayer);
         RaycastDirections();
+
+
         if (Input.GetKey(KeyCode.T))
         {
             CamType = CameraType.Shake;
@@ -221,7 +226,12 @@ public class PlayerCamera : MonoBehaviour
                 CamMovement2D(wallCamChoice);
                 break;
             case CameraType.Cinema:
-
+                if (Input.GetButtonDown("AButton"))
+                {
+                    CamType = CameraType.Orbit;
+                    pl.EnableControls();
+                    pl.GetComponent<Rigidbody>().isKinematic = false;
+                }
                 break;
             case CameraType.Shake:
                 time += Time.deltaTime;
@@ -261,37 +271,46 @@ public class PlayerCamera : MonoBehaviour
     //2D Platforming void, for those tough to reach areas
     void CamMovement2D(WallCamChoice x)
     {
+        
         switch (x)
         {
             case WallCamChoice.Front:
-                transform.eulerAngles = new Vector3(15, 0, 0);
+                passThrough2D = new Vector3(15, 0, 0);
+                 transform.eulerAngles = new Vector3(15, 0, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Back:
+                passThrough2D = new Vector3(15, 180, 0);
                 transform.eulerAngles = new Vector3(15, 180, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Left:
+                passThrough2D = new Vector3(15, 90, 0);
                 transform.eulerAngles = new Vector3(15, 90, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.Right:
+                passThrough2D = new Vector3(15, -90, 0);
                 transform.eulerAngles = new Vector3(15, -90, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.BackLeft:
+                passThrough2D = new Vector3(15, 135, 0);
                 transform.eulerAngles = new Vector3(15, 135, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.BackRight:
+                passThrough2D = new Vector3(15, -135, 0);
                 transform.eulerAngles = new Vector3(15, -135, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.FrontLeft:
+                passThrough2D = new Vector3(15, 45, 0);
                 transform.eulerAngles = new Vector3(15, 45, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
             case WallCamChoice.FrontRight:
+                passThrough2D = new Vector3(15, -45, 0);
                 transform.eulerAngles = new Vector3(15, -45, 0);
                 transform.position = Vector3.SmoothDamp(transform.position, (Player.transform.position - transform.forward * DistIn2D) + (transform.up * Height2D), ref smoothingVelocity, c_Lerp);
                 break;
@@ -311,6 +330,14 @@ public class PlayerCamera : MonoBehaviour
     public void SwitchToCinema(CameraType which)
     {
         CamType = which;
+    }
+    public void SwitchFromWallJump(CameraType which, Vector3 wall)
+    {
+        CamType = which;
+        pitch = wall.x;
+        yaw = wall.y;
+        currentRotation = wall;
+        
     }
 
     #endregion

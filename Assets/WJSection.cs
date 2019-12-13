@@ -10,6 +10,7 @@ public class WJSection : MonoBehaviour
     public float distance;
     public float height;
     public float followLerp;
+    Vector3 passThrough;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +25,12 @@ public class WJSection : MonoBehaviour
             Camera.wallCamChoice = wallCamChoice;
             Camera.Height2D = height;
             Camera.DistIn2D = distance;
+            passThrough = Camera.passThrough2D; 
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 14) Camera.SwitchToCinema(PlayerCamera.CameraType.Orbit);
+        if (other.gameObject.layer == 14) Camera.SwitchFromWallJump(PlayerCamera.CameraType.Orbit,passThrough);
     }
 
 }
