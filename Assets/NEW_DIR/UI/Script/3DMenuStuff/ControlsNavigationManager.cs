@@ -53,12 +53,13 @@ public class ControlsNavigationManager : UIManager
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         
 
-        if (saveGameManager.GetSliderPosition() < sliderMin.localPosition.x)
+        if (saveGameManager.GetSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetSliderPosition() > sliderMax.localPosition.x + 0.2)
         {
             sliderButton.transform.localPosition = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
         }
         else
         {
+            sliderButton.transform.localPosition = new Vector3(0, sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
             saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
             saveGameManager.SaveSliderPosition();
         }
@@ -69,19 +70,19 @@ public class ControlsNavigationManager : UIManager
         
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         StartCoroutine(SliderButtonEnable(0.9f));
-      
 
-            if(saveGameManager.GetSliderPosition() < sliderMin.localPosition.x)
-            {
-                sliderButton.transform.localPosition = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
-            }
-            else
-            {
-                saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
-                saveGameManager.SaveSliderPosition();
-            }
-        
-       
+
+        if (saveGameManager.GetSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetSliderPosition() > sliderMax.localPosition.x + 0.2)
+        {
+            sliderButton.transform.localPosition = new Vector3(saveGameManager.GetSliderPosition(), sliderButton.transform.localPosition.y, sliderButton.transform.localPosition.z);
+        }
+        else
+        {
+            saveGameManager.SetSliderPosition(sliderButton.transform.localPosition.x);
+            saveGameManager.SaveSliderPosition();
+        }
+
+
     }
 
     
