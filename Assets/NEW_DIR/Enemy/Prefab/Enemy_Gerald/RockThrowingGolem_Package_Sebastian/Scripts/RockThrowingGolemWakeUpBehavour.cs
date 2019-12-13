@@ -18,7 +18,12 @@ public class RockThrowingGolemWakeUpBehavour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
-        
+
+        if (PlayerPosition == null)
+        {
+            PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         if (Vector3.Distance(animator.transform.position, PlayerPosition.position) > ExitRange)
         {
             animator.SetBool("HasExitedRange", true);

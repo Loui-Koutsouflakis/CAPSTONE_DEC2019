@@ -47,6 +47,12 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
         var atp = animator.transform.position;
 
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (PlayerPosition == null)
+        {
+            PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         Vector3 TargetRotation = new Vector3(PlayerPosition.position.x, atp.y, PlayerPosition.position.z);
         var r = Quaternion.LookRotation(TargetRotation - atp);
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);

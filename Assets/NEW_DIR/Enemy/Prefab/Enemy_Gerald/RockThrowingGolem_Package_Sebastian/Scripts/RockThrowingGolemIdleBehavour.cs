@@ -29,8 +29,13 @@ public class RockThrowingGolemIdleBehavour : StateMachineBehaviour
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(PlayerPosition == null)
+        {
+            PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+
         
         if (Vector3.Distance(animator.transform.position, PlayerPosition.position) < WakeUpRadius)
         {
