@@ -457,7 +457,7 @@ public class MotherSpider : MonoBehaviour, IKillable
     #region Trigger enter and exit
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && other.gameObject.layer == 15 && (other.transform.position - transform.position).magnitude > 5)
+        if (other.gameObject.name == "InteractTriggerSphere" && other.gameObject.layer == 15 && (other.transform.position - transform.position).magnitude > 5)
         {
             seesPlayer = true;
             playerTransform = other.transform;
@@ -466,7 +466,7 @@ public class MotherSpider : MonoBehaviour, IKillable
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player" && other.gameObject.layer == 15 && (other.transform.position - transform.position).magnitude > 5)
+        if (other.gameObject.name == "InteractTriggerSphere" && other.gameObject.layer == 15 && (other.transform.position - transform.position).magnitude > 5)
         {
             seesPlayer = false;
             playerTransform = null;
