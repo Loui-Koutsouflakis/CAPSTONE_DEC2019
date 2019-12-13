@@ -21,14 +21,13 @@ public class HealthPickUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.layer == 14)
+        if (c.gameObject.layer == 14 && player.GetHealth() < 3)
         {
             //sfx.PlayOneShotByName("Collect");
             hud.HealthUp();
             player.SetHealth(1);
 
-            transform.parent.gameObject.SetActive(false);                   
-
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }

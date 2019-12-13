@@ -21,8 +21,11 @@ public class Killzone : MonoBehaviour
             spawnPoint = playerScript.GetLastKnownPos();
             playerScript.gameObject.transform.position = spawnPoint;
             playerScript.rb.velocity = Vector3.zero;
-            playerScript.SetHealth(-1);
-            hudManager.HealthDown(); 
+            if (playerScript.GetDamagable())
+            {
+                playerScript.SetHealth(-1);
+                hudManager.HealthDown();
+            }
         }
     }
 }
