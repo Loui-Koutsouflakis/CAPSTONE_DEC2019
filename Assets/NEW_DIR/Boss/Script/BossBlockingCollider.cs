@@ -6,15 +6,12 @@ public class BossBlockingCollider : MonoBehaviour
 {
     [SerializeField]
     private bool leftHand;
+
     [SerializeField]
     private BossV2 bossRef;
 
-    readonly float initBlocking = 50f;
-
-    private void Awake()
-    {
-        bossRef = GameObject.Find("Boss_Shell_v2").GetComponent<BossV2>();
-    }
+    readonly float handOffset = 4f;
+    readonly float initBlocking = 250f;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -23,10 +20,12 @@ public class BossBlockingCollider : MonoBehaviour
             if(leftHand)
             {
                 bossRef.leftHandBlocking = initBlocking;
+                bossRef.leftHandBlockingPoint = collision.gameObject.transform.position - (Vector3.right * handOffset);
             }
             else
             {
                 bossRef.rightHandBlocking = initBlocking;
+                bossRef.rightHandBlockingPoint = collision.gameObject.transform.position + (Vector3.right * handOffset);
             }
         }
     }
