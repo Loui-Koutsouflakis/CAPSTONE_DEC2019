@@ -595,7 +595,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (thing.gameObject.GetComponent<Spiderlings>() || (thing.gameObject.GetComponent<MotherSpider>() && thing == thing.GetComponent<BoxCollider>()))
                         {
-                            StartCoroutine(this.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding()));
+                            StartCoroutine(thing.gameObject.GetComponent<IKillable>().CheckHit(player.GetGroundPounding()));
                         }
                     }
 
