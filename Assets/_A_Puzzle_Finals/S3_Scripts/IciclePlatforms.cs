@@ -12,13 +12,18 @@ using UnityEngine;
 public class IciclePlatforms : MonoBehaviour, Interact
 {
     //Object & scripts reference variables
-    private CameraPaths camerPaths;
     public GameObject icicleRef;
+    public ParticleSystem particleRef;
+
+    private CameraPaths camerPaths;
     private IceBall iceBallScript;
     private Icicles icicleScriptRef;
 
     //Helper variables
     private bool hasPlayed = false;
+
+    //Cache wait time
+    private readonly WaitForSeconds timer = new WaitForSeconds(0.6f);
 
     private void Awake()
     {
@@ -54,6 +59,9 @@ public class IciclePlatforms : MonoBehaviour, Interact
             icicleScriptRef.MakeIcicleFall();
             StartCoroutine(PauseAnimation());
 
+            //Clean-up particles
+            particleRef.Stop();
+
             //Ensure sequence only plays once
             hasPlayed = true;
         }
@@ -62,7 +70,7 @@ public class IciclePlatforms : MonoBehaviour, Interact
     private IEnumerator PauseAnimation()
     {
         //Time iceball rolling to be after icicle drop
-        yield return new WaitForSeconds(0.6f);
+        yield return timer;
 
         iceBallScript.PlayIceBallAnimations();
     }
