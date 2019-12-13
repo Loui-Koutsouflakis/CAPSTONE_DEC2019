@@ -13,6 +13,10 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
         mesh = GetComponentsInChildren<MeshCollider>();
         body = GetComponentsInChildren<Rigidbody>();
         particles = GetComponentInChildren<ParticleSystem>();
+        foreach (var item in mesh)
+        {
+            item.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -30,7 +34,7 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
         particles.Stop();
         foreach (var item in mesh)
         {
-            item.convex = true;
+            item.enabled = true;
         }
         foreach (var item in body)
         {
@@ -44,7 +48,7 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
         yield return new WaitForSeconds(1);
         foreach (var item in mesh)
         {
-            item.convex = false;
+            item.enabled = false;
         }
         GetComponent<BoxCollider>().enabled = false;
     }
