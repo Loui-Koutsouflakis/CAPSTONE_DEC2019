@@ -44,16 +44,20 @@ public class BossV2 : MonoBehaviour
     float verticalInput;
     float steerLerpRate = 8.6f;
 
-    readonly float bossMaxY = 15f;
-    readonly float bossMinY = -60f;
-    readonly float bossMaxX = 90f;
-    readonly float bossMinX = -90f;
+    readonly float bossMaxY = -5f;
+    readonly float bossMinY = -80f;
+    readonly float bossMaxX = 110f;
+    readonly float bossMinX = -120f;
 
     readonly float dragonInputThreshold = 0.14f;
     readonly float steerRotLerp = 12.75f;
 
     public Vector3 leftHandBlockingPoint;
     public Vector3 rightHandBlockingPoint;
+    Vector3 leftHandInitPos;
+    Vector3 rightHandInitPos;
+    Vector3 leftHandInitRot;
+    Vector3 rightHandInitRot;
     Vector3 steer;
     Vector3 steerRot;
     Vector3 rightHandRot = new Vector3(90f, 270f, 0f);
@@ -88,7 +92,7 @@ public class BossV2 : MonoBehaviour
         }
         else
         {
-            // lerp back
+            MoveHand(rightHand, rightHandInitPos, rightHandInitRot);
         }
 
         if(leftHandBlocking > 0f)
@@ -98,7 +102,7 @@ public class BossV2 : MonoBehaviour
         }
         else
         {
-            // lerp back
+            MoveHand(leftHand, leftHandInitPos, leftHandInitRot);
         }
 
         if (steering)
@@ -130,8 +134,6 @@ public class BossV2 : MonoBehaviour
             if (Mathf.Abs(horizontalInput) > 0.03f || Mathf.Abs(verticalInput) > 0.03f)
             {
                 StartCoroutine(SteerRoutine(steer.normalized));
-
-                //Steer(steer.normalized);
 
                 //steerAdjusted = false;
             }
@@ -170,48 +172,6 @@ public class BossV2 : MonoBehaviour
         //hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.LookRotation(toRotate), steerRotLerp * Time.deltaTime);
 
         hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.Euler(euler), steerRotLerp * Time.deltaTime);
-    }
-
-    public void Steer(Vector3 steerDirection)
-    {
-        Vector3 holdSteerDirection = new Vector3();
-
-        for (int i = 0; i < bodyTargets.Length; i++)
-        {
-
-            if (i == 0)
-            {
-                if (bodyTargets[0].localPosition.y > bossMaxY && steerDirection.y > 0f)
-                {
-                    steerDirection.y = 0f;
-                }
-                else if (bodyTargets[0].localPosition.y < bossMinY && steerDirection.y < 0f)
-                {
-                    steerDirection.y = 0f;
-                }
-                else
-                {
-                    steerDirection.y = holdSteerDirection.y;
-                }
-
-                if (bodyTargets[0].localPosition.x > bossMaxX && steerDirection.x > 0f)
-                {
-                    steerDirection.x = 0f;
-                }
-                else if (bodyTargets[0].localPosition.x < bossMinX && steerDirection.x < 0f)
-                {
-                    steerDirection.x = 0f;
-                }
-                else
-                {
-                    steerDirection.x = holdSteerDirection.x;
-                }
-            }
-
-            //bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
-
-            bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
-        }
     }
 
     public IEnumerator SteerRoutine(Vector3 steerDirection)
