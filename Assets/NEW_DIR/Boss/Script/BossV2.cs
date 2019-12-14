@@ -261,11 +261,25 @@ public class BossV2 : MonoBehaviour
 
     public void CueSteer()
     {
+        Time.timeScale = 1.25f;
+
         bossCam.enabled = true;
         playerCam.enabled = false;
         steerVolume.canSteer = false;
         steerVolume.enabled = false;  //don't forget to re-enable this
         steering = true;
+    }
+
+    public void EndSteer()
+    {
+        Time.timeScale = 1f;
+
+        playerCam.enabled = true;
+        bossCam.enabled = false;
+        steering = false;
+
+        steerVolume.canSteer = false;
+        //steerVolume.enabled = true;
     }
 
     public IEnumerator IntroSequence()
