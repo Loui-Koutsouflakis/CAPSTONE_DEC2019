@@ -1740,6 +1740,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7409831304317110969, guid: d79d692fe6e91e9418902adbbc5076a0,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d79d692fe6e91e9418902adbbc5076a0, type: 3}
 --- !u!4 &7409831302527206259 stripped
@@ -1953,6 +1958,11 @@ PrefabInstance:
     - target: {fileID: 3476449271470147370, guid: 4013b63f3ee48ba4394082698068df71,
         type: 3}
       propertyPath: NoiseModule.separateAxes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476449271470147370, guid: 4013b63f3ee48ba4394082698068df71,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5449381341621753858, guid: 4013b63f3ee48ba4394082698068df71,
@@ -6983,6 +6993,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 617825585683478540}
     m_Modifications:
+    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
+        type: 3}
+      propertyPath: m_Name
+      value: Shadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
+        type: 3}
+      propertyPath: m_TagString
+      value: LumiShadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6185039605946104236, guid: a7abbe088f0121542b079b03d2afc56e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7036,21 +7061,6 @@ PrefabInstance:
     - target: {fileID: 6185039605946104236, guid: a7abbe088f0121542b079b03d2afc56e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
-        type: 3}
-      propertyPath: m_Name
-      value: Shadow
-      objectReference: {fileID: 0}
-    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
-        type: 3}
-      propertyPath: m_TagString
-      value: LumiShadow
-      objectReference: {fileID: 0}
-    - target: {fileID: 6185039605946104211, guid: a7abbe088f0121542b079b03d2afc56e,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
