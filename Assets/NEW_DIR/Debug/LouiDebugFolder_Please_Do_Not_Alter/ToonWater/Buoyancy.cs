@@ -17,6 +17,14 @@ public class Buoyancy : MonoBehaviour
     readonly float impactDecay = 0.35f;
     readonly float velocityDecay = 0.966f;
 
+    private void Start()
+    {
+        if(rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == waterTag)
