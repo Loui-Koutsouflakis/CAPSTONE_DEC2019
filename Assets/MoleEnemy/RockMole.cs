@@ -38,6 +38,9 @@ public class RockMole : MonoBehaviour , IKillable
     [SerializeField]
     private float randomRange = 5f;
 
+    public BoxCollider mainCollider;
+    public BoxCollider sideCollider;
+
     private bool alive;
 
     private float surfaceTime;
@@ -80,7 +83,7 @@ public class RockMole : MonoBehaviour , IKillable
             digTime = 1f;
             //shootTime = 2f;
             moleType = 4;
-        }
+        }        
 
         StartCoroutine(StartDelay());
     }
@@ -180,6 +183,8 @@ public class RockMole : MonoBehaviour , IKillable
         alive = false;
         StopCoroutine(moleSequence);
         anim.SetTrigger(dieAnimName);
+        mainCollider.enabled = false;
+        sideCollider.enabled = false;
 
         yield return new WaitForSeconds(0.8f);
 

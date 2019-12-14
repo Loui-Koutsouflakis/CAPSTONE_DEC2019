@@ -81,6 +81,7 @@ public class PlayerAirMovement : PlayerVariables
             player.SetLongJump(false);
             player.SetDoubleJump(false);
             player.SetBouncing(false);
+            anim.SetBool("LongJump", false);
             anim.SetFloat("YVelocity", 0);
             anim.SetBool("GroundPound", false);
             wallRotate = false;

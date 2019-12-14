@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private HandleSfx SoundManager;
+
+    private CapsuleCollider capCollider;
+
+    private bool canGroundPound;
     
 
     public LayerMask p_Layer; //= 1 << 9;
@@ -51,7 +55,7 @@ public class PlayerController : MonoBehaviour
     //for testing parenting on boss level only
     public bool bossLevel = false;
 
-
+    
 
     #region Enemy Stuff
     public int spiderWebs = 0;
@@ -77,7 +81,7 @@ public class PlayerController : MonoBehaviour
         lumiParts = GetComponentsInChildren<SkinnedMeshRenderer>();
         SoundManager = GetComponent<HandleSfx>();
         player.SetSoundManager(SoundManager);
-        
+        capCollider = GetComponent<CapsuleCollider>();
     }   
 
     private void Start()
@@ -93,6 +97,7 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
         player.SetLastKnownPos(player.transform.position);
+        
     }
 
     #region Inputs
@@ -122,6 +127,8 @@ public class PlayerController : MonoBehaviour
                 psJump.Stop();
                 psJump.Play();
                 jumpParticleIsPlaying = false;
+                canGroundPound = false;
+                StartCoroutine(EnableGroundPound());
             }
         }
         else if (player.playerCurrentMove == MovementType.air && canMultiJump) // bool to be able to turn off ability to double jump/wall jump
@@ -139,6 +146,8 @@ public class PlayerController : MonoBehaviour
                 psRun.Stop();
                 psJump.Stop();
                 psJump.Play();
+                canGroundPound = false;
+                StartCoroutine(EnableGroundPound());
             }
         }
         else if (player.playerCurrentMove == MovementType.grapple)
@@ -228,6 +237,12 @@ public class PlayerController : MonoBehaviour
         //playerIK.IK_Grapple();
     }
 
+    IEnumerator EnableGroundPound()
+    {
+        yield return new WaitForSeconds(0.1f);
+        canGroundPound = true;
+        
+    }
 
 
     public void DetatchGrapple()
@@ -254,7 +269,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(player.playerCurrentMove == MovementType.air)
         {
-            if(!player.GetGroundPounding())
+            if(!player.GetGroundPounding() && canGroundPound)
             {
                 player.GetAirComponent().GroundPound();
                 player.SetGroundPounding(true);
@@ -495,8 +510,9 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator CheckGround()
     {
+        capCollider.height = 0.97f;        
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
-        {
+        {            
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer) ) //&& footHit.collider.gameObject.GetComponent<Renderer>().material.name != "M_2Rocks_Large_Cell")
             {
 
@@ -573,7 +589,12 @@ public class PlayerController : MonoBehaviour
                             player.DisableControls();
                             StartCoroutine(EnableControls());
                             //player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
-                            player.GenericAddForce(player.transform.up.normalized, 5);
+                            player.GenericAddForce(player.transform.up.normalized, 7);
+                            if(!player.GetGroundPounding())
+                            {
+                                anim.SetTrigger("DJump");
+                            }
+
                             landed = true;
                             StartCoroutine(LandedSwitch());
                         }
@@ -725,6 +746,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                capCollider.height = 0.7f;
                 if(sliding)
                 {
                     player.EnableControls();

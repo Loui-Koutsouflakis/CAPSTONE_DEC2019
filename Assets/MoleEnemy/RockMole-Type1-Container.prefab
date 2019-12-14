@@ -19198,7 +19198,10 @@ MonoBehaviour:
   randomizedWaypoints: 0
   randomizedDigTime: 0
   randomizedSurfaceTime: 0
+  rotatesTowardPlayer: 1
   randomRange: 5
+  mainCollider: {fileID: 2087796523287762766}
+  sideCollider: {fileID: 2087796523411025675}
 --- !u!65 &2087796523411025675
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19219,6 +19222,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6450248881789891790}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Name
+      value: SideCol
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19289,21 +19307,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Name
-      value: SideCol
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -19326,6 +19329,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2087796522135741647}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_RockTotem3_fixed
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19395,21 +19413,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_RockTotem3_fixed
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_TagString
-      value: EnemyWeakSpot
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 2badd5b30c0117d4e9e8f35f4c7357b4,
         type: 3}
