@@ -9,18 +9,8 @@ public class BossV2 : MonoBehaviour
     public Animator[] bodyAnims;
     public Transform[] targetInits;
     public Transform playerTf;
-
-    //private readonly Vector3[] targetInitOffset =
-    //{
-    //    new Vector3(0f, 0f, 0f),
-    //    new Vector3(-0.5688758f, -2.2f, -18.96224f),
-    //    new Vector3(-4.401353f, -3.9f, -46.54705f),
-    //    new Vector3(-7.734359f, -2.73f, -73.86629f),
-    //    new Vector3(-17.17431f, -3.9f, -98.58646f),
-    //    new Vector3(-27.90802f, -2.73f, -123.434f),
-    //    new Vector3(-40.29121f, -3.9f, -146.836f),
-    //    new Vector3(-57.83416f, -5.46f, -175.1439f)
-    //};
+    public Transform tailSpawnPoint;
+    public TransitionManager transition;
 
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
@@ -28,6 +18,8 @@ public class BossV2 : MonoBehaviour
     public Transform leftHand;
     public Transform rightHand;
     public Transform leftHandGrabPoint;
+    public Transform leftHandInitPoint;
+    public Transform rightHandInitPoint;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
 
@@ -56,8 +48,6 @@ public class BossV2 : MonoBehaviour
 
     public Vector3 leftHandBlockingPoint;
     public Vector3 rightHandBlockingPoint;
-    Vector3 leftHandInitPos;
-    Vector3 rightHandInitPos;
     Vector3 leftHandInitRot;
     Vector3 rightHandInitRot;
     Vector3 steer;
@@ -79,8 +69,6 @@ public class BossV2 : MonoBehaviour
             bossCam.enabled = false;
         }
 
-        rightHandInitPos = rightHand.position;
-        leftHandInitPos = leftHand.position;
         rightHandInitRot = rightHand.rotation.eulerAngles;
         leftHandInitRot = leftHand.rotation.eulerAngles;
 
@@ -100,11 +88,7 @@ public class BossV2 : MonoBehaviour
         }
         else if(!grabIsAnimating)
         {
-            LerpPositionRotation(rightHand, rightHandInitPos, rightHandInitRot);
-        }
-        else
-        {
-
+            LerpPositionRotation(rightHand, rightHandInitPoint.position, rightHandInitRot);
         }
 
         if(leftHandBlocking > 0f)
@@ -114,7 +98,7 @@ public class BossV2 : MonoBehaviour
         }
         else if(!grabIsAnimating)
         {
-            LerpPositionRotation(leftHand, leftHandInitPos, leftHandInitRot);
+            LerpPositionRotation(leftHand, leftHandInitPoint.position, leftHandInitRot);
         }
         else
         {
@@ -222,8 +206,6 @@ public class BossV2 : MonoBehaviour
             bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
 
             yield return new WaitForSeconds(0.116f);
-
-            //bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime; 
         }
     }
 
@@ -232,7 +214,9 @@ public class BossV2 : MonoBehaviour
     public void CueSteer()
     {
         Time.timeScale = 1.25f;
-        playerTf.gameObject.SetActive(false);
+
+        //playerTf.gameObject.SetActive(false);
+
         bossCam.enabled = true;
         playerCam.enabled = false;
         steerVolume.canSteer = false;
@@ -243,12 +227,7 @@ public class BossV2 : MonoBehaviour
     public void EndSteer()
     {
         Time.timeScale = 1f;
-
-        playerCam.enabled = true;
-        bossCam.enabled = false;
-        steering = false;
-
-        
+        steering = false;    
     }
 
     public IEnumerator IntroSequence()
@@ -267,16 +246,17 @@ public class BossV2 : MonoBehaviour
 
     public IEnumerator DamageSequence()
     {
-        steering = false;
-
+        EndSteer();
         //Animations for boss being hurt
+
         //Code for readjusting body back to default position
 
         yield return new WaitForSeconds(1f);
 
         //Readjustment finished
 
-        //Cue Animations for Hands Grabbing Lumi
+        yield return new WaitForSeconds(1f);
+
         grabIsAnimating = true;
 
         yield return new WaitForSeconds(1f);
@@ -286,6 +266,9 @@ public class BossV2 : MonoBehaviour
         //Fade Out
 
         yield return new WaitForSeconds(1f);
+
+        playerCam.enabled = true;
+        bossCam.enabled = false;
 
         // Anim here
         foreach (GameObject go in pathOne) 
@@ -311,8 +294,11 @@ public class BossV2 : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         grabIsAnimating = false;
+        playerTf.position = tailSpawnPoint.position;
+
         //Hand Animations Finish, bringing Lumi back to tail
 
+        //playerTf.gameObject.SetActive(true);
         bossCam.enabled = false;
         playerCam.enabled = true;
 
