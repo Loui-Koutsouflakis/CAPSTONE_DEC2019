@@ -36,9 +36,18 @@ public class SkyMeteorPiece : MonoBehaviour
             foreach(Rigidbody rb in pieces)
             {
                 rb.isKinematic = false;
-                rb.gameObject.transform.parent = null;
+                rb.gameObject.transform.parent = rb.gameObject.transform.parent.parent;
                 rb.AddForce(Vector3.down * breakImpulse, ForceMode.Impulse);
             }
+
+            if(boss.health == 5)
+            {
+                StartCoroutine(boss.DamageSequence());
+            }
+            else if(boss. health <= 0)
+            {
+                StartCoroutine(boss.DeathSequence());
+            } 
         }
     }
 }

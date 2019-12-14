@@ -27,6 +27,7 @@ public class BossV2 : MonoBehaviour
 
     public Transform leftHand;
     public Transform rightHand;
+    public Transform leftHandGrabPoint;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
 
@@ -35,6 +36,7 @@ public class BossV2 : MonoBehaviour
     public float steerSpeed = 100f;
 
     bool steerAdjusted;
+    bool grabIsAnimating;
 
     public float leftHandBlocking;
     public float rightHandBlocking;
@@ -76,6 +78,12 @@ public class BossV2 : MonoBehaviour
         {
             bossCam.enabled = false;
         }
+
+        rightHandInitPos = rightHand.position;
+        leftHandInitPos = leftHand.position;
+        rightHandInitRot = rightHand.rotation.eulerAngles;
+        leftHandInitRot = leftHand.rotation.eulerAngles;
+
     }
 
     private void Update()
@@ -87,22 +95,30 @@ public class BossV2 : MonoBehaviour
 
         if (rightHandBlocking > 0f)
         {
-            MoveHand(rightHand, rightHandBlockingPoint, rightHandRot);
+            LerpPositionRotation(rightHand, rightHandBlockingPoint, rightHandRot);
             rightHandBlocking -= Time.deltaTime;
+        }
+        else if(!grabIsAnimating)
+        {
+            LerpPositionRotation(rightHand, rightHandInitPos, rightHandInitRot);
         }
         else
         {
-            MoveHand(rightHand, rightHandInitPos, rightHandInitRot);
+
         }
 
         if(leftHandBlocking > 0f)
         {
-            MoveHand(leftHand, leftHandBlockingPoint, leftHandRot);
+            LerpPositionRotation(leftHand, leftHandBlockingPoint, leftHandRot);
             leftHandBlocking -= Time.deltaTime;
+        }
+        else if(!grabIsAnimating)
+        {
+            LerpPositionRotation(leftHand, leftHandInitPos, leftHandInitRot);
         }
         else
         {
-            MoveHand(leftHand, leftHandInitPos, leftHandInitRot);
+            LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot);
         }
 
         if (steering)
@@ -161,15 +177,9 @@ public class BossV2 : MonoBehaviour
         }
     }
 
-    public void MoveHand(Transform hand, Vector3 blockingPoint, Vector3 euler)
+    public void LerpPositionRotation(Transform hand, Vector3 blockingPoint, Vector3 euler)
     {
         hand.position = Vector3.Lerp(hand.position, blockingPoint, handLerpRate * Time.deltaTime);
-
-        //hand.LookAt(playerTf);
-        //Vector3 toRotate = playerTf.position - hand.position;
-        //toRotate.x = 0f;
-        //toRotate.z = 0f;
-        //hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.LookRotation(toRotate), steerRotLerp * Time.deltaTime);
 
         hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.Euler(euler), steerRotLerp * Time.deltaTime);
     }
@@ -213,7 +223,7 @@ public class BossV2 : MonoBehaviour
 
             yield return new WaitForSeconds(0.116f);
 
-            //bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime;
+            //bodyTargets[i].localPosition += steerDirection * steerSpeed * Time.deltaTime; 
         }
     }
 
@@ -222,7 +232,7 @@ public class BossV2 : MonoBehaviour
     public void CueSteer()
     {
         Time.timeScale = 1.25f;
-
+        playerTf.gameObject.SetActive(false);
         bossCam.enabled = true;
         playerCam.enabled = false;
         steerVolume.canSteer = false;
@@ -238,8 +248,7 @@ public class BossV2 : MonoBehaviour
         bossCam.enabled = false;
         steering = false;
 
-        steerVolume.canSteer = false;
-        //steerVolume.enabled = true;
+        
     }
 
     public IEnumerator IntroSequence()
@@ -266,30 +275,42 @@ public class BossV2 : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         //Readjustment finished
+
         //Cue Animations for Hands Grabbing Lumi
+        grabIsAnimating = true;
 
         yield return new WaitForSeconds(1f);
+
+        leftHandAnim.SetTrigger("Grab");
 
         //Fade Out
 
         yield return new WaitForSeconds(1f);
 
+        // Anim here
         foreach (GameObject go in pathOne) 
         {
             go.SetActive(false);
             yield return new WaitForSeconds(0.06f);
         }
 
+        // Anim Here
         foreach(GameObject go in pathTwo)
         {
             go.SetActive(true);
             yield return new WaitForSeconds(0.06f);
         }
 
+        steerVolume.canSteer = false;
+        //steerVolume.enabled = true;
+
         //Fade In
+
+        leftHandAnim.SetTrigger("ReverseGrab");
 
         yield return new WaitForSeconds(1f);
 
+        grabIsAnimating = false;
         //Hand Animations Finish, bringing Lumi back to tail
 
         bossCam.enabled = false;
