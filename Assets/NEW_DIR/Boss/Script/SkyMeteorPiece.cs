@@ -16,6 +16,8 @@ public class SkyMeteorPiece : MonoBehaviour
     [SerializeField]
     private BossV2 boss;
 
+    readonly float breakImpulse = 8200f;
+
     const string rammerName = "Rammer";
 
     private void OnTriggerEnter(Collider other)
@@ -34,6 +36,8 @@ public class SkyMeteorPiece : MonoBehaviour
             foreach(Rigidbody rb in pieces)
             {
                 rb.isKinematic = false;
+                rb.gameObject.transform.parent = null;
+                rb.AddForce(Vector3.down * breakImpulse, ForceMode.Impulse);
             }
         }
     }
