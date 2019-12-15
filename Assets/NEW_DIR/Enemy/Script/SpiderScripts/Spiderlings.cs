@@ -85,7 +85,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         transform.position = startPos;
     }
 
-    NavMeshPath path;
+    NavMeshPath path/* = new NavMeshPath()*/;
 
 
     void Update()
@@ -99,7 +99,7 @@ public class Spiderlings : MonoBehaviour, IKillable
         if (motherSpider != null)
         {
             if (currentState == SpiderlingState.Chaseplayer) destination = player.position;
-            else if (currentState == SpiderlingState.FollowSpiderMother && motherSpider != null) destination = motherSpider.position - (motherSpider.forward * 5);
+            else if (currentState == SpiderlingState.FollowSpiderMother) destination = motherSpider.position - (motherSpider.forward * 5);
         }
         else
         {
@@ -127,14 +127,14 @@ public class Spiderlings : MonoBehaviour, IKillable
         if ((destination - transform.position).magnitude > fireRange && stuckPlayer && currentState != SpiderlingState.Die || currentState == SpiderlingState.FollowSpiderMother)
         {
             SetLineRend(spineret.transform.position);
-            if (motherSpider == null) currentState = SpiderlingState.Chaseplayer;
-            else SetState(SpiderlingState.Chaseplayer);
+            if (motherSpider == null && currentState != SpiderlingState.FollowSpiderMother) SetState(SpiderlingState.Chaseplayer);
+            //else if() SetState(SpiderlingState.Chaseplayer);
 
-            stuckPlayer = false;
-            player.gameObject.GetComponent<PlayerClass>().DecreaseWebs();
+            if(stuckPlayer) player.gameObject.GetComponent<PlayerClass>().DecreaseWebs();
             //Debug.Log(player.gameObject.GetComponent<PlayerClass>().GetAttachedWebs() + " Decrease");
             GetComponent<NavMeshObstacle>().enabled = false;
             GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionY;
+            stuckPlayer = false;
 
             navmeshAgent.enabled = true;
 
@@ -144,12 +144,12 @@ public class Spiderlings : MonoBehaviour, IKillable
         {
             spiderlingAnimController.TrapPlayer(false);
 
-            navmeshAgent.SetDestination(destination);
+            if(navmeshAgent.enabled) navmeshAgent.SetDestination(destination);
 
         }
         else if (stuckPlayer && currentState != SpiderlingState.Die)
         {
-            navmeshAgent.SetDestination(transform.position);
+            if (navmeshAgent.enabled) navmeshAgent.SetDestination(transform.position);
             navmeshAgent.enabled = false;
             GetComponent<NavMeshObstacle>().enabled = true;
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -264,6 +264,11 @@ public class Spiderlings : MonoBehaviour, IKillable
     public IEnumerator Die()
     {
         currentState = SpiderlingState.Die;
+        if(navmeshAgent.enabled)
+        {
+            navmeshAgent.SetDestination(transform.position);
+            navmeshAgent.enabled = false;
+        }
         if(stuckPlayer) player.gameObject.GetComponent<PlayerClass>().DecreaseWebs();
         //Debug.Log(player.gameObject.GetComponent<PlayerClass>().GetAttachedWebs() + " Decrease in die");
         spiderlingAnimController.Death();
