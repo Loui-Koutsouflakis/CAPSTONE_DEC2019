@@ -234,7 +234,7 @@ public class BossV2 : MonoBehaviour
 
     public void CueSteer()
     {
-        Time.timeScale = 1.25f;
+        Time.timeScale = 1.2f;
 
         //playerTf.gameObject.SetActive(false);
 
@@ -358,8 +358,9 @@ public class BossV2 : MonoBehaviour
         steering = false;
 
         //Disable Pausing for Cinematic
-
-        //cinemaCam.enabled = true;
+        
+        cinemaCam.enabled = true;
+        bossCam.enabled = false;
 
         yield return new WaitForSeconds(5f);
 
