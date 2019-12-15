@@ -19,7 +19,7 @@ public class SkyMeteorPiece : MonoBehaviour
     Vector3 angularBaton;
 
     readonly float breakImpulse = 8200f;
-    readonly float angularVelocityRange = 60f;
+    readonly float angularVelocityRange = 80f;
 
     const string rammerName = "Rammer";
 
