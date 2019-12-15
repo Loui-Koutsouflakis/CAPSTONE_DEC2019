@@ -25,7 +25,7 @@ public class SkyMeteorPiece : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == rammerName)
+        if(other.gameObject.name == rammerName && BossV2.steering)
         {
             boss.health--;
 

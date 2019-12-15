@@ -289,22 +289,22 @@ public class BossV2 : MonoBehaviour
 
         //Code for readjusting body back to default position
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.6f);
 
         steerAdjusting = false;
         //bodyAnims[0].enabled = true;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         grabCamAnim.SetTrigger("Pan");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.1f);
 
         grabCam.enabled = true;
         bossCam.enabled = false;
         grabIsAnimating = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
 
         leftHandAnim.SetTrigger("Grab");
 
@@ -312,27 +312,7 @@ public class BossV2 : MonoBehaviour
 
         StartCoroutine(transition.BlinkSequence(3.2f, 0.5f, 3.2f, 1f, false));
 
-        yield return new WaitForSeconds(3f);
-
-        grabCam.enabled = false;
-        dropCam.enabled = true;
-        playerTf.position = tailSpawnPoint.position;
-
-        //foreach (GameObject go in pathOne) 
-        //{
-        //    go.SetActive(false);
-        //    yield return new WaitForSeconds(0.06f);
-        //}
-
-
-        yield return new WaitForSeconds(1.2f);
-
-
-        //foreach(GameObject go in pathTwo)
-        //{
-        //    go.SetActive(true);
-        //    yield return new WaitForSeconds(0.06f);
-        //}
+        yield return new WaitForSeconds(2f);
 
         steerVolume.canSteer = false;
         //steerVolume.enabled = true;
@@ -340,19 +320,27 @@ public class BossV2 : MonoBehaviour
         dropIsAnimating = true;
 
         //Fade In
-        yield return new WaitForSeconds(0.9f);
+
+        yield return new WaitForSeconds(0.6f);
+
+        grabCam.enabled = false;
+        dropCam.enabled = true;
+        playerTf.position = tailSpawnPoint.position;
+
+        dropCamAnim.SetTrigger("Pan");
+
+        yield return new WaitForSeconds(0.6f);
 
         leftHandAnim.SetTrigger("ReverseGrab");
-        dropCamAnim.SetTrigger("Pan");
 
         for (int i = 1; i < bodyAnims.Length; i++)
         {
             bodyAnims[i].SetTrigger("Swap");
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.25f);
         }
 
-        yield return new WaitForSeconds(2.1f);
+        yield return new WaitForSeconds(2.4f);
 
         playerCam.enabled = true;
         dropCam.enabled = false;
