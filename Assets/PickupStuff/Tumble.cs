@@ -36,10 +36,9 @@ public class Tumble : MonoBehaviour
     IEnumerator Collected()
     {
         yield return new WaitForEndOfFrame();
-        //GetComponent<SphereCollider>().enabled = false;
-        gameObject.transform.parent.gameObject.SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(false);//Pool them later
     }
-    private void OnTriggerEnter(Collider c)//Pool them later
+    private void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.layer == 14 /*&& anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation")*/)
         {
