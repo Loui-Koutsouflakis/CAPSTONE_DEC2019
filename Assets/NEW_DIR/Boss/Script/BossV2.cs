@@ -27,13 +27,14 @@ public class BossV2 : MonoBehaviour
     public Animator rightHandAnim;
     public VideoPlayer endCinematic;
 
-    public static bool steering;
     public int health = 10;
     public float steerSpeed = 100f;
 
+    public static bool steering;
     public static bool steerAdjusting;
     public static bool grabIsAnimating;
     public static bool dropIsAnimating;
+    public static bool canDie;
 
     public float leftHandBlocking;
     public float rightHandBlocking;
@@ -251,6 +252,15 @@ public class BossV2 : MonoBehaviour
         steering = false;
     }
 
+    public void ResetStaticVariables()
+    {
+        steering = false;
+        steerAdjusting = false;
+        grabIsAnimating = false;
+        dropIsAnimating = false;
+        canDie = true;
+    }
+
     public IEnumerator IntroSequence()
     {
         //Pause is disabled for cinematic
@@ -355,6 +365,10 @@ public class BossV2 : MonoBehaviour
 
     public IEnumerator DeathSequence()
     {
+        canDie = false;
+
+        Time.timeScale = 1f;
+
         steering = false;
 
         //Disable Pausing for Cinematic
@@ -364,10 +378,12 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        StartCoroutine(transition.BlinkSequence(1.2f, 1f, 1.2f, 1f, false));
+        StartCoroutine(transition.BlinkSequence(2f, 0.2f, 2f, 1f, false));
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
+        videoCam.enabled = true;
+        cinemaCam.enabled = false;
         endCinematic.Play();
 
         yield return new WaitForSeconds(20f);
@@ -376,6 +392,6 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(3.2f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(0);
     }
 }
