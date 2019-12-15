@@ -10,7 +10,7 @@ public class BossBlockingCollider : MonoBehaviour
     [SerializeField]
     private BossV2 bossRef;
 
-    readonly float handOffset = 4f;
+    readonly float handOffset = 2f;
     readonly float initBlocking = 8f;
 
     private void OnCollisionEnter(Collision collision)

@@ -493,7 +493,12 @@ public class UIManager : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         transManager = GameObject.FindObjectOfType<TransitionManager>();
         Debug.Log(transManager.name);
-        saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+
+        if (GameObject.FindGameObjectWithTag("SaveGameManager") != null)
+        {
+            saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
+        }
+
         gameOverButtonController.SetCanInteractWithButtons(false);
         transManager.StartCoroutine(transManager.BlinkSequence(2f, 0.5f, 1, 0.9f, true));
         yield return new WaitForSeconds(delay * Time.timeScale);
