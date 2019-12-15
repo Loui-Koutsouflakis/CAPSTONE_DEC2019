@@ -11,6 +11,7 @@ public class BossV2 : MonoBehaviour
     public Transform playerTf;
     public Transform tailSpawnPoint;
     public TransitionManager transition;
+    public Material skybox;
 
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
@@ -38,6 +39,7 @@ public class BossV2 : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     float steerLerpRate = 8.6f;
+    float skyboxRotation = 0f;
 
     readonly float bossMaxY = -5f;
     readonly float bossMinY = -80f;
@@ -61,6 +63,8 @@ public class BossV2 : MonoBehaviour
     public Camera bossCam;
     public Camera grabCam;
     public Camera dropCam;
+    public Animator grabCamAnim;
+    public Animator dropCamAnim;
     public BossSteerVolume steerVolume;
 
     const string bumperName = "RightBumper";
@@ -169,6 +173,9 @@ public class BossV2 : MonoBehaviour
         {
             CueSteer();
         }
+
+        skyboxRotation -= Time.deltaTime;
+        skybox.SetFloat("_Rotation", skyboxRotation % 360f);
     }
 
     public static void LerpPositionRotation(Transform tf, Vector3 destination, Vector3 eulers, float positionLerp, float rotationLerp)
@@ -268,7 +275,11 @@ public class BossV2 : MonoBehaviour
         steerAdjusting = false;
         //bodyAnims[0].enabled = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+
+        grabCamAnim.SetTrigger("Pan");
+
+        yield return new WaitForSeconds(0.5f);
 
         grabCam.enabled = true;
         bossCam.enabled = false;
@@ -285,7 +296,7 @@ public class BossV2 : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         grabCam.enabled = false;
-        playerCam.enabled = true;
+        dropCam.enabled = true;
         playerTf.position = tailSpawnPoint.position;
 
         //foreach (GameObject go in pathOne) 
@@ -310,21 +321,24 @@ public class BossV2 : MonoBehaviour
         dropIsAnimating = true;
 
         //Fade In
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.9f);
 
         leftHandAnim.SetTrigger("ReverseGrab");
+        dropCamAnim.SetTrigger("Pan");
 
-        yield return new WaitForSeconds(1.2f);
-
-        dropIsAnimating = false;
-        grabIsAnimating = false;
-
-        for(int i = 1; i < bodyAnims.Length; i++)
+        for (int i = 1; i < bodyAnims.Length; i++)
         {
             bodyAnims[i].SetTrigger("Swap");
 
-            yield return new WaitForSeconds(0.16f);
+            yield return new WaitForSeconds(0.2f);
         }
+
+        yield return new WaitForSeconds(2.1f);
+
+        playerCam.enabled = true;
+        dropCam.enabled = false;
+        dropIsAnimating = false;
+        grabIsAnimating = false;
 
         //Hand Animations Finish, bringing Lumi back to tail
 
