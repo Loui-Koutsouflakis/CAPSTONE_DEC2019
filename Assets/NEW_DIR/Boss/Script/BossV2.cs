@@ -60,6 +60,7 @@ public class BossV2 : MonoBehaviour
     public Camera playerCam;
     public Camera bossCam;
     public Camera grabCam;
+    public Camera dropCam;
     public BossSteerVolume steerVolume;
 
     const string bumperName = "RightBumper";
@@ -106,11 +107,11 @@ public class BossV2 : MonoBehaviour
         {
             if (dropIsAnimating)
             {
-                LerpPositionRotation(leftHand, tailSpawnPoint.position, leftHandInitRot, handLerpRate, steerLerpRate);
+                LerpPositionRotation(leftHand, tailSpawnPoint.position, leftHandInitRot, handLerpRate, steerLerpRate/3f);
             }
             else
             {
-                LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot, handLerpRate, steerLerpRate);
+                LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot, handLerpRate, steerLerpRate/3f);
             }
         }
 
@@ -279,7 +280,7 @@ public class BossV2 : MonoBehaviour
 
         //Fade Out
 
-        StartCoroutine(transition.BlinkSequence(2.75f, 0.75f, 2.75f, 1f, false));
+        StartCoroutine(transition.BlinkSequence(3.2f, 0.5f, 3.2f, 1f, false));
 
         yield return new WaitForSeconds(3f);
 
@@ -294,7 +295,7 @@ public class BossV2 : MonoBehaviour
         //}
 
 
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(1.2f);
 
 
         //foreach(GameObject go in pathTwo)
@@ -309,11 +310,11 @@ public class BossV2 : MonoBehaviour
         dropIsAnimating = true;
 
         //Fade In
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.2f);
 
         leftHandAnim.SetTrigger("ReverseGrab");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1.2f);
 
         dropIsAnimating = false;
         grabIsAnimating = false;
