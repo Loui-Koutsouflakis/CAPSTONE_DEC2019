@@ -333,7 +333,7 @@ public class PlayerAirMovement : PlayerVariables
 
     public void GroundPound()
     {
-        Debug.Log("Start pound");
+        //Debug.Log("Start pound");
         player.rb.isKinematic = true;
         player.DisableControls();
         StartCoroutine(GroundPoundFloat());
@@ -344,7 +344,7 @@ public class PlayerAirMovement : PlayerVariables
     IEnumerator GroundPoundFloat()
     {
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("start drop");
+        //Debug.Log("start drop");
         player.rb.isKinematic = false;
         player.EnableControls();
         player.rb.AddForce(player.transform.up * -DropForce, ForceMode.Impulse); // Force Down
@@ -419,7 +419,7 @@ public class PlayerAirMovement : PlayerVariables
                 player.rb.isKinematic = true;
                 //player.transform.forward = -wallNormal;
                 anim.SetBool("LedgeIdle", true);
-                Debug.Log(anim.GetBool("ledgeIdle"));
+                //Debug.Log(anim.GetBool("ledgeIdle"));
                 player.SetOnLedge(true);
                 ledgeHoping = true;
                 canLedgeGrab = false;

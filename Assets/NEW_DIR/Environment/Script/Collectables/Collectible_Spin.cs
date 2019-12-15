@@ -40,6 +40,10 @@ public class Collectible_Spin : MonoBehaviour
     public bool isCollected = false;
     public bool isMoon = false;
     Animator anim;
+
+    private SphereCollider colli;
+    private GameObject collectableObject;
+
     #endregion
     void Awake()
     {
@@ -50,6 +54,8 @@ public class Collectible_Spin : MonoBehaviour
         hud = GameObject.FindObjectOfType<HudManager>();
         player = FindObjectOfType<PlayerClass>();
         sfx = GetComponent<HandleSfx>();
+        colli = GetComponentInParent<SphereCollider>();
+        collectableObject = GetComponentInParent<Animator>().gameObject;
     }
 
     private void Start()
@@ -64,13 +70,16 @@ public class Collectible_Spin : MonoBehaviour
     void Update()
     {
         //PSRotation();
-        if (isCollected)
-        {
-            GetComponentInParent<SphereCollider>().enabled = false;
+        //if (isCollected)
+        //{
+        //    GetComponentInParent<SphereCollider>().enabled = false;
 
-            gameObject.SetActive(false);
-        }
-        RotateAround();
+        //    gameObject.SetActive(false);
+        //}
+        //else
+        //{
+            RotateAround();
+        //}
     }
 
     private void OnTriggerEnter(Collider c)//Pool them later
@@ -84,23 +93,29 @@ public class Collectible_Spin : MonoBehaviour
                 player.SetShards(1);
                 isCollected = true;
                 if (saveMan)
+                {
                     saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
-                print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
-                saveMan.SaveCollectedShardsID();
+                    //print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+                    saveMan.SaveCollectedShardsID();
+                }
             }
             else
-            sfx.PlayOneShotByName("Collect");
-            hud.MoonsUp();
-            //player.MoonsUp(1);
-            isCollected = true;
-
-            if (saveMan)
             {
-                saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
-                print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
-                saveMan.SaveCollectedShardsID();
+                sfx.PlayOneShotByName("Collect");
+                hud.MoonsUp();
+                //player.MoonsUp(1);
+                isCollected = true;
+                if (saveMan)
+                {
+                    saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
+                    //print(gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.name);
+                    saveMan.SaveCollectedShardsID();
+                }
             }
 
+            ///////////////////////////////////////////////////////
+            //is there any reason we need the top level gameObject active after its been collected?
+            collectableObject.SetActive(false);
 
         }
     }

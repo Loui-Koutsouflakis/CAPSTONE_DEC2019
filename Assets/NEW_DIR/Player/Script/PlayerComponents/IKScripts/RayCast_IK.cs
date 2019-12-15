@@ -106,7 +106,7 @@ public class RayCast_IK : MonoBehaviour
     {
         Vector3 lineStart = player.transform.position + new Vector3(0, 0.5f, 0);
         Vector3 vectorToSearch = player.transform.position + (player.transform.forward / 2) + new Vector3(0, 0.5f, 0);
-        Debug.DrawLine(lineStart, vectorToSearch, Color.magenta);
+        //Debug.DrawLine(lineStart, vectorToSearch, Color.magenta);
         return Physics.Linecast(lineStart, vectorToSearch, out wall, p_LayerMask);
     }
 
@@ -120,7 +120,7 @@ public class RayCast_IK : MonoBehaviour
     {
         Vector3 lineStart = player.transform.position + new Vector3(0, 0.5f, 0);
         Vector3 vectorToSearch = player.transform.position + (player.transform.right / -2f + player.transform.forward / 4) + new Vector3(0, 0.5f, 0);
-        Debug.DrawLine(lineStart, vectorToSearch, Color.green);
+        //Debug.DrawLine(lineStart, vectorToSearch, Color.green);
         return Physics.Linecast(lineStart, vectorToSearch, out lWall, p_LayerMask);
     }
 
@@ -128,7 +128,7 @@ public class RayCast_IK : MonoBehaviour
     {
         Vector3 lineStart = player.transform.position + new Vector3(0, 0.5f, 0);
         Vector3 vectorToSearch = player.transform.position + (player.transform.right / 2 + player.transform.forward / 4) + new Vector3(0, 0.5f, 0);
-        Debug.DrawLine(lineStart, vectorToSearch, Color.blue);
+        //Debug.DrawLine(lineStart, vectorToSearch, Color.blue);
         return Physics.Linecast(lineStart, vectorToSearch, out rWall, p_LayerMask);
     }
 
@@ -200,7 +200,7 @@ public class RayCast_IK : MonoBehaviour
 
         //rope.SetPosition(1, grapplePoint.position);
 
-        Debug.Log("Rope Enabled");
+        //Debug.Log("Rope Enabled");
     }
 
 

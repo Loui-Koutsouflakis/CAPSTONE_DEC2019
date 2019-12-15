@@ -35,7 +35,7 @@ public class GrappleComponent : PlayerVariables
         
         if (tetherPoint == null)
         {
-            Debug.Log("No tetherpoint");
+            //Debug.Log("No tetherpoint");
             return;
         }
 
@@ -126,7 +126,7 @@ public class GrappleComponent : PlayerVariables
         if (!tether)
             return;
 
-        Debug.Log("grapple detached");
+        //Debug.Log("grapple detached");
         player.isGrappling = false;
         anim.SetBool("Grapple", false);
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
@@ -156,7 +156,7 @@ public class GrappleComponent : PlayerVariables
             return tetherPoint;
         }
 
-        Debug.Log("No tetherpoint");
+        //Debug.Log("No tetherpoint");
         tetherPoint = null;
         return tetherPoint;
 
