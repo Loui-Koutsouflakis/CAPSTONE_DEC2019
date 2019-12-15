@@ -17,10 +17,12 @@ public class MotherSpider : MonoBehaviour, IKillable
     public bool seesPlayer = false;
     public bool vulnerable = false;
     public float vulnerableTime = 5;
-    public float meleeAttackRange = 5f;
+    public float meleeAttackRange = 4f;
+    public float hidingDiscoverDistance = 9;
+    public float chasePlayerColSize = 20;
+    public SpiderMotherState currentState;
 
     private Transform playerTransform;
-    public SpiderMotherState currentState;
     private Vector3 locationSpawned;
     [SerializeField]
     private Vector3 destination;
@@ -32,9 +34,11 @@ public class MotherSpider : MonoBehaviour, IKillable
     //private List<>
     [SerializeField]
     private List<Collider> meshCollidersToes = new List<Collider>();
+    private SphereCollider sphereTrigger;
     private NavMeshPath path;
     [SerializeField]
     private List<GameObject> spiderlings = new List<GameObject>();
+    private List<Collider> attackColliders = new List<Collider>();
     //[SerializeField]
     //private MeshCollider attackCollider;
     private Material newMat;
@@ -46,6 +50,10 @@ public class MotherSpider : MonoBehaviour, IKillable
     #region Awake and Update
     private void Awake()
     {
+        sphereTrigger = GetComponent<SphereCollider>();
+        Debug.Log("sphereTrigger scale start: " + sphereTrigger.radius);
+        sphereTrigger.radius = hidingDiscoverDistance;
+        transform.localScale = new Vector3(1, 1, 1);
         newMat = new Material(disolveShader);
 
         navAgent = GetComponent<NavMeshAgent>();
@@ -77,6 +85,7 @@ public class MotherSpider : MonoBehaviour, IKillable
 
     bool pathOkay = true;
     int wonderCounter = 0;
+    float attackDelayTimer = 0;
     // Update is called once per frame
     void Update()
     {
@@ -134,16 +143,20 @@ public class MotherSpider : MonoBehaviour, IKillable
         }
 
 
-        if(playerTransform != null && (playerTransform.position - transform.position).magnitude < meleeAttackRange && currentState == SpiderMotherState.ChasePlayer)
+        if(playerTransform != null && (playerTransform.position - transform.position).magnitude < meleeAttackRange && currentState == SpiderMotherState.ChasePlayer && attackDelayTimer > 2.5f)
         {
             SetState(SpiderMotherState.Attack);
+            attackDelayTimer = 0;
         }
 
         if(wonderCounter > 3)
         {
             SetState(SpiderMotherState.Burry);
+
             wonderCounter = 0;
         }
+
+        if(currentState == SpiderMotherState.ChasePlayer) attackDelayTimer += Time.deltaTime;
     }
     #endregion
 
@@ -161,11 +174,13 @@ public class MotherSpider : MonoBehaviour, IKillable
                     ToggleColliders();
                     navAgent.enabled = false;
                 }
+                sphereTrigger.radius = hidingDiscoverDistance;
                 destination = transform.position;
                 currentState = SpiderMotherState.Hiding;
                 break;
 
             case SpiderMotherState.Reveal:
+                sphereTrigger.radius = chasePlayerColSize;
 
                 animController.TriggerReveal();
                 StartCoroutine(RotateOnReveale());
@@ -239,6 +254,7 @@ public class MotherSpider : MonoBehaviour, IKillable
                     navAgent.enabled = false;
                 }
                 destination = transform.position;
+                sphereTrigger.radius = hidingDiscoverDistance;
                 currentState = SpiderMotherState.Burry;
                 break;
 
@@ -296,11 +312,12 @@ public class MotherSpider : MonoBehaviour, IKillable
         navAgent.angularSpeed = 0;
         destination = transform.position;
 
-        navAgent.destination = destination;
+        if(navAgent.enabled) navAgent.destination = destination;
 
         destination = transform.position;
 
-        navAgent.isStopped = true;
+        
+        //navAgent.isStopped = true;
         navAgent.angularSpeed = tempASpeed;
         vulnerable = true;
         StartCoroutine(VulnerableTimer());
@@ -327,7 +344,11 @@ public class MotherSpider : MonoBehaviour, IKillable
             //child.gameobject contains the current child you can do whatever you want like add it to an array
             if (child.GetComponent<Collider>() != null)
             {
-                if (child.gameObject.tag == "SpiderToes") meshCollidersToes.Add(child.GetComponent<Collider>());
+                if (child.gameObject.tag == "SpiderToes")
+                {
+                    meshCollidersToes.Add(child.GetComponent<MeshCollider>());
+                    if (child.GetComponent<SphereCollider>() != null) attackColliders.Add(child.GetComponent<SphereCollider>());
+                }
                 else /*if (meshColliders.Contains(gameObject.GetComponent<BoxCollider>()) == false)*/ spiderColliders.Add(child.GetComponent<Collider>());
             }
 
@@ -340,6 +361,8 @@ public class MotherSpider : MonoBehaviour, IKillable
             {
                 crystals.Add(child.gameObject);
             }
+
+            
 
             GetChildRecursive(child.gameObject);
         }
@@ -454,13 +477,36 @@ public class MotherSpider : MonoBehaviour, IKillable
 
     #endregion
 
-    #region Trigger enter and exit
-    private void OnTriggerEnter(Collider other)
+    bool attackColEnabled = false;
+    public void AttackColliderToggle()
+    {
+        if (attackColEnabled)
+        {
+            for (int i = 0; i < attackColliders.Count; i++)
+            {
+                attackColliders[i].enabled = false;
+            }
+            attackColEnabled = false;
+        }
+        else
+        {
+            for (int i = 0; i < attackColliders.Count; i++)
+            {
+                attackColliders[i].enabled = true;
+            }
+            attackColEnabled = true;
+        }
+    }
+
+        #region Trigger enter and exit
+        private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "InteractTriggerSphere" && other.gameObject.layer == 15 && (other.transform.position - transform.position).magnitude > 5)
         {
+            
             seesPlayer = true;
             playerTransform = other.transform;
+
         }
     }
 
@@ -522,6 +568,7 @@ public class MotherSpider : MonoBehaviour, IKillable
 
     public IEnumerator DeactivateSpider()
     {
+        ToggleColliders();
         for (float i = 0; i < 0.8f; i += 0.05f)
         {
 

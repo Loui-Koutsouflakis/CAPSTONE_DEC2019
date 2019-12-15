@@ -5,11 +5,17 @@ using UnityEngine;
 public class SpiderMotherAnimControls : MonoBehaviour
 {
     public AudioClip footFall;
+    public AudioClip attackSound;
+    public AudioClip hitGround;
+    public AudioClip getHit;
+    public AudioClip reveal;
+    public AudioClip shootEggSack;
+    public GameObject audioSourceObjects;
 
     private Animator animator;
     private MotherSpider spiderMother;
     private new AudioSource audio;
-
+    private List<AudioSource> audioSource = new List<AudioSource>();
 
     private void Awake()
     {
@@ -30,8 +36,61 @@ public class SpiderMotherAnimControls : MonoBehaviour
         {
             Debug.Log("Can not find spiderMother script.");
         }
+
+        foreach(Transform child in audioSourceObjects.transform)
+        {
+            audioSource.Add(child.GetComponent<AudioSource>());
+        }
+
         audio = GetComponent<AudioSource>();
         audio.clip = footFall;
+    }
+
+    public void AttackSound()
+    {
+        for(int i = 0; i < audioSource.Count; i ++)
+        {
+            if(!audioSource[i].isPlaying)
+            {
+                audioSource[i].clip = attackSound;
+                audioSource[i].Play();
+            }
+        }
+    }
+
+    public void HitGroundSound()
+    {
+        for (int i = 0; i < audioSource.Count; i++)
+        {
+            if (!audioSource[i].isPlaying)
+            {
+                audioSource[i].clip = hitGround;
+                audioSource[i].Play();
+            }
+        }
+    }
+
+    public void GetHit()
+    {
+        for (int i = 0; i < audioSource.Count; i++)
+        {
+            if (!audioSource[i].isPlaying)
+            {
+                audioSource[i].clip = getHit;
+                audioSource[i].Play();
+            }
+        }
+    }
+    public void RevealBurry()
+    {
+        for (int i = 0; i < audioSource.Count; i++)
+        {
+            if (!audioSource[i].isPlaying)
+            {
+                audioSource[i].clip = reveal;
+                audioSource[i].Play();
+            }
+        }
     }
 
     public void StepSound()
@@ -123,5 +182,10 @@ public class SpiderMotherAnimControls : MonoBehaviour
         {
             spiderMother.SetState(SpiderMotherState.Hiding);
         }
+    }
+
+    public void ToggleAttackColliders()
+    {
+        spiderMother.AttackColliderToggle();
     }
 }
