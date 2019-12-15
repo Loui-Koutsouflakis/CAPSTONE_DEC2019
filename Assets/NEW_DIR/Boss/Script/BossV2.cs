@@ -29,6 +29,7 @@ public class BossV2 : MonoBehaviour
 
     bool steerAdjusting;
     bool grabIsAnimating;
+    bool dropIsAnimating;
 
     public float leftHandBlocking;
     public float rightHandBlocking;
@@ -103,7 +104,14 @@ public class BossV2 : MonoBehaviour
         }
         else
         {
-            LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot);
+            if (dropIsAnimating)
+            {
+                LerpPositionRotation(leftHand, tailSpawnPoint.position, leftHandInitRot);
+            }
+            else
+            {
+                LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot);
+            }
         }
 
         if (steering)
@@ -278,7 +286,13 @@ public class BossV2 : MonoBehaviour
 
         //Fade Out
 
-        yield return new WaitForSeconds(1f);
+        StartCoroutine(transition.BlinkSequence(2.75f, 0.75f, 2.75f, 1f, false));
+
+        yield return new WaitForSeconds(3f);
+
+        grabCam.enabled = false;
+        playerCam.enabled = true;
+        playerTf.position = tailSpawnPoint.position;
 
         // Anim here
         foreach (GameObject go in pathOne) 
@@ -297,20 +311,19 @@ public class BossV2 : MonoBehaviour
         steerVolume.canSteer = false;
         //steerVolume.enabled = true;
 
+        dropIsAnimating = true;
+
         //Fade In
+        yield return new WaitForSeconds(1f);
 
         leftHandAnim.SetTrigger("ReverseGrab");
 
         yield return new WaitForSeconds(1f);
 
+        dropIsAnimating = false;
         grabIsAnimating = false;
-        playerTf.position = tailSpawnPoint.position;
 
         //Hand Animations Finish, bringing Lumi back to tail
-
-        //playerTf.gameObject.SetActive(true);
-        grabCam.enabled = false;
-        playerCam.enabled = true;
 
         //Player is given back control over the dragon
     }
