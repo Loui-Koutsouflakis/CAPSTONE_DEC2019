@@ -54,6 +54,7 @@ public class PlayerAirMovement : PlayerVariables
         StartCoroutine(WallWait());
         wallDeadZone = false;
         onWall = false;
+        player.SetOnWall(false);
         wallRotate = false;
         canLedgeGrab = false;
         StartCoroutine(LedgeGrabEnable());
@@ -287,6 +288,7 @@ public class PlayerAirMovement : PlayerVariables
             wallRotate = true;
 
             onWall = false;
+            player.SetOnWall(false);
             wallDeadZone = true;
             StartCoroutine(WallDeadZone());
             player.SetFlutter(true);
@@ -308,6 +310,7 @@ public class PlayerAirMovement : PlayerVariables
             SoundManager.PlayOneShotByName("AirJump");
 
             onWall = false;
+            player.SetOnWall(false);
 
             //to allow control for a brief period after double jump
             doubleJumpControl = true;
@@ -382,6 +385,7 @@ public class PlayerAirMovement : PlayerVariables
         if (toeCast && midCast && topOfHead && Vector3.Dot(cammy.transform.forward * vertical * airForwardSpeed + cammy.transform.right * horizontal, player.frontCheckNormal) < 0)
         {
             onWall = true;
+            player.SetOnWall(true);
             wallNormal = hit.normal;
             //Debug.DrawLine(player.transform.position, player.transform.position + )
         }
@@ -393,6 +397,7 @@ public class PlayerAirMovement : PlayerVariables
         else if (midBoxCast && !topOfHead)
         {
             onWall = false;
+            player.SetOnWall(false);
             //ledge hop
             //if (!ledgeHoping && canLedgeGrab)
             //{
@@ -407,7 +412,7 @@ public class PlayerAirMovement : PlayerVariables
             //    StartCoroutine(LedgeGrabEnable());
             //}
             //ledge grab 
-            if(!ledgeHoping && canLedgeGrab)
+            if (!ledgeHoping && canLedgeGrab)
             {
                 //wallNormal = hit.normal;
                 player.rb.velocity = Vector3.zero;
@@ -423,6 +428,7 @@ public class PlayerAirMovement : PlayerVariables
         else if(!toeCast || !midCast || !topOfHead)
         {
             onWall = false;
+            player.SetOnWall(false);
         }
 
         yield return new WaitForSecondsRealtime(wallCheckRate);
