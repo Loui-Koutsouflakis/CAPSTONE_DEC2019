@@ -3,11 +3,15 @@ using System.Collections;
 
 public class CameraFacingBillboard : MonoBehaviour
 {
+    [SerializeField]
     Camera m_Camera;
 
     private void Awake()
     {
-        m_Camera = Camera.main;
+        if (m_Camera == null)
+        {
+            m_Camera = Camera.main;
+        }
     }
     //Orient the camera after all movement is completed this frame to avoid jittering
     void LateUpdate()

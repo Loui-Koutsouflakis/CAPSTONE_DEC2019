@@ -27,11 +27,9 @@ public class TransitionManager : MonoBehaviour
         {
             if(fader.color.a > 0)
                 fader.color -= deltaFadeIn * Time.deltaTime;
-            //Debug.Log(fader.color.a);
         }   
         else if(fadeOut)
         {
-            Debug.Log(fader.color.a);
             if(fader.color.a < 1)
                 fader.color += deltaFadeOut * Time.deltaTime / Time.timeScale;
         }
@@ -65,26 +63,24 @@ public class TransitionManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator BlinkSequence(float outTime, float darkTime, float inTime, float deltaFadeFactor, bool pause)
     {
-        
-        
         if(pause)
         {
             
             deltaFadeIn.a *= deltaFadeFactor;
             deltaFadeOut.a *= deltaFadeFactor;
 
-            Debug.Log("started fade");
+            //Debug.Log("started fade");
             fadeIn = false;
             fadeOut = true;
             yield return new WaitForSecondsRealtime(outTime);
             fadeOut = false;
-            Debug.Log("dark");
+            //Debug.Log("dark");
             yield return new WaitForSecondsRealtime(darkTime);
             fadeIn = true;
-            Debug.Log("unfadfe");
+            //Debug.Log("unfade");
             yield return new WaitForSecondsRealtime(inTime);
             fadeIn = fadeIn = false;
-            Debug.Log("bright");
+            //Debug.Log("bright");
 
             deltaFadeIn.a /= deltaFadeFactor;
             deltaFadeOut.a /= deltaFadeFactor;
