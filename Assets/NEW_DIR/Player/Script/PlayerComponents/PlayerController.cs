@@ -182,7 +182,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         else
-            Debug.Log("nothing here");
+            return;
+          //  Debug.Log("nothing here");
     }
 
     public void Pull()
@@ -194,7 +195,7 @@ public class PlayerController : MonoBehaviour
     {      
         if (player.isGrappling || player.IsGrounded() || player.tetherPoint == null)
         {
-            Debug.Log("Cant grapple");
+           // Debug.Log("Cant grapple");
             return;
         }
 
@@ -518,7 +519,7 @@ public class PlayerController : MonoBehaviour
 
                 if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
                 {
-                    Debug.Log("hit stackable enemy");
+                   // Debug.Log("hit stackable enemy");
                     //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
                     //{
                         //Debug.Log(footHit.collider.gameObject.GetComponent<StackableEnemy>().GetBackPack().childCount);
@@ -589,7 +590,7 @@ public class PlayerController : MonoBehaviour
                             player.DisableControls();
                             StartCoroutine(EnableControls());
                             //player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
-                            player.GenericAddForce(player.transform.up.normalized, 7);
+                            player.GenericAddForce(player.transform.up.normalized, 14);
                             if(!player.GetGroundPounding())
                             {
                                 anim.SetTrigger("DJump");
@@ -601,7 +602,7 @@ public class PlayerController : MonoBehaviour
                         else 
                         {
                             player.rb.velocity = tempVel;
-                            Debug.Log("smash");
+                            //Debug.Log("smash");
                         }
                     }
                 }
@@ -636,7 +637,7 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         player.rb.velocity = tempVel;
-                        Debug.Log("smash");
+                       // Debug.Log("smash");
                     }
                 }
 
@@ -740,7 +741,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     player.rb.velocity = tempVel;
-                    Debug.Log("smash");
+                   // Debug.Log("smash");
                 }
 
             }
