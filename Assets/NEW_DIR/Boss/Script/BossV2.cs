@@ -27,7 +27,7 @@ public class BossV2 : MonoBehaviour
     public int health = 10;
     public float steerSpeed = 100f;
 
-    bool steerAdjusted;
+    bool steerAdjusting;
     bool grabIsAnimating;
 
     public float leftHandBlocking;
@@ -58,6 +58,7 @@ public class BossV2 : MonoBehaviour
     public Transform bossCamTarget;
     public Camera playerCam;
     public Camera bossCam;
+    public Camera grabCam;
     public BossSteerVolume steerVolume;
 
     const string bumperName = "RightBumper";
@@ -134,8 +135,7 @@ public class BossV2 : MonoBehaviour
             if (Mathf.Abs(horizontalInput) > 0.03f || Mathf.Abs(verticalInput) > 0.03f)
             {
                 StartCoroutine(SteerRoutine(steer.normalized));
-
-                //steerAdjusted = false;
+                
             }
             else
             {
@@ -148,10 +148,18 @@ public class BossV2 : MonoBehaviour
                 //        bodyTargets[i].position = targetInits[i].position;
                 //    }
                 //
-                //    steerAdjusted = true;
+                //    
                 //}
 
                 body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(0f, -17f, 0f), steerLerpRate * Time.deltaTime);
+            }
+        }
+
+        if(steerAdjusting)
+        {
+            for (int i = 1; i < bodyTargets.Length; i++)
+            {
+                bodyTargets[i].position = targetInits[i].position;
             }
         }
 
@@ -227,7 +235,7 @@ public class BossV2 : MonoBehaviour
     public void EndSteer()
     {
         Time.timeScale = 1f;
-        steering = false;    
+        steering = false;
     }
 
     public IEnumerator IntroSequence()
@@ -247,16 +255,21 @@ public class BossV2 : MonoBehaviour
     public IEnumerator DamageSequence()
     {
         EndSteer();
+
+        steerAdjusting = true;
+
         //Animations for boss being hurt
 
         //Code for readjusting body back to default position
 
+        yield return new WaitForSeconds(1.2f);
+
+        steerAdjusting = false;
+
         yield return new WaitForSeconds(1f);
 
-        //Readjustment finished
-
-        yield return new WaitForSeconds(1f);
-
+        bossCam.enabled = false;
+        grabCam.enabled = true;
         grabIsAnimating = true;
 
         yield return new WaitForSeconds(1f);
@@ -266,9 +279,6 @@ public class BossV2 : MonoBehaviour
         //Fade Out
 
         yield return new WaitForSeconds(1f);
-
-        playerCam.enabled = true;
-        bossCam.enabled = false;
 
         // Anim here
         foreach (GameObject go in pathOne) 
@@ -299,7 +309,7 @@ public class BossV2 : MonoBehaviour
         //Hand Animations Finish, bringing Lumi back to tail
 
         //playerTf.gameObject.SetActive(true);
-        bossCam.enabled = false;
+        grabCam.enabled = false;
         playerCam.enabled = true;
 
         //Player is given back control over the dragon
