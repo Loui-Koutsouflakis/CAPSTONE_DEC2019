@@ -590,7 +590,10 @@ public class PlayerController : MonoBehaviour
                             player.DisableControls();
                             StartCoroutine(EnableControls());
                             //player.GenericAddForce((player.transform.position - footHit.collider.gameObject.transform.position).normalized, 5); //bounce off enemies
-                            player.GenericAddForce(player.transform.up.normalized, 14);
+                            Vector3 tempVel = player.rb.velocity;
+                            tempVel.y = 0;
+                            player.rb.velocity = tempVel;
+                            player.GenericAddForce(player.transform.up.normalized, 4);
                             if(!player.GetGroundPounding())
                             {
                                 anim.SetTrigger("DJump");
@@ -678,9 +681,12 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //walk on triggers
-                if (footHit.collider.GetComponent<Interact>() != null && footHit.collider.gameObject.layer == 17) //triggers walk on layer
+                if ( footHit.collider.gameObject.layer == 17) //triggers walk on layer
                 {
-                    footHit.collider.GetComponent<Interact>().InteractWithMe();
+                    if (footHit.collider.GetComponent<Interact>() != null)
+                    {
+                        footHit.collider.GetComponent<Interact>().InteractWithMe();
+                    }                    
                 }
 
 

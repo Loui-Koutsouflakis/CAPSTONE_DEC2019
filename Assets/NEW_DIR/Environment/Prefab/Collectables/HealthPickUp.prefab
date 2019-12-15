@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cab2e132abe79240982666942eaf1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
 --- !u!1 &8341181475415959326
 GameObject:
   m_ObjectHideFlags: 0
@@ -21,7 +22,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8341181475415959325}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HealthPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 8341181475985611802}
   - component: {fileID: 8341181475985611803}
   - component: {fileID: 8341181475985611804}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,10 +157,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8341181475415959325}
     m_Modifications:
-    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+    - target: {fileID: 3191369008682296493, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
-      propertyPath: m_Name
-      value: SM_RoastBone_v4
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2415155972074779202, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
@@ -216,6 +217,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_RoastBone_v4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1878384691361311181, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -230,6 +241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3191369008310492126, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79bfcf332c78d7341bf8b49a8136ff44, type: 3}

@@ -65,7 +65,7 @@ public class AnimateOnCollision : MonoBehaviour
         {
             if (other.gameObject.layer == 14)
             {
-                Debug.Log("hit player");
+                //Debug.Log("hit player");
                 animator.SetTrigger(triggerName);
                 CheckPickups();
             }
