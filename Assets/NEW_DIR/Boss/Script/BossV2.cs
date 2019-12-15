@@ -67,6 +67,7 @@ public class BossV2 : MonoBehaviour
     public Camera grabCam;
     public Camera dropCam;
     public Camera cinemaCam;
+    public Camera videoCam;
     public Animator grabCamAnim;
     public Animator dropCamAnim;
     public Animator cinematicAnim;

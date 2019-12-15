@@ -78,7 +78,11 @@ public class PlayerVariables : MonoBehaviour
         anim = GetComponentInParent<PlayerClass>().GetAnimator();
 
         GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
-        cammy = camObject.GetComponent<Camera>();
+
+        if (cammy == null)
+        {
+            cammy = camObject.GetComponent<Camera>();
+        }
     }
     //private void Awake()
     //{
