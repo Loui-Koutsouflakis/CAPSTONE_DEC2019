@@ -85,32 +85,32 @@ public class BossV2 : MonoBehaviour
 
         if (rightHandBlocking > 0f)
         {
-            LerpPositionRotation(rightHand, rightHandBlockingPoint, rightHandRot);
+            LerpPositionRotation(rightHand, rightHandBlockingPoint, rightHandRot, handLerpRate, steerLerpRate);
             rightHandBlocking -= Time.deltaTime;
         }
         else if(!grabIsAnimating)
         {
-            LerpPositionRotation(rightHand, rightHandInitPoint.position, rightHandInitRot);
+            LerpPositionRotation(rightHand, rightHandInitPoint.position, rightHandInitRot, handLerpRate, steerLerpRate);
         }
 
         if(leftHandBlocking > 0f)
         {
-            LerpPositionRotation(leftHand, leftHandBlockingPoint, leftHandRot);
+            LerpPositionRotation(leftHand, leftHandBlockingPoint, leftHandRot, handLerpRate, steerLerpRate);
             leftHandBlocking -= Time.deltaTime;
         }
         else if(!grabIsAnimating)
         {
-            LerpPositionRotation(leftHand, leftHandInitPoint.position, leftHandInitRot);
+            LerpPositionRotation(leftHand, leftHandInitPoint.position, leftHandInitRot, handLerpRate, steerLerpRate);
         }
         else
         {
             if (dropIsAnimating)
             {
-                LerpPositionRotation(leftHand, tailSpawnPoint.position, leftHandInitRot);
+                LerpPositionRotation(leftHand, tailSpawnPoint.position, leftHandInitRot, handLerpRate, steerLerpRate);
             }
             else
             {
-                LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot);
+                LerpPositionRotation(leftHand, leftHandGrabPoint.position, leftHandInitRot, handLerpRate, steerLerpRate);
             }
         }
 
@@ -127,7 +127,9 @@ public class BossV2 : MonoBehaviour
 
                 if (i > 0)
                 {
-                    body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerRotLerp * Time.deltaTime);
+                    //body[i].rotation = Quaternion.Lerp(body[i].rotation, Quaternion.LookRotation(body[i - 1].position - body[i].position), steerRotLerp * Time.deltaTime);
+
+                    body[i].rotation = Quaternion.Lerp(body[i].rotation, targetInits[i].rotation, steerLerpRate / 6f * Time.deltaTime);
                 }
                 else
                 {
@@ -165,9 +167,11 @@ public class BossV2 : MonoBehaviour
 
         if(steerAdjusting)
         {
-            for (int i = 1; i < bodyTargets.Length; i++)
+            for (int i = 0; i < bodyTargets.Length; i++)
             {
-                bodyTargets[i].position = targetInits[i].position;
+                body[i].position = Vector3.Lerp(body[i].position, targetInits[i].position, steerLerpRate/4f * Time.deltaTime);
+                body[i].rotation = Quaternion.Lerp(body[i].rotation, targetInits[i].rotation, steerLerpRate/6f * Time.deltaTime);
+                bodyTargets[i].position = Vector3.Lerp(bodyTargets[i].position, targetInits[i].position, steerLerpRate/4f * Time.deltaTime);
             }
         }
 
@@ -177,11 +181,11 @@ public class BossV2 : MonoBehaviour
         }
     }
 
-    public void LerpPositionRotation(Transform hand, Vector3 blockingPoint, Vector3 euler)
+    public static void LerpPositionRotation(Transform tf, Vector3 destination, Vector3 eulers, float positionLerp, float rotationLerp)
     {
-        hand.position = Vector3.Lerp(hand.position, blockingPoint, handLerpRate * Time.deltaTime);
+        tf.position = Vector3.Lerp(tf.position, destination, positionLerp * Time.deltaTime);
 
-        hand.rotation = Quaternion.Lerp(hand.rotation, Quaternion.Euler(euler), steerRotLerp * Time.deltaTime);
+        tf.rotation = Quaternion.Lerp(tf.rotation, Quaternion.Euler(eulers), rotationLerp * Time.deltaTime);
     }
 
     public IEnumerator SteerRoutine(Vector3 steerDirection)
@@ -264,20 +268,22 @@ public class BossV2 : MonoBehaviour
     {
         EndSteer();
 
+        //bodyAnims[0].enabled = false;
         steerAdjusting = true;
 
         //Animations for boss being hurt
 
         //Code for readjusting body back to default position
 
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(2f);
 
         steerAdjusting = false;
+        //bodyAnims[0].enabled = true;
 
         yield return new WaitForSeconds(1f);
 
-        bossCam.enabled = false;
         grabCam.enabled = true;
+        bossCam.enabled = false;
         grabIsAnimating = true;
 
         yield return new WaitForSeconds(1f);

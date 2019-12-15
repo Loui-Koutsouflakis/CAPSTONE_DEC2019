@@ -16,7 +16,10 @@ public class SkyMeteorPiece : MonoBehaviour
     [SerializeField]
     private BossV2 boss;
 
+    Vector3 angularBaton;
+
     readonly float breakImpulse = 8200f;
+    readonly float angularVelocityRange = 60f;
 
     const string rammerName = "Rammer";
 
@@ -37,6 +40,10 @@ public class SkyMeteorPiece : MonoBehaviour
             {
                 rb.isKinematic = false;
                 rb.gameObject.transform.parent = rb.gameObject.transform.parent.parent;
+                angularBaton.x = Random.Range(-angularVelocityRange, angularVelocityRange);
+                angularBaton.y = Random.Range(-angularVelocityRange, angularVelocityRange);
+                angularBaton.z = Random.Range(-angularVelocityRange, angularVelocityRange);
+                rb.angularVelocity += angularBaton;
                 rb.AddForce(Vector3.down * breakImpulse, ForceMode.Impulse);
             }
 
