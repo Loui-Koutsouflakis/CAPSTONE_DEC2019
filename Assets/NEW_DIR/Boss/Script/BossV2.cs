@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class BossV2 : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class BossV2 : MonoBehaviour
     public Transform rightHandInitPoint;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
+    public VideoPlayer endCinematic;
 
     public static bool steering;
     public int health = 10;
@@ -63,8 +66,10 @@ public class BossV2 : MonoBehaviour
     public Camera bossCam;
     public Camera grabCam;
     public Camera dropCam;
+    public Camera cinemaCam;
     public Animator grabCamAnim;
     public Animator dropCamAnim;
+    public Animator cinematicAnim;
     public BossSteerVolume steerVolume;
 
     const string bumperName = "RightBumper";
@@ -250,6 +255,8 @@ public class BossV2 : MonoBehaviour
         //Pause is disabled for cinematic
         //Intro cinematic plays
 
+
+
         yield return new WaitForSeconds(1f);
 
         //Fade to player camera
@@ -349,19 +356,24 @@ public class BossV2 : MonoBehaviour
     {
         steering = false;
 
-        //Pause is Disabled for Cinematic
-        //Cue Ending In-Game Cinematic
+        //Disable Pausing for Cinematic
+
+        //cinemaCam.enabled = true;
+
+        yield return new WaitForSeconds(5f);
+
+        StartCoroutine(transition.BlinkSequence(1.2f, 1f, 1.2f, 1f, false));
 
         yield return new WaitForSeconds(1f);
 
-        //Fade Transition to prerender of Luke's Ending Cinematic
+        endCinematic.Play();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(20f);
 
-        //Fade Transition to prerendered Credits / Ending
+        StartCoroutine(transition.BlinkSequence(2.5f, 8f, 0f, 1f, false));
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3.2f);
 
-        //Return to main menu
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
