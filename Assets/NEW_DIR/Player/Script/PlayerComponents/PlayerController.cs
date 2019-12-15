@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(player.playerCurrentMove == MovementType.air)
         {
-            if(!player.GetGroundPounding() && canGroundPound)
+            if(!player.GetGroundPounding() && canGroundPound && !player.IsOnWall())
             {
                 player.GetAirComponent().GroundPound();
                 player.SetGroundPounding(true);
