@@ -18,8 +18,8 @@ public class SkyMeteorPiece : MonoBehaviour
 
     Vector3 angularBaton;
 
-    readonly float breakImpulse = 8200f;
-    readonly float angularVelocityRange = 80f;
+    readonly float breakImpulse = 8800f;
+    readonly float angularVelocityRange = 100f;
 
     const string rammerName = "Rammer";
 
@@ -51,7 +51,7 @@ public class SkyMeteorPiece : MonoBehaviour
             {
                 StartCoroutine(boss.DamageSequence());
             }
-            else if(boss. health <= 0)
+            else if(boss. health <= 0 && BossV2.canDie)
             {
                 StartCoroutine(boss.DeathSequence());
             } 
