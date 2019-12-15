@@ -86,6 +86,7 @@ public class BossV2 : MonoBehaviour
         rightHandInitRot = rightHand.rotation.eulerAngles;
         leftHandInitRot = leftHand.rotation.eulerAngles;
         skyboxRotation = 0f;
+        canDie = true;
     }
 
     private void Update()
@@ -378,15 +379,16 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        StartCoroutine(transition.BlinkSequence(2f, 0.2f, 2f, 1f, false));
+        StartCoroutine(transition.BlinkSequence(2f, 1f, 3f, 1f, false));
 
         yield return new WaitForSeconds(2f);
 
         videoCam.enabled = true;
         cinemaCam.enabled = false;
+
         endCinematic.Play();
 
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(66f);
 
         StartCoroutine(transition.BlinkSequence(2.5f, 8f, 0f, 1f, false));
 
