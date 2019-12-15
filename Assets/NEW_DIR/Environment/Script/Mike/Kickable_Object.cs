@@ -17,7 +17,7 @@ public class Kickable_Object : MonoBehaviour
     [SerializeField, Range(0, 5)]
     float frictionMod = 0.0f;
     float friction;
-
+    MeshRenderer rend;
     float maxDistance = 100.0f; // Used To Store Max Distance for Raycasts
     RaycastHit hit; // Used to store Raycast Hit info
     bool grounded;
@@ -49,7 +49,7 @@ public class Kickable_Object : MonoBehaviour
             {
                 if(canBeDestroyed)
                 {
-                    gameObject.SetActive(false);
+                    StartCoroutine(SpriteFlash());
                 }
             }
         }
@@ -93,9 +93,21 @@ public class Kickable_Object : MonoBehaviour
         }
     }
 
+    IEnumerator SpriteFlash()
+    {
+        for (var n = 0; n < 5; n++)
+        {
+            rend.enabled = true;
+            yield return new WaitForSeconds(.1f);
+            rend.enabled = false;
+            yield return new WaitForSeconds(.1f);
+            rend.enabled = true;
+            if (n == 4) gameObject.SetActive(false);
+        }
+    }
     IEnumerator DestroyWait()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         activated = true;
     }
 
