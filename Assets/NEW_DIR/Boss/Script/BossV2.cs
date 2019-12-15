@@ -24,13 +24,13 @@ public class BossV2 : MonoBehaviour
     public Animator leftHandAnim;
     public Animator rightHandAnim;
 
-    public bool steering;
+    public static bool steering;
     public int health = 10;
     public float steerSpeed = 100f;
 
-    bool steerAdjusting;
-    bool grabIsAnimating;
-    bool dropIsAnimating;
+    public static bool steerAdjusting;
+    public static bool grabIsAnimating;
+    public static bool dropIsAnimating;
 
     public float leftHandBlocking;
     public float rightHandBlocking;
