@@ -13,6 +13,8 @@ public class BossRespawnHandler : MonoBehaviour
 
     public IEnumerator Respawn()
     {
+        //Debug.Log("Respawn");
+
         respawning = true;
 
         StartCoroutine(transition.BlinkSequence(1.5f, 0.2f, 1.5f, 1f, false));
