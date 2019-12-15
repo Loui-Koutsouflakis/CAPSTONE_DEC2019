@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 8341181475985611802}
   - component: {fileID: 8341181475985611803}
   - component: {fileID: 8341181475985611804}
+  - component: {fileID: 3682284394664862011}
   m_Layer: 2
   m_Name: Collider
   m_TagString: Untagged
@@ -150,6 +151,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e750715eb9813489283781741c02eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3682284394664862011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341181475985611806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: PickUp
+    clip: {fileID: 8300000, guid: 9c6ab46bcb4d5964a81e6dacafc5c11c, type: 3}
 --- !u!1001 &8901260776217322278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,7 +174,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8341181475415959325}
     m_Modifications:
-    - target: {fileID: 3191369008682296493, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_RoastBone_v4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_Layer
       value: 2
@@ -217,16 +239,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_RoastBone_v4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1878384691361311181, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -243,6 +255,11 @@ PrefabInstance:
       value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 3191369008310492126, guid: 79bfcf332c78d7341bf8b49a8136ff44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3191369008682296493, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_Layer
       value: 2

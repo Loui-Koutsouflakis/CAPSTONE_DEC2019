@@ -6,12 +6,13 @@ public class HealthPickUp : MonoBehaviour
 {
     private PlayerClass player;
     private HudManager hud;
+    private HandleSfx sounds;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerClass>();
         hud = FindObjectOfType<HudManager>();
-
+        sounds = GetComponent<HandleSfx>();
     }
 
     //void Update()
@@ -23,7 +24,7 @@ public class HealthPickUp : MonoBehaviour
     {
         if (c.gameObject.layer == 14 && player.GetHealth() < 3)
         {
-            //sfx.PlayOneShotByName("Collect");
+            sounds.PlayOneShotByName("PickUp");
             hud.HealthUp();
             player.SetHealth(1);
 

@@ -157,6 +157,7 @@ public class PlayerClass : MonoBehaviour
         rayCast_IK.IK_EndGrapple();
         anim.SetTrigger("Death");
         DisableControls();
+        GetComponent<HandleSfx>().PlayOneShotByName("Death");
         //Debug.Log("disabled");
         StartCoroutine(DeathDelay());
     }
