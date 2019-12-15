@@ -78,7 +78,7 @@ public class BossV2 : MonoBehaviour
 
         rightHandInitRot = rightHand.rotation.eulerAngles;
         leftHandInitRot = leftHand.rotation.eulerAngles;
-
+        skyboxRotation = 0f;
     }
 
     private void Update()
