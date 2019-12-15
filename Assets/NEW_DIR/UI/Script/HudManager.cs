@@ -23,7 +23,7 @@ public class HudManager : MonoBehaviour
     bool showing;
     bool waiting;
     bool hiding;
-    int health = 3;
+    public static int health = 3;
     int maxHealth = 3;
     const float showTime = 3f;
     const float hudLerp = 8.6f;
