@@ -36,8 +36,8 @@ public class Tumble : MonoBehaviour
     IEnumerator Collected()
     {
         yield return new WaitForEndOfFrame();
-        GetComponent<SphereCollider>().enabled = false;
-        gameObject.SetActive(false);
+        //GetComponent<SphereCollider>().enabled = false;
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
     private void OnTriggerEnter(Collider c)//Pool them later
     {
@@ -48,25 +48,18 @@ public class Tumble : MonoBehaviour
                 sfx.PlayOneShotByName("Collect");
                 hud.ShardsUp();
                 player.SetShards(1);
-                isCollected = true;
-                if (saveMan)
-                {
-                    saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
-                    saveMan.SaveCollectedShardsID();
-                }
             }
             else
             {
                 sfx.PlayOneShotByName("Collect");
                 hud.MoonsUp();
             }
-            isCollected = true;
-
             if (saveMan)
             {
                 saveMan.AddToListOfCollectedShards(gameObject.transform.parent.gameObject.name + SceneManager.GetActiveScene().name);
                 saveMan.SaveCollectedShardsID();
             }
+            isCollected = true;
         }
     }
 }
