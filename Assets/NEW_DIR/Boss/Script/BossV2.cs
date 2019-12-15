@@ -379,7 +379,7 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        StartCoroutine(transition.BlinkSequence(2f, 1f, 3f, 1f, false));
+        StartCoroutine(transition.BlinkSequence(2f, 1f, 2f, 1f, false));
 
         yield return new WaitForSeconds(2f);
 
@@ -388,11 +388,11 @@ public class BossV2 : MonoBehaviour
 
         endCinematic.Play();
 
-        yield return new WaitForSeconds(66f);
+        yield return new WaitForSeconds(72f);
 
-        StartCoroutine(transition.BlinkSequence(2.5f, 8f, 0f, 1f, false));
+        StartCoroutine(transition.BlinkSequence(5f, 5f, 0f, 1f, false));
 
-        yield return new WaitForSeconds(3.2f);
+        yield return new WaitForSeconds(5f);
 
         SceneManager.LoadScene(0);
     }
