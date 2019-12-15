@@ -31,6 +31,7 @@ public class Kickable_Object : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rend = GetComponent<MeshRenderer>();
         rb.drag = drag;
     }
 
