@@ -145,21 +145,10 @@ public class BossV2 : MonoBehaviour
             if (Mathf.Abs(horizontalInput) > 0.03f || Mathf.Abs(verticalInput) > 0.03f)
             {
                 StartCoroutine(SteerRoutine(steer.normalized));
-                
             }
             else
             {
                 steer = Vector3.zero;
-
-                //if(!steerAdjusted)
-                //{
-                //    for (int i = 1; i < bodyTargets.Length; i++)
-                //    {
-                //        bodyTargets[i].position = targetInits[i].position;
-                //    }
-                //
-                //    
-                //}
 
                 body[0].rotation = Quaternion.Lerp(body[0].rotation, Quaternion.Euler(0f, -17f, 0f), steerLerpRate * Time.deltaTime);
             }
@@ -228,8 +217,6 @@ public class BossV2 : MonoBehaviour
             yield return new WaitForSeconds(0.116f);
         }
     }
-
-    // Cue Steer
 
     public void CueSteer()
     {
@@ -300,19 +287,21 @@ public class BossV2 : MonoBehaviour
         playerCam.enabled = true;
         playerTf.position = tailSpawnPoint.position;
 
-        // Anim here
-        foreach (GameObject go in pathOne) 
-        {
-            go.SetActive(false);
-            yield return new WaitForSeconds(0.06f);
-        }
+        //foreach (GameObject go in pathOne) 
+        //{
+        //    go.SetActive(false);
+        //    yield return new WaitForSeconds(0.06f);
+        //}
 
-        // Anim Here
-        foreach(GameObject go in pathTwo)
-        {
-            go.SetActive(true);
-            yield return new WaitForSeconds(0.06f);
-        }
+
+        yield return new WaitForSeconds(1.4f);
+
+
+        //foreach(GameObject go in pathTwo)
+        //{
+        //    go.SetActive(true);
+        //    yield return new WaitForSeconds(0.06f);
+        //}
 
         steerVolume.canSteer = false;
         //steerVolume.enabled = true;
@@ -324,10 +313,17 @@ public class BossV2 : MonoBehaviour
 
         leftHandAnim.SetTrigger("ReverseGrab");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
 
         dropIsAnimating = false;
         grabIsAnimating = false;
+
+        for(int i = 1; i < bodyAnims.Length; i++)
+        {
+            bodyAnims[i].SetTrigger("Swap");
+
+            yield return new WaitForSeconds(0.16f);
+        }
 
         //Hand Animations Finish, bringing Lumi back to tail
 
