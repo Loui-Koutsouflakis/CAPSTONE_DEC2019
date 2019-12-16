@@ -106,9 +106,9 @@ public class Spiderlings : MonoBehaviour, IKillable
             if (stuckPlayer) destination = player.position;
             //if (path.status == NavMeshPathStatus.PathComplete) SetState(SpiderlingState.Chaseplayer);
 
-            if (currentState == SpiderlingState.Chaseplayer && path.status == NavMeshPathStatus.PathComplete) destination = player.position;
+            if (player != null && currentState == SpiderlingState.Chaseplayer && path.status == NavMeshPathStatus.PathComplete) destination = player.position;
 
-            if (path.status != NavMeshPathStatus.PathComplete && (destination - transform.position).magnitude < 1) SetState(SpiderlingState.Wonder);
+            if ( path != null && path.status != NavMeshPathStatus.PathComplete && (destination - transform.position).magnitude < 1) SetState(SpiderlingState.Wonder);
             
         }
 
@@ -168,11 +168,6 @@ public class Spiderlings : MonoBehaviour, IKillable
     }
 
     #endregion
-
-    private void FindNextWonderDestination()
-    {
-
-    }
 
     public void SetSpiderTransform(Transform spider)
     {

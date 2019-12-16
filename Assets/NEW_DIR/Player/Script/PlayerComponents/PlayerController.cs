@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
         player.SetLastKnownPos(player.transform.position);
+        player.SetDamagable(true);
         
     }
 
@@ -193,7 +194,7 @@ public class PlayerController : MonoBehaviour
 
     public void Grapple()
     {      
-        if (player.isGrappling || player.IsGrounded() || player.tetherPoint == null)
+        if (player.isGrappling || player.IsGrounded() || player.tetherPoint == null || player.GetGroundPounding())
         {
            // Debug.Log("Cant grapple");
             return;
@@ -231,8 +232,15 @@ public class PlayerController : MonoBehaviour
         //    yield break; 
 
         yield return new WaitForSeconds(0.15f);
-        player.SetMovementType(MovementType.grapple);
-        player.GetGrappleComponent().Grapple();
+        if(player.tetherPoint != null)
+        {
+            player.SetMovementType(MovementType.grapple);
+            player.GetGrappleComponent().Grapple();
+        }
+        else
+        {
+            playerIK.IK_EndGrapple();
+        }
 
         //player.ikGrapple = true;
         //playerIK.IK_Grapple();
@@ -515,7 +523,7 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator CheckGround()
     {
-        capCollider.height = 0.97f;        
+        capCollider.height = 0.98f;        
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {            
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer) ) //&& footHit.collider.gameObject.GetComponent<Renderer>().material.name != "M_2Rocks_Large_Cell")
@@ -597,7 +605,7 @@ public class PlayerController : MonoBehaviour
                             Vector3 tempVel = player.rb.velocity;
                             tempVel.y = 0;
                             player.rb.velocity = tempVel;
-                            player.GenericAddForce(player.transform.up.normalized, 4);
+                            player.GenericAddForce(player.transform.up.normalized, 7);
                             if(!player.GetGroundPounding())
                             {
                                 anim.SetTrigger("DJump");

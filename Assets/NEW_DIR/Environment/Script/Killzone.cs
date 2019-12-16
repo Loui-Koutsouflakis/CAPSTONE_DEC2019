@@ -25,7 +25,15 @@ public class Killzone : MonoBehaviour
             {
                 playerScript.SetHealth(-1);
                 hudManager.HealthDown();
+                playerScript.SetDamagable(false);
+                StartCoroutine(ResetDamagable());
             }
         }
+    }
+
+    IEnumerator ResetDamagable()
+    {
+        yield return new WaitForSeconds(0.3f);
+        playerScript.SetDamagable(true);
     }
 }
