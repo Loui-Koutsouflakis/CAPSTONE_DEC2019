@@ -46,6 +46,7 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     public void InteractWithMe()
     {
         if(isBox) sfx.PlayOneShotByName("Wood_Break");
+        if (isIce) sfx.PlayOneShotByName("IceBreak");
         particles.Stop();
         foreach (var item in mesh)
         {
