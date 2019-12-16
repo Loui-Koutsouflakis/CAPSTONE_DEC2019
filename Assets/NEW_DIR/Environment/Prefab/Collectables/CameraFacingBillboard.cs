@@ -22,7 +22,7 @@ public class CameraFacingBillboard : MonoBehaviour
     {
         if (isPlant)
         {
-            rend.material.renderQueue = 2256;
+            rend.material.renderQueue = 2355;
           //  rend.material.mainTextureScale = new Vector3(Random.Range(.3f, 1), Random.Range(.3f, 1), Random.Range(.3f, 1));
         }
     }
