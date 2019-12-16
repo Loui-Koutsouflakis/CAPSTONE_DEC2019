@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.19550224, g: 0.27798316, b: 0.44119683, a: 1}
+  m_IndirectSpecularColor: {r: 0.19547343, g: 0.27807534, b: 0.4411262, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -616,13 +616,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (105)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 63.659
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.36
+      value: -3.99
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -663,10 +667,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (105)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -780,6 +780,99 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697b07756cbbc664184d1cb470e6e1a3, type: 3}
+--- !u!1 &28842890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28842891}
+  - component: {fileID: 28842894}
+  - component: {fileID: 28842893}
+  - component: {fileID: 28842892}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &28842891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28842890}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 12.4, y: 34.4, z: -30.7}
+  m_LocalScale: {x: 28.009838, y: 20, z: 25.704111}
+  m_Children: []
+  m_Father: {fileID: 1489609021}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!64 &28842892
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28842890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &28842893
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28842890}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a13dbdd29a0b09743ba2ad5ae7981498, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &28842894
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28842890}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &31326971 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 628487517, guid: ed0f424436d4a7748b4172bb67a9e0a5,
@@ -1315,11 +1408,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 100.000015
       objectReference: {fileID: 0}
-    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
-        type: 3}
-      propertyPath: startDelay
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5446155480787679540, guid: 697b07756cbbc664184d1cb470e6e1a3,
         type: 3}
       propertyPath: startDelay
@@ -1339,6 +1427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: startDelay
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
+        type: 3}
+      propertyPath: startDelay
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697b07756cbbc664184d1cb470e6e1a3, type: 3}
@@ -1638,7 +1731,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &62704300
 PrefabInstance:
@@ -1716,6 +1809,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 801859745}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1770,11 +1868,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
       objectReference: {fileID: 0}
     - target: {fileID: 8713385299678204470, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
@@ -1885,6 +1978,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1133085865}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &74224254
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5158002693532543566, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_Name
+      value: Butterfly_Container_Blue 1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -121.574684
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 121.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -61.19227
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7236465
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6901708
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 92.713005
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: baec9e05bf220fb4c8ff902ea64c1517, type: 3}
 --- !u!1001 &75459164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2496,6 +2658,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (89)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 68.92
@@ -2544,10 +2710,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (89)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2576,6 +2738,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PS_Lumi_Teleport
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -2641,16 +2813,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
@@ -2788,7 +2950,7 @@ PrefabInstance:
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 617825585683478540, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
@@ -3118,6 +3280,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2356958354348286479, guid: 0590277ffcf39934aa4368fc89a81a5e,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectable_Plant_Ring_Pop_Out(8 Shards)_Spin
+      objectReference: {fileID: 0}
     - target: {fileID: 4318052160570057929, guid: 0590277ffcf39934aa4368fc89a81a5e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3172,11 +3339,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2356958354348286479, guid: 0590277ffcf39934aa4368fc89a81a5e,
-        type: 3}
-      propertyPath: m_Name
-      value: Collectable_Plant_Ring_Pop_Out(8 Shards)_Spin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0590277ffcf39934aa4368fc89a81a5e, type: 3}
@@ -3339,13 +3501,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (9)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.43
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.95
+      value: -11.500003
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3386,10 +3552,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (9)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -3790,7 +3952,7 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
@@ -4173,13 +4335,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (16)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.34
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.15
+      value: -11.550001
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4220,10 +4386,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (16)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -4334,13 +4496,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (45)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 59.29283
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.01
+      value: -2.64
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4381,10 +4547,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (45)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -4473,7 +4635,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &265627654
 PrefabInstance:
@@ -4656,13 +4818,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (116)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 71.94822
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3284149
+      value: -1.8300018
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4699,10 +4865,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (116)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -4809,13 +4971,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (40)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.39
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.720005
+      value: -15.100002
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4857,10 +5023,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (40)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -4885,6 +5047,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 447557697}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4940,11 +5107,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
-      objectReference: {fileID: 0}
     - target: {fileID: 8713385299678204470, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -4995,7 +5157,7 @@ Transform:
   - {fileID: 1236944269}
   - {fileID: 432009739}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &294226639 stripped
 Transform:
@@ -5010,13 +5172,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (100)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.14
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.69
+      value: -7.1200004
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5057,10 +5223,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (100)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -5504,6 +5666,90 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b7c94ac45fd0ab489012d37f0039019, type: 3}
+--- !u!1001 &323083652
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2847622697422763119, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_Name
+      value: Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -217.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 116.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -121.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228761903108678131, guid: 809abc53e54470b4b870673a1d2f6719,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 809abc53e54470b4b870673a1d2f6719, type: 3}
 --- !u!1001 &339585896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5665,13 +5911,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (20)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.48
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.7
+      value: -10.25
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5712,10 +5962,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (20)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -6192,6 +6438,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1401912104}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6246,11 +6497,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
       objectReference: {fileID: 0}
     - target: {fileID: 8713385299678204470, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
@@ -6627,6 +6873,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.171
@@ -6674,10 +6924,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (3)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -7272,13 +7518,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (42)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.6500037
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.720005
+      value: -15.1
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7319,10 +7569,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (42)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -7878,7 +8124,7 @@ Transform:
   - {fileID: 972549467}
   - {fileID: 1886984194}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &518016606 stripped
 Transform:
@@ -8281,6 +8527,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (52)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.9
@@ -8328,10 +8578,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (52)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -8491,7 +8737,7 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
@@ -8868,13 +9114,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (101)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.14
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.6900053
+      value: -7.12
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8915,10 +9165,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (101)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -9808,6 +10054,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (90)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 67.29
@@ -9856,10 +10106,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (90)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -9890,13 +10136,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (64)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.98
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.508766
+      value: -14.775002
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9937,10 +10187,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (64)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -10058,13 +10304,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (14)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.31
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.149999
+      value: -11.55
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10106,10 +10356,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (14)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10134,6 +10380,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (110)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 92.67282
@@ -10177,10 +10427,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (110)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -10277,13 +10523,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (62)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.14
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.6900053
+      value: -7.1200056
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10324,10 +10574,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (62)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -11360,13 +11606,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (107)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 70.477
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.03
+      value: -1.49
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11407,10 +11657,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (107)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -12031,13 +12277,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (106)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 68.45
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.95399535
+      value: -1.36
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12078,10 +12328,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (106)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -12214,11 +12460,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 100.00006
       objectReference: {fileID: 0}
-    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
-        type: 3}
-      propertyPath: startDelay
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 5446155480787679540, guid: 697b07756cbbc664184d1cb470e6e1a3,
         type: 3}
       propertyPath: startDelay
@@ -12239,6 +12480,11 @@ PrefabInstance:
       propertyPath: startDelay
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 5446155482753111814, guid: 697b07756cbbc664184d1cb470e6e1a3,
+        type: 3}
+      propertyPath: startDelay
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697b07756cbbc664184d1cb470e6e1a3, type: 3}
 --- !u!1001 &766605055
@@ -12248,6 +12494,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (7)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.171
@@ -12295,10 +12545,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (7)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -12383,7 +12629,7 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
@@ -12441,7 +12687,7 @@ Transform:
   - {fileID: 643995611}
   - {fileID: 1003618826}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &777000761
 PrefabInstance:
@@ -12493,7 +12739,7 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
         type: 3}
@@ -12588,6 +12834,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2356958354348286479, guid: 0590277ffcf39934aa4368fc89a81a5e,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectable_Plant_Ring_Pop_Out(8 Shards) (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4318052160570057929, guid: 0590277ffcf39934aa4368fc89a81a5e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12642,11 +12893,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2356958354348286479, guid: 0590277ffcf39934aa4368fc89a81a5e,
-        type: 3}
-      propertyPath: m_Name
-      value: Collectable_Plant_Ring_Pop_Out(8 Shards) (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0590277ffcf39934aa4368fc89a81a5e, type: 3}
@@ -12834,7 +13080,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &787289253
 PrefabInstance:
@@ -13104,13 +13350,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (32)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.11
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.64
+      value: -15.32
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13152,10 +13402,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (32)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -13186,6 +13432,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (55)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.74
@@ -13233,10 +13483,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (55)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -13796,13 +14042,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (31)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.85
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.639999
+      value: -15.32
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13843,10 +14093,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (31)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -13898,13 +14144,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (66)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -27.45
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.538
+      value: -15.968
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13945,10 +14195,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (66)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -14711,13 +14957,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (104)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 66.9
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.21
+      value: -4.623
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14758,10 +15008,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (104)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -15312,13 +15558,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (111)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 74.55282
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3284149
+      value: -1.83
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15355,10 +15605,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (111)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -15535,6 +15781,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1383340391}
     m_Modifications:
+    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthPickUp
+      objectReference: {fileID: 0}
     - target: {fileID: 8341181475415959325, guid: 718372ce9d9e6424c82e441983b26abc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15589,11 +15840,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
-        type: 3}
-      propertyPath: m_Name
-      value: HealthPickUp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718372ce9d9e6424c82e441983b26abc, type: 3}
@@ -15712,7 +15958,7 @@ PrefabInstance:
     - target: {fileID: 4318052160570057929, guid: 376e1d0c2463d564eb5533a915aae068,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.794365
+      value: -13.85
       objectReference: {fileID: 0}
     - target: {fileID: 4318052160570057929, guid: 376e1d0c2463d564eb5533a915aae068,
         type: 3}
@@ -15758,6 +16004,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145333942234278771, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338221829729191924, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099185585507437293, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454397664707555178, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 526798654042825089, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2158838682293911566, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 8127687730107933166, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106480941079272532, guid: 376e1d0c2463d564eb5533a915aae068,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.39999998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 376e1d0c2463d564eb5533a915aae068, type: 3}
@@ -15950,7 +16236,7 @@ Transform:
   - {fileID: 345186921}
   - {fileID: 1958435739}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1010757957 stripped
 Transform:
@@ -15965,13 +16251,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (56)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 58.612823
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8
+      value: -3.18
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16012,10 +16302,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (56)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -16077,6 +16363,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 490765268}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16131,11 +16422,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
       objectReference: {fileID: 0}
     - target: {fileID: 8713385299678204470, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
@@ -16317,6 +16603,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42d732585da5b8a4c9809e8921b5db35, type: 3}
+--- !u!1001 &1058687645
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5158002693532543566, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_Name
+      value: Butterfly_Container_Blue (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -117.382324
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 121.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -90.634834
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8425138
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5386748
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -114.813
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8e2b688b8b49b10458b28c190a9daed8, type: 3}
 --- !u!1001 &1060884302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16324,6 +16679,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (73)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7830061
@@ -16371,10 +16730,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (73)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -16800,13 +17155,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.75
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.25
+      value: -11.62
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16847,10 +17206,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (4)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -16924,7 +17279,7 @@ PrefabInstance:
     - target: {fileID: 1436746647951165513, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1436746647951165513, guid: b292371716e3d2142aa7f10dc7157475,
         type: 3}
@@ -17628,13 +17983,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (115)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 73.83282
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1684113
+      value: -1.6699982
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17671,10 +18030,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (115)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -17811,7 +18166,7 @@ Transform:
   - {fileID: 1401912104}
   - {fileID: 490765268}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &1149449792
 Animation:
@@ -17855,7 +18210,7 @@ PrefabInstance:
     - target: {fileID: 2458082065338538334, guid: cc53585a62420dc408fceaae42b7d049,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.4
+      value: -14.59
       objectReference: {fileID: 0}
     - target: {fileID: 2458082065338538334, guid: cc53585a62420dc408fceaae42b7d049,
         type: 3}
@@ -18342,7 +18697,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1173121450 stripped
 Transform:
@@ -18846,13 +19201,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (41)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.9300036
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.720005
+      value: -15.100002
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18894,10 +19253,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (41)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -18928,6 +19283,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (37)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.02
@@ -18975,10 +19334,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (37)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -19110,13 +19465,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (33)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.94
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.639999
+      value: -15.32
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19157,10 +19516,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (33)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -19421,7 +19776,7 @@ PrefabInstance:
     - target: {fileID: 1450933541541137722, guid: 6245fbdf7609d8a42bbd96f14f9ce78c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1450933541541137722, guid: 6245fbdf7609d8a42bbd96f14f9ce78c,
         type: 3}
@@ -19477,6 +19832,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1383340391}
     m_Modifications:
+    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthPickUp (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8341181475415959325, guid: 718372ce9d9e6424c82e441983b26abc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19532,11 +19892,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
-        type: 3}
-      propertyPath: m_Name
-      value: HealthPickUp (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718372ce9d9e6424c82e441983b26abc, type: 3}
 --- !u!4 &1263368583 stripped
@@ -19551,6 +19906,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1650305130}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1265299305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5158002693532543566, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_Name
+      value: Butterfly_Container (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -128.56915
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 121.247
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -86.65416
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932289934319957996, guid: 23f93e82233764148819c7b93a6b1b63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23f93e82233764148819c7b93a6b1b63, type: 3}
 --- !u!114 &1266337965 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1113361073074443370, guid: 647ec276bc3e3d04880aa9ae3d1225f0,
@@ -19576,6 +20000,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (61)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 33.65
@@ -19623,10 +20051,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (61)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -20050,6 +20474,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.79999995
       objectReference: {fileID: 0}
+    - target: {fileID: 857087449697148826, guid: d168741fb308b38469b53e278fadecc6,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeakSpot
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d168741fb308b38469b53e278fadecc6, type: 3}
 --- !u!114 &1288609254 stripped
@@ -20338,6 +20767,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (117)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 92.67282
@@ -20381,10 +20814,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (117)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -20615,13 +21044,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (67)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.03
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.556
+      value: -15.986
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -20662,10 +21095,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (67)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -20865,13 +21294,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (63)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 60.002823
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.41
+      value: -3.91
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -20912,10 +21345,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (63)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -21172,7 +21601,7 @@ Transform:
   - {fileID: 1263368583}
   - {fileID: 999052917}
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1387406903 stripped
 Transform:
@@ -21330,6 +21759,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1010757957}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21385,11 +21819,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
-      objectReference: {fileID: 0}
     - target: {fileID: 8713385299678204470, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -21409,13 +21838,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (68)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.02
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.5
+      value: -15.93
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21456,10 +21889,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (68)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -21921,12 +22350,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 2142666358791723805, guid: ed0f424436d4a7748b4172bb67a9e0a5,
-        type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: -8743185273095432786, guid: 60f2215579c11c44a932e3f3b5f7b46a,
-        type: 2}
     - target: {fileID: 4786118699980226, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -221.87059
@@ -21957,7 +22380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4786118699980226, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4786118699980226, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -21971,16 +22394,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
-        type: 3}
-      propertyPath: invY
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 726697623, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: sharedProfile
       value: 
       objectReference: {fileID: 11400000, guid: d23228078933e1647812706933392a29,
         type: 2}
+    - target: {fileID: 1589051805634867346, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: invY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 765223219481059163, guid: ed0f424436d4a7748b4172bb67a9e0a5,
         type: 3}
       propertyPath: m_IsActive
@@ -21990,6 +22413,12 @@ PrefabInstance:
       propertyPath: levelMusic
       value: 
       objectReference: {fileID: 31326972}
+    - target: {fileID: 2142666358791723805, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -8743185273095432786, guid: 60f2215579c11c44a932e3f3b5f7b46a,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 265222688, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
@@ -22038,7 +22467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: 33839a13df7ca544088cfb2ed70f64d0, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: 33839a13df7ca544088cfb2ed70f64d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -22297,7 +22726,7 @@ Transform:
   - {fileID: 642451913}
   - {fileID: 1181632633}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1463449233 stripped
 Transform:
@@ -22633,7 +23062,7 @@ RectTransform:
   m_Children:
   - {fileID: 1609840566}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -22755,7 +23184,7 @@ Transform:
   - {fileID: 1150816550}
   - {fileID: 380774956}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1496748432 stripped
 Transform:
@@ -22770,13 +23199,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (112)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 77.28882
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3284149
+      value: -1.81
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -22813,10 +23246,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (112)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -23042,13 +23471,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.09
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.508766
+      value: -14.775
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23089,10 +23522,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -23282,13 +23711,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (19)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.46
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.150004
+      value: -11.550006
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23329,10 +23762,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (19)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -23427,13 +23856,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (113)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 78.292816
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3284149
+      value: -1.73
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23470,10 +23903,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (113)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -23851,6 +24280,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1383340391}
     m_Modifications:
+    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthPickUp (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 8341181475415959325, guid: 718372ce9d9e6424c82e441983b26abc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23906,11 +24340,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8341181475415959326, guid: 718372ce9d9e6424c82e441983b26abc,
-        type: 3}
-      propertyPath: m_Name
-      value: HealthPickUp (2)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718372ce9d9e6424c82e441983b26abc, type: 3}
 --- !u!4 &1552843151 stripped
@@ -23926,13 +24355,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (103)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 64.84
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.22
+      value: -5.85
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23974,10 +24407,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (103)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -24008,6 +24437,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (91)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 65.84
@@ -24055,10 +24488,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (91)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -24300,6 +24729,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (5)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.171
@@ -24347,10 +24780,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (5)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -24650,6 +25079,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (17)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.82
@@ -24698,10 +25131,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (17)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -24726,13 +25155,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (108)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 72.354
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1339954
+      value: -1.75
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24773,10 +25206,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (108)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -24851,42 +25280,42 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7285326
+      value: -0.7336477
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.23913448
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.44143322
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6850112
+      value: 0.45794383
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 93.52698
+      value: 297.986
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.000015258789
+      value: -113.99801
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: 8e2b688b8b49b10458b28c190a9daed8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.000015258789
+      value: -186.53699
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e2b688b8b49b10458b28c190a9daed8, type: 3}
@@ -25503,7 +25932,7 @@ PrefabInstance:
     - target: {fileID: 8118315218429235334, guid: 96b4c6117a9a3ed4bad97febefe48ecc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8118315218429235334, guid: 96b4c6117a9a3ed4bad97febefe48ecc,
         type: 3}
@@ -25529,6 +25958,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (109)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 92.67282
@@ -25572,10 +26005,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (109)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -25885,7 +26314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4519581617691324, guid: 56b54aa7321c4514f96a573a1f129e21, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4519581617691324, guid: 56b54aa7321c4514f96a573a1f129e21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -26213,7 +26642,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1678157643 stripped
 Transform:
@@ -27074,42 +27503,42 @@ PrefabInstance:
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7285326
+      value: -0.51222265
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.4548283
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.48040387
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6850112
+      value: 0.5476965
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 93.52698
+      value: 273.544
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.000015258789
+      value: 5.6330004
       objectReference: {fileID: 0}
     - target: {fileID: 8932289934319957996, guid: baec9e05bf220fb4c8ff902ea64c1517,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.000015258789
+      value: -282.786
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baec9e05bf220fb4c8ff902ea64c1517, type: 3}
@@ -27120,6 +27549,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (15)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.84
@@ -27167,10 +27600,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (15)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -27275,13 +27704,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (10)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.23
+      value: -10.780003
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -27323,10 +27756,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (10)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -27351,6 +27780,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1796932267}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27405,11 +27839,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5af1b98027a251743bf0cc140e00b27e, type: 3}
@@ -27526,7 +27955,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &1803865099 stripped
 Transform:
@@ -27566,7 +27995,7 @@ Transform:
   - {fileID: 963168195}
   - {fileID: 1266337966}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1807734741 stripped
 Transform:
@@ -27957,6 +28386,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (76)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.84
@@ -28004,10 +28437,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (76)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -28071,6 +28500,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (75)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.29
@@ -28118,10 +28551,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (75)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -28329,6 +28758,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1857220601}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -28384,11 +28818,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5af1b98027a251743bf0cc140e00b27e, type: 3}
 --- !u!1001 &1890585164
@@ -28398,13 +28827,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (8)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.46
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.300001
+      value: -11.670004
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28446,10 +28879,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (8)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -28480,6 +28909,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (57)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.9
@@ -28527,10 +28960,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (57)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -29405,7 +29834,7 @@ Transform:
   - {fileID: 688295789}
   - {fileID: 905684582}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1966881886
 PrefabInstance:
@@ -29825,6 +30254,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2006597231}
     m_Modifications:
+    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_GrapplePoint_fixed
+      objectReference: {fileID: 0}
     - target: {fileID: 4527491336506817837, guid: 5af1b98027a251743bf0cc140e00b27e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29880,11 +30314,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 616914786930872126, guid: 5af1b98027a251743bf0cc140e00b27e,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_GrapplePoint_fixed
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5af1b98027a251743bf0cc140e00b27e, type: 3}
 --- !u!4 &2006597231 stripped
@@ -29906,6 +30335,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (18)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.53
@@ -29953,10 +30386,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (18)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -30649,13 +31078,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (39)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.74
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.25
+      value: -11.620003
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -30696,10 +31129,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (39)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -31072,6 +31501,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (58)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.9
@@ -31120,10 +31553,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (58)
-      objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -31162,7 +31591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2085325399
 Transform:
   m_ObjectHideFlags: 0
@@ -31267,6 +31696,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (74)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.36
@@ -31314,10 +31747,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (74)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -31501,13 +31930,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (38)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.66
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.25
+      value: -11.620003
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31548,10 +31981,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (38)
       objectReference: {fileID: 0}
     - target: {fileID: 2088638229862987771, guid: cc5a089ea828197478e92aa6bf91bd5c,
         type: 3}
@@ -31687,6 +32116,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -4.44
       objectReference: {fileID: 0}
+    - target: {fileID: 5224712610462755144, guid: 5827f724c000d964a96be175eb5c9a7b,
+        type: 3}
+      propertyPath: playerTf
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5224712610997093201, guid: 5827f724c000d964a96be175eb5c9a7b,
         type: 3}
       propertyPath: m_Layer
@@ -31696,11 +32130,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224712610462755144, guid: 5827f724c000d964a96be175eb5c9a7b,
-        type: 3}
-      propertyPath: playerTf
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5827f724c000d964a96be175eb5c9a7b, type: 3}
@@ -32006,13 +32435,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491163027}
     m_Modifications:
+    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
+      propertyPath: m_Name
+      value: MeteorShardCollectable (114)
+      objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 76.792816
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3284149
+      value: -1.7299957
       objectReference: {fileID: 0}
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -32049,10 +32482,6 @@ PrefabInstance:
     - target: {fileID: 2063333921, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063333916, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
-      propertyPath: m_Name
-      value: MeteorShardCollectable (114)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5a089ea828197478e92aa6bf91bd5c, type: 3}
@@ -35532,7 +35961,7 @@ PrefabInstance:
     - target: {fileID: 7637322177861500466, guid: 82d7ce58b60327644ac0c9aa86dfeacd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 7637322177861500466, guid: 82d7ce58b60327644ac0c9aa86dfeacd,
         type: 3}
@@ -125767,7 +126196,7 @@ Transform:
   - {fileID: 1083797461}
   - {fileID: 1967436711}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7159253473799288429
 Transform:
