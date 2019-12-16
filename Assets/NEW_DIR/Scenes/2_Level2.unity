@@ -14392,6 +14392,7 @@ GameObject:
   - component: {fileID: 938186087}
   - component: {fileID: 938186086}
   - component: {fileID: 938186088}
+  - component: {fileID: 938186089}
   m_Layer: 0
   m_Name: SM_Obelisk3
   m_TagString: Untagged
@@ -14426,6 +14427,7 @@ MonoBehaviour:
   hasParticles: 1
   c_Threshold: 70
   playAnimWithoutActive: 0
+  isObelisk: 1
   anims: {fileID: 0}
 --- !u!4 &938186087
 Transform:
@@ -14458,6 +14460,22 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!114 &938186089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938186085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Ob
+    clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
 --- !u!4 &944191785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2d9f29453d0534d49a7ff53d93a119da,
@@ -28168,6 +28186,7 @@ GameObject:
   - component: {fileID: 1936056098}
   - component: {fileID: 1936056097}
   - component: {fileID: 1936056099}
+  - component: {fileID: 1936056100}
   m_Layer: 0
   m_Name: SM_Obelisk2
   m_TagString: Untagged
@@ -28202,6 +28221,7 @@ MonoBehaviour:
   hasParticles: 1
   c_Threshold: 60
   playAnimWithoutActive: 0
+  isObelisk: 1
   anims: {fileID: 0}
 --- !u!4 &1936056098
 Transform:
@@ -28233,6 +28253,22 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!114 &1936056100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936056096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Ob
+    clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
 --- !u!1 &1936613299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: d7d8ae02d50964948a31bed1cce0da83,
@@ -74801,6 +74837,7 @@ GameObject:
   - component: {fileID: 5204360671856727823}
   - component: {fileID: 9107056548162463005}
   - component: {fileID: 9107056548162463006}
+  - component: {fileID: 9107056548162463007}
   m_Layer: 0
   m_Name: SM_Obelisk
   m_TagString: Untagged
@@ -74835,6 +74872,7 @@ MonoBehaviour:
   hasParticles: 1
   c_Threshold: 45
   playAnimWithoutActive: 0
+  isObelisk: 1
   anims: {fileID: 0}
 --- !u!136 &9107056548162463006
 CapsuleCollider:
@@ -74850,6 +74888,22 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!114 &9107056548162463007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9107056548162463004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Ob
+    clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
 --- !u!23 &9117557514088741281
 MeshRenderer:
   m_ObjectHideFlags: 0

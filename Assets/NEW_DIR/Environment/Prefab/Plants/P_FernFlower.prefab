@@ -169,8 +169,9 @@ GameObject:
   - component: {fileID: 7236971347962144808}
   - component: {fileID: 7236971347962144809}
   - component: {fileID: 7236971347962144810}
+  - component: {fileID: -4145662626698432801}
   m_Layer: 2
-  m_Name: SM_Environment_Fern1_1M
+  m_Name: P_FernFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,6 +270,22 @@ MonoBehaviour:
   usePlayerLayer: 0
   hasPickups: 0
   hiddenPickups: []
+--- !u!114 &-4145662626698432801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679576645280330021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Wiggle
+    clip: {fileID: 8300000, guid: ba957bd22c96d7e4aa05c0e0a6c7be70, type: 3}
 --- !u!1 &2810751157531579020
 GameObject:
   m_ObjectHideFlags: 0
