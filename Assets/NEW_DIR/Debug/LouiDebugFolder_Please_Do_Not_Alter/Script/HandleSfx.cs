@@ -7,9 +7,18 @@ public class HandleSfx : MonoBehaviour
     public AudioSource sfxSource;
     public SfxClip[] clips;
 
+    public bool localSource = false;
+
     private void Awake()
     {
-        sfxSource = GameObject.FindGameObjectWithTag("SFXSource").GetComponent<AudioSource>();
+        if(!localSource)
+        {
+            sfxSource = GameObject.FindGameObjectWithTag("SFXSource").GetComponent<AudioSource>();
+        }
+        else
+        {
+            sfxSource = GetComponent<AudioSource>();
+        }
     }
     public void PlayFromSource()
     {
