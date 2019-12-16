@@ -168,7 +168,7 @@ public class PlayerCamera : MonoBehaviour
         CamType = CameraType.Orbit;
         sr_Sensitivity = r_Sensitivity;
         wallCamChoice = WallCamChoice.Front;
-
+        currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, rotationsmoothTime);
         if (lockCursor)
             Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
