@@ -412,18 +412,18 @@ public class PlayerAirMovement : PlayerVariables
             //    StartCoroutine(LedgeGrabEnable());
             //}
             //ledge grab 
-            if (!ledgeHoping && canLedgeGrab)
-            {
-                //wallNormal = hit.normal;
-                player.rb.velocity = Vector3.zero;
-                player.rb.isKinematic = true;
-                //player.transform.forward = -wallNormal;
-                anim.SetBool("LedgeIdle", true);
-                //Debug.Log(anim.GetBool("ledgeIdle"));
-                player.SetOnLedge(true);
-                ledgeHoping = true;
-                canLedgeGrab = false;
-            }
+            //if (!ledgeHoping && canLedgeGrab)
+            //{
+            //    //wallNormal = hit.normal;
+            //    player.rb.velocity = Vector3.zero;
+            //    player.rb.isKinematic = true;
+            //    //player.transform.forward = -wallNormal;
+            //    anim.SetBool("LedgeIdle", true);
+            //    //Debug.Log(anim.GetBool("ledgeIdle"));
+            //    player.SetOnLedge(true);
+            //    ledgeHoping = true;
+            //    canLedgeGrab = false;
+            //}
         }
         else if(!toeCast || !midCast || !topOfHead)
         {

@@ -338,39 +338,41 @@ public class PlayerController : MonoBehaviour
             //{
             //    Debug.Log("no collider");
             //}
-            
-            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
+            if(footCheck.collider == null || !footCheck.collider.isTrigger)
             {
-                if (player.GetDamagable())
+                if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
                 {
-                    SoundManager.PlayOneShotByName("Damaged");
-                    player.SetHealth(-1); //reduces health on player class
-                    if(h_Manager != null)
+                    if (player.GetDamagable())
                     {
-                        h_Manager.HealthDown(); //reduces health on hud
+                        SoundManager.PlayOneShotByName("Damaged");
+                        player.SetHealth(-1); //reduces health on player class
+                        if (h_Manager != null)
+                        {
+                            h_Manager.HealthDown(); //reduces health on hud
+                        }
+
+                        if (player.GetHealth() > 0)
+                        {
+                            anim.SetTrigger("Damaged");
+                        }
+                        if (player.GetHealth() > 0)
+                        {
+                            player.DisableControls();
+                            StartCoroutine(EnableControls());
+                            player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
+                            StartCoroutine(DamageFlashOff());
+                            player.SetDamagable(false); //provides a brief period of invulnerability 
+                        }
+
+                        //if (player.GetHealth() <= 0)
+                        //{
+                        //    //player.Death();
+                        //}
                     }
-                    
-                    if (player.GetHealth() > 0)
+                    if (collision.gameObject.GetComponent<StackAStan>())
                     {
-                        anim.SetTrigger("Damaged");
+                        collision.gameObject.GetComponent<StackAStan>().StartCoolDown();
                     }
-                    if(player.GetHealth() > 0)
-                    {
-                        player.DisableControls();
-                        StartCoroutine(EnableControls());
-                        player.GenericAddForce((player.transform.position - collision.gameObject.transform.position).normalized, 5); //knocks player away from enemy
-                        StartCoroutine(DamageFlashOff());
-                        player.SetDamagable(false); //provides a brief period of invulnerability 
-                    }
-                    
-                    //if (player.GetHealth() <= 0)
-                    //{
-                    //    //player.Death();
-                    //}
-                }
-                if(collision.gameObject.GetComponent<StackAStan>())
-                {
-                    collision.gameObject.GetComponent<StackAStan>().StartCoolDown();
                 }
             }
             else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackAStan>())
