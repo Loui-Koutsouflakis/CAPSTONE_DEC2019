@@ -338,14 +338,11 @@ public class PlayerController : MonoBehaviour
             //{
             //    Debug.Log("no collider");
             //}
-            Debug.Log(footHit.collider.isTrigger);
             
-            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10 && footCheck.collider.isTrigger) //will not take damage if jumping on enemy  
+            if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
-                Debug.Log("damaged.");
                 if (player.GetDamagable())
                 {
-                    Debug.Log("damage");
                     SoundManager.PlayOneShotByName("Damaged");
                     player.SetHealth(-1); //reduces health on player class
                     if(h_Manager != null)
