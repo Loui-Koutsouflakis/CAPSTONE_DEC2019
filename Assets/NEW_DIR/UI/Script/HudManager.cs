@@ -108,48 +108,82 @@ public class HudManager : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(ShowHud());
-        
-        shardsAnim.SetTrigger("Bounce");
 
-        if (shardsCollected < 999)
+        shardsCollected++;
+
+        shardString = shardsCollected.ToString();
+
+        foreach (MeshRenderer mr in shardOnes)
         {
-            shardsCollected++;
+            mr.enabled = false;
+        }
+        foreach (MeshRenderer mr in shardTens)
+        {
+            mr.enabled = false;
+        }
+        foreach (MeshRenderer mr in shardHundreds)
+        {
+            mr.enabled = false;
+        }
 
-            shardString = shardsCollected.ToString();
+        if (shardString.Length == 3)
+        {
+            shardHundreds[shardString[0] - 48].enabled = true;
+            shardTens[shardString[1] - 48].enabled = true;
+            shardOnes[shardString[2] - 48].enabled = true;
+        }
+        else if (shardString.Length == 2)
+        {
+            shardString = "0" + shardString;
+            shardHundreds[0].enabled = true;
+            shardTens[shardString[1] - 48].enabled = true;
+            shardOnes[shardString[2] - 48].enabled = true;
+        }
+        else if (shardString.Length == 1)
+        {
+            shardString = "00" + shardString;
+            shardHundreds[0].enabled = true;
+            shardTens[0].enabled = true;
+            shardOnes[shardsCollected].enabled = true;
+        }
+    }
 
-            foreach (MeshRenderer mr in shardOnes)
-            {
-                mr.enabled = false;
-            }
-            foreach (MeshRenderer mr in shardTens)
-            {
-                mr.enabled = false;
-            }
-            foreach (MeshRenderer mr in shardHundreds)
-            {
-                mr.enabled = false;
-            }
+    public void SetShards()
+    {
+        shardString = shardsCollected.ToString();
 
-            if (shardString.Length == 3)
-            {
-                shardHundreds[shardString[0] - 48].enabled = true;
-                shardTens[shardString[1] - 48].enabled = true;
-                shardOnes[shardString[2] - 48].enabled = true;
-            }
-            else if (shardString.Length == 2)
-            {
-                shardString = "0" + shardString;
-                shardHundreds[0].enabled = true;
-                shardTens[shardString[1] - 48].enabled = true;
-                shardOnes[shardString[2] - 48].enabled = true;
-            }
-            else if (shardString.Length == 1)
-            {
-                shardString = "00" + shardString;
-                shardHundreds[0].enabled = true;
-                shardTens[0].enabled = true;
-                shardOnes[shardsCollected].enabled = true;
-            }
+        foreach (MeshRenderer mr in shardOnes)
+        {
+            mr.enabled = false;
+        }
+        foreach (MeshRenderer mr in shardTens)
+        {
+            mr.enabled = false;
+        }
+        foreach (MeshRenderer mr in shardHundreds)
+        {
+            mr.enabled = false;
+        }
+
+        if (shardString.Length == 3)
+        {
+            shardHundreds[shardString[0] - 48].enabled = true;
+            shardTens[shardString[1] - 48].enabled = true;
+            shardOnes[shardString[2] - 48].enabled = true;
+        }
+        else if (shardString.Length == 2)
+        {
+            shardString = "0" + shardString;
+            shardHundreds[0].enabled = true;
+            shardTens[shardString[1] - 48].enabled = true;
+            shardOnes[shardString[2] - 48].enabled = true;
+        }
+        else if (shardString.Length == 1)
+        {
+            shardString = "00" + shardString;
+            shardHundreds[0].enabled = true;
+            shardTens[0].enabled = true;
+            shardOnes[shardsCollected].enabled = true;
         }
     }
 
