@@ -205,8 +205,8 @@ public class UIManager : MonoBehaviour
     public void VideoLowButton()
     {
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
-        QualitySettings.SetQualityLevel(1, true);
-        saveGameManager.SetQualitySettings(1);
+        QualitySettings.SetQualityLevel(0, true);
+        saveGameManager.SetQualitySettings(0);
         saveGameManager.SaveSettings();
 
 
