@@ -17,9 +17,9 @@ public class HandleSfx : MonoBehaviour
         sfxSource.Play();
     }
 
-    public void PlayRandomClip()
+    public void PlayRandomClip(int start, int end)
     {
-        sfxSource.PlayOneShot(clips[Random.Range(0, clips.Length - 1)].clip);
+        sfxSource.PlayOneShot(clips[Random.Range(start, end)].clip);
     }
 
     public void PlayOneShotByIndex(int index)
