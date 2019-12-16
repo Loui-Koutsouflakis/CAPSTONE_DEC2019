@@ -14495,16 +14495,16 @@ PrefabInstance:
       propertyPath: tetherParticle
       value: 
       objectReference: {fileID: 1238485668}
-    - target: {fileID: 4690393965299292929, guid: 78753204a4a79ae46b2caa80d63f02b9,
-        type: 3}
-      propertyPath: act
-      value: 
-      objectReference: {fileID: 544601447}
     - target: {fileID: 8032465437768135387, guid: 78753204a4a79ae46b2caa80d63f02b9,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4690393965299292929, guid: 78753204a4a79ae46b2caa80d63f02b9,
+        type: 3}
+      propertyPath: act
+      value: 
+      objectReference: {fileID: 544601447}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78753204a4a79ae46b2caa80d63f02b9, type: 3}
 --- !u!1001 &1413232217
@@ -26337,6 +26337,7 @@ GameObject:
   - component: {fileID: 1850744059}
   - component: {fileID: 1850744058}
   - component: {fileID: 1850744057}
+  - component: {fileID: 1850744060}
   m_Layer: 0
   m_Name: SM_Obelisk2
   m_TagString: Untagged
@@ -26385,6 +26386,7 @@ MonoBehaviour:
   hasParticles: 1
   c_Threshold: 0
   playAnimWithoutActive: 0
+  isObelisk: 1
   anims: {fileID: 0}
 --- !u!4 &1850744059
 Transform:
@@ -26403,6 +26405,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: -215.153, z: 0}
+--- !u!114 &1850744060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850744056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Ob
+    clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
 --- !u!1001 &1863187539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26699,6 +26717,7 @@ GameObject:
   - component: {fileID: 1883090416}
   - component: {fileID: 1883090415}
   - component: {fileID: 1883090414}
+  - component: {fileID: 1883090417}
   m_Layer: 0
   m_Name: SM_Obelisk
   m_TagString: Untagged
@@ -26747,6 +26766,7 @@ MonoBehaviour:
   hasParticles: 1
   c_Threshold: 0
   playAnimWithoutActive: 0
+  isObelisk: 1
   anims: {fileID: 0}
 --- !u!4 &1883090416
 Transform:
@@ -26765,6 +26785,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: -84.15401, z: 0}
+--- !u!114 &1883090417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883090413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Ob
+    clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
 --- !u!1 &1886629070
 GameObject:
   m_ObjectHideFlags: 0
@@ -34177,7 +34213,7 @@ Transform:
   - {fileID: 1160756963}
   - {fileID: 1935812148}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &5053836386857031551
 MeshRenderer:
