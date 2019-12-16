@@ -8,7 +8,8 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     Rigidbody[] body;
     ParticleSystem particles;
     public float upWards;
-    RaycastHit up;
+    [SerializeField]
+    bool isIce = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +25,14 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     // Update is called once per frame
     void Update()
     {
-        if (AreaChecks())
-        {
-            particles.Stop();
-        }
-        else if (!AreaChecks())
-        {
-            particles.Play();
-        }
+    //    if (AreaChecks())
+    //    {
+    //        particles.Stop();
+    //    }
+    //    else if (!AreaChecks())
+    //    {
+    //        particles.Play();
+    //    }
     }
     public void DontInteractWithMe()
     {
@@ -48,13 +49,18 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
         foreach (var item in body)
         {
             item.useGravity = true;
+            item.AddForce(Vector3.up * 10, ForceMode.Impulse);
         }
+
         StartCoroutine(DisableShit());
     }
 
     IEnumerator DisableShit()
     {
-        yield return new WaitForSeconds(1);
+        if (isIce)
+            yield return new WaitForSeconds(1);
+        else
+            yield return new WaitForSeconds(0);
         foreach (var item in mesh)
         {
             item.enabled = false;
@@ -62,11 +68,11 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
         GetComponent<BoxCollider>().enabled = false;
     }
 
-    public bool AreaChecks()
-    {
-        Vector3 lineStart = transform.position;
-        Vector3 forward = new Vector3(lineStart.x, lineStart.y + upWards, lineStart.z);
-       return Physics.BoxCast(transform.position, GetComponent<BoxCollider>().bounds.center / 2, Vector3.up, out up, Quaternion.identity, GetComponent<BoxCollider>().bounds.center.y);
-      //  return Physics.Linecast(transform.position,forward, out up);
-    }
+    //public bool AreaChecks()
+    //{
+    //   // Vector3 lineStart = transform.position;
+    //   // Vector3 forward = new Vector3(lineStart.x, lineStart.y + upWards, lineStart.z);
+    //   //return Physics.BoxCast(transform.position, GetComponent<BoxCollider>().bounds.center / 2, Vector3.up, out up, Quaternion.identity, GetComponent<BoxCollider>().bounds.center.y);
+    //  //  return Physics.Linecast(transform.position,forward, out up);
+    //}
 }

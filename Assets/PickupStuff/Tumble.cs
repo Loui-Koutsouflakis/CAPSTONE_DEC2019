@@ -40,7 +40,7 @@ public class Tumble : MonoBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.layer == 14 /*&& anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation")*/)
+        if (c.gameObject.layer == 14 && anim.GetCurrentAnimatorStateInfo(0).IsName("Meteor_Spin_Animation"))
         {
             if (!isMoon)
             {
