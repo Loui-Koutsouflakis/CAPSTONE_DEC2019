@@ -22,7 +22,7 @@ public class HealthPickUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.layer == 14 && player.GetHealth() < 3)
+        if (c.gameObject.layer == 14) //&& player.GetHealth() < 3)
         {
             sounds.PlayOneShotByName("PickUp");
             hud.HealthUp();
