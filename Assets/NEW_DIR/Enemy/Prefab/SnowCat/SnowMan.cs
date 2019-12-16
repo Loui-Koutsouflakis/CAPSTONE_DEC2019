@@ -21,7 +21,8 @@ public class SnowMan : MonoBehaviour, IKillable
     NavMeshAgent navAgent;
     [SerializeField]
     Animator anim;
-    AnimationClip idleClip;
+    [SerializeField]
+    LayerMask hittableObjects;
 
     //[SerializeField]
     //Rigidbody rb;
@@ -90,7 +91,7 @@ public class SnowMan : MonoBehaviour, IKillable
         set { _landing = value; }
     }
     [SerializeField, Range(3, 15), Header("Distance Expelled")]
-    float expelDist = 15.0f;
+    int expelDist = 15;
     Vector3 direction;
 
     #endregion
@@ -178,7 +179,7 @@ public class SnowMan : MonoBehaviour, IKillable
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gameObject.name.ToString() + navAgent.pathStatus.ToString());
+        //Debug.Log(gameObject.name.ToString() + navAgent.pathStatus.ToString());
         switch (status)
         {
             case SnowManStatus.Idle:
@@ -319,7 +320,11 @@ public class SnowMan : MonoBehaviour, IKillable
 
                         if (growRate > 1.0f)
                         {
-                            transform.localScale = origScale;
+                            if (transform.localScale.magnitude < 0)
+                            {
+                                transform.localScale = origScale;
+
+                            }
                             needIdleMovePos = true;
                             SetEnemyStatus(SnowManStatus.Idle);
                         }
@@ -339,6 +344,19 @@ public class SnowMan : MonoBehaviour, IKillable
                         growRate += Time.deltaTime * 0.25f;
                     }
                     transform.position = Vector3.Lerp(transform.position, landing, growRate);
+                    if (Physics.Raycast(transform.position, (landing - transform.position).normalized, 1.0f, hittableObjects))
+                    {
+                        RaycastHit downhit;
+                        Physics.Raycast(transform.position, -transform.up, out downhit, 10.0f);
+                        transform.position = transform.position - (-transform.up * downhit.distance);
+                        boxCollider.enabled = true;
+                        boxTriggerCollider.enabled = true;
+                        homePosition = transform.position;
+                        navAgent.enabled = true;
+                        //needIdleMovePos = true;
+                        SetEnemyStatus(SnowManStatus.Idle);
+                    }
+
                 }
                 else
                 {                    
@@ -446,7 +464,25 @@ public class SnowMan : MonoBehaviour, IKillable
         dying = false;
     }
 
-    
+    //void CheckLandingPos(Vector3 landingPos)
+    //{
+    //    Vector3 checkPos = transform.position + (Vector3.up * 0.25f);
+    //    for (int i = expelDist; i > 0; i--)
+    //    {
+    //        if(!Physics.Raycast(checkPos, (landingPos - checkPos).normalized, i, hittableObjects))
+    //        {
+    //            Debug.Log("Mag = " + (landingPos - expelPoint.position).magnitude);
+    //            Debug.DrawRay(expelPoint.position, (landingPos - expelPoint.position).normalized, Color.red, expelDist);
+    //            landing = (landingPos - checkPos).normalized * i;
+    //            i = 0;
+    //        }
+    //        else
+    //        {
+    //            Debug.DrawRay(expelPoint.position, (landingPos - expelPoint.position).normalized, Color.red, expelDist);
+    //            landing = (landingPos - checkPos).normalized * i;
+    //        }
+    //    }
+    //}
 
 
     #region Animation Coroutines
@@ -577,59 +613,78 @@ public class SnowMan : MonoBehaviour, IKillable
                 switch (rdmNum)
                 {
                     case 1:
-                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position + (transform.right * 0.5f);
+                        expelPoint.position = transform.position + (Vector3.up * 1.5f) + (transform.right * 0.5f);
+                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position;
                         absorbed[absorbedIndex - 1].transform.rotation = transform.rotation;                        
-                        absorbed[absorbedIndex - 1].landing = transform.position + transform.right * expelDist;
-                        absorbed[absorbedIndex - 1].SetExpelled();                        
-                        absorbed[absorbedIndex - 1] = null;
-                        absorbedIndex--;
+                        absorbed[absorbedIndex - 1].landing = (transform.position + (Vector3.up * 0.25f)) + (transform.right * expelDist);
 
-                        SetEnemyStatus(SnowManStatus.Shrink);
-                        isGrowing = false;
-                        groundPound = false;
+                        //CheckLandingPos(landing);
+                        //absorbed[absorbedIndex - 1].SetExpelled();                        
+                        //absorbed[absorbedIndex - 1] = null;
+                        //absorbedIndex--;
+
+                        //SetEnemyStatus(SnowManStatus.Shrink);
+                        //isGrowing = false;
+                        //groundPound = false;
 
                         break;
                     case 2:
-                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position + (-transform.right * 0.5f);
+                        expelPoint.position = transform.position + (Vector3.up * 1.5f) + (-transform.right * 0.5f);
+                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position;
                         absorbed[absorbedIndex - 1].transform.rotation = transform.rotation;                       
-                        absorbed[absorbedIndex - 1].landing = transform.position + -transform.right * expelDist;
-                        absorbed[absorbedIndex - 1].SetExpelled();
-                        absorbed[absorbedIndex - 1] = null;
-                        absorbedIndex--;
+                        absorbed[absorbedIndex - 1].landing = (transform.position + (Vector3.up * 0.25f)) + (-transform.right * expelDist);
 
-                        SetEnemyStatus(SnowManStatus.Shrink);
-                        isGrowing = false;
-                        groundPound = false;
+                        //CheckLandingPos(landing);
+                        //absorbed[absorbedIndex - 1].SetExpelled();
+                        //absorbed[absorbedIndex - 1] = null;
+                        //absorbedIndex--;
+
+                        //SetEnemyStatus(SnowManStatus.Shrink);
+                        //isGrowing = false;
+                        //groundPound = false;
 
                         break;
-                    case 3:                        
-                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position + (transform.forward * 0.5f);
+                    case 3:
+                        expelPoint.position = transform.position + (Vector3.up * 1.5f) + (transform.forward * 0.5f);
+                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position;
                         absorbed[absorbedIndex - 1].transform.rotation = transform.rotation;
-                        absorbed[absorbedIndex - 1].landing = transform.position + transform.forward * expelDist;
-                        absorbed[absorbedIndex - 1].SetExpelled();
-                        absorbed[absorbedIndex - 1] = null;
-                        absorbedIndex--;
+                        absorbed[absorbedIndex - 1].landing = (transform.position + (Vector3.up * 0.25f)) + (transform.forward * expelDist);
 
-                        SetEnemyStatus(SnowManStatus.Shrink);
-                        isGrowing = false;
-                        groundPound = false;
+                        //CheckLandingPos(landing);
+                        //absorbed[absorbedIndex - 1].SetExpelled();
+                        //absorbed[absorbedIndex - 1] = null;
+                        //absorbedIndex--;
+
+                        //SetEnemyStatus(SnowManStatus.Shrink);
+                        //isGrowing = false;
+                        //groundPound = false;
 
                         break;
                     case 4:
-                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position + (-transform.forward * 0.5f);
-                        absorbed[absorbedIndex - 1].transform.rotation = transform.rotation;
-                        absorbed[absorbedIndex - 1].gameObject.SetActive(true);
-                        absorbed[absorbedIndex - 1].landing = transform.position + -transform.forward * expelDist;
-                        absorbed[absorbedIndex - 1].SetExpelled();
-                        absorbed[absorbedIndex - 1] = null;
-                        absorbedIndex--;
+                        expelPoint.position = transform.position + (Vector3.up * 1.5f) + (-transform.forward * 0.5f);
+                        absorbed[absorbedIndex - 1].transform.position = expelPoint.position;
+                        absorbed[absorbedIndex - 1].transform.rotation = transform.rotation;                        
+                        absorbed[absorbedIndex - 1].landing = (transform.position + (Vector3.up * 0.25f)) + (-transform.forward * expelDist);
 
-                        groundPound = false;
-                        isGrowing = false;
-                        SetEnemyStatus(SnowManStatus.Shrink);
+                        //CheckLandingPos(landing);
+                        //absorbed[absorbedIndex - 1].SetExpelled();
+                        //absorbed[absorbedIndex - 1] = null;
+                        //absorbedIndex--;
+
+                        //groundPound = false;
+                        //isGrowing = false;
+                        //SetEnemyStatus(SnowManStatus.Shrink);
 
                         break;
                 }
+                //CheckLandingPos(landing);
+                absorbed[absorbedIndex - 1].SetExpelled();
+                absorbed[absorbedIndex - 1] = null;
+                absorbedIndex--;
+
+                groundPound = false;
+                isGrowing = false;
+                SetEnemyStatus(SnowManStatus.Shrink);
             }
             else
             {
@@ -664,6 +719,7 @@ public class SnowMan : MonoBehaviour, IKillable
                     absorbed[absorbedIndex - 1 - i].transform.position = expelPoint.position + (direction * 0.5f);
                     absorbed[absorbedIndex - 1 - i].transform.rotation = transform.rotation;
                     absorbed[absorbedIndex - 1 - i].landing = transform.position + direction * expelDist;
+                    //CheckLandingPos(landing);
                     absorbed[absorbedIndex - 1 - i].SetExpelled();
                     absorbed[absorbedIndex - 1 - i] = null;
                     //absorbedIndex--;
