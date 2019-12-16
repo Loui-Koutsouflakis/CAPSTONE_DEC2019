@@ -77,7 +77,6 @@ public class RTGIdleCalculationBehavour : StateMachineBehaviour
         if (Physics.Raycast(AIMid, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AILeft, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AIRight, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AITop, atTDVf, out FH, FRL, Layer))
         {
             animator.SetBool("ThereIsAWall", true);
-            //Debug.Log(FH.collider);
         }
         else
         {
