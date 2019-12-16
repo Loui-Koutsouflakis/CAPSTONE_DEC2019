@@ -64,35 +64,38 @@ public class AudioNavigationManager : UIManager
         //    }
         //}
 
-        if (saveGameManager.GetMasterSliderPosition() < sliderMin.localPosition.x -0.2 || saveGameManager.GetMasterSliderPosition() > sliderMax.localPosition.x +0.2)
+        if (PlayerPrefs.HasKey("MasterSliderPositionX"))
         {
+            
             sliderButtons[2].transform.localPosition = new Vector3(saveGameManager.GetMasterSliderPosition(), sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[2].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[2].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetMasterSliderPosition(sliderButtons[2].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
 
-        if (saveGameManager.GetMusicSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetMusicSliderPosition() > sliderMax.localPosition.x + 0.2)
+        if (PlayerPrefs.HasKey("MusicSliderPositionX"))
         {
+           
             sliderButtons[0].transform.localPosition = new Vector3(saveGameManager.GetMusicSliderPosition(), sliderButtons[0].transform.localPosition.y, sliderButtons[0].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[0].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[0].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetMusicSliderPosition(sliderButtons[0].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
 
-        if (saveGameManager.GetDialogueSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetDialogueSliderPosition() > sliderMax.localPosition.x + 0.2)
+        if (PlayerPrefs.HasKey("DialogueSliderPositionX"))
         {
+            
             sliderButtons[1].transform.localPosition = new Vector3(saveGameManager.GetDialogueSliderPosition(), sliderButtons[1].transform.localPosition.y, sliderButtons[1].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[1].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[1].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetDialogueSliderPosition(sliderButtons[1].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
@@ -104,35 +107,35 @@ public class AudioNavigationManager : UIManager
         audioHandler = FindObjectOfType<AudioHandler>().GetComponent<AudioHandler>();
 
 
-        if (saveGameManager.GetMasterSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetMasterSliderPosition() > sliderMax.localPosition.x + 0.2)
+        if (PlayerPrefs.HasKey("MasterSliderPositionX"))
         {
             sliderButtons[2].transform.localPosition = new Vector3(saveGameManager.GetMasterSliderPosition(), sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[2].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[2].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetMasterSliderPosition(sliderButtons[2].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
 
-        if (saveGameManager.GetMusicSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetMusicSliderPosition() > sliderMax.localPosition.x + 0.2)
+        if (PlayerPrefs.HasKey("MusicSliderPositionX"))
         {
             sliderButtons[0].transform.localPosition = new Vector3(saveGameManager.GetMusicSliderPosition(), sliderButtons[0].transform.localPosition.y, sliderButtons[0].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[0].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[0].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetMusicSliderPosition(sliderButtons[0].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
 
-        if (saveGameManager.GetDialogueSliderPosition() < sliderMin.localPosition.x - 0.2 || saveGameManager.GetDialogueSliderPosition() > sliderMax.localPosition.x + 0.2)
+        if (PlayerPrefs.HasKey("DialogueSliderPositionX"))
         {
             sliderButtons[1].transform.localPosition = new Vector3(saveGameManager.GetDialogueSliderPosition(), sliderButtons[1].transform.localPosition.y, sliderButtons[1].transform.localPosition.z);
         }
         else
         {
-            sliderButtons[1].transform.localPosition = new Vector3(0, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
+            sliderButtons[1].transform.localPosition = new Vector3(-10.9f, sliderButtons[2].transform.localPosition.y, sliderButtons[2].transform.localPosition.z);
             saveGameManager.SetDialogueSliderPosition(sliderButtons[1].transform.localPosition.x);
             saveGameManager.SaveAudioSliderPositions();
         }
