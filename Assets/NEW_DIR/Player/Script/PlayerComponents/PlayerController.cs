@@ -339,7 +339,6 @@ public class PlayerController : MonoBehaviour
             //    Debug.Log("no collider");
             //}
             
-            
             if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
@@ -369,12 +368,12 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-                if(collision.gameObject.GetComponent<StackableEnemy>())
+                if(collision.gameObject.GetComponent<StackAStan>())
                 {
-                    collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
+                    collision.gameObject.GetComponent<StackAStan>().StartCoolDown();
                 }
             }
-            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackableEnemy>())
+            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackAStan>())
             {
                 tempVel = player.rb.velocity;
             }
@@ -529,7 +528,7 @@ public class PlayerController : MonoBehaviour
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer) ) //&& footHit.collider.gameObject.GetComponent<Renderer>().material.name != "M_2Rocks_Large_Cell")
             {
 
-                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                if(footHit.collider.gameObject.GetComponent<StackAStan>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
                 {
                    // Debug.Log("hit stackable enemy");
                     //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
@@ -686,7 +685,7 @@ public class PlayerController : MonoBehaviour
                         player.GetSoundManager().PlayOneShotByName("Bounce");
                         player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
-                        player.GenericAddForce(player.transform.up, 15);
+                        player.GenericAddForce(player.transform.up, 17);
                         landed = true;
                         StartCoroutine(LandedSwitch());
                     }
