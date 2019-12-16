@@ -441,6 +441,7 @@ public class UIManager : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("GameManager"))
         {
             gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+            saveGameManager.increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
             gameManager.Quit();
         }
 
@@ -492,7 +493,7 @@ public class UIManager : MonoBehaviour
 
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         transManager = GameObject.FindObjectOfType<TransitionManager>();
-        Debug.Log(transManager.name);
+        //Debug.Log(transManager.name);
 
         if (GameObject.FindGameObjectWithTag("SaveGameManager") != null)
         {
@@ -519,6 +520,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator AnimationDelayGameOverMainMenu(float delay)
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        saveGameManager.increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
         gameOverButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         gameManager.GoToMenu();
