@@ -122,14 +122,15 @@ public class SaveGameManager : MonoBehaviour
             cameraSensitivity = 6;
         }
 
-        if (PlayerPrefs.GetInt("QualitySetting") > 0)
+        if (PlayerPrefs.GetInt("QualitySetting") >= 0)
         {
             qualitySetting = PlayerPrefs.GetInt("QualitySetting");
         }
         else
         {
-            qualitySetting = 0;
+            qualitySetting = 3;
         }
+
 
 
         //if(PlayerPrefs.GetFloat("MasterSoundVolume") >= 0 && PlayerPrefs.GetFloat("MasterSoundVolume") <= 1)
