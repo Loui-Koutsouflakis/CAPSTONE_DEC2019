@@ -20237,7 +20237,7 @@ Animator:
   m_GameObject: {fileID: 261060864}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6f367ebd00d2a7e4e96297d119504880, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -22567,7 +22567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &361797434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29267,6 +29267,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 468384285}
+  - component: {fileID: 468384286}
+  - component: {fileID: 468384287}
   m_Layer: 0
   m_Name: LeftHandTf
   m_TagString: Untagged
@@ -29289,6 +29291,38 @@ Transform:
   m_Father: {fileID: 2140824011}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 121.963, y: -66.686005, z: -77.97}
+--- !u!95 &468384286
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468384284}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6476d26042d40441a40f58818ef1375, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &468384287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468384284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2d185243e486b478eea5bf6ebea14c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHandAnim: {fileID: 468384286}
 --- !u!1001 &469716126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32657,15 +32691,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570662331}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -420, y: 120.83975, z: 184}
+  m_LocalRotation: {x: -0, y: -0.2935165, z: -0, w: 0.955954}
+  m_LocalPosition: {x: -420, y: 39.9, z: -359.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1055875882}
   - {fileID: 1254722987}
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -34.137, z: 0}
 --- !u!95 &570662333
 Animator:
   serializedVersion: 3
@@ -57319,12 +57353,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1012478987}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1282731868 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 03a24c4888abc5c47b052bdb942326c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1012478987}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1290853257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64468,7 +64496,6 @@ MonoBehaviour:
   leftHandGrabPoint: {fileID: 1461319508}
   leftHandInitPoint: {fileID: 1622985077}
   rightHandInitPoint: {fileID: 1663349565}
-  leftHandAnim: {fileID: 1282731868}
   rightHandAnim: {fileID: 2076078738}
   endCinematic: {fileID: 2123704447}
   health: 10
@@ -64484,8 +64511,8 @@ MonoBehaviour:
   dropCam: {fileID: 1189528732}
   cinemaCam: {fileID: 1055875884}
   videoCam: {fileID: 714999126}
+  leftHandParentAnim: {fileID: 468384286}
   grabCamAnim: {fileID: 2131955474}
-  dropCamAnim: {fileID: 1354148247}
   cinematicAnim: {fileID: 570662333}
   steerVolume: {fileID: 2032301939}
 --- !u!4 &1546489821 stripped
