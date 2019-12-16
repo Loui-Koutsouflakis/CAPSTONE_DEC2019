@@ -128,7 +128,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            qualitySetting = 5;
+            qualitySetting = 0;
         }
 
 
