@@ -98,7 +98,7 @@ Shader "Capstone2019/Grass"
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
-		//unityShadowCoord4 _ShadowCoord : TEXCOORD1;
+		unityShadowCoord4 _ShadowCoord : TEXCOORD1;
 		float3 normal : NORMAL;
 	};
 
@@ -107,7 +107,7 @@ Shader "Capstone2019/Grass"
 		v2g o;
 		o.pos = UnityObjectToClipPos(pos);
 		o.uv = uv;
-		//o._ShadowCoord = ComputeScreenPos(o.pos);
+		o._ShadowCoord = ComputeScreenPos(o.pos);
 		o.normal = UnityObjectToWorldNormal(normal);
 
 		//#if UNITY_PASS_SHADOWCASTER // Take this off to enable grass blades to imit shadows on themselves
@@ -204,8 +204,8 @@ Shader "Capstone2019/Grass"
 			{
 				float3 normal = facing > 0 ? i.normal : -i.normal;
 
-				//float shadow = SHADOW_ATTENUATION(i);
-				float NdotL = saturate(saturate(dot(normal, _WorldSpaceLightPos0)) + _GradThresh) /** shadow*/;
+				float shadow = SHADOW_ATTENUATION(i);
+				float NdotL = saturate(saturate(dot(normal, _WorldSpaceLightPos0)) + _GradThresh) * shadow;
 
 				float3 ambient = ShadeSH9(float4(normal, 1));
 				float4 lightIntensity = NdotL * _LightColor0 + float4(ambient, 1);
