@@ -338,7 +338,11 @@ public class PlayerController : MonoBehaviour
                 {
                     SoundManager.PlayOneShotByName("Damaged");
                     player.SetHealth(-1); //reduces health on player class
-                    h_Manager.HealthDown(); //reduces health on hud
+                    if(h_Manager != null)
+                    {
+                        h_Manager.HealthDown(); //reduces health on hud
+                    }
+                    
                     if (player.GetHealth() > 0)
                     {
                         anim.SetTrigger("Damaged");

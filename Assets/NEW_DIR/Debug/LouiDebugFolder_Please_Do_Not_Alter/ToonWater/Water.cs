@@ -6,9 +6,11 @@ public class Water : MonoBehaviour
 {
     public static WaterParticleManager wpm;
     Vector3 locationSet;
+    private HandleSfx sfx;
 
     private void Start()
     {
+        sfx = GetComponent<HandleSfx>();
         if(wpm == null)
         {
             wpm = GameObject.Find("WaterParticleManager").GetComponent<WaterParticleManager>();
@@ -27,6 +29,10 @@ public class Water : MonoBehaviour
             locationSet.y = transform.position.y;
             locationSet.z = other.gameObject.transform.position.z;
             wpm.Splash(locationSet, rb.mass, rb.velocity.magnitude);
+            if(sfx != null)
+            {
+                sfx.PlayOneShotByIndex(0);
+            }
         }
     }
 
