@@ -34,7 +34,7 @@
 //    private CPC_ENewWaypointMode waypointMode;
 //    private int waypointIndex = 1;
 //    private CPC_ECurveType allCurveType = CPC_ECurveType.Custom;
-//    private AnimationCurve allAnimationCurve = AnimationCurve.EaseInOut(0,0,1,1);
+//    private AnimationCurve allAnimationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
 //    //GUIContents
 //    private GUIContent addPointContent = new GUIContent("Add Point", "Adds a waypoint at the scene view camera's position/rotation");
@@ -80,8 +80,8 @@
 //    void OnEnable()
 //    {
 //        EditorApplication.update += Update;
-        
-//        t = (CPC_CameraPath) target;
+
+//        t = (CPC_CameraPath)target;
 //        if (t == null) return;
 
 //        SetupEditorVariables();
@@ -116,7 +116,7 @@
 //        GUILayout.Space(5);
 //        DrawBasicSettings();
 //        GUILayout.Space(5);
-//        GUILayout.Box("", GUILayout.Width(Screen.width-20), GUILayout.Height(3));
+//        GUILayout.Box("", GUILayout.Width(Screen.width - 20), GUILayout.Height(3));
 //        DrawVisualDropdown();
 //        GUILayout.Box("", GUILayout.Width(Screen.width - 20), GUILayout.Height(3));
 //        DrawManipulationDropdown();
@@ -152,7 +152,7 @@
 //        cameraTranslateMode = (CPC_EManipulationModes)PlayerPrefs.GetInt("CPC_cameraTranslateMode", 1);
 //        cameraRotationMode = (CPC_EManipulationModes)PlayerPrefs.GetInt("CPC_cameraRotationMode", 1);
 //        handlePositionMode = (CPC_EManipulationModes)PlayerPrefs.GetInt("CPC_handlePositionMode", 0);
-//        waypointMode = (CPC_ENewWaypointMode) PlayerPrefs.GetInt("CPC_waypointMode", 0);
+//        waypointMode = (CPC_ENewWaypointMode)PlayerPrefs.GetInt("CPC_waypointMode", 0);
 //        time = PlayerPrefs.GetFloat("CPC_time", 10);
 //    }
 
@@ -192,7 +192,7 @@
 //            fullWidth -= 40;
 //            rect.height /= 2;
 //            GUI.Label(rect, "#" + (index + 1));
-//            rect.y += rect.height-3;
+//            rect.y += rect.height - 3;
 //            rect.x -= 14;
 //            rect.width += 12;
 //            if (GUI.Button(rect, t.points[index].chained ? chainedContent : unchainedContent))
@@ -200,7 +200,7 @@
 //                Undo.RecordObject(t, "Changed chain type");
 //                t.points[index].chained = !t.points[index].chained;
 //            }
-//            rect.x += rect.width+2;
+//            rect.x += rect.width + 2;
 //            rect.y = startRectY;
 //            //Position
 //            rect.width = (fullWidth - 22) / 3 - 1;
@@ -262,7 +262,7 @@
 //                SceneView.lastActiveSceneView.Repaint();
 //            }
 //            rect.y += rect.height + 2;
-//            if(GUI.Button(rect, AddTimer))
+//            if (GUI.Button(rect, AddTimer))
 //            {
 //                pointReorderableList.index = index;
 //                selectedIndex = index;
@@ -389,7 +389,7 @@
 //        GUILayout.EndHorizontal();
 
 //        GUILayout.BeginHorizontal();
-//        loopedProperty.boolValue = GUILayout.Toggle(loopedProperty.boolValue, "Looped", GUILayout.Width(Screen.width/3f));
+//        loopedProperty.boolValue = GUILayout.Toggle(loopedProperty.boolValue, "Looped", GUILayout.Width(Screen.width / 3f));
 //        GUI.enabled = loopedProperty.boolValue;
 //        GUILayout.Label("After loop:", GUILayout.Width(Screen.width / 4f));
 //        afterLoopProperty.enumValueIndex = Convert.ToInt32(EditorGUILayout.EnumPopup((CPC_EAfterLoop)afterLoopProperty.intValue));
@@ -495,7 +495,7 @@
 //        GUILayout.EndHorizontal();
 //        GUILayout.EndVertical();
 //        GUILayout.BeginHorizontal();
-//        GUILayout.Space(Screen.width/2f-20);
+//        GUILayout.Space(Screen.width / 2f - 20);
 //        GUILayout.Label("↓");
 //        GUILayout.EndHorizontal();
 //        serializedObject.Update();
@@ -524,12 +524,12 @@
 //                    }
 //                    break;
 //                case CPC_ENewWaypointMode.WaypointIndex:
-//                    if (t.points.Count > waypointIndex-1 && waypointIndex > 0)
-//                        t.points.Add(new CPC_Point(t.points[waypointIndex-1].position, t.points[waypointIndex-1].rotation) { handlenext = t.points[waypointIndex-1].handlenext, handleprev = t.points[waypointIndex-1].handleprev });
+//                    if (t.points.Count > waypointIndex - 1 && waypointIndex > 0)
+//                        t.points.Add(new CPC_Point(t.points[waypointIndex - 1].position, t.points[waypointIndex - 1].rotation) { handlenext = t.points[waypointIndex - 1].handlenext, handleprev = t.points[waypointIndex - 1].handleprev });
 //                    else
 //                    {
 //                        t.points.Add(new CPC_Point(Vector3.zero, Quaternion.identity));
-//                        Debug.LogWarning("Waypoint index "+waypointIndex+" does not exist, defaulting position to world center");
+//                        Debug.LogWarning("Waypoint index " + waypointIndex + " does not exist, defaulting position to world center");
 //                    }
 //                    break;
 //                case CPC_ENewWaypointMode.WorldCenter:
@@ -543,7 +543,7 @@
 //        }
 //        GUILayout.Label("at", GUILayout.Width(20));
 //        EditorGUI.BeginChangeCheck();
-//        waypointMode = (CPC_ENewWaypointMode) EditorGUILayout.EnumPopup(waypointMode, waypointMode==CPC_ENewWaypointMode.WaypointIndex ? GUILayout.Width(Screen.width/4) : GUILayout.Width(Screen.width/2));
+//        waypointMode = (CPC_ENewWaypointMode)EditorGUILayout.EnumPopup(waypointMode, waypointMode == CPC_ENewWaypointMode.WaypointIndex ? GUILayout.Width(Screen.width / 4) : GUILayout.Width(Screen.width / 2));
 //        if (waypointMode == CPC_ENewWaypointMode.WaypointIndex)
 //        {
 //            waypointIndex = EditorGUILayout.IntField(waypointIndex, GUILayout.Width(Screen.width / 4));
