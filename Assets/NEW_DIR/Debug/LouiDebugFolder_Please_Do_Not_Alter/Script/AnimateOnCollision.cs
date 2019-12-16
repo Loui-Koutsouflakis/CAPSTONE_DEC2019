@@ -51,7 +51,7 @@ public class AnimateOnCollision : MonoBehaviour
             else if(usePlayerLayer && collision.gameObject.layer == 14)
             {
                 animator.SetTrigger(triggerName);
-                //sfx.PlayOneShotByName("Wiggle");
+              
             }
 
             //CheckPickups();
@@ -67,6 +67,7 @@ public class AnimateOnCollision : MonoBehaviour
             {
                 //Debug.Log("hit player");
                 animator.SetTrigger(triggerName);
+                sfx.PlayOneShotByName("Wiggle");
                 CheckPickups();
             }
             else if (usePlayerLayer && other.gameObject.layer == 9)

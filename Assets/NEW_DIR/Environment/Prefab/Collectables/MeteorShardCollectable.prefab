@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+  isPlant: 0
 --- !u!135 &820061314318976697
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -109,7 +110,7 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   clips:
   - name: Collect
-    clip: {fileID: 8300000, guid: 4f244c7a67109f74aa0079ffeb4fbdeb, type: 3}
+    clip: {fileID: 8300000, guid: f4226b018b52be44ab43eb765c1118ad, type: 3}
 --- !u!114 &8387802022063363095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +273,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a4c4aa4f36d84004191d4403562db5aa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a4c4aa4f36d84004191d4403562db5aa,
         type: 3}

@@ -22,7 +22,9 @@ public class CameraPaths : MonoBehaviour
     [Tooltip("Crystal threshold")]
     public float c_Threshold;
     public bool playAnimWithoutActive = false;
-
+    [SerializeField]
+    bool isObelisk;
+    HandleSfx sfx;
     [Header("Animations?")]
     [Tooltip("If your path requires an animation")]
     public Animation anims;
@@ -42,6 +44,7 @@ public class CameraPaths : MonoBehaviour
 
         if (playOnStart)
             active = true;
+        if (isObelisk) { if (!sfx) sfx = GetComponent<HandleSfx>(); }
         //if(saveGameManager.triggeredMonoliths.Contains(gameObject.name + SceneManager.GetActiveScene()))
         //{
         //    playAnimWithoutActive = true;
@@ -58,6 +61,7 @@ public class CameraPaths : MonoBehaviour
 
         if (active)
         {
+            if (isObelisk) sfx.PlayOneShotByName("Ob");
             if(hasParticles) { foreach (var item in particles) { item.Play(); } }
 
             foreach (var item in paths) { item.gameObject.SetActive(false); }

@@ -392,19 +392,19 @@ public class ControlsNavigationManager : UIManager
 
     void CalculateSensitivityValue()
     {
-        Debug.Log(saveGameManager.getCameraSensitivity() + " Saved Sensitivity");
+        //Debug.Log(saveGameManager.getCameraSensitivity() + " Saved Sensitivity");
 
         maxValueForSlider = Mathf.Abs(sliderMin.localPosition.x) + Mathf.Abs(sliderMax.localPosition.x);
         
-        Debug.Log(maxValueForSlider + " Max Value For Slider");
+        //Debug.Log(maxValueForSlider + " Max Value For Slider");
         currentValueForSlider = (sliderButton.transform.localPosition.x - (sliderMin.localPosition.x));
-        Debug.Log(currentValueForSlider + " Current Value Of Slider");
+        //Debug.Log(currentValueForSlider + " Current Value Of Slider");
 
         sliderPercentDecimal = currentValueForSlider / maxValueForSlider;
 
         sensitivity = Mathf.Ceil(sliderPercentDecimal * -5);
        
-        Debug.Log(sensitivity + " Calculated Sensiivity");
+        //Debug.Log(sensitivity + " Calculated Sensiivity");
 
 
         if (sensitivity < 1)

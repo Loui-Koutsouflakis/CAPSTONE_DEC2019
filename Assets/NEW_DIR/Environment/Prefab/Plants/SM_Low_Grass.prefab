@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4815551856701271315}
   - component: {fileID: 7448782314710884210}
   - component: {fileID: 6911365774894645825}
+  - component: {fileID: 219638954887739508}
   m_Layer: 2
   m_Name: SM_Low_Grass
   m_TagString: Untagged
@@ -29,9 +30,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5052809181437932070}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3301735, y: -34.971832, z: -5.5229125}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5344943779661863007}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,8 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d97a2e81653894d45ade87c6764a0834, type: 2}
-  - {fileID: 2100000, guid: d97a2e81653894d45ade87c6764a0834, type: 2}
+  - {fileID: 239378781582670930, guid: 28d5dd8ed59937e46a47f9c36fd2a9e1, type: 3}
+  - {fileID: 239378781582670930, guid: 1aa741adefd1c2f43aabf8b97eac9b58, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,3 +134,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.3
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &219638954887739508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052809181437932070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Wiggle
+    clip: {fileID: 8300000, guid: ba957bd22c96d7e4aa05c0e0a6c7be70, type: 3}
