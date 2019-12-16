@@ -115,15 +115,15 @@ public class ControlsNavigationManager : UIManager
         currentCameraSmoothingValue = saveGameManager.GetCameraSmoothing();
 
 
-        if(saveGameManager.getCameraInverted() == 0)
-        {
-            invertButton1.SetActive(false);
-            invertButton2.SetActive(false);
-        }
-        else
+        if (saveGameManager.getCameraInverted() == 1)
         {
             invertButton1.SetActive(true);
             invertButton2.SetActive(true);
+        }
+        else
+        {
+            invertButton1.SetActive(false);
+            invertButton2.SetActive(false);
         }
 
 
