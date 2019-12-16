@@ -58,7 +58,7 @@ public class SaveGameManager : MonoBehaviour
     float masterSliderPositionX = -10.9f;
     float dialogueSliderPositionX = -10.9f;
 
-
+    GameManager gameManager;
     
 
     public int loadFixer = 2;
@@ -67,6 +67,7 @@ public class SaveGameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         LoadCollectedShards();
+        
     }
 
     private void Awake()
@@ -176,6 +177,17 @@ public class SaveGameManager : MonoBehaviour
         {
             masterVolumePercent = 1f;
         }
+
+        if(PlayerPrefs.HasKey("SmallShards_1"))
+        {
+            smallShards = PlayerPrefs.GetInt("SmallShards_1");
+        }
+        else
+        {
+            smallShards = 0;
+        }
+
+        SaveShards();
 
         SaveSettings();
         LoadSettings();
@@ -461,7 +473,9 @@ public class SaveGameManager : MonoBehaviour
         {
 
             //Sets the found player to the player variable
+            gameManager = GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>();
             player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
+            Debug.Log(player.gameObject);
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
             audioHandler = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioHandler>();
 
@@ -499,8 +513,11 @@ public class SaveGameManager : MonoBehaviour
                 //Sets the condition to load from continue to false;
 
                 LoadSettings();
-                GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-                gameManager.GetPlayer().GetHManager().ShardsUp();
+
+                HudManager.shardsCollected = GetShards();
+
+                player.GetComponent<PlayerClass>().GetHManager().SetShards();
+                //gameManager.GetPlayer().GetHManager().SetShards();
 
                 loadFixer = 2;
 
@@ -514,7 +531,7 @@ public class SaveGameManager : MonoBehaviour
                 Save();
                 LoadSettings();
                 Debug.Log("Loaded Next Level");
-                GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
                 increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
             }
         
