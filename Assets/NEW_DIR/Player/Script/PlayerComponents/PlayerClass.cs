@@ -228,7 +228,10 @@ public class PlayerClass : MonoBehaviour
 
     public void DecreaseWebs()
     {
-        attachedWebs -= 1;
+        if(attachedWebs > 0)
+        {
+            attachedWebs -= 1;
+        }
     }
 
     public float GetAttachedWebs()

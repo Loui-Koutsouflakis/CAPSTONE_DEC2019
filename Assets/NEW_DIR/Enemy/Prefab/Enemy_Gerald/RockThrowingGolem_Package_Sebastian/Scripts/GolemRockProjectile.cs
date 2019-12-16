@@ -6,9 +6,12 @@ public class GolemRockProjectile : MonoBehaviour
 {
     public float timer;
     public Animator anim;
+    public HandleSfx SFX;
+    
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 0)
+        var CGL = collision.gameObject.layer;
+        if (CGL == 9 || CGL == 0 || CGL == 16 || CGL == 10)
         {
             StartCoroutine(Timer());
         }
@@ -16,7 +19,7 @@ public class GolemRockProjectile : MonoBehaviour
 
     private IEnumerator Timer()
     {
-        //GetComponent<Animation>().Play("CINEMA_4D_Main");
+        SFX.PlayOneShotByName("Boom");
         anim.SetBool("Contact!!", true);
         GetComponent<Collider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;

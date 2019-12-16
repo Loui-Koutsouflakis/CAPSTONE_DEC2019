@@ -11,8 +11,8 @@ public class StackAStan : MonoBehaviour, IKillable
     [SerializeField]
     StackableEnemyStatus status;
 
+    #region Cached References    
 
-    // Cached for reference or size adjustment
     [SerializeField]
     BoxCollider boxCollider;
     [SerializeField]
@@ -29,6 +29,8 @@ public class StackAStan : MonoBehaviour, IKillable
     Transform backPack;//Drag and Drop emptyobject centered on Object.
     [SerializeField]
     StackAStan parent;
+
+    #endregion
 
     #region Course Plotting
     [SerializeField]
@@ -66,9 +68,12 @@ public class StackAStan : MonoBehaviour, IKillable
     [SerializeField]
     bool animTrigg;
 
-    #endregion
-    [SerializeField]
+    // Stack Destination
+    //[SerializeField]
     Vector3 dest;
+    #endregion
+
+    #region Anim Timers
 
     [SerializeField, Range(0, 5)]
     float idleAnimTime = 0.0f;
@@ -78,6 +83,11 @@ public class StackAStan : MonoBehaviour, IKillable
     float StackAnimTime = 0.0f;
     [SerializeField, Range(0, 5)]
     float deathAnimTime = 0.0f;
+
+    #endregion
+
+    #region Movement Settings
+        
     [SerializeField, Range(0, 10)]
     float chaseRange = 5.0f;
     [SerializeField, Range(0, 5)]
@@ -88,6 +98,8 @@ public class StackAStan : MonoBehaviour, IKillable
     float maxSpeed = 5.0f;
     [SerializeField, Range(0, 5)]
     float accel = 5.0f;
+
+    #endregion
 
     #region Status Bools
 
@@ -104,8 +116,6 @@ public class StackAStan : MonoBehaviour, IKillable
 
     #endregion
 
-
-
     private void Awake()
     {
         homePosition = transform.position;
@@ -118,9 +128,7 @@ public class StackAStan : MonoBehaviour, IKillable
         {
             if (box.isTrigger)
             {
-                boxTriggerCollider = box;
-                //boxTriggerCollider.size = new Vector3(2.0f, 0.125f, 2.0f);
-                //boxTriggerCollider.center = new Vector3(0, 0.125f, 0);
+                boxTriggerCollider = box;                
             }
             else
             {
@@ -146,7 +154,6 @@ public class StackAStan : MonoBehaviour, IKillable
                     {
                         if (!hasPassengers)
                         {
-
                             anim.SetBool("IsMoving", false);
                         }
                         else
@@ -159,7 +166,7 @@ public class StackAStan : MonoBehaviour, IKillable
                 }
                 else
                 {
-                    //isChasing = true;
+                    
                     SetEnemyStatus(StackableEnemyStatus.Chase);
                 }
                 break;
@@ -168,10 +175,10 @@ public class StackAStan : MonoBehaviour, IKillable
                 {
                     if (notMoving)
                     {
-                        // Trigger move animation start
                         notMoving = false;
                         SetDestination(GetIdleMoveDest());
                         navAgent.isStopped = false;
+                        // Trigger move animation start
                         if (!hasPassengers)
                         {
                             anim.SetBool("IsMoving", true);
@@ -183,7 +190,6 @@ public class StackAStan : MonoBehaviour, IKillable
                     }
                     if (navAgent.remainingDistance <= navAgent.stoppingDistance)
                     {
-
                         needIdleMovePos = true;
                         SetEnemyStatus(StackableEnemyStatus.Idle);
                     }
@@ -205,27 +211,22 @@ public class StackAStan : MonoBehaviour, IKillable
                 break;
             case StackableEnemyStatus.CoolDown:
                 if (!coolingDown)
-                {
-                    
+                {                    
                     coolingDown = true;
                     StartCoroutine(CooldownAnimation(coolDownAnimTime));// Change coolDownAnimTime to animation length
                 }
                 break;
-            case StackableEnemyStatus.Passenger:
-                //if(anim.enabled)
-                //{
-                //    //anim.enabled = false;
-                //    transform.position = GetJumpDestinantion();
-                //}
+            case StackableEnemyStatus.Passenger:                
                 if(parent.status == StackableEnemyStatus.Move)
                 {
-                    anim.speed = 0.75f;
+                    anim.SetBool("PassMove", true);
+                    anim.speed = 0.7f;
                 }
                 else
                 {
-                    anim.speed = 0.0f;
+                    anim.SetBool("PassMove", false);
+                    anim.speed = 1.0f;
                 }
-
                 if (Vector3.Angle(transform.forward, transform.parent.forward) > 0)
                 {
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, transform.parent.rotation, 2.5f);
@@ -271,10 +272,6 @@ public class StackAStan : MonoBehaviour, IKillable
                         }
                     }
                 }
-
-
-
-
                 break;
             case StackableEnemyStatus.Dead:
                 if (!dying)
@@ -331,6 +328,8 @@ public class StackAStan : MonoBehaviour, IKillable
         }
     }
 
+    #region Internal Functions
+
     bool PlayerInRange()
     {
         if (Vector3.Distance(playerRef.position, transform.position) <= chaseRange)
@@ -348,6 +347,26 @@ public class StackAStan : MonoBehaviour, IKillable
         status = newstatus;
     }
 
+    void SetDestination(Vector3 target)
+    {
+        navAgent.SetDestination(target);
+    }
+
+    void SetLerpDenom(float num2Convert)
+    {
+        LerpDenom = (int)(num2Convert * 60.0f);
+    }
+
+    void GenStackRank()
+    {
+        stackingRank = Random.Range(1, 100);
+    }
+
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+
     Vector3 GetIdleMoveDest()
     {
         rdmDirection = new Vector3(Random.Range(-180, 180), transform.position.y, Random.Range(-180, 180)).normalized;
@@ -356,21 +375,6 @@ public class StackAStan : MonoBehaviour, IKillable
 
         return movePosition;
 
-    }
-
-    void SetDestination(Vector3 target)
-    {
-        navAgent.SetDestination(target);
-    }
-
-    void GenStackRank()
-    {
-        stackingRank = Random.Range(1, 100);
-    }
-
-    void SetLerpDenom(float num2Convert)
-    {
-        LerpDenom = (int)(num2Convert * 60.0f);
     }
 
     Vector3 GetJumpDestinantion()
@@ -390,6 +394,7 @@ public class StackAStan : MonoBehaviour, IKillable
         return dest;
     }
 
+    #endregion
 
     #region Animation Coroutines
 
@@ -428,7 +433,7 @@ public class StackAStan : MonoBehaviour, IKillable
         rb.useGravity = true;
         //navAgent.enabled = false;
         yield return new WaitForSeconds(t);
-        transform.gameObject.SetActive(false);
+        //transform.gameObject.SetActive(false);
 
     }
 
@@ -519,30 +524,23 @@ public class StackAStan : MonoBehaviour, IKillable
     }
     #endregion
 
-
-
-
     public IEnumerator CheckHit(bool x)
     {
         yield return 0f; //new WaitForSeconds(1f);
         if (!x)
         {
+
             SetDead();
         }
         else
         {
-            if (isAPassenger)
+
+            for (int i = 0; i < parent.GetBackPack().childCount; i++)
             {
-                for (int i = 0; i < parent.GetBackPack().childCount; i++)
-                {
-                    parent.GetBackPack().GetChild(i).GetComponent<StackAStan>().SetDead();
-                }
-                parent.SetDead();
+                parent.GetBackPack().GetChild(i).GetComponent<StackAStan>().SetDead();
             }
-            else
-            {
-                SetDead();
-            }            
+            parent.SetDead();
+
         }
     }
 

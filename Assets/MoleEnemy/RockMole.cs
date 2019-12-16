@@ -57,6 +57,7 @@ public class RockMole : MonoBehaviour , IKillable
     private Vector3 lookDirection;
     private Vector3 randomWaypoint;
 
+    private HandleSfx sfx;
     private void Start()
     {
         alive = true;
@@ -83,8 +84,8 @@ public class RockMole : MonoBehaviour , IKillable
             digTime = 1f;
             //shootTime = 2f;
             moleType = 4;
-        }        
-
+        }
+        sfx = GetComponent<HandleSfx>();
         StartCoroutine(StartDelay());
     }
 
@@ -104,6 +105,7 @@ public class RockMole : MonoBehaviour , IKillable
             yield return new WaitForSeconds(0.2f);
 
             anim.SetTrigger(digAnimName);
+            sfx.PlayOneShotByIndex(0);
 
             if (randomizedDigTime)
             {

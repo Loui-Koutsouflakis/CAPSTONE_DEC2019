@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.P) && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true || Input.GetButtonDown("Start") && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true)
+        if (Input.GetKeyDown(KeyCode.P) && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true || Input.GetButtonDown("Start") && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true || Input.GetKeyDown(KeyCode.Escape) && GameIsPaused && pauseNavigationManager.GetCanInteractWithButtons() == true)
         {
             
             if (GameObject.FindGameObjectWithTag("AudioManager"))
@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Time.timeScale = 1;
-        Debug.Log("Game is Quitting...");
+        //Debug.Log("Game is Quitting...");
         Application.Quit();
 
     }

@@ -54,11 +54,11 @@ public class SaveGameManager : MonoBehaviour
     AudioHandler audioHandler;
     float masterVolumePercent;
 
-    float musicSliderPositionX;
-    float masterSliderPositionX;
-    float dialogueSliderPositionX;
+    float musicSliderPositionX = -10.9f;
+    float masterSliderPositionX = -10.9f;
+    float dialogueSliderPositionX = -10.9f;
 
-
+    GameManager gameManager;
     
 
     public int loadFixer = 2;
@@ -67,6 +67,7 @@ public class SaveGameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         LoadCollectedShards();
+        
     }
 
     private void Awake()
@@ -127,7 +128,7 @@ public class SaveGameManager : MonoBehaviour
         }
         else
         {
-            qualitySetting = 5;
+            qualitySetting = 0;
         }
 
 
@@ -177,6 +178,17 @@ public class SaveGameManager : MonoBehaviour
             masterVolumePercent = 1f;
         }
 
+        if(PlayerPrefs.HasKey("SmallShards_1"))
+        {
+            smallShards = PlayerPrefs.GetInt("SmallShards_1");
+        }
+        else
+        {
+            smallShards = 0;
+        }
+
+        SaveShards();
+
         SaveSettings();
         LoadSettings();
     }
@@ -216,9 +228,7 @@ public class SaveGameManager : MonoBehaviour
                 PlayerPrefs.SetFloat("CheckpointPositionZ_1", checkpointPosition.z);
 
                 //Handles recording the collectibles;
-                PlayerPrefs.SetInt("SmallShards_1", smallShards);
-                PlayerPrefs.SetInt("BigShards_1", bigShards);
-                PlayerPrefs.SetInt("Crystals_1", crystals);
+                
 
                 //Handles Saving the scene;
                 PlayerPrefs.SetInt("CurrentScene_1", SceneManager.GetActiveScene().buildIndex);
@@ -231,51 +241,51 @@ public class SaveGameManager : MonoBehaviour
             }
         }
 
-        //Checks which file it should save to
-        if (currentFile == 2)
-        {
-            //Gets the player position and stores it
-            Vector3 checkpointPosition = currentCheckpoint.position;
-            PlayerPrefs.SetFloat("CheckpointPositionX_2", checkpointPosition.x);
-            PlayerPrefs.SetFloat("CheckpointPositionY_2", checkpointPosition.y);
-            PlayerPrefs.SetFloat("CheckpointPositionZ_2", checkpointPosition.z);
+        ////Checks which file it should save to
+        //if (currentFile == 2)
+        //{
+        //    //Gets the player position and stores it
+        //    Vector3 checkpointPosition = currentCheckpoint.position;
+        //    PlayerPrefs.SetFloat("CheckpointPositionX_2", checkpointPosition.x);
+        //    PlayerPrefs.SetFloat("CheckpointPositionY_2", checkpointPosition.y);
+        //    PlayerPrefs.SetFloat("CheckpointPositionZ_2", checkpointPosition.z);
 
-            //Handles recording the collectibles;
-            PlayerPrefs.SetInt("SmallShards_2", smallShards);
-            PlayerPrefs.SetInt("BigShards_2", bigShards);
-            PlayerPrefs.SetInt("Crystals_2", crystals);
+        //    //Handles recording the collectibles;
+        //    PlayerPrefs.SetInt("SmallShards_2", smallShards);
+        //    PlayerPrefs.SetInt("BigShards_2", bigShards);
+        //    PlayerPrefs.SetInt("Crystals_2", crystals);
 
-            //Handles Saving the scene;
-            PlayerPrefs.SetInt("CurrentScene_2", SceneManager.GetActiveScene().buildIndex);
+        //    //Handles Saving the scene;
+        //    PlayerPrefs.SetInt("CurrentScene_2", SceneManager.GetActiveScene().buildIndex);
 
-            //Lets Me know if there is data
-            PlayerPrefs.SetInt("HasData_2", 1);
+        //    //Lets Me know if there is data
+        //    PlayerPrefs.SetInt("HasData_2", 1);
 
-            //Debug.Log("You Saved");
-        }
+        //    //Debug.Log("You Saved");
+        //}
 
-        //Checks which file it should save to
-        if (currentFile == 3)
-        {
-            //Gets the player position and stores it
-            Vector3 checkpointPosition = currentCheckpoint.position;
-            PlayerPrefs.SetFloat("CheckpointPositionX_3", checkpointPosition.x);
-            PlayerPrefs.SetFloat("CheckpointPositionY_3", checkpointPosition.y);
-            PlayerPrefs.SetFloat("CheckpointPositionZ_3", checkpointPosition.z);
+        ////Checks which file it should save to
+        //if (currentFile == 3)
+        //{
+        //    //Gets the player position and stores it
+        //    Vector3 checkpointPosition = currentCheckpoint.position;
+        //    PlayerPrefs.SetFloat("CheckpointPositionX_3", checkpointPosition.x);
+        //    PlayerPrefs.SetFloat("CheckpointPositionY_3", checkpointPosition.y);
+        //    PlayerPrefs.SetFloat("CheckpointPositionZ_3", checkpointPosition.z);
 
-            //Handles recording the collectibles;
-            PlayerPrefs.SetInt("SmallShards_3", smallShards);
-            PlayerPrefs.SetInt("BigShards_3", bigShards);
-            PlayerPrefs.SetInt("Crystals_3", crystals);
+        //    //Handles recording the collectibles;
+        //    PlayerPrefs.SetInt("SmallShards_3", smallShards);
+        //    PlayerPrefs.SetInt("BigShards_3", bigShards);
+        //    PlayerPrefs.SetInt("Crystals_3", crystals);
 
-            //Handles Saving the scene;
-            PlayerPrefs.SetInt("CurrentScene_3", SceneManager.GetActiveScene().buildIndex);
+        //    //Handles Saving the scene;
+        //    PlayerPrefs.SetInt("CurrentScene_3", SceneManager.GetActiveScene().buildIndex);
 
-            //Lets Me know if there is data
-            PlayerPrefs.SetInt("HasData_3", 1);
+        //    //Lets Me know if there is data
+        //    PlayerPrefs.SetInt("HasData_3", 1);
 
-            //Debug.Log("You Saved");
-        }
+        //    //Debug.Log("You Saved");
+        //}
     }
 
 
@@ -344,6 +354,13 @@ public class SaveGameManager : MonoBehaviour
     }
 
 
+    public void SaveShards()
+    {
+        PlayerPrefs.SetInt("SmallShards_1", smallShards);
+        PlayerPrefs.SetInt("BigShards_1", bigShards);
+        PlayerPrefs.SetInt("Crystals_1", crystals);
+    }
+
     public void SaveSettings()
     {
         PlayerPrefs.SetInt("QualitySetting", qualitySetting);
@@ -386,7 +403,7 @@ public class SaveGameManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Camera Inverted Int Not set to either 1 or 0");
+                //Debug.LogError("Camera Inverted Int Not set to either 1 or 0");
             }
             mainCamera.sensitivity = PlayerPrefs.GetFloat("CameraSensitivity");
 
@@ -450,17 +467,19 @@ public class SaveGameManager : MonoBehaviour
         //    Debug.Log(" Level Index After Unload " + indexLevel);
         //}
 
-        Debug.Log("Getting Called at all");
+        //Debug.Log("Getting Called at all");
         //Finds if the player is in the scene
         if (GameObject.FindGameObjectWithTag("Player") && GameObject.FindGameObjectWithTag("MainCamera") && GameObject.FindGameObjectWithTag("AudioManager"))
         {
 
             //Sets the found player to the player variable
+            gameManager = GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>();
             player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
+            Debug.Log(player.gameObject);
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
             audioHandler = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioHandler>();
 
-            Debug.Log("Gets Called ");
+            //Debug.Log("Gets Called ");
             //Checks whether or not it is loading from a file or not;
             if (!loadingFromContinue && SceneManager.GetActiveScene().buildIndex == 1 && loadFixer == 0)
             {
@@ -479,7 +498,7 @@ public class SaveGameManager : MonoBehaviour
 
                 //Save the game
                 Save();
-                Debug.Log("New Game");
+                //Debug.Log("New Game");
 
                 LoadSettings();
                 //Debug.Log("Gets Called ");
@@ -495,9 +514,14 @@ public class SaveGameManager : MonoBehaviour
 
                 LoadSettings();
 
+                HudManager.shardsCollected = GetShards();
+
+                player.GetComponent<PlayerClass>().GetHManager().SetShards();
+                //gameManager.GetPlayer().GetHManager().SetShards();
+
                 loadFixer = 2;
 
-                Debug.Log("Continue");
+                //Debug.Log("Continue");
                 //loadingFromContinue = false;
             }
             else
@@ -507,6 +531,8 @@ public class SaveGameManager : MonoBehaviour
                 Save();
                 LoadSettings();
                 Debug.Log("Loaded Next Level");
+
+                increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
             }
         
         }
@@ -535,15 +561,20 @@ public class SaveGameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("MasterSoundVolume");
             PlayerPrefs.DeleteKey("MusicSoundVolume");
             PlayerPrefs.DeleteKey("DialogueSoundVolume");
+            PlayerPrefs.DeleteKey("MusicSliderPositionX");
+            PlayerPrefs.DeleteKey("MasterSliderPositionX");
+            PlayerPrefs.DeleteKey("DialogueSliderPositionX");
 
-        }
-
-        if(Input.GetKey(KeyCode.J))
-        {
-            Debug.Log(getCameraSensitivity() + " Saved Camera Sensitivity");
-            Debug.Log(mainCamera.sensitivity + " Camera Sensitivity");
             
+
         }
+
+        //if(Input.GetKey(KeyCode.J))
+        //{
+        //    Debug.Log(getCameraSensitivity() + " Saved Camera Sensitivity");
+        //    Debug.Log(mainCamera.sensitivity + " Camera Sensitivity");
+
+        //}
     }
 
     //Function to delete data from the playerPrefs based on which file is selected
@@ -569,42 +600,42 @@ public class SaveGameManager : MonoBehaviour
         }
 
         //Checks which file it should delete the data from
-        if (currentFile == 2)
-        {
-            //Clears All the Data in the playerPrefs 
-            Vector3 playerPostion = player.gameObject.transform.position;
-            PlayerPrefs.SetFloat("CheckpointPositionX_1", 0);
-            PlayerPrefs.SetFloat("CheckpointPositionY_1", 0);
-            PlayerPrefs.SetFloat("CheckpointPositionZ_1", 0);
+        //if (currentFile == 2)
+        //{
+        //    //Clears All the Data in the playerPrefs 
+        //    Vector3 playerPostion = player.gameObject.transform.position;
+        //    PlayerPrefs.SetFloat("CheckpointPositionX_1", 0);
+        //    PlayerPrefs.SetFloat("CheckpointPositionY_1", 0);
+        //    PlayerPrefs.SetFloat("CheckpointPositionZ_1", 0);
 
-            PlayerPrefs.SetInt("SmallShards_1", 0);
-            PlayerPrefs.SetInt("BigShards_1", 0);
-            PlayerPrefs.SetInt("Crystals_1", 0);
+        //    PlayerPrefs.SetInt("SmallShards_1", 0);
+        //    PlayerPrefs.SetInt("BigShards_1", 0);
+        //    PlayerPrefs.SetInt("Crystals_1", 0);
 
-            PlayerPrefs.SetInt("CurrentScene_1", 0);
+        //    PlayerPrefs.SetInt("CurrentScene_1", 0);
 
-            PlayerPrefs.SetInt("HasData_1", 0);
+        //    PlayerPrefs.SetInt("HasData_1", 0);
 
-        }
+        //}
 
-        //Checks which file it should delete the data from
-        if (currentFile == 3)
-        {
-            //Clears All the Data in the playerPrefs 
-            Vector3 playerPostion = player.gameObject.transform.position;
-            PlayerPrefs.SetFloat("CheckpointPositionX_1", 0);
-            PlayerPrefs.SetFloat("CheckpointPositionY_1", 0);
-            PlayerPrefs.SetFloat("CheckpointPositionZ_1", 0);
+        ////Checks which file it should delete the data from
+        //if (currentFile == 3)
+        //{
+        //    //Clears All the Data in the playerPrefs 
+        //    Vector3 playerPostion = player.gameObject.transform.position;
+        //    PlayerPrefs.SetFloat("CheckpointPositionX_1", 0);
+        //    PlayerPrefs.SetFloat("CheckpointPositionY_1", 0);
+        //    PlayerPrefs.SetFloat("CheckpointPositionZ_1", 0);
 
-            PlayerPrefs.SetInt("SmallShards_1", 0);
-            PlayerPrefs.SetInt("BigShards_1", 0);
-            PlayerPrefs.SetInt("Crystals_1", 0);
+        //    PlayerPrefs.SetInt("SmallShards_1", 0);
+        //    PlayerPrefs.SetInt("BigShards_1", 0);
+        //    PlayerPrefs.SetInt("Crystals_1", 0);
 
-            PlayerPrefs.SetInt("CurrentScene_1", 0);
+        //    PlayerPrefs.SetInt("CurrentScene_1", 0);
 
-            PlayerPrefs.SetInt("HasData_1", 0);
+        //    PlayerPrefs.SetInt("HasData_1", 0);
 
-        }
+        //}
     }
 
     //Function that saves the IDs of the shards into playerPrefs
@@ -652,6 +683,8 @@ public class SaveGameManager : MonoBehaviour
     public void increaseSmallShards(int amountOfShards)
     {
         smallShards = amountOfShards;
+        SaveShards();
+        
     }
 
     //Public function to increase big shards
