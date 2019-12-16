@@ -440,8 +440,10 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay * Time.timeScale);
         if (GameObject.FindGameObjectWithTag("GameManager"))
         {
+
             saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
             gameManager = GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>();
+
             saveGameManager.increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
             gameManager.Quit();
         }

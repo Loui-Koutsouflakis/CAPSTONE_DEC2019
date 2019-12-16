@@ -513,13 +513,11 @@ public class SaveGameManager : MonoBehaviour
                 //Sets the condition to load from continue to false;
 
                 LoadSettings();
+
                 HudManager.shardsCollected = GetShards();
 
                 player.GetComponent<PlayerClass>().GetHManager().SetShards();
                 //gameManager.GetPlayer().GetHManager().SetShards();
-
-                
-
 
                 loadFixer = 2;
 
@@ -533,6 +531,7 @@ public class SaveGameManager : MonoBehaviour
                 Save();
                 LoadSettings();
                 Debug.Log("Loaded Next Level");
+
                 increaseSmallShards(gameManager.GetPlayer().GetHManager().GetShards());
             }
         

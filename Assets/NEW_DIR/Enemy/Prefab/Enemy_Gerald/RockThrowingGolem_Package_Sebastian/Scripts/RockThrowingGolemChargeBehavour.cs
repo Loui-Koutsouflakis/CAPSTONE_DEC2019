@@ -7,6 +7,7 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
 {
     private Transform PlayerPosition;
     private Vector3 AttackTarget;
+    private Vector3 AT;
     public int ChargeSpeed;
     public int RotationSpeed;
 
@@ -32,6 +33,7 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 
         AttackTarget = new Vector3(PlayerPosition.position.x, animator.transform.position.y, PlayerPosition.position.z);
+        AT = AttackTarget - animator.transform.position;
 
         if(PlayerPosition.position.y - animator.transform.position.y >= MaxHieghtDifference)
         {
@@ -48,10 +50,12 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         }
 
         var atp = animator.transform.position;
-
-        var r = Quaternion.LookRotation(AttackTarget - atp);
-        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
+        var r = Quaternion.LookRotation(AT, Vector3.up); //AttackTarget - atp
         animator.transform.position = Vector3.MoveTowards(atp, AttackTarget, ChargeSpeed * Time.deltaTime);
+        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, r, RotationSpeed * Time.deltaTime);
+
+        
+
 
         // Cliff and Wall
         RaycastHit FH;
@@ -66,8 +70,6 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         if (Physics.Raycast(AIMid, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AILeft, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AIRight, atTDVf, out FH, FRL, Layer) || Physics.Raycast(AITop, atTDVf, out FH, FRL, Layer))
         {
             animator.SetBool("ThereIsAWall", true);
-            //Debug.Log(FH.collider);
-
         }
         Debug.DrawRay(AIMid, atTDVf * FH.distance, Color.red);
         Debug.DrawRay(AITop, atTDVf * FH.distance, Color.red);
@@ -79,13 +81,11 @@ public class RockThrowingGolemChargeBehavour : StateMachineBehaviour
         if (Physics.Raycast(EndPoint, Vector3.down, out secondHit, SRL, GroundLayer))
         {
             animator.SetBool("Ground", true);
-            //Debug.Log("ground");
         }
         else
         {
             animator.SetBool("ThereIsAWall", true);
             animator.SetBool("Ground", false);
-            //Debug.Log("AIR");
         }
         Debug.DrawRay(EndPoint, Vector3.down * secondHit.distance, Color.red);
 
