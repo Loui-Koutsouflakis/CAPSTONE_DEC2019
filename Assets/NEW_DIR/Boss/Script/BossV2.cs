@@ -305,15 +305,16 @@ public class BossV2 : MonoBehaviour
         steerAdjusting = false;
         //bodyAnims[0].enabled = true;
 
-        yield return new WaitForSeconds(0.2f);
+        grabCam.enabled = true;
+        bossCam.enabled = false;
+
+        yield return new WaitForSeconds(0.6f);
 
         grabCamAnim.SetTrigger("Pan");
         leftHandParentAnim.SetTrigger("Cue");
 
         yield return new WaitForSeconds(1.1f);
 
-        grabCam.enabled = true;
-        bossCam.enabled = false;
         grabIsAnimating = true;
 
         yield return new WaitForSeconds(0.8f);
@@ -337,7 +338,6 @@ public class BossV2 : MonoBehaviour
 
         //grabCam.enabled = false;
         //dropCam.enabled = true;
-        playerTf.position = tailSpawnPoint.position;
 
         //dropCamAnim.SetTrigger("Pan");
 
@@ -351,10 +351,13 @@ public class BossV2 : MonoBehaviour
 
             yield return new WaitForSeconds(0.25f);
         }
+        
+        playerTf.position = tailSpawnPoint.position;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
 
         playerCam.enabled = true;
+        grabCam.enabled = false;
         //dropCam.enabled = false;
         //dropIsAnimating = false;
         grabIsAnimating = false;
