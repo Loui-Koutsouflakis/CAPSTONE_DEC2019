@@ -21,7 +21,9 @@ public class Kickable_Object : MonoBehaviour
     float maxDistance = 100.0f; // Used To Store Max Distance for Raycasts
     RaycastHit hit; // Used to store Raycast Hit info
     bool grounded;
-
+    [SerializeField]
+    bool isMushroom;
+    HandleSfx sfx;
     bool activated; 
     [Header("Either turn off script to prevent kicking or turn off object once it stopped. Only have one active")]
     public bool canBeTurnedOff; //if we want to prevent kicking an object after the first kick
@@ -38,7 +40,7 @@ public class Kickable_Object : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (isMushroom) sfx = GetComponent<HandleSfx>();
     }
 
     // Update is called once per frame
@@ -65,7 +67,7 @@ public class Kickable_Object : MonoBehaviour
         {            
             Vector3 kickVector = (transform.position - o.transform.position - transform.position).normalized;
                 rb.AddForce((kickVector * forwardForce) + (o.transform.up * upwardForce), ForceMode.Impulse);
-
+            if (isMushroom) sfx.PlayOneShotByName("MushroomKick");
             StartCoroutine(DestroyWait());
             if(canBeTurnedOff)
             {

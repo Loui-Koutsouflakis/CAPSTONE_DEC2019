@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1308051038471729078}
   - component: {fileID: 3828597078836338268}
   - component: {fileID: 2046024438}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Kickable_Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +113,9 @@ MonoBehaviour:
   upwardForce: 1.9
   drag: 0.4
   frictionMod: 0
+  isMushroom: 0
+  canBeTurnedOff: 0
+  canBeDestroyed: 0
 --- !u!65 &2046024438
 BoxCollider:
   m_ObjectHideFlags: 0

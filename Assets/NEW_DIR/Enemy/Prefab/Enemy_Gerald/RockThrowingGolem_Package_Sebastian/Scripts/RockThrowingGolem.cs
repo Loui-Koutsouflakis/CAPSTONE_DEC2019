@@ -11,18 +11,16 @@ public class RockThrowingGolem : MonoBehaviour //, IKillable
     public Animator animator;
 
     // Misc
-    public int health;
-    //[Tooltip("This the knockback force")]
-    //public Vector3 KnockBackForce = new Vector3(0, 5, 0);
+    public int health = 1;
     public Collider Weakpoint;
     [Tooltip("This is only for the DrawGizmos")]
-    public float MeleeRadius, ChargeRadius, ThrowRadius;
+    public float MeleeRadius = 5, ChargeRadius = 15, ThrowRadius = 20;
+    public HandleSfx SFX;
 
     // Rock Throwing Portion
     public bool IsTurretEdition;
     public Transform RockSpawnPosition;
-    //[Tooltip("This has to have a rigidbody with usegravity set to off, collider disabled")]
-    //public GameObject RockProjectileObject;
+    
     [Tooltip("Speed at which the Rock is hurtling towards the player.")]
     public float RockSpeed;
     private Transform Player;
@@ -36,7 +34,7 @@ public class RockThrowingGolem : MonoBehaviour //, IKillable
     private Vector3 AITarget;
     private Rigidbody PlayerRigidBody;
     private float DistanceCheckPlayer;
-    public float MinusTargetHeight; // 4.4 , 5
+    private float MinusTargetHeight = 5; // 4.4 , 5
 
     // Find New Sleep Position
     [Tooltip("Use an Empty GameObject to mark the middle of his return area. Make sure it is level with the ground.")]
@@ -177,6 +175,7 @@ public class RockThrowingGolem : MonoBehaviour //, IKillable
             Rock.SetActive(true);
             Rock.transform.parent = RockSpawnPosition.transform;
         }
+        SFX.PlayOneShotByName("ThrowAnim");
 
         Rock.transform.parent = RockSpawnPosition.transform;
         //Rock = Instantiate(RockProjectileObject, RockSpawnPosition.position, RockSpawnPosition.rotation);
@@ -230,13 +229,24 @@ public class RockThrowingGolem : MonoBehaviour //, IKillable
     public void LeftFoot()
     {
         LeftFootWalking_PS.Play();
+        SFX.PlayOneShotByName("FootStep");
     }
 
     public void RightFoot()
     {
         RightFootWalking_PS.Play();
+        SFX.PlayOneShotByName("FootStep");
     }
 
+    public void PlayRumbleSound()
+    {
+        SFX.PlayOneShotByName("ThrowAnim");
+    }
+
+    public void PlayBoomSound()
+    {
+        SFX.PlayOneShotByName("Boom");
+    }
 
     Vector3 CalculateLead() // Calucates how far it has to shoot ahead to hit the player.
     {
@@ -247,7 +257,6 @@ public class RockThrowingGolem : MonoBehaviour //, IKillable
         float C = D.sqrMagnitude;
         if (A >= 0)
         {
-            //Debug.LogError("No Lead Target solution exists");
             return Player.position;
         }
         else

@@ -11,26 +11,28 @@ public class RTG_WeakPointScript : MonoBehaviour,IKillable
     {
         //Player.GetComponent<Rigidbody>().AddForce(KnockBackForce, ForceMode.Impulse);
         animator.SetTrigger("IsHit");
-        Debug.Log("Has been hit!!");
+        
         if (RTG.health > 0)
         {
             StartCoroutine(TakeDamage());
         }
-        else
+        else if (RTG.health == 0)
         {
             StartCoroutine(Die());
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
     }
 
     public IEnumerator TakeDamage()
     {
         RTG.health -= 1;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
     }
     public IEnumerator Die()
     {
+        RTG.LeftFootWalking_PS = null;
+        RTG.RightFootWalking_PS = null;
         RTG_Prefab.SetActive(false);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
     }
 }

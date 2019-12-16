@@ -98,7 +98,7 @@ Shader "Capstone2019/Grass"
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
-		//unityShadowCoord4 _ShadowCoord : TEXCOORD1;
+		unityShadowCoord4 _ShadowCoord : TEXCOORD1;
 		float3 normal : NORMAL;
 	};
 
@@ -107,7 +107,7 @@ Shader "Capstone2019/Grass"
 		v2g o;
 		o.pos = UnityObjectToClipPos(pos);
 		o.uv = uv;
-		//o._ShadowCoord = ComputeScreenPos(o.pos);
+		o._ShadowCoord = ComputeScreenPos(o.pos);
 		o.normal = UnityObjectToWorldNormal(normal);
 
 		//#if UNITY_PASS_SHADOWCASTER // Take this off to enable grass blades to imit shadows on themselves
@@ -178,7 +178,6 @@ Shader "Capstone2019/Grass"
 	SubShader
 	{
 		Cull Off
-
 		Pass
 		{
 			Tags
@@ -196,6 +195,8 @@ Shader "Capstone2019/Grass"
 			#pragma domain domain
 			#pragma multi_compile_fwdbase
 
+			#include "Lighting.cginc"
+
 			float4 _TopColor;
 			float4 _BottomColor;
 			float _GradThresh;
@@ -204,8 +205,8 @@ Shader "Capstone2019/Grass"
 			{
 				float3 normal = facing > 0 ? i.normal : -i.normal;
 
-				//float shadow = SHADOW_ATTENUATION(i);
-				float NdotL = saturate(saturate(dot(normal, _WorldSpaceLightPos0)) + _GradThresh) /** shadow*/;
+				float shadow = SHADOW_ATTENUATION(i);
+				float NdotL = saturate(saturate(dot(normal, _WorldSpaceLightPos0)) + _GradThresh) * shadow;
 
 				float3 ambient = ShadeSH9(float4(normal, 1));
 				float4 lightIntensity = NdotL * _LightColor0 + float4(ambient, 1);
@@ -215,9 +216,32 @@ Shader "Capstone2019/Grass"
 			ENDCG
 		}
 
+		Pass
+		{
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma geometry geo
+			#pragma fragment frag
+			#pragma hull hull
+			#pragma domain domain
+			#pragma target 4.6
+			#pragma multi_compile_shadowcaster
+
+			float4 frag(v2g i) : SV_Target
+			{
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
+
 		Pass // Toon
 		{
-			//ZWrite Off
 			Tags
 			{
 				"LightMode" = "ForwardBase"
@@ -302,5 +326,5 @@ Shader "Capstone2019/Grass"
 		}
 	}
 	FallBack "Capstone2019/ToonV4" // Create Basic Texture Fallback (with Cell shader)
-	//CustomEditor "VegeGUI"
+	CustomEditor "VegeGUI"
 }

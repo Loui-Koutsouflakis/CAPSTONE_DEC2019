@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
         //debugging
         player.debugLine.GetComponent<LineRenderer>().enabled = false;
         player.SetLastKnownPos(player.transform.position);
+        player.SetDamagable(true);
         
     }
 
@@ -193,7 +194,7 @@ public class PlayerController : MonoBehaviour
 
     public void Grapple()
     {      
-        if (player.isGrappling || player.IsGrounded() || player.tetherPoint == null)
+        if (player.isGrappling || player.IsGrounded() || player.tetherPoint == null || player.GetGroundPounding())
         {
            // Debug.Log("Cant grapple");
             return;
@@ -231,8 +232,15 @@ public class PlayerController : MonoBehaviour
         //    yield break; 
 
         yield return new WaitForSeconds(0.15f);
-        player.SetMovementType(MovementType.grapple);
-        player.GetGrappleComponent().Grapple();
+        if(player.tetherPoint != null)
+        {
+            player.SetMovementType(MovementType.grapple);
+            player.GetGrappleComponent().Grapple();
+        }
+        else
+        {
+            playerIK.IK_EndGrapple();
+        }
 
         //player.ikGrapple = true;
         //playerIK.IK_Grapple();
@@ -331,14 +339,17 @@ public class PlayerController : MonoBehaviour
             //    Debug.Log("no collider");
             //}
             
-            
             if (footCheck.collider == null || footCheck.collider.gameObject.layer != 10) //will not take damage if jumping on enemy  
             {
                 if (player.GetDamagable())
                 {
                     SoundManager.PlayOneShotByName("Damaged");
                     player.SetHealth(-1); //reduces health on player class
-                    h_Manager.HealthDown(); //reduces health on hud
+                    if(h_Manager != null)
+                    {
+                        h_Manager.HealthDown(); //reduces health on hud
+                    }
+                    
                     if (player.GetHealth() > 0)
                     {
                         anim.SetTrigger("Damaged");
@@ -357,12 +368,12 @@ public class PlayerController : MonoBehaviour
                     //    //player.Death();
                     //}
                 }
-                if(collision.gameObject.GetComponent<StackableEnemy>())
+                if(collision.gameObject.GetComponent<StackAStan>())
                 {
-                    collision.gameObject.GetComponent<StackableEnemy>().StartCoolDown();
+                    collision.gameObject.GetComponent<StackAStan>().StartCoolDown();
                 }
             }
-            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackableEnemy>())
+            else if(footCheck.collider.gameObject.layer == 10 && collision.gameObject.GetComponent<StackAStan>())
             {
                 tempVel = player.rb.velocity;
             }
@@ -511,13 +522,13 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator CheckGround()
     {
-        capCollider.height = 0.97f;        
+        capCollider.height = 0.98f;        
         if (player.GetGroundCheck()) //fix to the bug where will only get partial jumps sometimes turns off setting grounded directly after a jump
         {            
             if (Physics.BoxCast(transform.position, halves, Vector3.down, out footHit, Quaternion.identity, halves.y, p_Layer) ) //&& footHit.collider.gameObject.GetComponent<Renderer>().material.name != "M_2Rocks_Large_Cell")
             {
 
-                if(footHit.collider.gameObject.GetComponent<StackableEnemy>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
+                if(footHit.collider.gameObject.GetComponent<StackAStan>() && player.GetGroundPounding())//&& footHit.collider.gameObject.transform.parent != null && player.GetGroundPounding())
                 {
                    // Debug.Log("hit stackable enemy");
                     //if(footHit.collider.gameObject.transform.parent.parent.GetComponent<StackableEnemy>().GetBackPack().childCount > 0)
@@ -593,7 +604,7 @@ public class PlayerController : MonoBehaviour
                             Vector3 tempVel = player.rb.velocity;
                             tempVel.y = 0;
                             player.rb.velocity = tempVel;
-                            player.GenericAddForce(player.transform.up.normalized, 4);
+                            player.GenericAddForce(player.transform.up.normalized, 7);
                             if(!player.GetGroundPounding())
                             {
                                 anim.SetTrigger("DJump");
@@ -674,7 +685,7 @@ public class PlayerController : MonoBehaviour
                         player.GetSoundManager().PlayOneShotByName("Bounce");
                         player.rb.velocity = Vector3.zero;
                         player.SetBouncing(true);
-                        player.GenericAddForce(player.transform.up, 15);
+                        player.GenericAddForce(player.transform.up, 17);
                         landed = true;
                         StartCoroutine(LandedSwitch());
                     }

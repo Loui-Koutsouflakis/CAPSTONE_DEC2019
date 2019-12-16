@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5330304880229113861}
   - component: {fileID: 5330304880229113857}
   - component: {fileID: 5330304880229113862}
+  - component: {fileID: -2901685120186532553}
   m_Layer: 2
   m_Name: Mushroom_Lg
   m_TagString: Untagged
@@ -127,5 +128,22 @@ MonoBehaviour:
   upwardForce: 4.5
   drag: 0
   frictionMod: 0
+  isMushroom: 1
   canBeTurnedOff: 0
   canBeDestroyed: 1
+--- !u!114 &-2901685120186532553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260595523082757329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: MushroomKick
+    clip: {fileID: 8300000, guid: 5e9253b63e8863146ba91dd8caabdfdd, type: 3}
