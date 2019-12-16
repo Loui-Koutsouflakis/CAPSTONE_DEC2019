@@ -16,9 +16,6 @@ public class PushPlayerOut : MonoBehaviour
     //Raycast variables
     private LayerMask player = 1 << 14;
 
-    //Helper variables
-    private bool hasBeenDamaged;
-
     //Cache wait time
     private readonly WaitForSeconds timer = new WaitForSeconds(0.5f);
 
@@ -44,26 +41,6 @@ public class PushPlayerOut : MonoBehaviour
             //Diable player controls and push player out from under moving platform
             playerScript.DisableControls();
             playerScript.GenericAddForce(transform.right, 1.0f);
-
-            //Ensure player is not damaged more than once & moving platform is moving down
-            if (!hasBeenDamaged && !platformScript.GetDirection())
-            {
-                //Damage player
-                playerScript.SetHealth(-1);
-                hasBeenDamaged = true;
-            }
-
-            StartCoroutine(EnableControls());
         }
-    }
-
-    private IEnumerator EnableControls()
-    {
-        //Ensure player cannot stay under moving platform
-        yield return timer;
-
-        //Enable player controls and damage
-        playerScript.EnableControls();
-        hasBeenDamaged = false;
     }
 }
