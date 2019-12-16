@@ -475,6 +475,7 @@ public class SaveGameManager : MonoBehaviour
             //Sets the found player to the player variable
             gameManager = GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>();
             player = GameObject.FindObjectOfType<PlayerClass>().GetComponent<PlayerClass>();
+            Debug.Log(player.gameObject);
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
             audioHandler = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioHandler>();
 
@@ -513,10 +514,10 @@ public class SaveGameManager : MonoBehaviour
 
                 LoadSettings();
                 HudManager.shardsCollected = GetShards();
-               
-                   
-                gameManager.GetPlayer().GetHManager().SetShards();
-                Debug.Log("Ass");
+
+                player.GetComponent<PlayerClass>().GetHManager().SetShards();
+                //gameManager.GetPlayer().GetHManager().SetShards();
+
                 
 
 
