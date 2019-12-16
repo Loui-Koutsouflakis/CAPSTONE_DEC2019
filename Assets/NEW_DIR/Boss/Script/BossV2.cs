@@ -378,7 +378,11 @@ public class BossV2 : MonoBehaviour
         steering = false;
 
         //Disable Pausing for Cinematic
-        
+
+        cinematicAnim.SetTrigger("Death");
+
+        yield return new WaitForSeconds(0.25f);
+
         cinemaCam.enabled = true;
         bossCam.enabled = false;
 
