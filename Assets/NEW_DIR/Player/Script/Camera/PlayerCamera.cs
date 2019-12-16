@@ -159,8 +159,8 @@ public class PlayerCamera : MonoBehaviour
             p_RB = Player.GetComponent<Rigidbody>();
         if (!dragon)
             dragon = FindObjectOfType<Boss>();
-        else
-            Debug.Log("dont worry about it");
+        //else
+            //Debug.Log("dont worry about it");
     }
     void Start()
     {
@@ -175,8 +175,11 @@ public class PlayerCamera : MonoBehaviour
     }
     private void Update()
     {
+        if (main != null)
+        {
+            c_FOV = main.fieldOfView;
+        }
 
-        c_FOV = main.fieldOfView;
         distFromPlayer = UpDownCam(invY);
         camDist = CameraRaycast(distFromPlayer);
         RaycastDirections();

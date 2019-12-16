@@ -17,6 +17,8 @@ public class BossV2 : MonoBehaviour
 
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
+    public Tumble worldTumble;
+    public Tumble obeliskTumble;
 
     public Transform leftHand;
     public Transform rightHand;
