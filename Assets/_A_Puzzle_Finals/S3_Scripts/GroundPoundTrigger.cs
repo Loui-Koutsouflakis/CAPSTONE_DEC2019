@@ -8,6 +8,7 @@ public class GroundPoundTrigger : MonoBehaviour, Interact
 {
     //Object & scripts reference variables
     public GameObject icicleRef;
+    public GameObject movingPlatform;
     public ParticleSystem particleRef;
 
     private Animator animator;
@@ -37,6 +38,12 @@ public class GroundPoundTrigger : MonoBehaviour, Interact
     {
         //Get reference to icicle script
         icicleScriptRef = icicleRef.GetComponent<Icicles>();
+
+        //Avoid error on other triggers
+        if(!movingPlatform)
+        {
+            movingPlatform = null;
+        }
     }
 
     void Interact.DontInteractWithMe()
@@ -69,6 +76,12 @@ public class GroundPoundTrigger : MonoBehaviour, Interact
 
             //Ensure sequence only plays once
             hasPlayed = true;
+
+            //Activate moving platform
+            if(icicleRef.tag == "PlatformCreation")
+            {
+                movingPlatform.SetActive(true);
+            }
         }
     }
 
