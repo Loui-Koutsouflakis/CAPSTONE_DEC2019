@@ -4191,6 +4191,7 @@ GameObject:
   - component: {fileID: 7551935851000001170}
   - component: {fileID: 656362222588345382}
   - component: {fileID: 7615010748410708747}
+  - component: {fileID: 339801070018309563}
   m_Layer: 16
   m_Name: SM_Destructable_Crate_V2
   m_TagString: Untagged
@@ -4279,6 +4280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fbf9f070321ab4390a85ea9e11349e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upWards: 0
+  isIce: 0
+  isBox: 1
 --- !u!65 &7615010748410708747
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4292,6 +4296,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1989326, y: 1.2302551, z: 1.1042023}
   m_Center: {x: 0.03315544, y: 0.48166752, z: -0.052101135}
+--- !u!114 &339801070018309563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815780762419363969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbd7cf734b939d4f86df64c9f5242f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  clips:
+  - name: Wood_Break
+    clip: {fileID: 8300000, guid: ca6ccb5ce4c54e846b97a6f4032ccd9b, type: 3}
 --- !u!1 &6826137211001830622
 GameObject:
   m_ObjectHideFlags: 0

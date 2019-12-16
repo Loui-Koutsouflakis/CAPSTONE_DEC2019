@@ -159,8 +159,6 @@ Shader "Capstone2019/GrassNoKeep"
 
 	SubShader
 	{
-		Cull Off
-
 		Pass
 		{
 			Tags
@@ -177,6 +175,8 @@ Shader "Capstone2019/GrassNoKeep"
 			#pragma hull hull
 			#pragma domain domain
 			#pragma multi_compile_fwdbase
+
+			#include "Lighting.cginc"
 
 			float4 _TopColor;
 			float4 _BottomColor;
@@ -196,7 +196,31 @@ Shader "Capstone2019/GrassNoKeep"
 			}
 			ENDCG
 		}
+
+		Pass
+		{
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma geometry geo
+			#pragma fragment frag
+			#pragma hull hull
+			#pragma domain domain
+			#pragma target 4.6
+			#pragma multi_compile_shadowcaster
+
+			float4 frag(v2g i) : SV_Target
+			{
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
 	}
 	FallBack "Capstone2019/ToonV4" // Create Basic Texture Fallback (with Cell shader)
-	//CustomEditor "VegeGUI"
+	CustomEditor "VegeGUI"
 }

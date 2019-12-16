@@ -7,15 +7,19 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
     MeshCollider[] mesh;
     Rigidbody[] body;
     ParticleSystem particles;
+    HandleSfx sfx;
     public float upWards;
     [SerializeField]
     bool isIce = false;
+    [SerializeField]
+    bool isBox = false;
     // Start is called before the first frame update
     void Start()
     {
         mesh = GetComponentsInChildren<MeshCollider>();
         body = GetComponentsInChildren<Rigidbody>();
         particles = GetComponentInChildren<ParticleSystem>();
+        sfx = GetComponent<HandleSfx>();
         foreach (var item in mesh)
         {
             item.enabled = false;
@@ -41,6 +45,7 @@ public class groundPoundPuzzle : MonoBehaviour, Interact
 
     public void InteractWithMe()
     {
+        if(isBox) sfx.PlayOneShotByName("Wood_Break");
         particles.Stop();
         foreach (var item in mesh)
         {
