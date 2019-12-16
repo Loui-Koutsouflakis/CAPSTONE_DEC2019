@@ -23,7 +23,7 @@ public class BossV2 : MonoBehaviour
     public Transform leftHandGrabPoint;
     public Transform leftHandInitPoint;
     public Transform rightHandInitPoint;
-    public Animator leftHandAnim;
+    //public Animator leftHandAnim;
     public Animator rightHandAnim;
     public VideoPlayer endCinematic;
 
@@ -69,8 +69,9 @@ public class BossV2 : MonoBehaviour
     public Camera dropCam;
     public Camera cinemaCam;
     public Camera videoCam;
+    public Animator leftHandParentAnim;
     public Animator grabCamAnim;
-    public Animator dropCamAnim;
+    //public Animator dropCamAnim;
     public Animator cinematicAnim;
     public BossSteerVolume steerVolume;
 
@@ -262,6 +263,16 @@ public class BossV2 : MonoBehaviour
         canDie = true;
     }
 
+    //public void TriggerLeftHandGrab()
+    //{
+    //    leftHandAnim.SetTrigger("Grab");
+    //}
+
+    //public void TriggerLeftHandReverseGrab()
+    //{
+    //    leftHandAnim.SetTrigger("ReverseGrab");
+    //}
+
     public IEnumerator IntroSequence()
     {
         //Pause is disabled for cinematic
@@ -297,6 +308,7 @@ public class BossV2 : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         grabCamAnim.SetTrigger("Pan");
+        leftHandParentAnim.SetTrigger("Cue");
 
         yield return new WaitForSeconds(1.1f);
 
@@ -306,32 +318,32 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
 
-        leftHandAnim.SetTrigger("Grab");
+        //leftHandAnim.SetTrigger("Grab");
 
         //Fade Out
 
-        StartCoroutine(transition.BlinkSequence(3.2f, 0.5f, 3.2f, 1f, false));
+        //StartCoroutine(transition.BlinkSequence(3.2f, 0.5f, 3.2f, 1f, false));
 
         yield return new WaitForSeconds(2f);
 
         steerVolume.canSteer = false;
         //steerVolume.enabled = true;
 
-        dropIsAnimating = true;
+        //dropIsAnimating = true;
 
         //Fade In
 
         yield return new WaitForSeconds(0.6f);
 
-        grabCam.enabled = false;
-        dropCam.enabled = true;
+        //grabCam.enabled = false;
+        //dropCam.enabled = true;
         playerTf.position = tailSpawnPoint.position;
 
-        dropCamAnim.SetTrigger("Pan");
+        //dropCamAnim.SetTrigger("Pan");
 
         yield return new WaitForSeconds(0.6f);
 
-        leftHandAnim.SetTrigger("ReverseGrab");
+        //leftHandAnim.SetTrigger("ReverseGrab");
 
         for (int i = 1; i < bodyAnims.Length; i++)
         {
@@ -340,11 +352,11 @@ public class BossV2 : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
         }
 
-        yield return new WaitForSeconds(2.4f);
+        yield return new WaitForSeconds(3f);
 
         playerCam.enabled = true;
-        dropCam.enabled = false;
-        dropIsAnimating = false;
+        //dropCam.enabled = false;
+        //dropIsAnimating = false;
         grabIsAnimating = false;
 
         //Hand Animations Finish, bringing Lumi back to tail
