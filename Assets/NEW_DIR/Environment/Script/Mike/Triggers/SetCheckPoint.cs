@@ -8,11 +8,12 @@ public class SetCheckPoint : MonoBehaviour
     private SaveGameManager manager;
     private PlayerClass player;
     private ParticleSystem paticles;
-
+    HandleSfx sfx;
     private Animation anim;
     // Start is called before the first frame update
     void Start()
     {
+        sfx = GetComponent<HandleSfx>();
         anim = GetComponentInChildren<Animation>();
         paticles = GetComponentInChildren<ParticleSystem>();
         paticles.Stop();
@@ -34,6 +35,7 @@ public class SetCheckPoint : MonoBehaviour
                 //manager.increaseSmallShards(player.GetShards());
                 manager.updateCheckpoint(other.gameObject.transform);
             }
+            sfx.PlayOneShotByName("Check");
             anim.Play();
             paticles.Play();
             //Debug.Log("Trigger Works" + gameObject.name);
