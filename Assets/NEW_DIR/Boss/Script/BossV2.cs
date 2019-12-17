@@ -12,6 +12,7 @@ public class BossV2 : MonoBehaviour
     public Transform[] targetInits;
     public Transform playerTf;
     public Transform tailSpawnPoint;
+    public Transform lumiPlayPoint;
     public TransitionManager transition;
     public Material skybox;
 
@@ -90,6 +91,8 @@ public class BossV2 : MonoBehaviour
         leftHandInitRot = leftHand.rotation.eulerAngles;
         skyboxRotation = 0f;
         canDie = true;
+
+        StartCoroutine(IntroSequence());
     }
 
     private void Update()
@@ -277,25 +280,37 @@ public class BossV2 : MonoBehaviour
 
     public IEnumerator IntroSequence()
     {
-        //Pause is disabled for cinematic
-        //Intro cinematic plays
+        //DISABLE PAUSE
+        //DISABLE PLAYER CONTROLS
+        //DISABLE PLAYER SOUND
 
+        cinemaCam.enabled = true;
+        playerCam.enabled = false;
+        worldTumble.enabled = false;
+        obeliskTumble.enabled = false;
 
+        yield return new WaitForSeconds(8f);
+        
+        playerTf.position = lumiPlayPoint.position;
+
+        // FADE
 
         yield return new WaitForSeconds(1f);
+        
+        worldTumble.enabled = true;
+        obeliskTumble.enabled = true;
+        playerCam.enabled = true;
+        cinemaCam.enabled = false;
 
-        //Fade to player camera
-
-        yield return new WaitForSeconds(1f);
-
-        //Player has control and can start playing level 
+        //ENABLE PAUSE
+        //ENABLE PLAYER CONTROLS
+        //ENABLE PLAYER SOUND
     }
 
     public IEnumerator DamageSequence()
     {
         EndSteer();
-
-        //bodyAnims[0].enabled = false;
+        
         steerAdjusting = true;
 
         //Animations for boss being hurt
@@ -374,14 +389,18 @@ public class BossV2 : MonoBehaviour
         canDie = false;
 
         Time.timeScale = 1f;
+        
+        cinematicAnim.SetTrigger("Death");
 
         steering = false;
 
+        worldTumble.enabled = false;
+        obeliskTumble.enabled = false;
+
         //Disable Pausing for Cinematic
+        
 
-        cinematicAnim.SetTrigger("Death");
-
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
 
         cinemaCam.enabled = true;
         bossCam.enabled = false;
