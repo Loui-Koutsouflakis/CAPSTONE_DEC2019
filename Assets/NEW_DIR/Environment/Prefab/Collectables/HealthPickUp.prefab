@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+  isPlant: 0
 --- !u!1 &8341181475415959326
 GameObject:
   m_ObjectHideFlags: 0
@@ -22,7 +23,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8341181475415959325}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: HealthPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +60,7 @@ GameObject:
   - component: {fileID: 8341181475985611803}
   - component: {fileID: 8341181475985611804}
   - component: {fileID: 3682284394664862011}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +168,7 @@ MonoBehaviour:
   clips:
   - name: PickUp
     clip: {fileID: 8300000, guid: 9c6ab46bcb4d5964a81e6dacafc5c11c, type: 3}
+  localSource: 0
 --- !u!1001 &8901260776217322278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 8065171486623730386, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2415155972074779202, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
@@ -257,12 +259,12 @@ PrefabInstance:
     - target: {fileID: 3191369008310492126, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3191369008682296493, guid: 79bfcf332c78d7341bf8b49a8136ff44,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79bfcf332c78d7341bf8b49a8136ff44, type: 3}

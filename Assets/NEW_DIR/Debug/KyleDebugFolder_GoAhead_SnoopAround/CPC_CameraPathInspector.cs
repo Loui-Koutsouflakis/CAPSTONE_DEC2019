@@ -23,7 +23,7 @@
 //    private CPC_CameraPath t;
 //    private ReorderableList pointReorderableList;
 
-//    //Editor variables
+//    Editor variables
 //    private bool visualFoldout;
 //    private bool manipulationFoldout;
 //    private bool showRawValues;
@@ -36,7 +36,7 @@
 //    private CPC_ECurveType allCurveType = CPC_ECurveType.Custom;
 //    private AnimationCurve allAnimationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-//    //GUIContents
+//    GUIContents
 //    private GUIContent addPointContent = new GUIContent("Add Point", "Adds a waypoint at the scene view camera's position/rotation");
 //    private GUIContent testButtonContent = new GUIContent("Test", "Only available in play mode");
 //    private GUIContent pauseButtonContent = new GUIContent("Pause", "Paused Camera at current Position");
@@ -52,7 +52,7 @@
 //    private GUIContent replaceAllRotationContent = new GUIContent("Replace all rotation lerps", "Replaces curve types (and curves when set to \"Custom\") of all the waypoint rotation lerp types with the specified values");
 //    private GUIContent AddTimer = new GUIContent("Add Time", "Adds timer to the camera");
 
-//    //Serialized Properties
+//    Serialized Properties
 //    private SerializedObject serializedObjectTarget;
 //    private SerializedProperty useMainCameraProperty;
 //    private SerializedProperty selectedCameraProperty;
@@ -202,7 +202,7 @@
 //            }
 //            rect.x += rect.width + 2;
 //            rect.y = startRectY;
-//            //Position
+//            Position
 //            rect.width = (fullWidth - 22) / 3 - 1;
 //            EditorGUI.BeginChangeCheck();
 //            CPC_ECurveType tempP = (CPC_ECurveType)EditorGUI.EnumPopup(rect, t.points[index].curveTypePosition);
@@ -212,7 +212,7 @@
 //                t.points[index].curveTypePosition = tempP;
 //            }
 //            rect.y += pointReorderableList.elementHeight / 2 - 4;
-//            //rect.x += rect.width + 2;
+//            rect.x += rect.width + 2;
 //            EditorGUI.BeginChangeCheck();
 //            GUI.enabled = t.points[index].curveTypePosition == CPC_ECurveType.Custom;
 //            AnimationCurve tempACP = EditorGUI.CurveField(rect, t.points[index].positionCurve);
@@ -225,7 +225,7 @@
 //            rect.x += rect.width + 2;
 //            rect.y = startRectY;
 
-//            //Rotation
+//            Rotation
 
 //            rect.width = (fullWidth - 22) / 3 - 1;
 //            EditorGUI.BeginChangeCheck();
@@ -236,8 +236,8 @@
 //                t.points[index].curveTypeRotation = temp;
 //            }
 //            rect.y += pointReorderableList.elementHeight / 2 - 4;
-//            //rect.height /= 2;
-//            //rect.x += rect.width + 2;
+//            rect.height /= 2;
+//            rect.x += rect.width + 2;
 //            EditorGUI.BeginChangeCheck();
 //            GUI.enabled = t.points[index].curveTypeRotation == CPC_ECurveType.Custom;
 //            AnimationCurve tempAC = EditorGUI.CurveField(rect, t.points[index].rotationCurve);
@@ -299,8 +299,8 @@
 //            GUI.Label(rect, "Position Lerp");
 //            rect.x += rect.width;
 //            GUI.Label(rect, "Rotation Lerp");
-//            //rect.x += rect.width*2;
-//            //GUI.Label(rect, "Del.");
+//            rect.x += rect.width * 2;
+//            GUI.Label(rect, "Del.");
 //        };
 
 //        pointReorderableList.onSelectCallback = l =>
@@ -315,10 +315,10 @@
 //        GUI.enabled = Application.isPlaying;
 //        GUILayout.BeginVertical("Box");
 //        GUILayout.BeginHorizontal();
-//        //if (GUILayout.Button(testButtonContent))
-//        //{
-//        //    t.PlayPath(time);
-//        //}
+//        if (GUILayout.Button(testButtonContent))
+//        {
+//            t.PlayPath(time);
+//        }
 
 //        if (!t.IsPaused())
 //        {
@@ -333,10 +333,10 @@
 //            t.ResumePath();
 //        }
 
-//        //if (GUILayout.Button(stopButtonContent))
-//        //{
-//        //    t.StopPath();
-//        //}
+//        if (GUILayout.Button(stopButtonContent))
+//        {
+//            t.StopPath();
+//        }
 //        GUI.enabled = true;
 //        EditorGUI.BeginChangeCheck();
 //        GUILayout.Label("Time (seconds)");
@@ -502,7 +502,7 @@
 //        pointReorderableList.DoLayoutList();
 //        serializedObject.ApplyModifiedProperties();
 //        Rect r = GUILayoutUtility.GetRect(Screen.width - 16, 18);
-//        //r.height = 18;
+//        r.height = 18;
 //        r.y -= 10;
 //        GUILayout.Space(-30);
 //        GUILayout.BeginHorizontal();
