@@ -595,6 +595,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   health: 3
+  isBossLevel: 0
+  transition: {fileID: 0}
   frontCheckNormal: {x: 0, y: 0, z: 0}
   shards: 0
   vel: {x: 0, y: 0, z: 0}
@@ -664,6 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 0}
+  additionalSources: []
   clips:
   - name: GrappleThrow
     clip: {fileID: 8300000, guid: 2f2a1a90932e0624d94c5f30ce700653, type: 3}
@@ -683,6 +686,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0803f3beddd52af4c8fe334c734470e7, type: 3}
   - name: Death
     clip: {fileID: 8300000, guid: e2e3e17c87da19745bf9579c180b33ca, type: 3}
+  localSource: 0
 --- !u!1 &614495170239442236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,25 +1506,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 0}
+  additionalSources: []
   clips:
   - name: Step1
-    clip: {fileID: 8300000, guid: 00eefc20280fda84d8c5c6179cddc239, type: 3}
+    clip: {fileID: 8300000, guid: 6f7283809e0c8bd468f1c33e4c72777f, type: 3}
   - name: Step2
-    clip: {fileID: 8300000, guid: 8384e5390f5b04341a33819a6fcb8961, type: 3}
+    clip: {fileID: 8300000, guid: e44ffa6bd1c6ccd408b0a32dc5181aa2, type: 3}
   - name: Step3
-    clip: {fileID: 8300000, guid: f0c3e12a96c02b54095cacd1aea5ae19, type: 3}
-  - name: Step4
-    clip: {fileID: 8300000, guid: 4d0a9e381ff628a4f8606f2ebe3aa081, type: 3}
-  - name: Step5
-    clip: {fileID: 8300000, guid: 7b8a0e297a8ed7d45844df609f89071e, type: 3}
-  - name: Step6
-    clip: {fileID: 8300000, guid: 274e0166f8e1c3848b07a7c9c230b716, type: 3}
-  - name: Shuffle1
     clip: {fileID: 8300000, guid: 261a98385956f2d468a5d01b8c3abaee, type: 3}
-  - name: Shuffle2
+  - name: Step4
     clip: {fileID: 8300000, guid: dd5cd0e705edc7a4a86e72527f7c27e2, type: 3}
-  - name: Shuffle3
+  - name: Step5
     clip: {fileID: 8300000, guid: ee2151a86949f6d4c8586f94d5086231, type: 3}
+  localSource: 0
 --- !u!1 &4055054926273999207
 GameObject:
   m_ObjectHideFlags: 0
