@@ -16,12 +16,15 @@ public class BossV2 : MonoBehaviour
     public TransitionManager transition;
     public Material skybox;
 
+    public PlayerClass playerClass;
+    public HandleSfx playerSfx;
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
     public GameObject pauseMenu;
     public Tumble worldTumble;
     public Tumble obeliskTumble;
-
+    public Tumble innerParallaxTumble;
+    public Tumble outerParallaxTumble;
     public Transform leftHand;
     public Transform rightHand;
     public Transform leftHandGrabPoint;
@@ -250,10 +253,12 @@ public class BossV2 : MonoBehaviour
 
         crystalCam.enabled = true;
         playerCam.enabled = false;
+        playerClass.DisableControls();
+        playerSfx.enabled = false;
 
         controlCrystalAnim.SetTrigger("Cue");
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
 
         CueSteer();
     }
@@ -265,7 +270,10 @@ public class BossV2 : MonoBehaviour
         //playerTf.gameObject.SetActive(false);
 
         bossCam.enabled = true;
+        crystalCam.enabled = false;
         playerCam.enabled = false;
+        steerVolume.enabled = false;
+        steerVolume.canSteer = false;
         
         steering = true;
     }
@@ -305,6 +313,8 @@ public class BossV2 : MonoBehaviour
         playerCam.enabled = false;
         worldTumble.enabled = false;
         obeliskTumble.enabled = false;
+        innerParallaxTumble.enabled = false;
+        outerParallaxTumble.enabled = false;
 
         yield return new WaitForSeconds(10f);
         
@@ -317,6 +327,8 @@ public class BossV2 : MonoBehaviour
         
         worldTumble.enabled = true;
         obeliskTumble.enabled = true;
+        innerParallaxTumble.enabled = true;
+        outerParallaxTumble.enabled = true;
         playerCam.enabled = true;
         cinemaCam.enabled = false;
 
@@ -389,6 +401,8 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(6f);
 
+        playerClass.EnableControls();
+        playerSfx.enabled = true;
         playerCam.enabled = true;
         grabCam.enabled = false;
         //dropCam.enabled = false;
