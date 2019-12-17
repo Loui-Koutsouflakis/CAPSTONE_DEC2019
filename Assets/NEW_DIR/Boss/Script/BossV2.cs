@@ -72,6 +72,7 @@ public class BossV2 : MonoBehaviour
     public Camera grabCam;
     public Camera dropCam;
     public Camera cinemaCam;
+    public Camera crystalCam;
     public Camera videoCam;
     public Animator leftHandParentAnim;
     public Animator grabCamAnim;
@@ -247,6 +248,9 @@ public class BossV2 : MonoBehaviour
         steerVolume.canSteer = false;
         steerVolume.enabled = false;  //don't forget to re-enable this
 
+        crystalCam.enabled = true;
+        playerCam.enabled = false;
+
         controlCrystalAnim.SetTrigger("Cue");
 
         yield return new WaitForSeconds(2f);
@@ -302,13 +306,14 @@ public class BossV2 : MonoBehaviour
         worldTumble.enabled = false;
         obeliskTumble.enabled = false;
 
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(10f);
         
         playerTf.position = lumiPlayPoint.position;
 
         // FADE
+        StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         
         worldTumble.enabled = true;
         obeliskTumble.enabled = true;
