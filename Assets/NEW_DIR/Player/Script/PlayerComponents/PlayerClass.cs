@@ -121,6 +121,10 @@ public class PlayerClass : MonoBehaviour
     [Header("Health")]
     public int health = 3;
 
+    //Temp boss death management for showcase build
+    public bool isBossLevel;
+    public TransitionManager transition;
+
     public int GetHealth()
     {
         return health;
@@ -152,14 +156,21 @@ public class PlayerClass : MonoBehaviour
 
     public void Death()
     {
-        //DisableControls(); bring this back once we have a proper reset 
-        RayCast_IK rayCast_IK = FindObjectOfType<RayCast_IK>();
-        rayCast_IK.IK_EndGrapple();
-        anim.SetTrigger("Death");
-        DisableControls();
-        GetComponent<HandleSfx>().PlayOneShotByName("Death");
-        //Debug.Log("disabled");
-        StartCoroutine(DeathDelay());
+        if (isBossLevel)
+        {
+            StartCoroutine(transition.BossDeath());
+        }
+        else
+        {
+            //DisableControls(); bring this back once we have a proper reset 
+            RayCast_IK rayCast_IK = FindObjectOfType<RayCast_IK>();
+            rayCast_IK.IK_EndGrapple();
+            anim.SetTrigger("Death");
+            DisableControls();
+            GetComponent<HandleSfx>().PlayOneShotByName("Death");
+            //Debug.Log("disabled");
+            StartCoroutine(DeathDelay());
+        }
     }
 
     public void UnDeath()

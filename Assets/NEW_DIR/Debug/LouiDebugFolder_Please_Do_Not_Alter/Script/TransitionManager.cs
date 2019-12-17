@@ -119,6 +119,15 @@ public class TransitionManager : MonoBehaviour
         deltaFadeOut.a /= deltaFadeFactor;
     }
 
+    public IEnumerator BossDeath()
+    {
+        StartCoroutine(BlinkSequence(3f, 1f, 0f, 1f, true));
+
+        yield return new WaitForSeconds(3f);
+
+        SceneManager.LoadScene(5);
+    }
+
     public void FadeIn()
     {
         fadeIn = true;
