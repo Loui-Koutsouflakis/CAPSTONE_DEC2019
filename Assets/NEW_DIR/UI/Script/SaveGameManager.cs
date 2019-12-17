@@ -556,19 +556,20 @@ public class SaveGameManager : MonoBehaviour
             Save();
         }
 
-        if (Input.GetKey(KeyCode.Alpha8))
-        {
-            ClearSavedFiles();
-            PlayerPrefs.DeleteKey("MasterSoundVolume");
-            PlayerPrefs.DeleteKey("MusicSoundVolume");
-            PlayerPrefs.DeleteKey("DialogueSoundVolume");
-            PlayerPrefs.DeleteKey("MusicSliderPositionX");
-            PlayerPrefs.DeleteKey("MasterSliderPositionX");
-            PlayerPrefs.DeleteKey("DialogueSliderPositionX");
+        //if (Input.GetKey(KeyCode.Alpha8))
+        //{
+        //    ClearSavedFiles();
+        //    PlayerPrefs.DeleteKey("MasterSoundVolume");
+        //    PlayerPrefs.DeleteKey("MusicSoundVolume");
+        //    PlayerPrefs.DeleteKey("DialogueSoundVolume");
+        //    PlayerPrefs.DeleteKey("MusicSliderPositionX");
+        //    PlayerPrefs.DeleteKey("MasterSliderPositionX");
+        //    PlayerPrefs.DeleteKey("DialogueSliderPositionX");
+        //    PlayerPrefs.DeleteKey("CameraInverted");
 
             
 
-        }
+        //}
 
         //if(Input.GetKey(KeyCode.J))
         //{
