@@ -20,11 +20,11 @@ public class FootSteps : MonoBehaviour
 
     public void PlayFootSteps()
     {
-        footSteps.PlayRandomClip(0, 5);
+        footSteps.PlayRandomClip(0, 1);
     }
 
     public void PlayShuffle()
     {
-        footSteps.PlayRandomClip(6, 8);
+        footSteps.PlayRandomClip(2, 4);
     }
 }
