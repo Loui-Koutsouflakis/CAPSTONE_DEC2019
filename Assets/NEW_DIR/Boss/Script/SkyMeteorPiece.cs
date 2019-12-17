@@ -28,7 +28,8 @@ public class SkyMeteorPiece : MonoBehaviour
         if(other.gameObject.name == rammerName && BossV2.steering)
         {
             boss.health--;
-
+            boss.bossSfx.PlayOneShotByIndex(3);
+            boss.bossSfx.PlayOneShotByIndex(6);
             capsuleTrig.enabled = false;
 
             foreach(MeshCollider col in pieceColliders)
