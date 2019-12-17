@@ -6,6 +6,8 @@ public class BossSteerVolume : MonoBehaviour
 {
     public bool canSteer;
 
+    public BossV2 boss;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "Player_Lumi")
@@ -13,6 +15,7 @@ public class BossSteerVolume : MonoBehaviour
             Debug.Log("Player can grapple Dragon Head");
 
             canSteer = true;
+            boss.CueSteer();
         }
     }
 

@@ -35,6 +35,8 @@ public class HudManager : MonoBehaviour
     PlayerClass p_Class;
     void Start()
     {
+        
+
         canShow = true;
         pieTf.localPosition = localHide;
         //p_Class = GameObject.FindObjectOfType<PlayerClass>();
