@@ -18,7 +18,6 @@ public class TransitionManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(FadeInSequence());
-        fader.color = new Color(0f, 0f, 0f, 0f);
     }
     
     void Update()

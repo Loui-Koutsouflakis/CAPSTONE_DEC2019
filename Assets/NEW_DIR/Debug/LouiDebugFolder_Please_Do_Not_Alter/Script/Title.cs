@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
@@ -37,6 +38,10 @@ public class Title : MonoBehaviour
             {
                 StartCoroutine(SkipOpening());
             }
+            else if(UIManager.introIsPlaying)
+            {
+                LoadFirstLevel();
+            }
         }
     }
 
@@ -46,6 +51,11 @@ public class Title : MonoBehaviour
         yield return new WaitForSeconds(cinematicLength);
         opening = false;
         canStart = true;
+    }
+
+    public void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public IEnumerator SkipOpening()
@@ -60,6 +70,8 @@ public class Title : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         faderImage.color = Color.clear;
     }
+
+    
 
     public IEnumerator OpenMenu()
     {
