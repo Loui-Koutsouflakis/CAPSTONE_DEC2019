@@ -21,6 +21,7 @@ public class BossBlockingCollider : MonoBehaviour
             {
                 bossRef.leftHandBlocking = initBlocking;
                 bossRef.leftHandBlockingPoint = collision.gameObject.transform.position - (Vector3.right * handOffset);
+                bossRef.leftHandParentAnim.enabled = false;
             }
             else
             {

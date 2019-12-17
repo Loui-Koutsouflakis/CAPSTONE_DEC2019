@@ -42,6 +42,7 @@ public class BossV2 : MonoBehaviour
     public static bool grabIsAnimating;
     public static bool dropIsAnimating;
     public static bool canDie;
+    public static bool endingIsPlaying;
 
     public float leftHandBlocking;
     public float rightHandBlocking;
@@ -110,17 +111,23 @@ public class BossV2 : MonoBehaviour
 
         if (rightHandBlocking > 0f)
         {
-            LerpPositionRotation(rightHand, rightHandBlockingPoint, rightHandRot, handLerpRate, steerLerpRate);
+            LerpPositionRotation(rightHand, rightHandBlockingPoint, rightHandRot, handLerpRate, steerLerpRate/4f);
             rightHandBlocking -= Time.deltaTime;
         }
         else if(!grabIsAnimating)
         {
-            LerpPositionRotation(rightHand, rightHandInitPoint.position, rightHandInitRot, handLerpRate, steerLerpRate);
+            LerpPositionRotation(rightHand, rightHandInitPoint.position, rightHandInitRot, handLerpRate, steerLerpRate/4f);
         }
 
         if(leftHandBlocking > 0f)
         {
             LerpPositionRotation(leftHand, leftHandBlockingPoint, leftHandRot, handLerpRate, steerLerpRate);
+
+            if(leftHandBlocking - Time.deltaTime <= 0f)
+            {
+                leftHandParentAnim.enabled = true;
+            }
+
             leftHandBlocking -= Time.deltaTime;
         }
         else if(!grabIsAnimating)
@@ -196,6 +203,12 @@ public class BossV2 : MonoBehaviour
 
         skyboxRotation -= Time.deltaTime;
         skybox.SetFloat("_Rotation", skyboxRotation % 360f);
+
+        if ((Input.GetButtonDown("Start") || Input.GetButtonDown("AButton") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && endingIsPlaying)
+        {
+            StopAllCoroutines();
+            StartCoroutine(CutEndSequence());
+        }
     }
 
     public static void LerpPositionRotation(Transform tf, Vector3 destination, Vector3 eulers, float positionLerp, float rotationLerp)
@@ -293,21 +306,11 @@ public class BossV2 : MonoBehaviour
         canDie = true;
     }
 
-    //public void TriggerLeftHandGrab()
-    //{
-    //    leftHandAnim.SetTrigger("Grab");
-    //}
-
-    //public void TriggerLeftHandReverseGrab()
-    //{
-    //    leftHandAnim.SetTrigger("ReverseGrab");
-    //}
-
     public IEnumerator IntroSequence()
     {
-        //DISABLE PAUSE
-        //DISABLE PLAYER CONTROLS
-        //DISABLE PLAYER SOUND
+        pauseMenu.gameObject.SetActive(false);
+        playerClass.DisableControls();
+        playerSfx.enabled = false;
 
         cinemaCam.enabled = true;
         playerCam.enabled = false;
@@ -320,7 +323,6 @@ public class BossV2 : MonoBehaviour
         
         playerTf.position = lumiPlayPoint.position;
 
-        // FADE
         StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
 
         yield return new WaitForSeconds(2f);
@@ -332,9 +334,9 @@ public class BossV2 : MonoBehaviour
         playerCam.enabled = true;
         cinemaCam.enabled = false;
 
-        //ENABLE PAUSE
-        //ENABLE PLAYER CONTROLS
-        //ENABLE PLAYER SOUND
+        pauseMenu.gameObject.SetActive(true);
+        playerClass.EnableControls();
+        playerSfx.enabled = true;
     }
 
     public IEnumerator DamageSequence()
@@ -446,11 +448,24 @@ public class BossV2 : MonoBehaviour
 
         endCinematic.Play();
 
-        yield return new WaitForSeconds(74f);
+        yield return new WaitForSeconds(14f);
+
+        endingIsPlaying = true;
+
+        yield return new WaitForSeconds(60f);
 
         StartCoroutine(transition.BlinkSequence(8f, 5f, 0f, 0.25f, false));
 
         yield return new WaitForSeconds(8f);
+
+        SceneManager.LoadScene(0);
+    }
+
+    public IEnumerator CutEndSequence()
+    {
+        StartCoroutine(transition.BlinkSequence(5f, 1f, 0f, 1f, false));
+
+        yield return new WaitForSeconds(2.5f);
 
         SceneManager.LoadScene(0);
     }
