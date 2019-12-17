@@ -9,12 +9,19 @@ public class BossV2 : MonoBehaviour
     public Transform[] body;
     public Transform[] bodyTargets;
     public Animator[] bodyAnims;
+    public Animator[] dragonPlats1;
+    public Animator[] dragonPlats2;
+    public Animator[] dragonFloatPlats;
+    public Animator dragonHeadAnim;
     public Transform[] targetInits;
     public Transform playerTf;
     public Transform tailSpawnPoint;
     public Transform lumiPlayPoint;
     public TransitionManager transition;
     public Material skybox;
+    public AudioSource musicSource;
+    public AudioClip endCinemaSong;
+    public AudioClip creditsSong;
 
     public PlayerClass playerClass;
     public HandleSfx playerSfx;
@@ -320,17 +327,23 @@ public class BossV2 : MonoBehaviour
         innerParallaxTumble.enabled = false;
         outerParallaxTumble.enabled = false;
 
+        foreach(Animator anim in dragonFloatPlats)
+        {
+            anim.SetTrigger("Float");
+            yield return new WaitForSeconds(0.3f);
+        }
+
         yield return new WaitForSeconds(7f);
 
         bossSfx.PlayOneShotByIndex(1);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.6f);
 
         playerTf.position = lumiPlayPoint.position;
 
         StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.4f);
         
         worldTumble.enabled = true;
         obeliskTumble.enabled = true;
@@ -437,7 +450,8 @@ public class BossV2 : MonoBehaviour
         obeliskTumble.enabled = false;
 
         //Disable Pausing for Cinematic
-        
+
+        musicSource.Stop();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -449,6 +463,10 @@ public class BossV2 : MonoBehaviour
 
         StartCoroutine(transition.BlinkSequence(2f, 1f, 2f, 1f, false));
 
+        musicSource.clip = endCinemaSong;
+        musicSource.volume = 1f;
+        musicSource.Play();
+
         yield return new WaitForSeconds(2f);
 
         videoCam.enabled = true;
@@ -456,7 +474,13 @@ public class BossV2 : MonoBehaviour
 
         endCinematic.Play();
 
-        yield return new WaitForSeconds(14f);
+        yield return new WaitForSeconds(12f);
+
+        //musicSource.Stop();
+        //musicSource.clip = creditsSong;
+        //musicSource.Play();
+
+        yield return new WaitForSeconds(2f);
 
         endingIsPlaying = true;
 
@@ -476,5 +500,23 @@ public class BossV2 : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         SceneManager.LoadScene(0);
+    }
+
+    public IEnumerator CueHitAnims()
+    {
+        dragonHeadAnim.SetTrigger("Damage");
+        yield return new WaitForSeconds(0.05f);
+
+        foreach(Animator anim in dragonPlats1)
+        {
+            anim.SetTrigger("Hurt");
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        foreach(Animator anim in dragonPlats2)
+        {
+            anim.SetTrigger("Hurt2");
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 }

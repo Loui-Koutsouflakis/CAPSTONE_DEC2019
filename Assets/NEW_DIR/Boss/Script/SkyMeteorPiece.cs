@@ -30,6 +30,9 @@ public class SkyMeteorPiece : MonoBehaviour
             boss.health--;
             boss.bossSfx.PlayOneShotByIndex(3);
             boss.bossSfx.PlayOneShotByIndex(6);
+
+            StartCoroutine(boss.CueHitAnims());
+
             capsuleTrig.enabled = false;
 
             foreach(MeshCollider col in pieceColliders)
