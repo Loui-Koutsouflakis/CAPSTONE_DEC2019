@@ -17,12 +17,14 @@ public class BossV2 : MonoBehaviour
     public Transform playerTf;
     public Transform tailSpawnPoint;
     public Transform lumiPlayPoint;
+    public Transform crystalPoint;
     public TransitionManager transition;
     public Material skybox;
     public AudioSource musicSource;
     public AudioClip endCinemaSong;
     public AudioClip creditsSong;
 
+    public GameObject bossCinematicShell;
     public GameObject hudManager;
     public PlayerClass playerClass;
     public HandleSfx playerSfx;
@@ -98,6 +100,8 @@ public class BossV2 : MonoBehaviour
 
     private void Start()
     {
+        ResetStaticVariables();
+
         if(bossCam.enabled)
         {
             bossCam.enabled = false;
@@ -113,10 +117,10 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    CueSteer();
-        //}
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            CueSteer();
+        }
 
         if (rightHandBlocking > 0f)
         {
@@ -207,7 +211,7 @@ public class BossV2 : MonoBehaviour
 
         if (steerVolume.canSteer)
         {
-            StartCoroutine(CueSteerRoutine());
+            //StartCoroutine(CueSteerRoutine());
         }
 
         skyboxRotation -= Time.deltaTime;
@@ -273,12 +277,13 @@ public class BossV2 : MonoBehaviour
         steerVolume.canSteer = false;
         steerVolume.enabled = false;  //don't forget to re-enable this
 
-        crystalCam.enabled = true;
+        //crystalCam.enabled = true;
+        bossCam.enabled = true;
         playerCam.enabled = false;
         playerClass.DisableControls();
         playerSfx.enabled = false;
 
-        controlCrystalAnim.SetTrigger("Cue");
+        //controlCrystalAnim.SetTrigger("Cue");
 
         yield return new WaitForSeconds(1.2f);
 
@@ -287,12 +292,21 @@ public class BossV2 : MonoBehaviour
 
     public void CueSteer()
     {
+        steerVolume.canSteer = false;
+        steerVolume.enabled = false;  //don't forget to re-enable this
+
+        //crystalCam.enabled = true;
+        bossCam.enabled = true;
+        playerCam.enabled = false;
+        playerClass.DisableControls();
+        playerSfx.enabled = false;
+
         Time.timeScale = 1.2f;
 
         //playerTf.gameObject.SetActive(false);
 
         bossCam.enabled = true;
-        crystalCam.enabled = false;
+        //crystalCam.enabled = false;
         playerCam.enabled = false;
         steerVolume.enabled = false;
         steerVolume.canSteer = false;
@@ -339,11 +353,11 @@ public class BossV2 : MonoBehaviour
 
         bossSfx.PlayOneShotByIndex(1);
 
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(1f);
 
         playerTf.position = lumiPlayPoint.position;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.6f);
         
         StartCoroutine(transition.BlinkSequence(2.5f, 0.2f, 2.5f, 1, false));
 
@@ -360,6 +374,8 @@ public class BossV2 : MonoBehaviour
         playerClass.EnableControls();
         playerSfx.enabled = true;
         hudManager.SetActive(true);
+
+        bossCinematicShell.SetActive(false);
     }
 
     public IEnumerator DamageSequence()
@@ -382,14 +398,25 @@ public class BossV2 : MonoBehaviour
         grabCam.enabled = true;
         bossCam.enabled = false;
 
+        playerTf.position = crystalPoint.position;
+
         yield return new WaitForSeconds(0.6f);
+
+        grabCam.enabled = true;
+        bossCam.enabled = false;
 
         grabCamAnim.SetTrigger("Pan");
         leftHandParentAnim.SetTrigger("Cue");
 
         yield return new WaitForSeconds(1.1f);
 
+        grabCam.enabled = true;
+        bossCam.enabled = false;
+
+        playerTf.position = new Vector3(0f, 0f, -3000f);
         grabIsAnimating = true;
+
+        steering = false;
 
         yield return new WaitForSeconds(0.8f);
 
@@ -406,6 +433,8 @@ public class BossV2 : MonoBehaviour
 
         //dropIsAnimating = true;
 
+        steering = false;
+
         //Fade In
 
         yield return new WaitForSeconds(0.6f);
@@ -414,6 +443,9 @@ public class BossV2 : MonoBehaviour
         //dropCam.enabled = true;
 
         //dropCamAnim.SetTrigger("Pan");
+
+        steerVolume.canSteer = false;
+        steering = false;
 
         yield return new WaitForSeconds(0.6f);
 
@@ -428,6 +460,9 @@ public class BossV2 : MonoBehaviour
         
         playerTf.position = tailSpawnPoint.position;
 
+        steerVolume.canSteer = false;
+        steering = false;
+
         yield return new WaitForSeconds(6f);
 
         playerClass.EnableControls();
@@ -437,6 +472,9 @@ public class BossV2 : MonoBehaviour
         //dropCam.enabled = false;
         //dropIsAnimating = false;
         grabIsAnimating = false;
+
+        steerVolume.canSteer = false;
+        steering = false;
 
         //Hand Animations Finish, bringing Lumi back to tail
 
@@ -448,6 +486,8 @@ public class BossV2 : MonoBehaviour
 
     public IEnumerator DeathSequence()
     {
+        bossCinematicShell.SetActive(true);
+
         canDie = false;
 
         Time.timeScale = 1f;
@@ -500,6 +540,8 @@ public class BossV2 : MonoBehaviour
 
         yield return new WaitForSeconds(8f);
 
+        ResetStaticVariables();
+
         SceneManager.LoadScene(0);
     }
 
@@ -508,6 +550,9 @@ public class BossV2 : MonoBehaviour
         StartCoroutine(transition.BlinkSequence(5f, 1f, 0f, 1f, false));
 
         yield return new WaitForSeconds(2.5f);
+
+
+        ResetStaticVariables();
 
         SceneManager.LoadScene(0);
     }

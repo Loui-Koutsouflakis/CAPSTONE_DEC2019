@@ -5,13 +5,18 @@ using UnityEngine;
 public class HealthPickUp : MonoBehaviour
 {
     private PlayerClass player;
-    private HudManager hud;
+    public HudManager hud;
     private HandleSfx sounds;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerClass>();
-        hud = FindObjectOfType<HudManager>();
+
+        if (hud == null)
+        {
+            hud = FindObjectOfType<HudManager>();
+        }
+
         sounds = GetComponent<HandleSfx>();
     }
 
