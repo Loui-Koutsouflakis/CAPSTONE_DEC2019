@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
     public Camera cinemaCam;
     public AudioSource titleMusicSource;
     public static bool introIsPlaying;
-    readonly float cutsceneLength = 60f;
+    readonly float cutsceneLength = 72.6f;
 
     //Functions that the individual button classes will call
     public void StartGame()

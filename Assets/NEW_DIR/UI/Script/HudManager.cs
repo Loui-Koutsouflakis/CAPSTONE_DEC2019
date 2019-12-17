@@ -76,17 +76,17 @@ public class HudManager : MonoBehaviour
         else if(hiding)
             pieTf.localPosition = Vector3.Lerp(pieTf.localPosition, localHide, hudLerp * Time.deltaTime);
         
-        if (Input.GetKeyDown(KeyCode.L))
-            HealthUp();
+        //if (Input.GetKeyDown(KeyCode.L))
+        //    HealthUp();
 
-        if(Input.GetKeyDown(KeyCode.K))
-            HealthDown();
+        //if(Input.GetKeyDown(KeyCode.K))
+        //    HealthDown();
 
-        if(Input.GetKeyDown(KeyCode.N))
-            ShardsUp();
+        //if(Input.GetKeyDown(KeyCode.N))
+        //    ShardsUp();
 
-        if (Input.GetKeyDown(KeyCode.M))
-            MoonsUp();
+        //if (Input.GetKeyDown(KeyCode.M))
+        //    MoonsUp();
 
         //health = p_Class.GetHealth();
     }

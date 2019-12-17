@@ -23,6 +23,7 @@ public class BossV2 : MonoBehaviour
     public AudioClip endCinemaSong;
     public AudioClip creditsSong;
 
+    public GameObject hudManager;
     public PlayerClass playerClass;
     public HandleSfx playerSfx;
     public HandleSfx bossSfx;
@@ -112,10 +113,10 @@ public class BossV2 : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            CueSteer();
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    CueSteer();
+        //}
 
         if (rightHandBlocking > 0f)
         {
@@ -319,6 +320,7 @@ public class BossV2 : MonoBehaviour
         pauseMenu.gameObject.SetActive(false);
         playerClass.DisableControls();
         playerSfx.enabled = false;
+        hudManager.SetActive(false);
 
         cinemaCam.enabled = true;
         playerCam.enabled = false;
@@ -337,11 +339,13 @@ public class BossV2 : MonoBehaviour
 
         bossSfx.PlayOneShotByIndex(1);
 
-        yield return new WaitForSeconds(2.6f);
+        yield return new WaitForSeconds(0.6f);
 
         playerTf.position = lumiPlayPoint.position;
 
-        StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
+        yield return new WaitForSeconds(2);
+        
+        StartCoroutine(transition.BlinkSequence(2.5f, 0.2f, 2.5f, 1, false));
 
         yield return new WaitForSeconds(2.4f);
         
@@ -355,12 +359,15 @@ public class BossV2 : MonoBehaviour
         pauseMenu.gameObject.SetActive(true);
         playerClass.EnableControls();
         playerSfx.enabled = true;
+        hudManager.SetActive(true);
     }
 
     public IEnumerator DamageSequence()
     {
         EndSteer();
         
+        hudManager.SetActive(false);
+
         steerAdjusting = true;
 
         //Animations for boss being hurt
@@ -434,6 +441,9 @@ public class BossV2 : MonoBehaviour
         //Hand Animations Finish, bringing Lumi back to tail
 
         //Player is given back control over the dragon
+
+
+        hudManager.SetActive(true);
     }
 
     public IEnumerator DeathSequence()

@@ -55,6 +55,7 @@ public class Title : MonoBehaviour
 
     public void LoadFirstLevel()
     {
+        transitionManager.fader.color = new Color(0f, 0f, 0f, 255f);
         SceneManager.LoadScene(1);
     }
 
