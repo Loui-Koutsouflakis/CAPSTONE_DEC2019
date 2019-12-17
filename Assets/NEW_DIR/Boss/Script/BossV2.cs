@@ -337,11 +337,13 @@ public class BossV2 : MonoBehaviour
 
         bossSfx.PlayOneShotByIndex(1);
 
-        yield return new WaitForSeconds(2.6f);
+        yield return new WaitForSeconds(0.6f);
 
         playerTf.position = lumiPlayPoint.position;
 
-        StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
+        yield return new WaitForSeconds(2);
+        
+        StartCoroutine(transition.BlinkSequence(2.5f, 0.2f, 2.5f, 1, false));
 
         yield return new WaitForSeconds(2.4f);
         

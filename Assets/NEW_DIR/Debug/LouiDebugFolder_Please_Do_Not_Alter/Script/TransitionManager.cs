@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TransitionManager : MonoBehaviour
 {
-    [SerializeField]
-    private Image fader;
+    public Image fader;
     public bool fadeIn;
     public bool fadeOut;
     private float fadeInTime = 1.5f;

@@ -5604,11 +5604,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5ba52a53565d6a43827eaf90518123b,
         type: 2}
+    - target: {fileID: 8568364372304732429, guid: ed0f424436d4a7748b4172bb67a9e0a5,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c92985b81f8827f4d86bbd14f0bb5fcf, type: 3}
     - target: {fileID: 31326972, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: a0f6998e17d79134da2dac3350118953, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 31326972, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ed0f424436d4a7748b4172bb67a9e0a5, type: 3}
 --- !u!1 &705507993
 GameObject:
@@ -6730,11 +6736,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForwardGate
       objectReference: {fileID: 0}
-    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6122957370378499269, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6858,6 +6859,11 @@ PrefabInstance:
     - target: {fileID: 1262038718602542627, guid: 334999b6999bf674d866478f59da56ac,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262038718865182452, guid: 334999b6999bf674d866478f59da56ac,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262038718868608141, guid: 334999b6999bf674d866478f59da56ac,
@@ -26900,6 +26906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 0}
+  additionalSources: []
   clips:
   - name: Ob
     clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
@@ -27281,6 +27288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 0}
+  additionalSources: []
   clips:
   - name: Ob
     clip: {fileID: 8300000, guid: ffdf3b92cd08a77439dd3f55061f0a4d, type: 3}
@@ -27642,16 +27650,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Lumi_Teleport
       objectReference: {fileID: 0}
-    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 787230720932654747, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
       propertyPath: playOnAwake
@@ -27716,6 +27714,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787230720377043701, guid: 930fc298eee4c2040807299d6a8ba027,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787230720090583607, guid: 930fc298eee4c2040807299d6a8ba027,
         type: 3}
