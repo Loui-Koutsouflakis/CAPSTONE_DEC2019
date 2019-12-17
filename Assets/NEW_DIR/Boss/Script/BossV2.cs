@@ -18,6 +18,7 @@ public class BossV2 : MonoBehaviour
 
     public PlayerClass playerClass;
     public HandleSfx playerSfx;
+    public HandleSfx bossSfx;
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
     public GameObject pauseMenu;
@@ -319,8 +320,12 @@ public class BossV2 : MonoBehaviour
         innerParallaxTumble.enabled = false;
         outerParallaxTumble.enabled = false;
 
-        yield return new WaitForSeconds(10f);
-        
+        yield return new WaitForSeconds(7f);
+
+        bossSfx.PlayOneShotByIndex(1);
+
+        yield return new WaitForSeconds(3f);
+
         playerTf.position = lumiPlayPoint.position;
 
         StartCoroutine(transition.BlinkSequence(1.5f, 0.5f, 1.5f, 1, false));
@@ -348,6 +353,8 @@ public class BossV2 : MonoBehaviour
         //Animations for boss being hurt
 
         yield return new WaitForSeconds(1.6f);
+
+        bossSfx.PlayOneShotByIndex(4);
 
         steerAdjusting = false;
         //bodyAnims[0].enabled = true;
@@ -436,6 +443,7 @@ public class BossV2 : MonoBehaviour
 
         cinemaCam.enabled = true;
         bossCam.enabled = false;
+        bossSfx.PlayOneShotByIndex(2);
 
         yield return new WaitForSeconds(5f);
 
