@@ -18,6 +18,7 @@ public class BossV2 : MonoBehaviour
 
     public GameObject[] pathOne;
     public GameObject[] pathTwo;
+    public GameObject pauseMenu;
     public Tumble worldTumble;
     public Tumble obeliskTumble;
 
@@ -74,6 +75,7 @@ public class BossV2 : MonoBehaviour
     public Camera videoCam;
     public Animator leftHandParentAnim;
     public Animator grabCamAnim;
+    public Animator controlCrystalAnim;
     //public Animator dropCamAnim;
     public Animator cinematicAnim;
     public BossSteerVolume steerVolume;
@@ -183,9 +185,9 @@ public class BossV2 : MonoBehaviour
             }
         }
 
-        if ((Input.GetButtonDown(bumperName)) && steerVolume.canSteer)
+        if (steerVolume.canSteer)
         {
-            CueSteer();
+            StartCoroutine(CueSteerRoutine());
         }
 
         skyboxRotation -= Time.deltaTime;
@@ -240,6 +242,18 @@ public class BossV2 : MonoBehaviour
         }
     }
 
+    public IEnumerator CueSteerRoutine()
+    {
+        steerVolume.canSteer = false;
+        steerVolume.enabled = false;  //don't forget to re-enable this
+
+        controlCrystalAnim.SetTrigger("Cue");
+
+        yield return new WaitForSeconds(2f);
+
+        CueSteer();
+    }
+
     public void CueSteer()
     {
         Time.timeScale = 1.2f;
@@ -248,8 +262,7 @@ public class BossV2 : MonoBehaviour
 
         bossCam.enabled = true;
         playerCam.enabled = false;
-        steerVolume.canSteer = false;
-        steerVolume.enabled = false;  //don't forget to re-enable this
+        
         steering = true;
     }
 
@@ -314,8 +327,6 @@ public class BossV2 : MonoBehaviour
         steerAdjusting = true;
 
         //Animations for boss being hurt
-
-        //Code for readjusting body back to default position
 
         yield return new WaitForSeconds(1.6f);
 
