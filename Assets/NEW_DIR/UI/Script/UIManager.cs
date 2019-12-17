@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class UIManager : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenuScrollObject;
     public GameObject gameOverScrollObject;
 
-    private TransitionManager transManager;
+    
     
 
 
@@ -54,6 +55,15 @@ public class UIManager : MonoBehaviour
     //Animation delay for the scrolls
     [Range(0f, 2f)]
     public float animDelay;
+
+    [Header("Intro Cinema")]
+    public TransitionManager transManager;
+    public VideoPlayer introCinematic;
+    public Camera titleCam;
+    public Camera cinemaCam;
+    public AudioSource titleMusicSource;
+    public static bool introIsPlaying;
+    readonly float cutsceneLength = 60f;
 
     //Functions that the individual button classes will call
     public void StartGame()
@@ -258,7 +268,13 @@ public class UIManager : MonoBehaviour
         StartCoroutine(AnimationDelayGameOverMainMenu(animDelay));
     }
 
+    public void CueIntroCinematic()
+    {
+        introCinematic.Play();
+        cinemaCam.enabled = true;
+        titleCam.enabled = false;
 
+    }
 
 
     public static UIManager singleton;
@@ -271,13 +287,26 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator AnimationDelayStartGame(float delay)
     {
-
         MainMenuButtonController.SetCanInteractWithButtons(false);
         yield return new WaitForSeconds(delay * Time.timeScale);
         saveGameManager = GameObject.FindGameObjectWithTag("SaveGameManager").GetComponent<SaveGameManager>();
         saveGameManager.loadingFromContinue = false;
         saveGameManager.loadFixer = 0;
         saveGameManager.loading = true;
+
+        // Loui Pooie Intro Cinema
+
+        StartCoroutine(transManager.BlinkSequence(2f, 1f, 2f, 1f, false));
+        yield return new WaitForSeconds(2.5f);
+        titleMusicSource.volume = 0f;
+        CueIntroCinematic();
+        yield return new WaitForSeconds(1f);
+        introIsPlaying = true;
+        yield return new WaitForSeconds(cutsceneLength);
+        StartCoroutine(transManager.BlinkSequence(2.7f, 1f, 0f, 1f, false));
+        yield return new WaitForSeconds(3.1f);
+        introIsPlaying = false;
+        yield return new WaitForSeconds(0.25f);
         LoadLevel.LoadLevel(1);
 
     }
