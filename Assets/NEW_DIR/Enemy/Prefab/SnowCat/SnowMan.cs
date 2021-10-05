@@ -385,7 +385,10 @@ public class SnowMan : MonoBehaviour, IKillable
 
     private void OnTriggerEnter(Collider o)
     {
-        if (o.gameObject.GetComponent<SnowMan>() && status != SnowManStatus.Grow || status != SnowManStatus.Shrink || status != SnowManStatus.Expelled)
+        if (o.gameObject.GetComponent<SnowMan>() &&
+            status != SnowManStatus.Grow &&
+            status != SnowManStatus.Shrink &&
+            status != SnowManStatus.Expelled)
         {
             if (!hasGrown && !o.GetComponent<SnowMan>().hasGrown)
             {
